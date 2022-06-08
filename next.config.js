@@ -1,7 +1,7 @@
 /** @type {import('next').NextConfig} */
 const nextConfig = {
   reactStrictMode: true,
-  webpack5:false
+  webpack:false
 }
 
 module.exports = nextConfig
