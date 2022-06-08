@@ -47,20 +47,18 @@ export default function Home() {
   ];
 
   
-  const notify = () => toast("New Part Added Successfully");
+  const notify = () => toast.success("New Part Added Successfully");
 
   useEffect(()=>{
     if(localStorage.getItem('token') != undefined){
       const token=localStorage.getItem('token')
       setToken(token)
     fetchPartsList(token).then(
-      res=>setPartsList(res.data) );
+      res=>setPartsList(res.data) ).catch(err=>toast.error(err.message))
     fetchPartTypeList(token).then(
       res=>setPartTypeList(res.data)
-    )
+    ).catch(err=>toast.error(err.message))
     setShowPage(true);
-    // window.addEventListener('click', alert('hey'))
-    // return()=> window.removeEventListener('click', alert('hey'))
   }else{
       router.push('/login');
     }
@@ -83,7 +81,7 @@ export default function Home() {
    const submitPartHandler = () =>{  
     console.log(partType,partName,partDesc)
     setShowModal(false)
-    addNewPart(partType,partName,partDesc,token).then(res=>{notify()})
+    addNewPart(partType,partName,partDesc,token).then(res=>notify())
     setPartName(()=>"");
     setPartType(()=>"");
     setPartDesc(()=>"");
@@ -100,7 +98,7 @@ const modalCancelHandler = () =>{
 
   let content =null;
   if(isList){
-    content= (partsList?<Table id="partsTable" rows={partsList} columns={columns} search={searchText} path="/ledger" cursor="pointer"
+    content= (partsList?<Table key={partsList.length} id="partsTable" rows={partsList} columns={columns} search={searchText} path="/ledger" cursor="pointer"
     width="77vw" />:<Spinner/>)
 }
 else{

@@ -13,6 +13,9 @@ import Spinner from '../components/spinner';
 import DatePicker from "react-datepicker";
 import "react-datepicker/dist/react-datepicker.css";
 
+import { ToastContainer, toast } from 'react-toastify';
+import 'react-toastify/dist/ReactToastify.css';
+
 const Ledger =(props)=>{
     
     const [showForm, setShowForm]= useState(false);
@@ -48,6 +51,9 @@ const Ledger =(props)=>{
         {accessor1:'vendor_name', label:'Vendor',width:"26%", textalign:"center"},
         {accessor1:'edit', width:"10%"}  
       ];
+
+      const notifySuccessPost = () => toast.success("New Ledger Added Successfully");
+
 
     useEffect(()=>{
     if(localStorage.getItem('token') != null){
@@ -85,17 +91,22 @@ const Ledger =(props)=>{
         if(selectedStatus != null && invoice != null && selectedDate !=null && quantity !=null && unit !=null && price != null && vendor !=null){
             setShowForm(false);
         const formData={
-            date:selectedDate, quantity:quantity,
+            // date:selectedDate,
+            date:'gibberish',
+             quantity:quantity,
             transaction_type:selectedStatus,vendor:vendor,price:price,
             invoice:invoice,unit:unit,part:partId
         };
         console.log(formData)
-        addNewLedger(formData,token).then(
+        addNewLedger(formData,token).then(()=>{
             fetchLedgerByPartId(partName,token)
             .then(res=>
-                setLedger(res.data))
-            
-        );
+                setLedger(res.data));
+                notifySuccessPost();
+        }
+        ).catch(function (err){
+            console.log(err)
+        })
         
     }else{
 
@@ -152,6 +163,7 @@ const Ledger =(props)=>{
     if(showPage){
         ledgerPage=(<div className='layout'><Sidebar />
         <div className="ledger_page" >
+            <ToastContainer />
         <div className="part_details">
                 {ledgerPart?<div className="part_id1">#{localStorage.getItem('partId')}</div>:null}
                 <div className="part_desc"><div style={{color:"#3F5575", fontWeight:"600", fontSize:"20px"

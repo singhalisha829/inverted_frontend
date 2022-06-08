@@ -15,6 +15,8 @@ import "react-datepicker/dist/react-datepicker.css";
 import { FaCloudUploadAlt,FaCheckCircle, FaTimesCircle, FaPlus } from 'react-icons/fa';
 import * as xlsx from "xlsx";
 
+import { ToastContainer, toast } from 'react-toastify';
+import 'react-toastify/dist/ReactToastify.css';
 
 
 const StockIn=()=>{
@@ -40,6 +42,8 @@ const StockIn=()=>{
     const [unit, setUnit]= useState(null);
     const [price, setPrice]= useState('');
     
+    const notifySuccess = () => toast.success("New Parts Added Successfully");
+
 
     useEffect(()=>{
     if(localStorage.getItem('token') != null){
@@ -71,6 +75,7 @@ const StockIn=()=>{
            part:partName,
            invoice:invoice,
            date:selectedDate,
+        // date:'gibberish',
            vendor:vendor,
            quantity:quantity,
            unit:unit,
@@ -91,7 +96,7 @@ const StockIn=()=>{
         setPartName(()=>"");
         setPrice(()=>"");
         setQuantity(()=>"");
-        setUnit(()=>"")
+        setUnit(()=>"");
     }
 
     const uploadFile=(e)=>{
@@ -114,8 +119,20 @@ const StockIn=()=>{
     const submitPartsListHandler =() =>{
         for(let i=0;i<newPartList.length;i++){
             console.log(newPartList[i])
-            addNewLedger(newPartList[i],token).then(res=> window.location.reload())
+            addNewLedger(newPartList[i],token).then(res=>{ 
+                setNewPartList([]);
+                setSelectedDate(()=>'');
+                setPartName(()=>"");
+                setPrice(()=>"");
+                setQuantity(()=>"");
+                setUnit(()=>"");
+                setVendor(()=>'');
+                setInvoice(()=>'');
+
+                 })
+                //  .catch(err=> console.log(err))
         }
+        // notifySuccess()
 
     }
 
@@ -151,6 +168,7 @@ const StockIn=()=>{
         stockin_page=(<div className="layout">
         <Sidebar />
         <div className="stockin_page">
+            <ToastContainer />
         <div className="stockin_title">
                 <div style={{fontWeight:'600',fontSize:'3rem',lineHeight:'3.6rem',marginBottom:'0.5rem'}}>Available Stocks</div>
                      <div style={{fontWeight:'400',fontSize:'1.6rem',lineHeight:'1.9rem'}}>Database for all Available Stocks</div>

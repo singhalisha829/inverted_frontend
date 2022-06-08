@@ -6,6 +6,8 @@ import {FaStarOfLife, FaAt} from 'react-icons/fa';
 
 import { onLogin } from '../services/loginService';
 
+import { ToastContainer, toast } from 'react-toastify';
+import 'react-toastify/dist/ReactToastify.css';
 
 const Login =()=>{
     const [username,setUsername]=useState(null);
@@ -15,7 +17,7 @@ const Login =()=>{
 
     const onSubmit=()=>{
        
-        onLogin(username,password) 
+        onLogin(username,password).catch(err=>{console.log(err);toast.error(err.response.data.non_field_errors[0])})
         console.log(username,password)
         
     }
@@ -23,6 +25,7 @@ const Login =()=>{
         return(
 
             <div className="container" >
+                <ToastContainer />
             <div className="box">
                 <div className="img"><Image src={logo} width={200} height={50} layout="fixed" /></div>
                 <div style={{width:"100%",display:"flex",justifyContent:"center"}} className="content">Enter your details with login and password</div>
