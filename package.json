@@ -20,6 +20,7 @@
     "xlsx": "^0.18.5"
   },
   "devDependencies": {
+    "css-loader": "^6.7.1",
     "eslint": "8.17.0",
     "eslint-config-next": "12.1.6",
     "file-loader": "^6.2.0",
