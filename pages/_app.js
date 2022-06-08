@@ -11,7 +11,6 @@ import '../styles/backdrop.css';
 import '../styles/stockIn.css';
 import '../styles/stockInList.css';
 import '../styles/spinner.css';
-import '../styles/background.css';
 import '../styles/order.css';
 import '../styles/newOrder.css';
 import '../styles/orderDetails.css';
