@@ -1,0 +1,57 @@
+.stockout_page{
+    display: flex;
+    flex-direction: column;
+    min-height: 100vh;
+    background-image: url('../public/bg.png'),url('../public/background.jfif');
+    background-size: 100vw 30rem, 200px 200px;
+    background-repeat: no-repeat, repeat;
+    background-position:  top, 0 30px ;
+    padding-top: 3rem;
+}
+
+.stockout_search{
+    background-color: white;
+    padding: 2rem;
+    width:77vw;
+    margin-left: auto;
+    margin-right:auto;
+    border-radius: 6px;
+    display:flex;
+}
+
+.parts_list{
+    background-color: white;
+    padding: 2rem;
+    width:77vw;
+    margin-left: auto;
+    margin-right:auto;
+    margin-top:2rem;
+    border-radius: 6px;
+    display:flex;
+    flex-direction:column;
+}
+
+.stock_out{
+font-style: normal;
+font-weight: 600;
+font-size: 1.8rem;
+line-height: 2.2rem;
+color: #29394A;
+}
+
+.stock_out_footer{
+    position:fixed;
+    bottom:0;
+    box-shadow: 20px 8px 34px rgba(0, 0, 0, 0.2);
+    height:10rem;
+    background-color:white;
+    width:83.4%;
+}
+
+.stock_out_button{
+    top:2.5rem;
+    right:3%;
+    display:flex;
+    align-items:center;
+    position:absolute;
+}

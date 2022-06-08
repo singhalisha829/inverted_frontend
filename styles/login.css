@@ -1,0 +1,142 @@
+.container{
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    margin: 0;
+    padding: 0;
+    height: 100vh;
+    
+}
+.box{
+    width: 40%;
+    height: 45rem;
+
+    background: #FFFFFF;
+    box-shadow: 4px 8px 34px rgba(0, 0, 0, 0.2);
+    border-radius: 6px;
+
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+}
+
+.img{
+    margin-top: -30px;
+}
+
+
+.input_area{
+    display: flex;
+    flex-direction: column;
+    width: 100%;
+    margin-top:40px;
+    align-items: center ;
+}
+
+.footer{
+    margin-right: 16%;
+    margin-top: 15px;
+    display: flex;
+    flex-direction: row;
+    justify-content:space-between;
+    
+}
+.a{
+    color:  #014DC5;
+    text-decoration: none;
+}
+
+.content{
+    margin-top: 2rem;
+color:#6B6B6B;
+font-weight: 400;
+ font-size:1.4rem;
+ line-height:1.7rem ;
+
+}
+
+input{
+    padding: 1.5rem 1rem;
+    border: #e5e5e5 solid 0.1em;
+}
+
+
+.login_button {
+    background: linear-gradient(180deg, #EB2129 0%, #C61E2B 100%);
+    border: none;
+    color: white;
+    outline: none;
+    cursor: pointer;
+    font: inherit;
+    border-radius: 0;
+    font-style: normal;
+font-weight: 600;
+font-size: 1.4rem;
+line-height: 1.7rem;
+    width:80%;
+  }
+
+  .login_icon{
+      position: absolute;
+      right: 1rem;
+      top:1rem;
+      color: #3F5575;
+      }
+
+@media(max-width:1100px){
+    .box{
+        width: 50%;
+    }
+    .box img{
+        margin-left:35%;
+        width:140px;
+    }
+
+    .box p{
+        margin-left:23%;
+        margin-right: 10%;   
+    }
+
+   
+}
+
+@media (max-width:900px){
+    .box{
+    left:25%;
+    width:60%;
+    }
+
+    .box img{
+        margin-left: 30%;
+    }
+
+    .footer{
+        margin-right: 20%;
+    }
+
+}    
+
+@media(max-width:600px){
+    .box{
+        width: 70%;
+        left:15%;
+        height: 430px;
+    }
+   .box img{
+       margin-left: 20%;
+   }
+
+   .footer{
+       margin-right: 5%;
+   }
+} 
+
+
+
+
+  
+.login_button:active{
+    background: #6B6B6B;
+}
+  

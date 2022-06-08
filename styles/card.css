@@ -1,0 +1,54 @@
+.card{
+    background-color: white;
+    border: #e5e5e5 solid 1px;
+    border-radius: 6px;
+    padding: 1rem;
+    min-height: 19rem;
+    width: 31%;
+    min-width: 25rem;
+    display: flex;
+    flex-direction: column;
+  }
+  
+  .card_part_id{
+    color: #EB2129;
+    background-color: #f8c9cb;
+    width:11rem;
+    padding:6px 9px;
+    height: 2.6rem;
+    margin:0.5rem;
+    border-radius:0.5rem;
+    vertical-align: center;
+    font-style: normal;
+font-weight: 500;
+font-size: 1.2rem;
+line-height: 1.5rem;
+  }
+  
+  .card_title{
+    color:#3F5575;
+    margin-top:17px;
+    font-style: normal;
+font-weight: 500;
+font-size: 1.6rem;
+line-height: 1.9rem;
+    margin-left: 0.5rem;
+    display: inline-block;
+  }
+  
+  .card_desc{
+    margin-left: 0.5rem;
+    margin-top: 0.5rem;
+    color: #9E9E9E;
+    font-style: normal;
+font-weight: 400;
+font-size: 1.2rem;
+line-height: 1.5rem;
+  }
+  
+  .card_footer{
+    margin-top:130px;
+    display: flex;
+    position: absolute;
+  }
+  

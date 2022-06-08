@@ -1,0 +1,75 @@
+.order_details_page{
+    display: flex;
+    flex-direction: column;
+    min-height: 100vh;
+    background-image: url('../public/bg.png'),url('../public/background.jfif');
+    background-size: 100vw 30rem, 200px 200px;
+    background-repeat: no-repeat, repeat;
+    background-position:  top, 0 30px ;
+    padding-top: 3rem;
+}
+
+.order_details{
+    background-color: white;
+    padding: 2rem;
+    width:77vw;
+    margin-left: auto;
+    margin-right:auto;
+    border-radius: 6px;
+}
+
+.order_header{
+    border-radius: 3px;
+    border: #EB2129 solid 0.1rem;
+    /* height:7rem; */
+    display: flex;
+    flex-direction: column;
+    padding: 2rem;
+}
+
+.rows{
+    display: flex;
+    font-weight: 500;
+font-size: 1.4rem;
+line-height: 1.7rem;
+text-align: center;
+}
+
+.order_details_subheader{
+    font-style: normal;
+font-weight: 600;
+font-size: 1.8rem;
+line-height: 2.2rem;
+color: #29394A;
+display: flex;
+margin-top: 2rem;
+justify-content: space-between;
+}
+
+.parts_in_order{
+    background-color: white;
+    padding: 2rem;
+    width:77vw;
+    margin-left: auto;
+    margin-right:auto;
+    margin-top:1rem;
+    border-radius: 6px;
+}
+
+.past_transaction{
+    background-color: white;
+    padding: 2rem;
+    width:77vw;
+    margin-left: auto;
+    margin-right:auto;
+    margin-top:2rem;
+    border-radius: 6px;
+}
+
+.transaction_header{
+    color:#3F5575;
+    font-style: normal;
+font-weight: 500;
+font-size: 2rem;
+line-height: 2.4rem;
+}

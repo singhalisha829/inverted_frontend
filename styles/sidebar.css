@@ -1,0 +1,109 @@
+.nav_text{
+    display: flex;
+    justify-content: start;
+    align-items: center;
+    padding: 8px 0px 8px 8px;
+    list-style: none;
+    height: 50px;
+    color: #2C3948;
+    font-family: 'Inter';
+font-style: normal;
+font-weight: 400;
+font-size: 1.6rem;
+
+}
+
+.navbar{
+    /* box-shadow: 0px 0px 15px 0.1px rgba(0,0,0,0.2); */
+    min-height: 100vh ;
+    display: flex;
+    flex-direction: column;
+    font-size: 1.7rem;
+    font-weight: 500;
+    color: #3F5575;
+    position:fixed;
+    line-height: 1.6rem;
+    /* min-width: 2vw; */
+}
+
+
+
+.navbar_img{
+    width: 14%;
+    height: 5rem;
+    margin-left: auto;
+    margin-right:auto;
+    margin-top:20px;
+    position: fixed;
+    
+    margin-bottom: 50px;
+}
+
+.navbar_img1{
+    width: 3rem;
+    height: 5rem;
+    margin-top:20px;
+    position: fixed;
+    margin-bottom: 50px;
+}
+
+.logout_link{
+    color: #3F5575;
+    font-size: 1.7rem;
+    line-height: 1.6rem;
+    font-weight: 400;
+    position: fixed;
+    bottom: 10vh;
+    display: flex;
+    width: 16.66vw;
+}
+
+.logout_link:hover{
+    cursor: pointer;
+}
+
+.nav_list{
+    /* width:100%; */
+    /* position: absolute; */
+    margin-top: 12rem;
+    display: flex;
+    flex-direction: column;
+    /* margin-left:auto;
+    margin-right:auto; */
+    /* width: 100%; */
+    /* align-items: center; */
+}
+
+.nav_list:hover{
+    cursor: pointer;
+}
+
+.nav_items{
+    display: flex;
+    height:5rem;
+    margin-left:auto;
+    margin-right:auto;
+}
+
+.sidebar_icon{
+    width: 100%;
+    display: flex;
+    justify-content: center;
+}
+
+/* A link that has not been visited */
+a:link {
+    color: pink;
+}
+/* A link that has been visited */
+a:visited {
+    color: blue;
+}
+/* A link that is hovered on */
+a:hover {
+    color: red;
+}
+/* A link that is selected */
+a:active {
+    color: green;
+}

@@ -41,7 +41,7 @@
 
 .title {
   margin: 0;
-  line-height: 1.15;
+  line-height: 1.15rem;
   font-size: 4rem;
 }
 
@@ -52,7 +52,7 @@
 
 .description {
   margin: 4rem 0;
-  line-height: 1.5;
+  line-height: 1.5rem;
   font-size: 1.5rem;
 }
 
@@ -100,7 +100,7 @@
 .card p {
   margin: 0;
   font-size: 1.25rem;
-  line-height: 1.5;
+  line-height: 1.5rem;
 }
 
 .logo {

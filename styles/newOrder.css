@@ -1,0 +1,62 @@
+.new_order_page{
+    display: flex;
+    flex-direction: column;
+    background-image: url('../public/bg.png'),url('../public/background.jfif');
+    background-size: 100vw 30rem, 200px 200px;
+    background-repeat: no-repeat, repeat;
+    background-position:  top, 0 30px ;
+    padding-top: 3rem;
+}
+
+.new_order_title{
+    color: white;
+    margin-left: 2vw;
+    font-style: normal;
+    margin-left: 5rem;
+    margin-bottom: 3rem;
+}
+
+.new_order_subsection{
+    width: 77vw;
+    height: 8rem;
+    margin-left: auto;
+    margin-right: auto;
+    padding: 2rem;
+    display: flex;
+    background: white;
+    box-shadow: 0px 4px 6px rgba(0, 0, 0, 0.15);
+    border-radius: 6px;
+}
+
+.new_order_form{
+    background-color: white;
+    display: flex;
+    height: 10rem;
+    width:77vw;
+    margin-left: auto;
+    margin-right: auto;
+    border-radius: 6px;
+    margin-top: 2rem;
+    padding:2rem;
+    font-style: normal;
+font-weight: 500;
+font-size: 1.4rem;
+line-height: 1.7rem;
+color: #6B6B6B;
+margin-bottom:1rem;
+}
+
+.form_divs{
+    width:25%;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+}
+
+.form_icons{
+    display: flex;
+    justify-content: space-between;
+    width:13rem;
+    /* border:green solid; */
+}

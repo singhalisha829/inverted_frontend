@@ -1,0 +1,42 @@
+.order_page{
+    display: flex;
+    flex-direction: column;
+    background-image: url('../public/bg.png'),url('../public/background.jfif');
+    background-size: 100vw 30rem, 200px 200px;
+    background-repeat: no-repeat, repeat;
+    background-position:  top, 0 30px ;
+    padding-top: 3rem;
+}
+
+.order_title{
+    color: white;
+    margin-left: 2vw;
+    font-style: normal;
+    margin-left: 5rem;
+    margin-bottom: 3rem;
+}
+
+.order_search_section{
+    width: 77vw;
+    height: 8rem;
+    margin-left: auto;
+    margin-right: auto;
+    padding: 2rem;
+    display: flex;
+    background: white;
+    box-shadow: 0px 4px 6px rgba(0, 0, 0, 0.15);
+    border-radius: 6px;
+}
+.order_button{
+    position: absolute;
+    font-size: 1.6rem;
+    line-height: 1.7rem;
+    font-weight: 600;
+    right:4vw;
+}
+
+.order_table{
+    margin-left: auto;
+    margin-right: auto;
+    margin-top: -0.5rem;
+}
