@@ -105,12 +105,19 @@ line-height: 1.7rem;
       background-color: white;
       border:#e5e5e5 solid 0.1rem;
       width:77vw;
+      color: #6B6B6B;
   }
 
 label{
     display: block;
 }
 
+.ledger_button{
+  display: flex;
+  justify-content: space-between;
+  width: 19rem;
+  margin-top: 1rem;
+}
 
 
 .react-datepicker__input-container input{

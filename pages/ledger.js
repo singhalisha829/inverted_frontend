@@ -115,7 +115,7 @@ const Ledger =(props)=>{
                 </div>
             <div style={{display:"flex",marginBottom:'15px'}}>
                 <div style={{width:'33%'}}><label>Part Name:</label>
-                    <strong>{shortDescription?shortDescription:null}</strong>
+                    <div style={{color:'#3F5575'}}><strong>{shortDescription?shortDescription:null}</strong></div>
                 </div>
                 <div style={{width:"33%"}}><label>Quantity:</label>
                     <div style={{display:'flex'}}><input type="number" style={{marginTop:'0', width:'5rem', height:"27.5px", marginRight:"10px"}}    
@@ -123,12 +123,12 @@ const Ledger =(props)=>{
                     <Dropdown width="12.5rem" placeholder='Select Unit' options={unitList} name="name" 
                     parentCallback={(data)=>setUnit(data.symbol)}/></div>
                 </div>
-                <div style={{width:'33%'}}><label>Price:</label><input placeholder="Enter Price" style={{marginTop:'0', height:"25px"}} type="number" 
+                <div style={{width:'33%'}}><label>Price:</label><input placeholder="Enter Price" style={{marginTop:'0', height:"25px",width:'60%'}} type="number"
                 onChange={(e)=>setPrice(e.target.value)}/></div>
             </div>
             <div style={{display:"flex",justifyContent:'space-between'}}><div>Vendor:<Dropdown width="210px" placeholder='Select Vendor' name="name" options={vendorList} 
             parentCallback={(data)=>setVendor(data.id)}/></div>
-            <div style={{marginTop:"10px"}}><button style={{backgroundColor:"white", color:"#ACB3BF",border:"#ACB3BF solid 0.15em", fontSize:"15px",height:'40px'}}
+            <div className='ledger_button'><button style={{backgroundColor:"white", color:"#ACB3BF",border:"#ACB3BF solid 0.15em", fontSize:"15px",height:'40px'}}
                        onClick={()=>{cancelPartHandler()}}>Cancel</button>
                        <button style={{backgroundColor:"#33B850", fontSize:"15px",height:"40px"}}
                        onClick={submitPartHandler}>Save</button>

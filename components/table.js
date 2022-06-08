@@ -40,7 +40,7 @@ const Table = (props) => {
        setTableFilter([...searchTable])
      }
      else if(props.filter !=undefined){
-       console.log('filter')
+       console.log(props.filter)
       const filterTable= data.filter(o=> Object.keys(o).some(
         k=> String(o[k]).toLowerCase().includes(props.filter.toLowerCase())
       ))
@@ -87,7 +87,7 @@ const Table = (props) => {
     let table_content=null;
     // if(props.path!= null){
       table_content=(<tbody>
-        {props.search != undefined?tableFilter
+        {props.search != undefined || props.filter != undefined?tableFilter
         .map(row => {
           return (
             <tr key={row.part_id} onClick={()=>{localStorage.setItem('partId',row.part_id);localStorage.setItem('orderId',row.order_id);
