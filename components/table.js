@@ -188,7 +188,7 @@ const Table = (props) => {
  
   
     return (
-      <table id={props.id} style={{width:props.width}}>
+      <table id={props.id} style={{width:props.width,cursor:props.cursor}}>
         <thead >
         <tr>
           {props.columns.map(column => {

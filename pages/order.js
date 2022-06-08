@@ -49,7 +49,7 @@ const Order=()=>{
                 </div>
 
                 <div className="order_table" >
-                <Table columns={columns} rows={rows1} search={searchText} filter={filterOnStatus} path="/orderDetails"
+                <Table columns={columns} rows={rows1} search={searchText} filter={filterOnStatus} path="/orderDetails" cursor="pointer"
                 width="77vw"/>
                 </div>
                      </div>

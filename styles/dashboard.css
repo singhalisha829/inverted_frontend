@@ -25,6 +25,7 @@
     margin-top: 0.5rem;
     padding-top:0.5rem;
     margin-right: 2rem;
+    cursor: pointer;
 }
 
 .search_section{
@@ -139,6 +140,7 @@
     font-weight: 600;
     font-size: 1.4rem;
 line-height: 1.7rem;
+cursor: pointer;
 }
 
 

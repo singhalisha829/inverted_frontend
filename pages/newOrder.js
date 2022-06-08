@@ -64,8 +64,8 @@ const NewOrder=()=>{
                     <div style={{width:'25%',display:'flex',alignItems:'center',justifyContent:'center'}}>
                     <div className="form_icons">
                    
-            <FaCheckCircle onClick={submitHandler} size={30} color="#33B850"/>
-            <FaTimesCircle size={30} color="#F16B6B" onClick={cancelHandler}/>
+            <FaCheckCircle onClick={submitHandler} size={30} color="#33B850" cursor="pointer"/>
+            <FaTimesCircle size={30} color="#F16B6B" onClick={cancelHandler} cursor="pointer"/>
             </div>
                     </div>
 

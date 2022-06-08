@@ -32,7 +32,7 @@ const Login =()=>{
                     onChange={(e)=>setUsername(e.target.value)}/><div className="login_icon"><FaAt size={11}/></div></div>
                     <div style={{display:'flex',width:'80%',position:'relative'}}>
                         <input style={{height:"30px",width:"100%"}} type={viewPassword?'text':'password'} value={password} placeholder="Password"
-                    onChange={(e)=>setPassword(e.target.value)}/><div className="login_icon"><FaStarOfLife size={11} onClick={()=>setViewPassword(!viewPassword)}/></div></div>
+                    onChange={(e)=>setPassword(e.target.value)}/><div className="login_icon"><FaStarOfLife cursor="pointer" size={11} onClick={()=>setViewPassword(!viewPassword)}/></div></div>
                 </div>
                 <div className="footer">
                 {/* <div><input type="checkbox"/>Remember me</div> */}

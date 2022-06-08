@@ -100,7 +100,7 @@ const modalCancelHandler = () =>{
 
   let content =null;
   if(isList){
-    content= (partsList?<Table id="partsTable" rows={partsList} columns={columns} search={searchText} path="/ledger"
+    content= (partsList?<Table id="partsTable" rows={partsList} columns={columns} search={searchText} path="/ledger" cursor="pointer"
     width="77vw" />:<Spinner/>)
 }
 else{
@@ -148,7 +148,7 @@ else{
                  <ToastContainer/>
                  <div style={{display:'flex',width:'28rem'}}>
                      <div className="icon_box" onClick={()=>setIsList(!isList)}>
-                         {isList? <FaList/>: <FaTh/>} 
+                         {isList? <FaList cursor="pointer"/>: <FaTh cursor="pointer"/>} 
                      </div> 
                      <Link href="/stockIn" ><div style={{marginRight:'2rem', width:'7.5rem'}} className='dashboard_button'>Stock In</div></Link>
                      <Link href="" ><div onClick={()=>setShowModal(true)} style={{marginLeft:'1%'}} className='dashboard_button'>Add New Part</div></Link>

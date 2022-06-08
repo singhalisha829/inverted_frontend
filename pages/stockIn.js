@@ -137,8 +137,8 @@ const StockIn=()=>{
             <div style={{width:"15%"}}>
             <div className="icons">
                 <div style={{paddingLeft:'20%',marginRight:'20%'}}>
-            <FaCheckCircle onClick={submitHandler} size={30} color="#33B850"/></div>
-            <FaTimesCircle size={30} color="#F16B6B" onClick={cancelHandler}/>
+            <FaCheckCircle onClick={submitHandler} size={30} color="#33B850" cursor="pointer"/></div>
+            <FaTimesCircle size={30} color="#F16B6B" onClick={cancelHandler} cursor="pointer"/>
             </div>
                 </div>
                 
