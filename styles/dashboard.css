@@ -9,7 +9,7 @@
 .dashboard_page{
     display: flex;
     flex-direction: column;
-    background-image: url('../public/bg.png'),url('../public/background.png');
+    background-image: url('/bg.png'),url('/background.png');
     background-size: 100vw 30rem, 200px 200px;
     background-repeat: no-repeat, repeat;
     background-position:  top, 0 30px ;

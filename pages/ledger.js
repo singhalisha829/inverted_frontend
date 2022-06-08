@@ -79,8 +79,10 @@ const Ledger =(props)=>{
       
 
     const submitPartHandler = () =>{  
-        setShowForm(false)
+       
         console.log(selectedStatus,invoice,selectedDate,quantity,unit,price,vendor)
+        if(selectedStatus != null && invoice != null && selectedDate !=null && quantity !=null && unit !=null && price != null && vendor !=null){
+            setShowForm(false);
         const formData={
             date:selectedDate, quantity:quantity,
             transaction_type:selectedStatus,vendor:vendor,price:price,
@@ -88,6 +90,9 @@ const Ledger =(props)=>{
         };
         console.log(formData)
         addNewLedger(formData,token).then(window.location.reload());
+    }else{
+
+    }
         // window.location.reload();
 
     }
