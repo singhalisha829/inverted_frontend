@@ -79,7 +79,8 @@ const Ledger =(props)=>{
       
 
     const submitPartHandler = () =>{  
-       
+        const partName= localStorage.getItem("partId");
+
         console.log(selectedStatus,invoice,selectedDate,quantity,unit,price,vendor)
         if(selectedStatus != null && invoice != null && selectedDate !=null && quantity !=null && unit !=null && price != null && vendor !=null){
             setShowForm(false);
@@ -89,13 +90,19 @@ const Ledger =(props)=>{
             invoice:invoice,unit:unit,part:partId
         };
         console.log(formData)
-        addNewLedger(formData,token).then(window.location.reload());
+        addNewLedger(formData,token).then(
+            fetchLedgerByPartId(partName,token)
+            .then(res=>
+                setLedger(res.data))
+            
+        );
+        
     }else{
 
     }
-        // window.location.reload();
 
     }
+
 
     const cancelPartHandler = () =>{
         setShowForm(false);
@@ -171,7 +178,8 @@ const Ledger =(props)=>{
 
                 <div className="ledger_table">
                     {form}
-                    {showLedger?<div><Table rows={ledger} columns={columns} search={searchText} width="77vw"/></div>:<Spinner/>}</div>
+                    {/* {ledger.length} */}
+                    {showLedger?<div><Table key={ledger.length} rows={ledger} columns={columns} search={searchText} width="77vw"/></div>:<Spinner/>}</div>
                 </div   >
 
                     </div>

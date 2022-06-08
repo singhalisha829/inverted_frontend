@@ -15,12 +15,9 @@ const Table = (props) => {
     const [data, setData]= useState(props.rows);
     const [order, setOrder]= useState('ASC');
     const [tableFilter, setTableFilter] = useState([]);
-
-
     
    useEffect(()=>{
      if(props.search != undefined && props.filter !=undefined ){
-       console.log('both')
       const searchTable = data.filter(o => Object.keys(o).some(
         k => String(o[k]).toLowerCase().includes(props.search.toLowerCase()))
       );
@@ -32,7 +29,6 @@ const Table = (props) => {
       setTableFilter([...filterTable])
      }
      else if(props.search != undefined ){
-       console.log('search')
        const searchTable = data.filter(o => Object.keys(o).some(
          k => String(o[k]).toLowerCase().includes(props.search.toLowerCase()))
        );
@@ -40,7 +36,6 @@ const Table = (props) => {
        setTableFilter([...searchTable])
      }
      else if(props.filter !=undefined){
-       console.log(props.filter)
       const filterTable= data.filter(o=> Object.keys(o).some(
         k=> String(o[k]).toLowerCase().includes(props.filter.toLowerCase())
       ))
@@ -50,18 +45,16 @@ const Table = (props) => {
        setData([...data])
        setTableFilter([...data])
      }
-    //  console.log(count)
     
     
    },[props.search,props.filter])
 
 
     const sorting= (col) =>{
-      console.log(col)
         if(order === 'ASC'){
             const sorted= [...props.rows].sort((a,b)=>
             a[col]> b[col] ? 1: -1 );
-            console.log(sorted)
+            // console.log(sorted)
             setData(sorted);
             // setTableFilter(sorted);
             setOrder('DSC');
@@ -70,10 +63,10 @@ const Table = (props) => {
         if(order === 'DSC'){
             const sorted= [...props.rows].sort((a,b)=>
             a[col]< b[col] ? 1: -1 );
-            console.log(sorted);
+            // console.log(sorted);
             setData(sorted);
             // setTableFilter(sorted);
-            console.log(data)
+            // console.log(data)
             setOrder('ASC');
         }
     }
@@ -188,7 +181,7 @@ const Table = (props) => {
  
   
     return (
-      <table id={props.id} style={{width:props.width,cursor:props.cursor}}>
+      <table  id="table" style={{width:props.width,cursor:props.cursor}}>
         <thead >
         <tr>
           {props.columns.map(column => {
