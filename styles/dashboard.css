@@ -12,7 +12,7 @@
     background-image: url('../public/bg.png'),url('../public/background.jfif');
     background-size: 100vw 30rem, 200px 200px;
     background-repeat: no-repeat, repeat;
-    background-position:  top, 0 300px ;
+    background-position:  top, 0 30px ;
     padding-top: 3rem;
     min-height: 100vh;
 }
