@@ -171,7 +171,7 @@ const Ledger =(props)=>{
             ,fontFamily: 'Inter',fontStyle: "normal",fontWeight: "600",fontSize: "16px",lineHeight: "19px", marginLeft:"20%"
             }}>
                 <div style={{display:'flex'}}><FaFileContract/>
-                {shortDescription?<div className='ledger_shortdesc'>shortDescription</div>:null} </div>
+                {shortDescription?<div className='ledger_shortdesc'>{shortDescription?shortDescription:null}</div>:null} </div>
                 </div>
                 <div className='ledger_longdesc' style={{color:"#9E9E9E",marginLeft:'20%'}}>{longDescription?longDescription:null}</div>
                 </div>
