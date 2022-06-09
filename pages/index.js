@@ -106,9 +106,9 @@ else{
   content=(
       <div className="cards_list">
           {searchText != undefined?cardFilter.map((card)=>(
-              <Card key={card.part_id} part_id={card.part_id} title={card.short_description} quantity={card.quantity} desc={card.long_description} />
+              <Card key={card.part_id} part_id={card.part_id} title={card.short_description} quantity={card.quantity} desc={card.long_description} path="/ledger" />
           )):partsList.map((card)=>(
-              <Card key={card.part_id} part_id={card.part_id} title={card.short_description} quantity={card.quantity} desc={card.long_description} />
+              <Card key={card.part_id} part_id={card.part_id} title={card.short_description} quantity={card.quantity} desc={card.long_description} path="/ledger" />
           ))}
       </div>
   );

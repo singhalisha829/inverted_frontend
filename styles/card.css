@@ -8,6 +8,7 @@
     min-width: 25rem;
     display: flex;
     flex-direction: column;
+    cursor: pointer;
   }
   
   .card_part_id{

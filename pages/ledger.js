@@ -91,14 +91,14 @@ const Ledger =(props)=>{
         if(selectedStatus != null && invoice != null && selectedDate !=null && quantity !=null && unit !=null && price != null && vendor !=null){
             setShowForm(false);
         const formData={
-            // date:selectedDate,
-            date:'gibberish',
+            date:selectedDate,
              quantity:quantity,
             transaction_type:selectedStatus,vendor:vendor,price:price,
             invoice:invoice,unit:unit,part:partId
         };
         console.log(formData)
         addNewLedger(formData,token).then(()=>{
+            setSelectedDate(()=>'')
             fetchLedgerByPartId(partName,token)
             .then(res=>
                 setLedger(res.data));
@@ -117,6 +117,7 @@ const Ledger =(props)=>{
 
     const cancelPartHandler = () =>{
         setShowForm(false);
+        setSelectedDate(()=>'')
     }
 
     const status=[{name:'Stock In', value:'CREDIT'},{name:'Stock Out', value:'DEBIT'}]
@@ -186,11 +187,11 @@ const Ledger =(props)=>{
                           borderRadius: "3px", paddingLeft:'10px'}}
                         onChange={(e) => {setSearchText(e.target.value)}}/>
                         <FaSistrix size={17} style={{color:"#3F5575",marginTop:"1.4rem",right:'17%', position:"absolute"}}/>
-                <button style={{height:'4rem'}} onClick={() =>{setShowForm(!showForm)}}><FaPlus size={13}/> Add</button></div>
+                <button style={{height:'4rem'}} onClick={() =>{setShowForm(true)}}><FaPlus size={13}/> Add</button></div>
 
                 <div className="ledger_table">
                     {form}
-                    {/* {ledger.length} */}
+                    
                     {showLedger?<div><Table key={ledger.length} rows={ledger} columns={columns} search={searchText} width="77vw"/></div>:<Spinner/>}</div>
                 </div   >
 

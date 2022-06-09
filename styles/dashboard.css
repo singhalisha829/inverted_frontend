@@ -182,9 +182,44 @@ button{
 
 .react-datepicker{
     font-size: 1rem !important;
+    height: 20rem !important;
+    /* padding: 1rem; */
 }
 
 .react-datepicker__input-container input{
     width:60%;
     min-width: 12rem;
 }
+
+
+  .react-datepicker__header {
+    padding-top: 1rem !important;
+    padding-bottom: 1.5rem !important;
+    width:20rem;
+  }
+  .react-datepicker__month {
+    width:18rem !important;
+    height: 20rem !important;
+  }
+  .react-datepicker__day-name, .react-datepicker__day {
+    width: 1.9em;
+    line-height: 1.9em;
+    margin: 0.166em;
+  }
+  .react-datepicker__current-month {
+    font-size: 1em;
+  }
+  .react-datepicker__navigation {
+    top: 1em;
+    line-height: 1.7em;
+    border: 0.45em solid transparent;
+  }
+  .react-datepicker__navigation--previous {
+    border-right-color: #ccc;
+    left: 1em;
+  }
+  .react-datepicker__navigation--next {
+    border-left-color: #ccc;
+    right: 1em;
+  }
+

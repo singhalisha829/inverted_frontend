@@ -83,7 +83,7 @@ const Table = (props) => {
         {props.search != undefined || props.filter != undefined?tableFilter
         .map(row => {
           return (
-            <tr key={row.part_id} onClick={()=>{localStorage.setItem('partId',row.part_id);localStorage.setItem('orderId',row.order_id);
+            <tr key={row.part_id} onClick={()=>{localStorage.setItem('partId',row.part_id);localStorage.setItem('orderId',row.order_id);console.log(row.part_id);
             clickHandler()}}>
               {props.columns.map(column => {
                 if(column.accessor1==='part_id'){

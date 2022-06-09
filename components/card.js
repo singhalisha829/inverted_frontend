@@ -1,10 +1,16 @@
 import { FaFileContract } from 'react-icons/fa';
+import Router from 'next/router';
 
 const Card = (props) =>{
 
+  const clickHandler=()=>{
+    if(props.path){
+    Router.push(props.path)}
+  
+  }
 
     return(
-        <div className="card" >
+        <div className="card" onClick={()=>{localStorage.setItem('partId',props.part_id);clickHandler()}} >
            <div className="card_part_id">#{props.part_id}</div>
            {/* <div style={{border:"green solid", color:"balck",paddingTop:"80px"}}>heyy</div> */}
           <div className="card_title"><FaFileContract /> {props.title}</div>
