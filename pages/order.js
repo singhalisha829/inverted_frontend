@@ -3,8 +3,9 @@ import Sidebar from "../components/sidebar";
 import Dropdown from "../components/dropdown";
 import Router from "next/router";
 
+
 import Table from '../components/table';
-import { useState } from "react";
+import { useState, useEffect } from "react";
 
 
 
@@ -28,6 +29,11 @@ const Order=()=>{
         {order_id:2,date:'12-04-2022',created_by:'barry allen', status:'Completed'},
         {order_id:3,date:'09-12-2022',created_by:'loki', status:'Pending'}
     ]
+
+    useEffect(()=>{
+        localStorage.setItem('selected_item','orders')
+    },[])
+
     return(
         <div  className="layout">
             <Sidebar />

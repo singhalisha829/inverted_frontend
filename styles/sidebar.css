@@ -58,20 +58,23 @@ font-size: 1.6rem;
     width: 16.66vw;
 }
 
+.center{
+    margin-left: 3vw;
+    display: flex;
+}
+
+.center1{
+    margin-left: 5vw;
+}
+
 .logout_link:hover{
     cursor: pointer;
 }
 
 .nav_list{
-    /* width:100%; */
-    /* position: absolute; */
     margin-top: 12rem;
     display: flex;
     flex-direction: column;
-    /* margin-left:auto;
-    margin-right:auto; */
-    /* width: 100%; */
-    /* align-items: center; */
 }
 
 .nav_list:hover{
@@ -81,29 +84,44 @@ font-size: 1.6rem;
 .nav_items{
     display: flex;
     height:5rem;
-    margin-left:auto;
-    margin-right:auto;
+    align-items: center;
+}
+
+.selected_items{
+    display: flex;
+    height:5rem;
+    align-items: center;
+    /* margin-left:auto;
+    margin-right:auto; */
+    background: linear-gradient(90deg, #dedfdf 0%, rgba(241, 241, 245, 0) 87.23%);
+
+}
+
+.selected_icons{
+    display: flex;
+    height:5rem;
+    align-items: center;
+    /* margin-left:auto;
+    margin-right:auto; */
+    background: linear-gradient(90deg, #dedfdf 0%, rgba(241, 241, 245, 0) 87.23%);
+
+}
+
+.strip{
+    background-color: red;
+    width:0.5rem;
+    height:5rem;
+}
+
+.empty_strip{
+    width:0.5rem;
+    height:5rem;
 }
 
 .sidebar_icon{
     width: 100%;
     display: flex;
     justify-content: center;
+    align-items: center;
 }
 
-/* A link that has not been visited */
-a:link {
-    color: pink;
-}
-/* A link that has been visited */
-a:visited {
-    color: blue;
-}
-/* A link that is hovered on */
-a:hover {
-    color: red;
-}
-/* A link that is selected */
-a:active {
-    color: green;
-}

@@ -26,6 +26,9 @@ const Sidebar = () =>{
         
     ];
 
+    const [selectedDiv, setSelectedDiv]= useState('dashboard');
+
+
     function useWindowSize() {
         const [windowSize, setWindowSize] = useState({
           width: undefined,
@@ -33,6 +36,7 @@ const Sidebar = () =>{
         });
       
         useEffect(() => {
+          setSelectedDiv(localStorage.getItem('selected_item'))
           if (typeof window !== 'undefined') {
             function handleResize() {
               setWindowSize({
@@ -52,7 +56,14 @@ const Sidebar = () =>{
       }
     
       const size = useWindowSize();
-    
+
+    const setDashboard=()=>{
+      localStorage.setItem('selected_item','dashboard');
+    }
+
+    const setOrders=()=>{
+      localStorage.setItem('selected_item','orders')
+    }
     
     
     return(
@@ -63,8 +74,18 @@ const Sidebar = () =>{
                   </div>
                   </div>
                         <div className='nav_list'>
-                            <div title='Dashboard' style={{marginLeft:"20%"}} className='nav_items' onClick={()=>Router.push('/')}><FaTh /><div style={{marginLeft:"2rem"}}>Dashboard</div></div>
-                            <div title='Orders' style={{marginLeft:"20%"}} className='nav_items' onClick={()=>{Router.push('/order')}}><FaDropbox /><div style={{marginLeft:'2rem'}}>Orders</div></div>
+                            {selectedDiv==='dashboard'?<div title='Dashboard' className='selected_items' onClick={()=>{Router.push('/');
+                          setDashboard()}}><div className='strip'/><div className='center'><FaTh /><div style={{marginLeft:"2rem"}}>Dashboard</div></div></div>
+                          :
+                          <div title='Dashboard' className='nav_items' onClick={()=>{Router.push('/');
+                          setDashboard()}}><div className='empty_strip'/><div className='center'><FaTh /><div style={{marginLeft:"2rem"}}>Dashboard</div></div></div>}
+
+                          {selectedDiv==='orders'?
+                            <div title='Orders' className='selected_items' onClick={()=>{Router.push('/order');
+                          setOrders()}}><div className='strip'/><div className='center'><FaDropbox /><div style={{marginLeft:'2rem'}}>Orders</div></div></div>
+                          :
+                          <div title='Orders' className='nav_items' onClick={()=>{Router.push('/order');
+                          setOrders()}}><div className='empty_strip'/><div className='center'><FaDropbox /><div style={{marginLeft:'2rem'}}>Orders</div></div></div>}
                         </div>
                         <div>
     </div>
@@ -76,8 +97,20 @@ const Sidebar = () =>{
                 <div className="navbar" >
                 <div style={{width:'16.66vw',display:'flex',justifyContent:'center'}}><div className='navbar_img1'><Image src={Logo_inverted} layout="fill" /></div></div>
                         <div className='nav_list'>
-                            <div title='Dashboard' className='nav_items' onClick={()=>Router.push('/')}><div className='sidebar_icon'><FaTh /></div></div>
-                            <div title='Orders'className='nav_items' onClick={()=>{Router.push('/order')}}><div className='sidebar_icon'><FaDropbox /></div></div>
+                          {selectedDiv === 'dashboard'?
+                            <div title='Dashboard' className='selected_items' onClick={()=>{Router.push('/');
+                          setDashboard()}}><div className='strip'/><div className='center1'><FaTh /></div></div>
+                        :
+                        <div title='Dashboard' className='nav_items' onClick={()=>{Router.push('/');
+                        setDashboard()}}><div className='empty_strip'/><div className='center1'><FaTh /></div></div>}
+
+                          {selectedDiv==='orders'?
+                          <div className='selected_items' onClick={()=>{Router.push('/order');
+                          setOrders()}}><div className='strip'/><div className='center1'><FaDropbox /></div></div>
+                        :
+                        <div className='nav_items' onClick={()=>{Router.push('/order');
+                          setOrders()}}><div className='empty_strip'/><div className='center1'><FaDropbox /></div></div>}
+                            
                         </div>
                         <div>
     </div>

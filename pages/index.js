@@ -51,6 +51,7 @@ export default function Home() {
 
   useEffect(()=>{
     if(localStorage.getItem('token') != undefined){
+      localStorage.setItem('selected_item','dashboard')
       const token=localStorage.getItem('token')
       setToken(token)
     fetchPartsList(token).then(
