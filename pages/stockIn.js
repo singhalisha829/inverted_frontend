@@ -141,7 +141,7 @@ const StockIn=()=>{
             <div style={{width:"15%", textAlign:"center"}}></div>
             <div style={{width:"30%",paddingLeft:'6%'}}>
             {partList?<Dropdown options={partList} placeholder="Select Part" width="80%" name="short_description" isAddNewPart partTypeList={partTypeList}
-            parentCallback={(data)=>setPartName(data.id)} value={partName} height="3rem" minWidth="12rem"/>:null}</div>
+            parentCallback={(data)=>setPartName(data.id)} value={partName} height="3rem" minWidth="12rem" dropdownWidth="20vw" searchWidth="17vw"/>:null}</div>
 
             <div style={{width:'10%',paddingLeft:'3%'}}><input style={{width:"80%", height:'2.8rem'}} type="number" 
             onChange={(e)=>setPrice(e.target.value)} value={price}/></div>
@@ -149,7 +149,7 @@ const StockIn=()=>{
             <div style={{width:"30%", display:'flex',paddingLeft:'5%'}}>
             <input value={quantity} style={{width:"20%", height:"3px",marginRight:'10px'}} type="number" onChange={(e)=>setQuantity(e.target.value)}/>
             {unitList?<Dropdown options={unitList} placeholder="Select Unit" width="60%" name="name" height="3rem" minWidth="9rem"
-            parentCallback={(data)=>setUnit(data.symbol)} value={unit}/>:null}</div>
+            parentCallback={(data)=>setUnit(data.symbol)} value={unit} dropdownWidth="11vw" searchWidth="8vw"/>:null}</div>
 
             <div style={{width:"15%"}}>
             <div className="icons">
@@ -185,7 +185,7 @@ const StockIn=()=>{
                 <div className='stockin_form'>
                 <div style={{width:"33%"}}><label>Invoice Number:</label><input style={{height:'3rem',width:'60%',minWidth:'12rem'}} onChange={(e)=> setInvoice(e.target.value)}/></div>
                 <div style={{width:"33%"}}>Vendor:{vendorList?<Dropdown options={vendorList} placeholder="Select Vendor" width="60%" name="name" minWidth="12rem"
-                parentCallback={(data)=>setVendor(data.id)}/>:null}</div>
+                parentCallback={(data)=>setVendor(data.id)} dropdownWidth="15vw" searchWidth="12vw"/>:null}</div>
                 <div style={{width:"33%"}}><label>Date:</label>
                             <DatePicker placeholderText='Enter Date' selected={selectedDate} onChange={(date) => setSelectedDate(date)} />
                         </div>

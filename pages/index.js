@@ -165,7 +165,7 @@ else{
             <div className='add_part_form'>
           
               {partTypeList?<Dropdown  options={partTypeList} placeholder='Select Part Type' name="name" width="70%" 
-            parentCallback={(data)=>setPartType(data.id)} value={partType}/> : <Spinner/>}
+            parentCallback={(data)=>setPartType(data.id)} value={partType} dropdownWidth="21vw" searchWidth="17vw"/> : <Spinner/>}
       
     
                 <input name="part_name" onChange={(e)=>setPartName(e.target.value)} value={partName} placeholder="Part Name" 

@@ -128,7 +128,8 @@ const Ledger =(props)=>{
             <div style={{display:'flex',marginBottom:'15px'}}>
                 <div style={{width:"33%"}}>Status:
                 <div >
-                <Dropdown placeholder='Select Status' options={status} name="name" parentCallback={(data)=>setSelectedStatus(data.value)} width="60%"/></div>
+                <Dropdown placeholder='Select Status' options={status} name="name" parentCallback={(data)=>setSelectedStatus(data.value)} width="60%"
+                dropdownWidth="14vw" searchWidth="11vw"/></div>
                 </div>
                 <div style={{width:"33%"}}><label>Invoice:</label>
                     <input style={{marginTop:'0', height:"25px"}} placeholder='Enter Invoice' onChange={(e)=>setInvoice(e.target.value)}/></div>
@@ -144,14 +145,15 @@ const Ledger =(props)=>{
                 <div style={{width:"33%"}}><label>Quantity:</label>
                     <div style={{display:'flex'}}><input type="number" style={{marginTop:'0', width:'5rem', height:"27.5px", marginRight:"10px"}}    
                     onChange={(e)=>setQuantity(e.target.value)} />
-                    <Dropdown width="12.5rem" placeholder='Select Unit' options={unitList} name="name" 
+                    <Dropdown width="12.5rem" placeholder='Select Unit' options={unitList} name="name" dropdownWidth="12vw" searchWidth="9vw"
                     parentCallback={(data)=>setUnit(data.symbol)}/></div>
                 </div>
                 <div style={{width:'33%'}}><label>Price:</label><input placeholder="Enter Price" style={{marginTop:'0', height:"25px",width:'60%'}} type="number"
                 onChange={(e)=>setPrice(e.target.value)}/></div>
             </div>
-            <div style={{display:"flex",justifyContent:'space-between'}}><div>Vendor:<Dropdown width="210px" placeholder='Select Vendor' name="name" options={vendorList} 
-            parentCallback={(data)=>setVendor(data.id)}/></div>
+            <div style={{display:"flex",justifyContent:'space-between'}}><div style={{width:"33%"}}>
+                Vendor:<Dropdown width="60%" placeholder='Select Vendor' name="name" options={vendorList} 
+            parentCallback={(data)=>setVendor(data.id)} dropdownWidth="14vw" searchWidth="11vw"/></div>
             <div className='ledger_button'><button style={{backgroundColor:"white", color:"#ACB3BF",border:"#ACB3BF solid 0.15em", fontSize:"15px",height:'40px'}}
                        onClick={()=>{cancelPartHandler()}}>Cancel</button>
                        <button style={{backgroundColor:"#33B850", fontSize:"15px",height:"40px"}}
@@ -193,10 +195,8 @@ const Ledger =(props)=>{
                     {form}
                     
                     {showLedger?<div><Table key={ledger.length} rows={ledger} columns={columns} search={searchText} width="77vw"/></div>:<Spinner/>}</div>
-                </div   >
-
-                    </div>
-               
+                </div>
+                </div>   
             </div>)
     }
 

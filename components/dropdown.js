@@ -94,11 +94,11 @@ const Dropdown= (props) =>{
 
     if(isDropdownOpen){
         content=(
-            <div className="dropdown_options1">
+            <div className="dropdown_options1" style={{width:props.dropdownWidth}}>
             {add_part}
             <div style={{display:'flex'}}>
-            <div className="dropdown_input"><input style={{height:"30px",marginRight:'5px',width:"80%"}} onChange={(e)=>setSearchText(e.target.value)}/>  
-            <div style={{marginTop:'0.7rem'}}><FaSistrix size={17} color="#3F5575"/></div></div></div>
+            <div className="dropdown_input"><input style={{height:"30px",marginRight:'5px',width:props.searchWidth}} onChange={(e)=>setSearchText(e.target.value)}/>  
+            <div style={{marginTop:'0.5vw'}}><FaSistrix size={17} color="#3F5575"/></div></div></div>
         <div className="dropdown_list" style={{marginTop:listTopMargin}}>
         {searchText !== null? dataFilter.map((option)=>(
                  <div className="option" key={option.id}    
@@ -117,7 +117,7 @@ const Dropdown= (props) =>{
     
     return(
         <div ref={wrapperRef} className="custom_dropdown" style={{width:props.width, height:props.height,minWidth:props.minWidth}} >
-           <div className="control" onClick={()=>setIsDropdownOpen(!isDropdownOpen)}>
+           <div className="control" onClick={()=>setIsDropdownOpen(!isDropdownOpen)} >
            <input className="selected_value" placeholder={props.placeholder} value={value} style={{margin:"0",padding:'0.6rem'}}/>
            
            {/* <div style={{position:'relative',right:'10px'}}><FaSistrix /></div> */}

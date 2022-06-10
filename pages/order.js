@@ -38,7 +38,7 @@ const Order=()=>{
                     </div> 
                 <div className="order_search_section">
                     <Dropdown options={status} placeholder="Status" name="name" width="15vw" height="3.5rem" 
-                    parentCallback={(data)=>setFilterOnStatus(data.id)}/>
+                    parentCallback={(data)=>setFilterOnStatus(data.id)} dropdownWidth="15vw" searchWidth="12vw"/>
                     <input style={{height:'3.5rem',marginLeft:'2rem',width:'70%'}} value={searchText} onChange={(e)=>setSearchText(e.target.value)}/>
                 </div>
 

@@ -56,7 +56,8 @@ const NewOrder=()=>{
 
                 <div className="new_order_form">
                     <div style={{width:'25%'}}><label>Order Type:</label>
-                    <Dropdown options={order_type} name="name" width="70%" parentCallback={(data)=>setOrderType(data.value)}/></div>
+                    <Dropdown options={order_type} name="name" width="70%" parentCallback={(data)=>setOrderType(data.value)}
+                    dropdownWidth="13vw" searchWidth="10vw"/></div>
                     <div style={{width:'25%'}}><label>Part Name:</label><input value={name} style={{height:'3rem',width:'70%'}}
                     onChange={(e)=>setName(e.target.value)}/></div>
                     <div style={{width:'25%'}}><label>Required Quantity</label>
