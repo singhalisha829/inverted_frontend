@@ -31,6 +31,7 @@ const Dropdown= (props) =>{
       }
     },[props.isAddNewPart])
 
+    // search in dropdown list
     useEffect(()=>{
         if(searchText != undefined){
             const filterData = data.filter(o => Object.keys(o).some(
