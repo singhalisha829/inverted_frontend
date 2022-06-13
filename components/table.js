@@ -100,7 +100,7 @@ const Table = (props) => {
                 <div className="parts_image">
                   
                 {row.image === null? <Image src={Logo} layout="fill" objectFit="contain"/>
-                    :<Image src={row.image} layout="fill" objectFit="contain" />}
+                    :<Image src={row.image} layout="fill" objectFit="fill" />}
                   
                 </div><div><div style={{color:"#3F5575", fontFamily: 'Inter',fontStyle: "normal",fontWeight: "500",fontSize: "1.6rem",lineHeight: "1.9rem",marginBottom:'7px'}}>{row[column.accessor1]}</div>
                 <div style={{fontFamily: 'Inter',fontStyle: "normal",fontWeight: "400",fontSize: "1.2rem",lineHeight: "1.5rem"}}>{row[column.accessor2]}</div></div>
@@ -151,7 +151,7 @@ const Table = (props) => {
                   <div className="parts_image">
               
                     {row.image === null? <Image src={Logo} layout="fill" objectFit="contain"/>
-                    :<Image src={row.image} layout="fill" objectFit="contain" />}
+                    :<Image src={row.image} layout="fill" objectFit="fill" />}
                   </div><div><div style={{color:"#3F5575", fontWeight:"500",fontSize:"1.6rem",lineHeight:'1.9rem',marginBottom:'7px'}}>{row[column.accessor1]}</div>
                   <div style={{fontSize:'1.2rem', lineHeight:'1.5rem',fontWeight:'400'}}>{row[column.accessor2]}</div></div>
                   </div></td>
