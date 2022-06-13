@@ -87,12 +87,14 @@ td{
 }
 
 .parts_image{
-    width:70px;
+    width:7rem;
+    height: 8rem;
     padding-left: 1vw;
     border-radius: 3px;
     background-color: rgb(237, 237, 237);
     border: #e5e5e5 solid 0.1rem;
     margin-right:10px;
+    position: relative;
 }
 
 .pending_status_style{

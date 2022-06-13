@@ -5,9 +5,9 @@
 }
 .loader {
   color: #eb2129;
-  font-size: 11px;
+  font-size: 0.9rem;
   text-indent: -99999em;
-  margin: 55px auto;
+  margin:10rem auto;
   position: relative;
   width: 10em;
   height: 10em;

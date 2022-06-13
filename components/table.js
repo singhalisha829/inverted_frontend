@@ -49,7 +49,9 @@ const Table = (props) => {
     
    },[props.search,props.filter])
 
-
+ for(let i=0;i<data.length;i++){
+   console.log(data[i].image)
+ }
     const sorting= (col) =>{
         if(order === 'ASC'){
             const sorted= [...props.rows].sort((a,b)=>
@@ -71,6 +73,11 @@ const Table = (props) => {
         }
     }
      
+
+    const myLoader = ({ src, width, quality }) => {
+      return `https://bom-inverted.s3.amazonaws.com/bom/parts/INVC0130016.png?X-Amz-Algorithm=AWS4-HMAC-SHA256&X-Amz-Credential=AKIA6HRCINQKW4SKY4MK%2F20220613%2Fap-south-1%2Fs3%2Faws4_request&X-Amz-Date=20220613T053319Z&X-Amz-Expires=3600&X-Amz-SignedHeaders=host&X-Amz-Signature=3622bb8cb202c62ddd9a65840ab3102cf7537bf9cf9b3476072a70416942b247`
+    }
+    
     const clickHandler=()=>{
       if(props.path){
       Router.push(props.path)}
@@ -96,7 +103,10 @@ const Table = (props) => {
                   }}
                 ><div style={{display:'flex'}}>
                 <div className="parts_image">
-                  <Image src={Logo} width={40} height={70}/>
+                  
+                {row.image === null? <Image src={Logo} width={40} height={70}/>
+                    :<Image src={row.image} layout="fill" objectFit="contain" />}
+                  
                 </div><div><div style={{color:"#3F5575", fontFamily: 'Inter',fontStyle: "normal",fontWeight: "500",fontSize: "1.6rem",lineHeight: "1.9rem",marginBottom:'7px'}}>{row[column.accessor1]}</div>
                 <div style={{fontFamily: 'Inter',fontStyle: "normal",fontWeight: "400",fontSize: "1.2rem",lineHeight: "1.5rem"}}>{row[column.accessor2]}</div></div>
                 </div></td>
@@ -124,7 +134,7 @@ const Table = (props) => {
     }
                 else{
                 return <td key={column.accessor1} width={column.width} style={{textAlign:column.textalign}}
-                ><div>{row[column.accessor1]}</div></td>
+                ><div>{row[column.accessor1]=== null? '—':row[column.accessor1]}</div></td>
                 }
               })}
             </tr>
@@ -138,14 +148,21 @@ const Table = (props) => {
                 if(column.accessor1==='part_id'){
                   return <td key={column.accessor1} width={column.width} style={{ margin:'auto', color:'#EB2129'}}
                 ><div className="part_id_box">#{row[column.accessor1]}</div></td>
-                }else if(column.accessor1==='short_description'){
+                }
+                
+                else if(column.accessor1==='short_description'){
                   return <td key={column.accessor1} width={column.width} style={{textAlign:column.textalign, color:'#9E9E9E'}}
                 ><div style={{display:'flex'}}>
-                  <div className="parts_image"><Image src={Logo} width={40} height={70}/>
+                  <div className="parts_image">
+              
+                    {row.image === null? <Image src={Logo} width={40} height={70}/>
+                    :<Image src={row.image} layout="fill" objectFit="contain" />}
                   </div><div><div style={{color:"#3F5575", fontWeight:"500",fontSize:"1.6rem",lineHeight:'1.9rem',marginBottom:'7px'}}>{row[column.accessor1]}</div>
                   <div style={{fontSize:'1.2rem', lineHeight:'1.5rem',fontWeight:'400'}}>{row[column.accessor2]}</div></div>
                   </div></td>
-                }else if(row.transaction_type==='CREDIT' && column.accessor1==="status"){
+                }
+                
+                else if(row.transaction_type==='CREDIT' && column.accessor1==="status"){
                                 return <td key={column.accessor1} width={column.width} style={{textAlign:column.textalign}}
                 ><div className="stock_in_style"><BsBoxArrowInDown /> Stock In</div></td>
                 }
@@ -170,7 +187,7 @@ const Table = (props) => {
                   }
                 else{
                 return <td key={column.accessor1} width={column.width} style={{textAlign:column.textalign}}
-                ><div>{row[column.accessor1]}</div></td>
+                ><div>{row[column.accessor1]=== null? '—':row[column.accessor1]}</div></td>
                 }
               })}
             </tr>

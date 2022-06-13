@@ -1,4 +1,3 @@
-import Head from 'next/head'
 import Image from 'next/image';
 import { useState, useEffect } from 'react';
 import styles from '../styles/Home.module.css';
@@ -23,7 +22,6 @@ import 'react-toastify/dist/ReactToastify.css';
 
 export default function Home() {
   const router = useRouter();
-  // const userToken= localStorage.getItem('token');
 
   const [searchText, setSearchText]=useState(null);
   const [isList, setIsList]= useState(true);
@@ -38,7 +36,6 @@ export default function Home() {
     const [showPage, setShowPage]= useState(false);
     const [token,setToken]= useState(null);
 
-    // const [width,setWidth] = useState(getWindowDimensions());
 
   const columns = [
     { accessor1: 'part_id', label: 'Part ID' ,width:"20%", textalign:"center"},
@@ -55,7 +52,8 @@ export default function Home() {
       const token=localStorage.getItem('token')
       setToken(token)
     fetchPartsList(token).then(
-      res=>setPartsList(res.data) ).catch(err=>toast.error(err.message))
+      res=>
+        setPartsList(res.data)).catch(err=>toast.error(err.message))
     fetchPartTypeList(token).then(
       res=>setPartTypeList(res.data)
     ).catch(err=>toast.error(err.message))
@@ -100,7 +98,7 @@ const modalCancelHandler = () =>{
   let content =null;
   if(isList){
     content= (partsList?<Table key={partsList.length} id="partsTable" rows={partsList} columns={columns} search={searchText} path="/ledger" cursor="pointer"
-    width="77vw" />:<Spinner/>)
+    width="77vw" />:<Spinner />)
 }
 else{
         
@@ -117,6 +115,7 @@ else{
  let dashboardPage= <Spinner />;
  if(showPage){
    dashboardPage=(<div className='layout' >
+    
    <Sidebar />
  <div className="dashboard_page" >
  <div className="dashboard_title" >
