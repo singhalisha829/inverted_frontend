@@ -17,8 +17,17 @@ import '../styles/orderDetails.css';
 import '../styles/stockOut.css';
 import '../styles/stockOutList.css';
 
+import Head from 'next/head';
+
+
 function MyApp({ Component, pageProps }) {
-  return <Component {...pageProps} />
+  return <Component >
+     <Head>
+       <title>Inverted</title>
+     </Head>
+     <main>
+     {pageProps}</main>
+    </Component>
 }
 
 export default MyApp

@@ -89,7 +89,8 @@ td{
 .parts_image{
     width:7rem;
     height: 8rem;
-    padding-left: 1vw;
+    /* padding-top: 0.4rem; */
+    /* padding-left: 1.4rem; */
     border-radius: 3px;
     background-color: rgb(237, 237, 237);
     border: #e5e5e5 solid 0.1rem;

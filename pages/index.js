@@ -1,4 +1,5 @@
 import Image from 'next/image';
+import Head from 'next/head';
 import { useState, useEffect } from 'react';
 import styles from '../styles/Home.module.css';
 import Link from 'next/link'; 
@@ -115,7 +116,10 @@ else{
  let dashboardPage= <Spinner />;
  if(showPage){
    dashboardPage=(<div className='layout' >
-    
+    <Head>
+      <title>Inverted</title>
+      <link rel="icon" href="/logo icon 2-01.png" />
+    </Head>
    <Sidebar />
  <div className="dashboard_page" >
  <div className="dashboard_title" >

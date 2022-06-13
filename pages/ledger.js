@@ -1,4 +1,5 @@
 import Router from 'next/router';
+import Head from 'next/head';
 import { useState, useEffect,useRef} from 'react';
 import Image from 'next/image';
 
@@ -165,7 +166,12 @@ const Ledger =(props)=>{
 
     let ledgerPage= <Spinner />;
     if(showPage){
-        ledgerPage=(<div className='layout'><Sidebar />
+        ledgerPage=(<div className='layout'>
+            <Head>
+      <title>Inverted</title>
+      <link rel="icon" href="/logo icon 2-01.png" />
+    </Head>
+            <Sidebar />
         <div className="ledger_page" >
             <ToastContainer />
         <div className="part_details">
