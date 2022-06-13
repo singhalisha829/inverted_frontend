@@ -1,6 +1,7 @@
 import Image from 'next/image';
 import { useState, useEffect } from 'react';
 import Router from 'next/router';
+import Head from 'next/head';
 
 import Pattern from '../public/artboard.png';
 import Sidebar from "../components/sidebar";
@@ -166,6 +167,10 @@ const StockIn=()=>{
     let stockin_page=<Spinner />;
     if(showPage){
         stockin_page=(<div className="layout">
+             <Head>
+      <title>Inverted</title>
+      <link rel="icon" href="/logo icon 2-01.png" />
+    </Head>
         <Sidebar />
         <div className="stockin_page">
             <ToastContainer />

@@ -2,6 +2,7 @@ import Sidebar from '../components/sidebar';
 import { useState } from 'react';
 import { FaSistrix } from 'react-icons/fa';
 import Router from 'next/router';
+import Head from 'next/head';
 
 import Table from '../components/table';
 import StockOutList from '../components/stockOutList'
@@ -18,6 +19,10 @@ const StockOut=() =>{
     const rows=[{},{},{},{},{},{},{},{},{},{},{},{},{},{},{}];
     return(
         <div className='layout'>
+             <Head>
+      <title>Inverted</title>
+      <link rel="icon" href="/logo icon 2-01.png" />
+    </Head>
             <Sidebar />
             <div className='stockout_page'>
             <div className="order_title">

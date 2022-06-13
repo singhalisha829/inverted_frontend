@@ -2,6 +2,7 @@ import { useState } from "react";
 import Router from 'next/router';
 import Sidebar from "../components/sidebar";
 import Table from "../components/table";
+import Head from "next/head";
 
 const OrderDetails=()=>{
 
@@ -34,6 +35,10 @@ const OrderDetails=()=>{
       ];
     return(
         <div className="layout">
+             <Head>
+      <title>Inverted</title>
+      <link rel="icon" href="/logo icon 2-01.png" />
+    </Head>
             <Sidebar />
             <div className="order_details_page">
             <div className="order_title">

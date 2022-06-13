@@ -1,5 +1,6 @@
 import {useState } from "react"; 
 import Image from "next/image";
+import Head from "next/head";
 
 import logo from '../public/logo.png';
 import {FaStarOfLife, FaAt} from 'react-icons/fa';
@@ -25,6 +26,10 @@ const Login =()=>{
         return(
 
             <div className="container" >
+                 <Head>
+      <title>Inverted</title>
+      <link rel="icon" href="/logo icon 2-01.png" />
+    </Head>
                 <ToastContainer />
             <div className="box">
                 <div className="img"><Image src={logo} width={200} height={50} layout="fixed" /></div>

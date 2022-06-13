@@ -3,6 +3,7 @@ import Sidebar from "../components/sidebar";
 import Dropdown from "../components/dropdown";
 import Router from "next/router";
 import { useState } from 'react';
+import Head from "next/head";
 
 import StockOutList from '../components/stockOutList';
 
@@ -42,6 +43,10 @@ const NewOrder=()=>{
     }
     return(
         <div  className="layout">
+             <Head>
+      <title>Inverted</title>
+      <link rel="icon" href="/logo icon 2-01.png" />
+    </Head>
             <Sidebar />
             <div className="new_order_page">
                 <div className="new_order_title">

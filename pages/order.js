@@ -2,6 +2,7 @@ import Spinner from "../components/spinner";
 import Sidebar from "../components/sidebar";
 import Dropdown from "../components/dropdown";
 import Router from "next/router";
+import Head from "next/head";
 
 
 import Table from '../components/table';
@@ -36,6 +37,10 @@ const Order=()=>{
 
     return(
         <div  className="layout">
+             <Head>
+      <title>Inverted</title>
+      <link rel="icon" href="/logo icon 2-01.png" />
+    </Head>
             <Sidebar />
             <div className="order_page">
                 <div className="order_title">
