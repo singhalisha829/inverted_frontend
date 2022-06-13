@@ -19,6 +19,7 @@ import ReactHtmlTableToExcel from "react-html-table-to-excel";
 
 import { ToastContainer, toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
+import Header from '../components/header';
 
 
 export default function Home() {
@@ -48,6 +49,7 @@ export default function Home() {
   const notify = () => toast.success("New Part Added Successfully");
 
   useEffect(()=>{
+    // fetch data only if token is defined or redirect to login
     if(localStorage.getItem('token') != undefined){
       localStorage.setItem('selected_item','dashboard')
       const token=localStorage.getItem('token')
@@ -65,6 +67,7 @@ export default function Home() {
   },[])
 
 
+  // search feature in cards list
   const searchCard=(event) =>{
     const search= event.target.value;
     if(search !== undefined){
@@ -78,6 +81,8 @@ export default function Home() {
       }
    }
 
+
+  //  submit new part details
    const submitPartHandler = () =>{  
     console.log(partType,partName,partDesc)
     setShowModal(false)
@@ -87,6 +92,7 @@ export default function Home() {
     setPartDesc(()=>"");
 }
 
+// cancel button on modal
 const modalCancelHandler = () =>{
   setShowModal(false);
   setPartName(()=>"");
@@ -96,6 +102,7 @@ const modalCancelHandler = () =>{
 
 
 
+// display either table or card
   let content =null;
   if(isList){
     content= (partsList?<Table key={partsList.length} id="partsTable" rows={partsList} columns={columns} search={searchText} path="/ledger" cursor="pointer"
@@ -113,7 +120,11 @@ else{
       </div>
   );
 }
+
+
  let dashboardPage= <Spinner />;
+
+//  only render page after fetch apis
  if(showPage){
    dashboardPage=(<div className='layout' >
     <Head>
@@ -135,6 +146,8 @@ else{
                        borderRadius: "3px", paddingLeft:'10px',fontStyle: "normal",fontWeight: "400",fontSize: "14px",lineHeight: "18px"}}
                      onChange={(e) => {setSearchText(e.target.value);searchCard(e)}}/>
                      <div className='search_symbol'><FaSistrix size={17} style={{color:"#3F5575"}}/></div>
+                     
+                     {/* export parts table */}
                      <ReactHtmlTableToExcel
          table="partsTable"
          filename="stock_report"
@@ -163,6 +176,7 @@ else{
 
             </div>
       
+      {/* modal for adding new parts */}
              <Modal show={showModal} modalClosed={()=> setShowModal(false)}>
             <div style={{color:"#6B6B6B", padding:'20px',paddingBottom:"40px",fontStyle: "normal",fontWeight: "600",
             fontSize: "16px",lineHeight: "19px"}}>Add Part</div>

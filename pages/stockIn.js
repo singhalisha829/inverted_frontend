@@ -47,6 +47,7 @@ const StockIn=()=>{
 
 
     useEffect(()=>{
+    // fetch data only if token is defined or redirect to login
     if(localStorage.getItem('token') != null){
         const token= localStorage.getItem('token')
         setToken(token)
@@ -62,11 +63,13 @@ const StockIn=()=>{
     }
     },[])
 
+    // remove the part from list on clicking the trash icon
     const handleDeleteNote=(id)=>{
         const newList=newPartList.filter((note) => note.part !== id);
         setNewPartList(newList)
     }
 
+    // add new part in the list on clicking the check icon
     const submitHandler = () =>{
        console.log(invoice,selectedDate,vendor,partName,quantity,unit,price)
        if(partName!='' && invoice !='' && selectedDate!=''&&
@@ -76,7 +79,6 @@ const StockIn=()=>{
            part:partName,
            invoice:invoice,
            date:selectedDate,
-        // date:'gibberish',
            vendor:vendor,
            quantity:quantity,
            unit:unit,
@@ -93,6 +95,7 @@ const StockIn=()=>{
     }
     }
 
+    // clear the form on clicking the cross icon
     const cancelHandler = () =>{
         setPartName(()=>"");
         setPrice(()=>"");
@@ -100,6 +103,7 @@ const StockIn=()=>{
         setUnit(()=>"");
     }
 
+    // upload excel file
     const uploadFile=(e)=>{
         e.preventDefault();
     if (e.target.files) {
@@ -117,6 +121,7 @@ const StockIn=()=>{
     }
     }
 
+    // submit the whole list on the server
     const submitPartsListHandler =() =>{
         for(let i=0;i<newPartList.length;i++){
             console.log(newPartList[i])
@@ -138,6 +143,7 @@ const StockIn=()=>{
     }
 
 
+    // stock in form
            const form=(<div className="form_content">
             <div style={{width:"15%", textAlign:"center"}}></div>
             <div style={{width:"30%",paddingLeft:'6%'}}>
@@ -149,7 +155,7 @@ const StockIn=()=>{
 
             <div style={{width:"30%", display:'flex',paddingLeft:'5%'}}>
             <input value={quantity} style={{width:"20%", height:"3px",marginRight:'10px'}} type="number" onChange={(e)=>setQuantity(e.target.value)}/>
-            {unitList?<Dropdown options={unitList} placeholder="Select Unit" width="60%" name="name" height="3rem" minWidth="9rem"
+            {unitList?<Dropdown options={unitList} placeholder="Select Unit" width="60%" name="name" height="4rem" minWidth="9rem"
             parentCallback={(data)=>setUnit(data.symbol)} value={unit} dropdownWidth="11vw" searchWidth="8vw"/>:null}</div>
 
             <div style={{width:"15%"}}>
@@ -164,6 +170,7 @@ const StockIn=()=>{
             );
         
 
+            // load page only after fetching all apis
     let stockin_page=<Spinner />;
     if(showPage){
         stockin_page=(<div className="layout">

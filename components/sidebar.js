@@ -29,6 +29,7 @@ const Sidebar = () =>{
     const [selectedDiv, setSelectedDiv]= useState('dashboard');
 
 
+    // calculate screen size
     function useWindowSize() {
         const [windowSize, setWindowSize] = useState({
           width: undefined,
@@ -54,20 +55,23 @@ const Sidebar = () =>{
         }, []);
         return windowSize;
       }
-    
-      const size = useWindowSize();
+    const size = useWindowSize();
 
+    // set the selected sidebar value to dashboard locally
     const setDashboard=()=>{
       localStorage.setItem('selected_item','dashboard');
     }
 
+    // set the selected sidebar value to orders locally
     const setOrders=()=>{
       localStorage.setItem('selected_item','orders')
     }
     
     
     return(
-        <div>{size.width>'1000'?
+        <div>
+          {/* if the width of screen is greater than 1000px */}
+          {size.width>'1000'?
         <div className="navbar" >
                 <div style={{width:'16.66vw',display:'flex',justifyContent:'center'}}>
                   <div className='navbar_img'><Image src={Logo} layout="responsive" />

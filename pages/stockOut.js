@@ -5,7 +5,7 @@ import Router from 'next/router';
 import Head from 'next/head';
 
 import Table from '../components/table';
-import StockOutList from '../components/stockOutList'
+
 
 const StockOut=() =>{
     const [searchText,setSearchText] = useState(null);

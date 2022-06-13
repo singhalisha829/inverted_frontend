@@ -16,11 +16,10 @@ const Login =()=>{
     const [viewPassword, setViewPassword] = useState(false);
 
 
-    const onSubmit=()=>{
-       
+    // on submiting login credentials
+    const onSubmit=()=>{     
         onLogin(username,password).catch(err=>{console.log(err);toast.error(err.response.data.non_field_errors[0])})
-        console.log(username,password)
-        
+        console.log(username,password)    
     }
     
         return(

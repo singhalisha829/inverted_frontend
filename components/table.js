@@ -17,6 +17,7 @@ const Table = (props) => {
     const [tableFilter, setTableFilter] = useState([]);
     
    useEffect(()=>{
+    //  search table based on dropdown filter and searchbar value
      if(props.search != undefined && props.filter !=undefined ){
       const searchTable = data.filter(o => Object.keys(o).some(
         k => String(o[k]).toLowerCase().includes(props.search.toLowerCase()))
@@ -28,6 +29,8 @@ const Table = (props) => {
 
       setTableFilter([...filterTable])
      }
+
+    //  search table based on searchbar value
      else if(props.search != undefined ){
        const searchTable = data.filter(o => Object.keys(o).some(
          k => String(o[k]).toLowerCase().includes(props.search.toLowerCase()))
@@ -35,6 +38,8 @@ const Table = (props) => {
 
        setTableFilter([...searchTable])
      }
+
+    //  search table based on dropdown filter
      else if(props.filter !=undefined){
       const filterTable= data.filter(o=> Object.keys(o).some(
         k=> String(o[k]).toLowerCase().includes(props.filter.toLowerCase())
@@ -45,39 +50,28 @@ const Table = (props) => {
        setData([...data])
        setTableFilter([...data])
      }
-    
-    
    },[props.search,props.filter])
 
- for(let i=0;i<data.length;i++){
-   console.log(data[i].image)
- }
+
+
+  //  sort table rows based on selected column
     const sorting= (col) =>{
         if(order === 'ASC'){
             const sorted= [...props.rows].sort((a,b)=>
             a[col]> b[col] ? 1: -1 );
-            // console.log(sorted)
             setData(sorted);
-            // setTableFilter(sorted);
             setOrder('DSC');
         }
 
         if(order === 'DSC'){
             const sorted= [...props.rows].sort((a,b)=>
             a[col]< b[col] ? 1: -1 );
-            // console.log(sorted);
             setData(sorted);
-            // setTableFilter(sorted);
-            // console.log(data)
             setOrder('ASC');
         }
     }
      
-
-    const myLoader = ({ src, width, quality }) => {
-      return `https://bom-inverted.s3.amazonaws.com/bom/parts/INVC0130016.png?X-Amz-Algorithm=AWS4-HMAC-SHA256&X-Amz-Credential=AKIA6HRCINQKW4SKY4MK%2F20220613%2Fap-south-1%2Fs3%2Faws4_request&X-Amz-Date=20220613T053319Z&X-Amz-Expires=3600&X-Amz-SignedHeaders=host&X-Amz-Signature=3622bb8cb202c62ddd9a65840ab3102cf7537bf9cf9b3476072a70416942b247`
-    }
-    
+    // navigate to given page on clicking a row
     const clickHandler=()=>{
       if(props.path){
       Router.push(props.path)}
@@ -85,8 +79,9 @@ const Table = (props) => {
     }
 
     let table_content=null;
-    // if(props.path!= null){
+    
       table_content=(<tbody>
+        {/*  */}
         {props.search != undefined || props.filter != undefined?tableFilter
         .map(row => {
           return (

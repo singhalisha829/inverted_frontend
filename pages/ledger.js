@@ -57,6 +57,7 @@ const Ledger =(props)=>{
 
 
     useEffect(()=>{
+    // fetch data only if token is defined or redirect to login
     if(localStorage.getItem('token') != null){
     const token = localStorage.getItem('token')
     setToken(token)
@@ -83,8 +84,7 @@ const Ledger =(props)=>{
     },[])
 
     
-      
-
+    //   submit new ledger only if all values are entered
     const submitPartHandler = () =>{  
         const partName= localStorage.getItem("partId");
 
@@ -100,6 +100,8 @@ const Ledger =(props)=>{
         console.log(formData)
         addNewLedger(formData,token).then(()=>{
             setSelectedDate(()=>'')
+
+            // fetch list of ledgers again
             fetchLedgerByPartId(partName,token)
             .then(res=>
                 setLedger(res.data));
@@ -116,6 +118,7 @@ const Ledger =(props)=>{
     }
 
 
+    // cancel button of ledger form
     const cancelPartHandler = () =>{
         setShowForm(false);
         setSelectedDate(()=>'')
@@ -124,6 +127,7 @@ const Ledger =(props)=>{
     const status=[{name:'Stock In', value:'CREDIT'},{name:'Stock Out', value:'DEBIT'}]
     let form = null;
 
+    // ledger form visible on clicking add button
     if(showForm){
         form=(<div className="ledger_form">
             <div style={{display:'flex',marginBottom:'15px'}}>
@@ -164,6 +168,8 @@ const Ledger =(props)=>{
         </div>);
         }
 
+
+    // load page only after fetching all apis
     let ledgerPage= <Spinner />;
     if(showPage){
         ledgerPage=(<div className='layout'>
