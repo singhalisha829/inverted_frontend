@@ -122,11 +122,9 @@ else{
 }
 
 
- let dashboardPage= <Spinner />;
-
-//  only render page after fetch apis
- if(showPage){
-   dashboardPage=(<div className='layout' >
+  return (
+    
+    <div className='layout' >
     <Head>
       <title>Inverted</title>
       <link rel="icon" href="/logo icon 2-01.png" />
@@ -200,11 +198,7 @@ else{
                 onClick={submitPartHandler}>Save</button></div>
             </div>
         </Modal>
-             </div>)
- }
-  return (
-    
-    <div>
-      {dashboardPage}</div>
+             </div>
   )
 }
+

@@ -170,10 +170,8 @@ const StockIn=()=>{
             );
         
 
-            // load page only after fetching all apis
-    let stockin_page=<Spinner />;
-    if(showPage){
-        stockin_page=(<div className="layout">
+    return(
+        <div className="layout">
              <Head>
       <title>Inverted</title>
       <link rel="icon" href="/logo icon 2-01.png" />
@@ -219,11 +217,7 @@ const StockIn=()=>{
             </div>
         <Modal show={showModal} modalClosed={()=>setShowModal(false)}>hiii
         <input type="file" name="file" onChange={(e)=>uploadFile(e)}/></Modal>
-    </div>)
-    }
-
-    return(
-        <div>{stockin_page}</div>
+    </div>
     )
 }
 
