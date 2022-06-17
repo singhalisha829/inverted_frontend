@@ -17,8 +17,39 @@ import '../styles/orderDetails.css';
 import '../styles/stockOut.css';
 import '../styles/stockOutList.css';
 
+import { UserContext } from "../components/user";
+import {useEffect} from 'react';
+import { useRouter} from 'next/router';
+
+
+
 function MyApp({ Component, pageProps }) {
-  return <Component {...pageProps} />
+
+  // const router= useRouter();
+
+  // console.log(pageProps)
+  // useEffect(() => {
+  //   const token= localStorage.getItem('token');
+  //   if(pageProps.protected && !token){
+  //     router.push('/login')
+  //   }
+
+  // }, [])
+
+
+  // if (
+  //   pageProps.protected &&
+  //   user &&
+  //   pageProps.userTypes &&
+  //   pageProps.userTypes.indexOf(user.type) === -1
+  // ) {
+  //   return <div>Sorry, you dont have access</div>;
+  // }
+  return(
+    // <UserContext.Provider>
+    <Component {...pageProps} />
+  // </UserContext.Provider>
+  )
 }
 
 export default MyApp
