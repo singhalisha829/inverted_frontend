@@ -251,6 +251,7 @@ button{
 
       .dashboard_title{
           margin-left: 2rem;
+          margin-bottom: 2rem;
       }
 
       .title{
@@ -275,10 +276,6 @@ button{
       .searchbar{
           height:3rem;
           /* width:100%; */
-      }
-
-      .dashboard_title{
-          margin-bottom: 2rem;
       }
 
       .subheading{

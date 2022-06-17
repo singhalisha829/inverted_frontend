@@ -15,6 +15,7 @@ import DatePicker from "react-datepicker";
 import "react-datepicker/dist/react-datepicker.css";
 import { FaCloudUploadAlt,FaCheckCircle, FaTimesCircle, FaPlus } from 'react-icons/fa';
 import * as xlsx from "xlsx";
+import Header from '../components/header';
 
 import { ToastContainer, toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
@@ -62,6 +63,34 @@ const StockIn=()=>{
         Router.push('/login')
     }
     },[])
+
+     // calculate screen size
+     function useWindowSize() {
+        const [windowSize, setWindowSize] = useState({
+          width: undefined,
+          height: undefined,
+        });
+      
+        useEffect(() => {
+      
+          if (typeof window !== 'undefined') {
+            function handleResize() {
+              setWindowSize({
+                width: window.innerWidth,
+                height: window.innerHeight,
+              });
+            }
+        
+            window.addEventListener("resize", handleResize);
+           
+            handleResize();
+        
+            return () => window.removeEventListener("resize", handleResize);
+          }
+        }, []);
+        return windowSize;
+      }
+    const size = useWindowSize();
 
     // remove the part from list on clicking the trash icon
     const handleDeleteNote=(id)=>{
@@ -176,20 +205,19 @@ const StockIn=()=>{
       <title>Inverted</title>
       <link rel="icon" href="/logo icon 2-01.png" />
     </Head>
-        <Sidebar />
+        {size.width>'600'?<Sidebar />: <Header />}
         <div className="stockin_page">
             <ToastContainer />
         <div className="stockin_title">
-                <div style={{fontWeight:'600',fontSize:'3rem',lineHeight:'3.6rem',marginBottom:'0.5rem'}}>Available Stocks</div>
-                     <div style={{fontWeight:'400',fontSize:'1.6rem',lineHeight:'1.9rem'}}>Database for all Available Stocks</div>
+                <div className='title'>Available Stocks</div>
+                     <div className='sub_title'>Database for all Available Stocks</div>
                     </div> 
 
                     <div className='stockin_subsection'>
-                        <div style={{display:'flex',marginLeft:'1rem',width:'100%',justifyContent:'space-between'}}>
-         <p style={{fontStyle: "normal",fontWeight: "600",fontSize: "1.8rem",
-            lineHeight: "2.2rem",color: "#29394A"}}>Your Stock in Items</p>
+                        <div style={{display:'flex',width:'100%',justifyContent:'space-between',alignItems:'center'}}>
+         <div className='stockin_subtitle'>Your Stock in Items</div>
                             {/* <button style={{marginRight:'1rem'}} className="upload_button" onClick={()=> setShowModal(true)}><FaCloudUploadAlt size={15}/> Upload</button> */}
-                <button style={{marginRight:'1rem',marginTop:'1rem'}} className="add_button" onClick={submitPartsListHandler}><FaPlus />  Add</button>
+                <button  className="add_button" onClick={submitPartsListHandler}><FaPlus />  Add</button>
                 </div>
 
                 <div className='stockin_form'>
