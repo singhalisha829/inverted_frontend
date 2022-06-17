@@ -1,5 +1,5 @@
 import { FaBars } from 'react-icons/fa';
-import Logo from "../public/Logo.png";
+import Logo from "../public/logo.png";
 import { useState } from 'react';
 
 import Image from 'next/image';
