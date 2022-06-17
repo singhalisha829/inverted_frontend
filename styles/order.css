@@ -18,7 +18,7 @@
     margin-bottom: 3rem;
 }
 
-.order_search_section{
+.order_section{
     width: 77vw;
     height: 8rem;
     margin-left: auto;
@@ -30,15 +30,44 @@
     border-radius: 6px;
 }
 .order_button{
-    position: absolute;
     font-size: 1.6rem;
     line-height: 1.7rem;
     font-weight: 600;
-    right:4vw;
+    width:14rem;
+}
+
+.order_subtitle{
+    color:#29394A;
+    font-weight:600;
+    font-size:1.8rem;
+    line-height:2.2rem;
 }
 
 .order_table{
     margin-left: auto;
     margin-right: auto;
     margin-top: -0.5rem;
+}
+
+@media(max-width:600px){
+    .order_title{
+        margin-left: 2rem;
+        margin-bottom: 2rem;
+    }
+
+    .order_section{
+        width:90vw;
+        height: 5.5rem;
+        padding: 1rem;
+    }
+
+    .order_subtitle,.order_button{
+        font-weight: 500;
+        font-size: 1.5rem;
+        line-height: 1.7rem;
+    }
+
+   .order_button{
+       width:13rem;
+   }
 }

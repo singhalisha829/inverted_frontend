@@ -57,3 +57,25 @@ color: #29394A;
     align-items:center;
     position:absolute;
 }
+
+@media(max-width:600px){
+    .stock_out_footer{
+        width:100%;
+        height: 7rem;
+    }
+
+    .stock_out_button{
+        top:1.7rem;
+    }
+
+    .stockout_search{
+        width:90vw;
+        height: 5.5rem;
+        padding: 1rem;
+    }
+
+    .parts_list{
+        width: 90vw;
+        padding: 1rem;
+    }
+}

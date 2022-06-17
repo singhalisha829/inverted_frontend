@@ -2,8 +2,9 @@ import Spinner from "../components/spinner";
 import Sidebar from "../components/sidebar";
 import Dropdown from "../components/dropdown";
 import Router from "next/router";
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 import Head from "next/head";
+import Header from "../components/header";
 
 import StockOutList from '../components/stockOutList';
 
@@ -21,6 +22,34 @@ const NewOrder=()=>{
     const [name,setName]= useState('');
     const [quantity,setQuantity]= useState('');
     const [stockOutList, setStockOutList]= useState([]);
+
+      // calculate screen size
+      function useWindowSize() {
+        const [windowSize, setWindowSize] = useState({
+          width: undefined,
+          height: undefined,
+        });
+      
+        useEffect(() => {
+      
+          if (typeof window !== 'undefined') {
+            function handleResize() {
+              setWindowSize({
+                width: window.innerWidth,
+                height: window.innerHeight,
+              });
+            }
+        
+            window.addEventListener("resize", handleResize);
+           
+            handleResize();
+        
+            return () => window.removeEventListener("resize", handleResize);
+          }
+        }, []);
+        return windowSize;
+      }
+    const size = useWindowSize();
 
 
     const submitHandler = () =>{
@@ -47,11 +76,11 @@ const NewOrder=()=>{
       <title>Inverted</title>
       <link rel="icon" href="/logo icon 2-01.png" />
     </Head>
-            <Sidebar />
+            {size.width>'600'?<Sidebar />: <Header />}
             <div className="new_order_page">
                 <div className="new_order_title">
-                <div style={{fontWeight:'600',fontSize:'3rem',lineHeight:'3.6rem',marginBottom:'0.5rem'}}>Orders</div>
-                     <div style={{fontWeight:'400',fontSize:'1.6rem',lineHeight:'1.9rem'}}>Database for all Available Stocks</div>
+                <div className="title">Orders</div>
+                     <div className="sub_title">Database for all Available Stocks</div>
                 </div>
 
                 <div className="new_order_subsection">

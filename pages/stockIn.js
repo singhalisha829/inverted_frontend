@@ -221,7 +221,7 @@ const StockIn=()=>{
                 </div>
 
                 <div className='stockin_form'>
-                <div style={{width:"33%"}}><label>Invoice Number:</label><input style={{height:'3rem',width:'60%',minWidth:'12rem'}} onChange={(e)=> setInvoice(e.target.value)}/></div>
+                <div style={{width:"33%"}}><label>Invoice Number:</label><input style={{width:'60%',minWidth:'12rem'}} onChange={(e)=> setInvoice(e.target.value)}/></div>
                 <div style={{width:"33%"}}>Vendor:{vendorList?<Dropdown options={vendorList} placeholder="Select Vendor" width="60%" name="name" minWidth="12rem"
                 parentCallback={(data)=>setVendor(data.id)} dropdownWidth="15vw" searchWidth="12vw"/>:null}</div>
                 <div style={{width:"33%"}}><label>Date:</label>

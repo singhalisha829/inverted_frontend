@@ -1,8 +1,9 @@
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import Router from 'next/router';
 import Sidebar from "../components/sidebar";
 import Table from "../components/table";
 import Head from "next/head";
+import Header from "../components/header";
 
 const OrderDetails=()=>{
 
@@ -31,41 +32,69 @@ const OrderDetails=()=>{
         { accessor1: 'date', label: 'Date' ,width:"33%", textalign:"left"},
         { accessor1: 'transaction_id',label: 'Transaction ID' ,width:"33%", textalign:"left"},
         { accessor1: 'created_by', label: 'Created By',width:"33%" , textalign:"left"},   
-
       ];
+
+          // calculate screen size
+    function useWindowSize() {
+        const [windowSize, setWindowSize] = useState({
+          width: undefined,
+          height: undefined,
+        });
+      
+        useEffect(() => {
+      
+          if (typeof window !== 'undefined') {
+            function handleResize() {
+              setWindowSize({
+                width: window.innerWidth,
+                height: window.innerHeight,
+              });
+            }
+        
+            window.addEventListener("resize", handleResize);
+           
+            handleResize();
+        
+            return () => window.removeEventListener("resize", handleResize);
+          }
+        }, []);
+        return windowSize;
+      }
+    const size = useWindowSize();
+
     return(
         <div className="layout">
              <Head>
       <title>Inverted</title>
       <link rel="icon" href="/logo icon 2-01.png" />
     </Head>
-            <Sidebar />
+            {size.width>'600'?<Sidebar />: <Header />}
             <div className="order_details_page">
             <div className="order_title">
-                <div style={{fontWeight:'600',fontSize:'3rem',lineHeight:'3.6rem',marginBottom:'0.5rem'}}>Orders</div>
-                     <div style={{fontWeight:'400',fontSize:'1.6rem',lineHeight:'1.9rem'}}>Database for all Available Stocks</div>
+                <div className="title">Orders</div>
+                     <div className="sub_title">Database for all Available Stocks</div>
                     </div> 
                 <div className="order_details">
                     <div className="order_header">
                         <div className="rows" style={{color:"#6B6B6B",marginBottom:'1rem'}}>
-                            <div style={{width:'20%'}}>Order No.</div>
-                            <div style={{width:'20%'}}>Date</div>
-                            <div style={{width:'30%'}}>Created By</div>
-                            <div style={{width:'30%'}}>Status</div>
+                            <div style={{width:'25%'}}>Order No.</div>
+                            <div style={{width:'25%'}}>Date</div>
+                            <div style={{width:'25%'}}>Created By</div>
+                            <div style={{width:'25%'}}>Status</div>
                         </div>
                         <div className="rows" style={{color:'#3F5575'}}>
-                        <div style={{width:'20%'}}>Order No.</div>
-                            <div style={{width:'20%'}}>Date</div>
-                            <div style={{width:'30%'}}>Created By</div>
-                            <div style={{width:'30%'}}>Status</div>
+                        <div style={{width:'25%'}}>Order No.</div>
+                            <div style={{width:'25%'}}>Date</div>
+                            <div style={{width:'25%'}}>Created By</div>
+                            <div style={{width:'25%'}}>Status</div>
                         </div>
                     </div>
 
                     <div className="order_details_subheader">
                         Your Orders
                         <button onClick={()=> Router.push('/stockOut')}>Stock Out</button>
-                    </div>
-                    <div style={{width:'100%',marginTop:'2rem'}}><Table rows={orderItem} columns={columns} width="100%"/></div>
+                    </div>  
+                    <div className="order_detail_table"><Table rows={orderItem} columns={columns} width="100%"/></div>
                 </div>
 
                 <div className="parts_in_order">

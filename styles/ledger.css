@@ -135,3 +135,10 @@ label{
     background-color: #edebeb;
 }
 
+@media(max-width:600px){
+  button{
+    font-weight: 500;
+    font-size: 1.2rem;
+    line-height: 1.5rem;
+  }
+}

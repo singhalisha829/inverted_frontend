@@ -21,3 +21,9 @@
     }
 }
 
+@media(max-width:600px){
+    .Modal{
+        width:80vw !important;
+        left:10vw;
+    }
+}

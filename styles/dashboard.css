@@ -290,4 +290,8 @@ button{
           line-height: 1.4rem;
           font-size: 1.1rem;
       }
+
+      button{
+          height: 3rem;
+      }
   }

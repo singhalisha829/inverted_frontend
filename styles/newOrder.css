@@ -62,3 +62,21 @@ margin-bottom:1rem;
     width:13rem;
     /* border:green solid; */
 }
+
+@media(max-width:600px){
+    .new_order_subsection{
+        width:90vw;
+        height:5.5rem;
+    }
+
+    .new_order_title{
+        margin-left: 2rem;
+        margin-bottom: 2rem;
+    }
+
+    .new_order_form{
+        width:90vw;
+    }
+
+    
+}

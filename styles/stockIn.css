@@ -111,6 +111,10 @@ input{
     color: #29394A;
   }
 
+  input{
+      height:3rem;
+  }
+
   @media(max-width:600px){
       .stockin_page{
           background-size: 110vw 23.5rem, 200px 200px;
@@ -142,6 +146,7 @@ input{
 
       input{
         padding: 1rem 0.5rem;
+        height: 2rem;
       }
 
       .stockin_list_header{

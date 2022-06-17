@@ -3,7 +3,7 @@ import Sidebar from "../components/sidebar";
 import Dropdown from "../components/dropdown";
 import Router from "next/router";
 import Head from "next/head";
-
+import Header from "../components/header";
 
 import Table from '../components/table';
 import { useState, useEffect } from "react";
@@ -35,26 +35,54 @@ const Order=()=>{
         localStorage.setItem('selected_item','orders')
     },[])
 
+     // calculate screen size
+     function useWindowSize() {
+        const [windowSize, setWindowSize] = useState({
+          width: undefined,
+          height: undefined,
+        });
+      
+        useEffect(() => {
+      
+          if (typeof window !== 'undefined') {
+            function handleResize() {
+              setWindowSize({
+                width: window.innerWidth,
+                height: window.innerHeight,
+              });
+            }
+        
+            window.addEventListener("resize", handleResize);
+           
+            handleResize();
+        
+            return () => window.removeEventListener("resize", handleResize);
+          }
+        }, []);
+        return windowSize;
+      }
+    const size = useWindowSize();
+
     return(
         <div  className="layout">
              <Head>
       <title>Inverted</title>
       <link rel="icon" href="/logo icon 2-01.png" />
     </Head>
-            <Sidebar />
+            {size.width>'600'?<Sidebar /> : <Header />}
             <div className="order_page">
                 <div className="order_title">
-                <div style={{fontWeight:'600',fontSize:'3rem',lineHeight:'3.6rem',marginBottom:'0.5rem'}}>Orders</div>
-                     <div style={{fontWeight:'400',fontSize:'1.6rem',lineHeight:'1.9rem'}}>Database for all Available Stocks</div>
+                <div className="title">Orders</div>
+                     <div className="sub_title">Database for all Available Stocks</div>
                     </div> 
-                <div className="order_search_section">
+                <div className="order_section">
                     <Dropdown options={status} placeholder="Status" name="name" width="15vw" height="3.5rem" 
                     parentCallback={(data)=>setFilterOnStatus(data.id)} dropdownWidth="15vw" searchWidth="12vw"/>
                     <input style={{height:'3.5rem',marginLeft:'2rem',width:'70%'}} value={searchText} onChange={(e)=>setSearchText(e.target.value)}/>
                 </div>
 
-                <div style={{marginTop:'2rem'}} className="order_search_section">
-                    <div style={{color:'#29394A',fontWeight:'600',fontSize:'1.8rem',lineHeight:'2.2rem'}}>Your Orders</div>
+                <div style={{marginTop:'2rem',justifyContent:'space-between'}} className="order_section">
+                    <div className="order_subtitle">Your Orders</div>
                     <div></div>
                     <button className="order_button" onClick={()=>Router.push('/newOrder')}>Create Order</button>
                 </div>

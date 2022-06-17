@@ -98,7 +98,7 @@ const Dropdown= (props) =>{
             <div className="dropdown_options1" style={{width:props.dropdownWidth}}>
             {add_part}
             <div style={{display:'flex'}}>
-            <div className="dropdown_input"><input style={{height:"30px",marginRight:'5px',width:props.searchWidth}} onChange={(e)=>setSearchText(e.target.value)}/>  
+            <div className="dropdown_input"><input style={{height:"3rem",marginRight:'5px',width:props.searchWidth}} onChange={(e)=>setSearchText(e.target.value)}/>  
             <div style={{marginTop:'0.5vw'}}><FaSistrix size={17} color="#3F5575"/></div></div></div>
         <div className="dropdown_list" style={{marginTop:listTopMargin}}>
         {searchText !== null? dataFilter.map((option)=>(

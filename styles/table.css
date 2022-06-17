@@ -133,3 +133,17 @@ td{
     margin-left: auto;
     margin-right: auto;
 }
+
+@media(max-width:600px){
+    thead th{
+        padding: 1rem 0.5rem;
+        letter-spacing: 0;
+    font-weight: 500;
+    font-size: 1.2rem;
+    line-height: 1.5rem;
+    }
+
+    td{
+        padding: 1rem 0.5rem;
+    }
+}
