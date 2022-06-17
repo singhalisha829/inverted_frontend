@@ -54,18 +54,46 @@ export default function Home() {
       localStorage.setItem('selected_item','dashboard')
       const token=localStorage.getItem('token')
       setToken(token)
-    fetchPartsList(token).then(
-      res=>
-        setPartsList(res.data)).catch(err=>toast.error(err.message))
-    fetchPartTypeList(token).then(
-      res=>setPartTypeList(res.data)
-    ).catch(err=>toast.error(err.message))
+    // fetchPartsList(token).then(
+    //   res=>
+    //     setPartsList(res.data)).catch(err=>toast.error(err.message))
+    // fetchPartTypeList(token).then(
+    //   res=>setPartTypeList(res.data)
+    // ).catch(err=>toast.error(err.message))
     setShowPage(true);
   }else{
       router.push('/login');
     }
   },[])
 
+
+    // calculate screen size
+    function useWindowSize() {
+      const [windowSize, setWindowSize] = useState({
+        width: undefined,
+        height: undefined,
+      });
+    
+      useEffect(() => {
+    
+        if (typeof window !== 'undefined') {
+          function handleResize() {
+            setWindowSize({
+              width: window.innerWidth,
+              height: window.innerHeight,
+            });
+          }
+      
+          window.addEventListener("resize", handleResize);
+         
+          handleResize();
+      
+          return () => window.removeEventListener("resize", handleResize);
+        }
+      }, []);
+      return windowSize;
+    }
+  const size = useWindowSize();
 
   // search feature in cards list
   const searchCard=(event) =>{
@@ -129,20 +157,17 @@ else{
       <title>Inverted</title>
       <link rel="icon" href="/logo icon 2-01.png" />
     </Head>
-   <Sidebar />
+   {size.width>'600'?<Sidebar />:<Header />}
  <div className="dashboard_page" >
  <div className="dashboard_title" >
 
-                <div style={{fontWeight:'600',fontSize:'3rem',lineHeight:'3.6rem',marginBottom:'0.5rem'}}>Available Stocks</div>
-                     <div style={{fontWeight:'400',fontSize:'1.6rem',lineHeight:'1.9rem'}}>Database for all Available Stocks</div>
+                <div className='title'>Available Stocks</div>
+                     <div className='sub_title'>Database for all Available Stocks</div>
                     </div> 
 
                     <div className="search_section">
                      <input placeholder="Search for code or name" value={searchText} 
-                     style={{width: "75%",height: "44px",background: "#F6F7FB",
-                       border: "1px solid #E5E5E5",boxSizing: "border-box",boxShadow: "0px 2px 1px rgba(225, 228, 237, 0.2)",
-                       borderRadius: "3px", paddingLeft:'10px',fontStyle: "normal",fontWeight: "400",fontSize: "14px",lineHeight: "18px"}}
-                     onChange={(e) => {setSearchText(e.target.value);searchCard(e)}}/>
+                     className="searchbar" onChange={(e) => {setSearchText(e.target.value);searchCard(e)}}/>
                      <div className='search_symbol'><FaSistrix size={17} style={{color:"#3F5575"}}/></div>
                      
                      {/* export parts table */}
@@ -160,9 +185,9 @@ else{
                  <div className="subheading">Your Available Stocks Report </div>
                  <ToastContainer/>
                  <div style={{display:'flex',width:'28rem'}}>
-                     <div className="icon_box" onClick={()=>setIsList(!isList)}>
+                     {size.width>'600'?<div className="icon_box" onClick={()=>setIsList(!isList)}>
                          {isList? <FaList cursor="pointer"/>: <FaTh cursor="pointer"/>} 
-                     </div> 
+                     </div>:null }
                      <Link href="/stockIn" ><div style={{marginRight:'2rem', width:'7.5rem'}} className='dashboard_button'>Stock In</div></Link>
                      <Link href="" ><div onClick={()=>setShowModal(true)} style={{marginLeft:'1%'}} className='dashboard_button'>Add New Part</div></Link>
 

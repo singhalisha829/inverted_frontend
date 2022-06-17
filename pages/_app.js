@@ -16,6 +16,7 @@ import '../styles/newOrder.css';
 import '../styles/orderDetails.css';
 import '../styles/stockOut.css';
 import '../styles/stockOutList.css';
+import '../styles/header.css';
 
 import { UserContext } from "../components/user";
 import {useEffect} from 'react';
