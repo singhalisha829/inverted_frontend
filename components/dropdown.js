@@ -119,7 +119,7 @@ const Dropdown= (props) =>{
     return(
         <div ref={wrapperRef} className="custom_dropdown" style={{width:props.width, height:props.height,minWidth:props.minWidth}} >
            <div className="control" onClick={()=>setIsDropdownOpen(!isDropdownOpen)} >
-           <input className="selected_value" placeholder={props.placeholder} value={value} style={{margin:"0",padding:'0.6rem'}}/>
+           <input className="selected_value" placeholder={props.placeholder} value={value} style={{margin:"0",height:'2.5rem'}}/>
            
            {/* <div style={{position:'relative',right:'10px'}}><FaSistrix /></div> */}
            </div>

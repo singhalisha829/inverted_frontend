@@ -47,7 +47,7 @@ const Ledger =(props)=>{
     
     const columns = [
         {accessor1: 'status', label: 'Status' ,width:"15%", textalign:"center"},
-        {accessor1: 'part' ,label: 'Part Name',width:"25%", textalign:"center" },
+        {accessor1: 'date' ,label: 'Date',width:"25%", textalign:"center" },
         {accessor1: 'quantity', label: 'Quantity',width:"25%" , textalign:"center"},
         {accessor1:'vendor_name', label:'Vendor',width:"26%", textalign:"center"},
         {accessor1:'edit', width:"10%"}  
@@ -63,11 +63,13 @@ const Ledger =(props)=>{
     setToken(token)
     const partName= localStorage.getItem("partId");
     setLedgerPart(partName)
+
     fetchPartByPartId(partName,token).then(res=>{
         setPartId(res.data[0].id)
         setShortDescription(res.data[0].short_description)
         setlongDescription(res.data[0].long_description)
         setPartQuantity(res.data[0].quantity)})
+        
     fetchVendorList(token).then(res=>{   
         setVendorList(res.data)})
     fetchUnitList(token).then(res=>setUnitList(res.data))
