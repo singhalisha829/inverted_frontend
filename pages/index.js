@@ -54,12 +54,12 @@ export default function Home() {
       localStorage.setItem('selected_item','dashboard')
       const token=localStorage.getItem('token')
       setToken(token)
-    // fetchPartsList(token).then(
-    //   res=>
-    //     setPartsList(res.data)).catch(err=>toast.error(err.message))
-    // fetchPartTypeList(token).then(
-    //   res=>setPartTypeList(res.data)
-    // ).catch(err=>toast.error(err.message))
+    fetchPartsList(token).then(
+      res=>
+        setPartsList(res.data)).catch(err=>toast.error(err.message))
+    fetchPartTypeList(token).then(
+      res=>setPartTypeList(res.data)
+    ).catch(err=>toast.error(err.message))
     setShowPage(true);
   }else{
       router.push('/login');
