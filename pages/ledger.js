@@ -182,7 +182,7 @@ const Ledger =(props)=>{
                 <div style={{width:"33%"}}>Status:
                 <div >
                 <Dropdown placeholder='Select Status' options={status} name="name" parentCallback={(data)=>setSelectedStatus(data.value)} width={size.width>'600'?'70%':'90%'}
-                dropdownWidth="16vw" searchWidth="13vw" height="3rem"/></div>
+                dropdownWidth={size.width>'600'?'16vw':'30vw'} searchWidth={size.width>'600'?'13vw':'22vw'} height="3rem"/></div>
                 </div>
                 <div style={{width:"33%"}}><label>Invoice:</label>
                     <input style={{marginTop:'0',height:'3rem'}} placeholder='Enter Invoice' onChange={(e)=>setInvoice(e.target.value)} className="ledger_input"/></div>
@@ -193,13 +193,13 @@ const Ledger =(props)=>{
                 </div>
             <div style={{display:"flex",marginBottom:'15px'}}>
                 <div style={{width:'33%'}}><label>Part Name:</label>
-                    <div style={{color:'#3F5575', width:'70%'}}><strong>{shortDescription?shortDescription:null}</strong></div>
+                    <div style={{color:'#3F5575'}} className="ledger_input"><strong>{shortDescription?shortDescription:null}</strong></div>
                 </div>
                 <div style={{width:"33%"}}><label>Quantity:</label>
                     <div style={{display:'flex'}} className="ledger_input">
                     <input type="number" style={{marginTop:'0', width:'30%', height:"3rem", marginRight:size.width>'600'?'1rem':'0.5rem'}}    
                     onChange={(e)=>setQuantity(e.target.value)} />
-                    <Dropdown width="70%" placeholder='Select Unit' options={unitList} name="name" dropdownWidth="11vw" searchWidth="8vw" height="3rem"
+                    <Dropdown width="70%" placeholder='Select Unit' options={unitList} name="name" dropdownWidth={size.width>'600'?'11vw':'27vw'} searchWidth={size.width>'600'?'8vw':'19vw'} height="3rem"
                     parentCallback={(data)=>setUnit(data.symbol)}/></div>
                 </div>
                 <div style={{width:'33%'}}><label>Price:</label><input placeholder="Enter Price" style={{marginTop:'0', height:"3rem"}} type="number" className='ledger_input'
@@ -207,7 +207,7 @@ const Ledger =(props)=>{
             </div>
             <div style={{display:"flex",justifyContent:'space-between'}}><div style={{width:"33%"}}>
                 Vendor:<Dropdown width={size.width>'600'?'70%':'90%'} placeholder='Select Vendor' name="name" options={vendorList} height="3rem"
-            parentCallback={(data)=>setVendor(data.id)} dropdownWidth="16vw" searchWidth="13vw"/></div>
+            parentCallback={(data)=>setVendor(data.id)} dropdownWidth={size.width>'600'?'16vw':'30vw'} searchWidth={size.width>'600'?'13vw':'20vw'}/></div>
             <div className='ledger_button'><button style={{backgroundColor:"white", color:"#ACB3BF",border:"#ACB3BF solid 0.15em"}}
                        onClick={()=>{cancelPartHandler()}}>Cancel</button>
                        <button style={{backgroundColor:"#33B850"}}
