@@ -172,6 +172,25 @@ line-height: 1.7rem;
 cursor: pointer;
 }
 
+.stockin_button{
+    /* position: absolute; */
+    background-color: #29394A;
+    height:3.5rem;
+    border: none;
+    outline: none;
+    padding: 10px 10px 10px;
+    color: white;
+    border-radius: 3px;
+    right:5%;
+    font-style: normal;
+    font-weight: 600;
+    font-size: 1.4rem;
+line-height: 1.7rem;
+cursor: pointer;
+margin-right:2rem;
+width:7.5rem;
+}
+
 
 .dashboard_table{
     margin-left: auto;
@@ -180,11 +199,7 @@ cursor: pointer;
 }
 
 
-.add_parts_button{
-    width:70%;
-    display: flex;
-    justify-content: end;
-  }
+
 
   textarea{
     border:#E5E5E5 solid 0.15em;
@@ -192,6 +207,9 @@ cursor: pointer;
     /* width:85%; */
     border-radius: 5px;
     resize: none;
+    width:70%;
+    height: 7rem;
+    padding: 1rem;
   }
 
 .add_part_form{
@@ -238,6 +256,35 @@ button{
       color:#3F5575 !important;
   }
 
+  .buttons1{
+    display:flex;
+    width:28rem;
+  }
+
+  .add_part_title{
+    color:#6B6B6B;
+    padding:20px;
+    padding-bottom:40px;
+    font-style:normal;
+    font-weight: 600;
+    font-size: 16px;
+    line-height: 19px;
+  }
+
+
+  .add_parts_button{
+    width:70%;
+    display: flex;
+    justify-content: end;
+    
+  }
+
+  .button2{
+    font-weight: 600;
+    font-size: 15px;
+    line-height: 15px;
+  }
+
 
   @media (max-width:600px) {
       .layout{
@@ -261,6 +308,9 @@ button{
           margin-bottom: 0.2rem;
       }
 
+      textarea{
+          padding: 0.5rem;
+      }
       .sub_title{
           font-weight: 300;
           font-size: 1.5rem;
@@ -271,11 +321,12 @@ button{
           width:90vw;
           height:5.5rem;
           padding: 1rem;
+          display: flex;
+          align-items: center;
       }
 
       .searchbar{
           height:3rem;
-          /* width:100%; */
       }
 
       .subheading{
@@ -285,10 +336,16 @@ button{
           margin: 0;
       }
 
-      .dashboard_button{
+      .dashboard_button,.stockin_button{
           font-weight: 400;
-          line-height: 1.4rem;
+          height: 3rem;
+          line-height: 1.2rem;
           font-size: 1.1rem;
+      }
+
+      .stockin_button{
+          width:6.5rem;
+          margin-right: 0.5rem;
       }
 
       button{
@@ -301,4 +358,36 @@ button{
         grid-gap: 1rem;
         grid-template-columns: repeat(auto-fill, minmax(250px, 1fr));
       }
+
+      .search_symbol{
+        margin-top: 0.8rem;
+        margin-left: -2.8rem;
+    }
+
+    .export_button{
+        font-size: 1.4rem;
+        line-height: 1.7rem;
+        margin-top: 0rem;
+        margin-left: 10%;
+        font-weight: 600;
+    }
+
+    .export_symbol{
+        margin-top: 0.4rem;
+        margin-left: -1.5rem;
+    }
+
+    .buttons1{
+        width:19rem;
+    }
+
+    .add_part_title{
+        padding: 2rem;
+    }
+
+    .button2{
+        font-weight: 400;
+        line-height: 0.9rem;
+        font-size: 1.5rem;
+    }
   }

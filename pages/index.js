@@ -185,12 +185,12 @@ else{
              <div className="subsection">
                  <div className="subheading">Your Available Stocks Report </div>
                  <ToastContainer/>
-                 <div style={{display:'flex',width:'28rem'}}>
+                 <div className='buttons1'>
                      {size.width>'600'?<div className="icon_box" onClick={()=>setIsList(!isList)}>
                          {isList? <FaList cursor="pointer"/>: <FaTh cursor="pointer"/>} 
                      </div>:null }
-                     <Link href="/stockIn" ><div style={{marginRight:'2rem', width:'7.5rem'}} className='dashboard_button'>Stock In</div></Link>
-                     <Link href="" ><div onClick={()=>setShowModal(true)} style={{marginLeft:'1%'}} className='dashboard_button'>Add New Part</div></Link>
+                     <Link href="/stockIn" ><div  className='stockin_button'>Stock In</div></Link>
+                     <Link href="" ><div onClick={()=>setShowModal(true)}  className='dashboard_button'>Add New Part</div></Link>
 
                  </div></div>
                 
@@ -202,8 +202,7 @@ else{
       
       {/* modal for adding new parts */}
              <Modal show={showModal} modalClosed={()=> setShowModal(false)}>
-            <div style={{color:"#6B6B6B", padding:'20px',paddingBottom:"40px",fontStyle: "normal",fontWeight: "600",
-            fontSize: "16px",lineHeight: "19px"}}>Add Part</div>
+            <div className='add_part_title'>Add Part</div>
             <div className='add_part_form'>
           
               {partTypeList?<Dropdown  options={partTypeList} placeholder='Select Part Type' name="name" width="70%" 
@@ -211,16 +210,16 @@ else{
       
     
                 <input name="part_name" onChange={(e)=>setPartName(e.target.value)} value={partName} placeholder="Part Name" 
-                style={{height:"35px", width:"70%", borderRadius:'3px', marginBottom:'10px',marginTop:'10px'}}/>
+                style={{width:"70%", borderRadius:'3px', marginBottom:'10px',marginTop:'10px'}}/>
             <textarea name="part_desc" value={partDesc} placeholder="Description" onChange={(e)=>setPartDesc(e.target.value)}/>
             
             <hr style={{border:"#e5e5e5 solid 0.001em", width:"70%", marginTop:"20px"}}/>
           
             <div className="add_parts_button">
-                <button style={{backgroundColor:"white", color:"#ACB3BF",border:"#ACB3BF solid 0.15em", fontFamily: 'Inter',
-                fontStyle: "normal",fontWeight: "600",fontSize: "15px",linHeight: "15px",marginRight:'1rem'}}
+                <button style={{backgroundColor:"white", color:"#ACB3BF",border:"#ACB3BF solid 0.15em",
+                marginRight:'1rem'}} className="button2"
                 onClick={modalCancelHandler}>Cancel</button>
-                <button style={{backgroundColor:"#33B850",fontFamily:'Inter',fontStyle: "normal",fontWeight: "600",fontSize: "15px",linHeight: "15px"}}
+                <button style={{backgroundColor:"#33B850"}} className="button2"
                 onClick={submitPartHandler}>Save</button></div>
             </div>
         </Modal>

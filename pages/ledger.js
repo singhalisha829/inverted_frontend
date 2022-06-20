@@ -210,6 +210,7 @@ const Ledger =(props)=>{
         <div className="ledger_page" >
             <ToastContainer />
         <div className="part_details">
+    
                 {ledgerPart?<div className="part_id1">#{localStorage.getItem('partId')}</div>:null}
                 <div className="part_desc">
                     <div className='desc_title'>
@@ -218,18 +219,18 @@ const Ledger =(props)=>{
                 </div>
                 <div className='ledger_longdesc'>{longDescription?longDescription:null}</div>
                 </div>
+
                 <div className='ledger_quantity' >{partQuantity? partQuantity:null}</div></div>
 
                 <div className='body'>
                 <div className="body_header">
-                <div style={{color:"#29394A",fontStyle: "normal",fontWeight: "600",fontSize: "18px",lineHeight: "22px"
-            ,marginTop:'10px',marginBottom:"20px"}}>Ledger</div>
+                <div className='ledger_title'>Ledger</div>
                 <input placeholder="Search for code or name" value={searchText} 
                         style={{width: "70%",height: "44px",background: "#F6F7FB",
                           border: "1px solid #E5E5E5",boxSizing: "border-box",boxShadow: "0px 2px 1px rgba(225, 228, 237, 0.2)",
                           borderRadius: "3px", paddingLeft:'10px'}}
                         onChange={(e) => {setSearchText(e.target.value)}}/>
-                        <FaSistrix size={17} style={{color:"#3F5575",marginTop:"1.4rem",right:'17%', position:"absolute"}}/>
+                        <FaSistrix size={17} style={{color:"#3F5575",right:'17%', position:"absolute"}}/>
                 <button style={{height:'4rem'}} onClick={() =>{setShowForm(true)}}><FaPlus size={13}/> Add</button></div>
 
                 <div className="ledger_table">

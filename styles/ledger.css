@@ -16,7 +16,7 @@
     width:77vw;
     margin-left: auto;
     margin-right: auto;
-    height: 130px;
+    min-height: 130px;
     display: flex;
     flex-direction: row;
     align-items: center;
@@ -33,6 +33,17 @@
 font-weight: 500;
 font-size: 1.2rem;
 line-height: 1.5rem;
+  }
+
+
+  .ledger_title{
+    color:#29394A;
+    font-style: normal;
+    font-weight: 600;
+    font-size: 18px;
+    line-height: 22px;
+    margin-top:10px;
+    margin-bottom:20px;
   }
 
   .part_desc{
@@ -67,6 +78,7 @@ line-height: 1.5rem;
       display: flex;
       justify-content: space-between;
       padding: 20px;
+      align-items: center;
       
   }
 
@@ -154,7 +166,7 @@ label{
 
   .part_details{
     width:90vw;
-    height: 5.5rem;
+    min-height: 5.5rem;
 }
 
   .ledger_page{
@@ -200,5 +212,13 @@ line-height: 1.2rem;
 
 .body_header{
   padding: 1rem;
+}
+
+.ledger_title{
+  /* font-weight: 400; */
+  font-size: 1.5rem;
+  line-height: 1.7rem;
+  margin-top:10px;
+  margin-bottom:20px;
 }
 }

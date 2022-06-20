@@ -94,15 +94,7 @@ position: fixed;
   }
 
 
-  textarea{
-    border:#E5E5E5 solid 0.15em;
-    outline: none;
-    width:70%;
-    height: 7rem;
-    padding: 1rem;
-    border-radius: 5px;
-    resize: none;
-  }
+ 
 
 .add_parts_button{
   margin-top: 2rem;
