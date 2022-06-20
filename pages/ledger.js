@@ -257,7 +257,14 @@ const Ledger =(props)=>{
                    
 
                 </div>
-                {size.width<'600'?<div className='ledger_cards_list'>{searchText != undefined?cardFilter.map((card)=>(<LedgerCard key={card.id} status={card.transaction_type} date={card.date}
+                {size.width<'600'?<div className='ledger_cards_list'>
+                    <div className='ledger_card_header'>
+                        <div style={{width:'25%'}} className="card_items">Status</div>
+                        <div style={{width:'25%'}} className="card_items">Date</div>
+                        <div style={{width:'20%'}} className="card_items">Quantity</div>
+                        <div style={{width:'30%'}} className="card_items">Vendor</div>
+                    </div>
+                    {searchText != undefined?cardFilter.map((card)=>(<LedgerCard key={card.id} status={card.transaction_type} date={card.date}
                     quantity={card.quantity} vendor={card.vendor_name}/>)):
                     ledger.map((card)=>(<LedgerCard key={card.id} status={card.transaction_type} date={card.date}
                         quantity={card.quantity} vendor={card.vendor_name}/>))}</div>

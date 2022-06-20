@@ -218,7 +218,7 @@ const StockIn=()=>{
                         <div style={{display:'flex',width:'100%',justifyContent:'space-between',alignItems:'center'}}>
          <div className='stockin_subtitle'>Your Stock in Items</div>
                             {/* <button style={{marginRight:'1rem'}} className="upload_button" onClick={()=> setShowModal(true)}><FaCloudUploadAlt size={15}/> Upload</button> */}
-                <button  className="add_button" onClick={submitPartsListHandler}><FaPlus />  Add</button>
+                <button  className="add_button" onClick={submitPartsListHandler}><FaPlus />  Stock In</button>
                 </div>
 
                 <div className='stockin_form'>
