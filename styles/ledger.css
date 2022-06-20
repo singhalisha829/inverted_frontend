@@ -178,6 +178,10 @@ label{
   margin:1rem;
 }
 
+.ledger_input{
+  width:70%;
+}
+
 @media(max-width:600px){
   button{
     font-weight: 500;
@@ -252,5 +256,20 @@ line-height: 1.2rem;
 
 .ledger_search_icon{
   right:32%;
+}
+
+.ledger_form{
+  width:95vw;
+  padding: 1rem;
+font-size: 1.2rem;
+line-height: 1.5rem;
+}
+
+.ledger_button{
+  width:16rem;
+}
+
+.ledger_input{
+  width:90%;
 }
 }
