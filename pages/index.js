@@ -132,20 +132,21 @@ const modalCancelHandler = () =>{
 
 // display either table or card
   let content =null;
-  if(isList){
+  if(isList && size.width>'600'){
     content= (partsList?<Table key={partsList.length} id="partsTable" rows={partsList} columns={columns} search={searchText} path="/ledger" cursor="pointer"
     width="77vw" />:<Spinner />)
 }
 else{
         
   content=(
-      <div className="cards_list">
+      partsList?
+        <div className="cards_list">
           {searchText != undefined?cardFilter.map((card)=>(
               <Card key={card.part_id} part_id={card.part_id} title={card.short_description} quantity={card.quantity} desc={card.long_description} path="/ledger" />
           )):partsList.map((card)=>(
               <Card key={card.part_id} part_id={card.part_id} title={card.short_description} quantity={card.quantity} desc={card.long_description} path="/ledger" />
           ))}
-      </div>
+      </div> : <Spinner />
   );
 }
 

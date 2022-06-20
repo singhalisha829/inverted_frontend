@@ -51,6 +51,8 @@ line-height: 1.5rem;
     margin-top:130px;
     display: flex;
     position: absolute;
+    margin-left: 0.5rem;
+
   }
   
   .card_image{
@@ -58,4 +60,53 @@ line-height: 1.5rem;
     height:10rem;
     width:8rem;
     border-radius: 0.5rem;
+  }
+
+  .footer_quantity{
+    color:#9E9E9E; 
+    font-weight:500;
+    font-size:1.2rem;
+    line-height:1.5rem;
+  }
+
+  @media(max-width:600px){
+    .card{
+      width:90vw;
+      min-height: 10rem;
+      padding: 0.5rem;
+    }
+
+    .card_part_id{
+      font-weight: 300;
+font-size: 1rem;
+line-height: 1.3rem;
+width:8rem;
+padding:5px;
+height: 2rem;
+    }
+
+    .card_title{
+      margin-top:0.5rem;
+  font-weight: 300;
+  font-size: 1.2rem;
+  line-height: 1.5rem;
+    }
+
+    .card_desc{
+      margin-left: 0.5rem;
+      margin-top: 0.2rem;
+  font-weight: 300;
+  font-size: 1rem;
+  line-height: 1.3rem;
+    }
+
+    .card_footer{
+      margin-top: 7rem;
+    }
+
+    .footer_quantity{
+      font-weight: 300;
+      font-size: 1rem;
+      line-height: 1.3rem;
+    }
   }

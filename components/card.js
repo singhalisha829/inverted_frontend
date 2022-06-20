@@ -21,9 +21,8 @@ const Card = (props) =>{
 
           </div> */}
           <div className="card_footer">
-              <div style={{color:"#9E9E9E", fontWeight:"500",fontSize:'1.2rem',lineHeight:'1.5rem'}}>Quantity: </div>
-              <div style={{color:"rgb(114, 114, 114)", fontWeight:"600",color:'#6B6B6B',
-            fontSize:'1.2rem',lineHeight:'1.5rem',marginLeft:'0.5rem'}}>{props.quantity}</div>
+              <div className='footer_quantity'>Quantity: </div>
+              <div style={{fontWeight:"600",color:'#6B6B6B',marginLeft:'0.5rem'}} className="footer_quantity"> {props.quantity}</div>
               
           </div>
         </div>

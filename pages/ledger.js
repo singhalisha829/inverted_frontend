@@ -1,13 +1,12 @@
 import Router from 'next/router';
 import Head from 'next/head';
 import { useState, useEffect,useRef} from 'react';
-import Image from 'next/image';
 
 import Sidebar from '../components/sidebar';
 import { FaFileContract, FaPlus, FaTrashAlt, FaSistrix } from 'react-icons/fa';
 import Table from '../components/table';
 import Dropdown from '../components/dropdown';
-import Pattern from '../public/artboard.png';
+import Header from '../components/header';
 import { fetchPartByPartId, fetchLedgerByPartId, fetchVendorList, fetchUnitList, addNewLedger } from '../services/ledgerService';
 
 import Spinner from '../components/spinner';
@@ -84,6 +83,34 @@ const Ledger =(props)=>{
 
 
     },[])
+
+    // calculate screen size
+    function useWindowSize() {
+        const [windowSize, setWindowSize] = useState({
+          width: undefined,
+          height: undefined,
+        });
+      
+        useEffect(() => {
+      
+          if (typeof window !== 'undefined') {
+            function handleResize() {
+              setWindowSize({
+                width: window.innerWidth,
+                height: window.innerHeight,
+              });
+            }
+        
+            window.addEventListener("resize", handleResize);
+           
+            handleResize();
+        
+            return () => window.removeEventListener("resize", handleResize);
+          }
+        }, []);
+        return windowSize;
+      }
+    const size = useWindowSize();
 
     
     //   submit new ledger only if all values are entered
@@ -179,20 +206,19 @@ const Ledger =(props)=>{
       <title>Inverted</title>
       <link rel="icon" href="/logo icon 2-01.png" />
     </Head>
-            <Sidebar />
+            {size.width>'600'?<Sidebar /> : <Header />}
         <div className="ledger_page" >
             <ToastContainer />
         <div className="part_details">
                 {ledgerPart?<div className="part_id1">#{localStorage.getItem('partId')}</div>:null}
-                <div className="part_desc"><div style={{color:"#3F5575", fontWeight:"600", fontSize:"20px"
-            ,fontFamily: 'Inter',fontStyle: "normal",fontWeight: "600",fontSize: "16px",lineHeight: "19px", marginLeft:"20%"
-            }}>
+                <div className="part_desc">
+                    <div className='desc_title'>
                 <div style={{display:'flex'}}><FaFileContract/>
-                {shortDescription?<div className='ledger_shortdesc'>{shortDescription?shortDescription:null}</div>:null} </div>
+                {shortDescription?<div>{shortDescription?shortDescription:null}</div>:null} </div>
                 </div>
-                <div className='ledger_longdesc' style={{color:"#9E9E9E",marginLeft:'20%'}}>{longDescription?longDescription:null}</div>
+                <div className='ledger_longdesc'>{longDescription?longDescription:null}</div>
                 </div>
-                <div className='ledger_quantity' style={{color:"#6B6B6B", fontWeight:"600",right:'5vw',position:'inherit'}}>{partQuantity? partQuantity:null}</div></div>
+                <div className='ledger_quantity' >{partQuantity? partQuantity:null}</div></div>
 
                 <div className='body'>
                 <div className="body_header">

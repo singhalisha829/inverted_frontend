@@ -246,7 +246,7 @@ button{
       }
 
       .dashboard_page{
-        background-size: 100vw 24rem, 200px 200px;
+        background-size: 100vw 23rem, 200px 200px;
       }
 
       .dashboard_title{
@@ -293,5 +293,12 @@ button{
 
       button{
           height: 3rem;
+      }
+      
+      .cards_list {
+        margin: 2rem;
+        padding-top: 0;
+        grid-gap: 1rem;
+        grid-template-columns: repeat(auto-fill, minmax(250px, 1fr));
       }
   }

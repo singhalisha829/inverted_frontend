@@ -41,12 +41,7 @@ line-height: 1.5rem;
       width:55%;
   }
 
-  .ledger_shortdesc{
-    font-style: normal;
-    font-weight: 600;
-    font-size: 1.6rem;
-    line-height: 1.9rem;
-  }
+ 
 
   .ledger_longdesc{
     font-style: normal;
@@ -54,6 +49,8 @@ line-height: 1.5rem;
     font-size: 1.2rem;
     line-height: 1.5rem;
     margin-top: 0.5rem;
+    color: #9E9E9E;
+    margin-left: 20%;
   }
 
   .ledger_quantity{
@@ -61,6 +58,9 @@ line-height: 1.5rem;
     font-weight: 600;
     font-size: 1.2rem;
     line-height: 1.5rem;
+    color:#6B6B6B; 
+    right:5vw;
+    position:inherit;
   }
 
   .body_header{
@@ -121,6 +121,16 @@ label{
   margin-top: 1rem;
 }
 
+.desc_title{
+  color:#3F5575;
+  font-weight:600; 
+  font-style: normal;
+  font-size: 1.6rem;
+  line-height:1.9rem;
+  margin-left:20%;
+  
+}
+
 
 .react-datepicker__input-container input{
     margin-top: 0;
@@ -141,4 +151,54 @@ label{
     font-size: 1.2rem;
     line-height: 1.5rem;
   }
+
+  .part_details{
+    width:90vw;
+    height: 5.5rem;
+}
+
+  .ledger_page{
+    padding-top: 1rem;
+    background-size: 100vw 18rem, 200px 200px;
+  }
+
+  .part_id1{
+    width:8rem;
+    padding:0.5rem;
+    margin-left: 2%;
+font-weight: 300;
+font-size: 1rem;
+line-height: 1.2rem;
+ }
+
+ .desc_title{
+  font-size: 1.2rem;
+  line-height:1.2rem;
+  margin-left:10%;
+}
+
+.ledger_longdesc{
+  font-weight: 300;
+  font-size: 1rem;
+  line-height: 1.2rem;
+  margin-top: 0.2rem;
+  margin-left: 10%;
+}
+
+.ledger_quantity{
+  font-weight: 500;
+  font-size: 1rem;
+  line-height: 1.2rem; 
+  right:3vw;
+  position:inherit;
+}
+
+.body{
+  width:90vw;
+  margin-top: 1rem;
+}
+
+.body_header{
+  padding: 1rem;
+}
 }
