@@ -4,10 +4,11 @@
     background-image: url('/bg.png'),url('/background.png');
     background-size: 100vw 30rem, 200px 200px;
     background-repeat: no-repeat, repeat;
-    background-position:  top, 0 30px ;
+    /* background-position:  top, 0 30px ; */
     padding-top: 3rem;
     font-size: 1.5rem;
     line-height: 1.7rem;
+    min-height: 100vh;
 }
 
 .part_details{
@@ -143,6 +144,16 @@ label{
   
 }
 
+.ledger_search{
+  width: 70%;
+  background: #F6F7FB;
+  border: 1px solid #E5E5E5;
+  box-sizing: border-box;
+  box-shadow: 0px 2px 1px rgba(225, 228, 237, 0.2);
+  border-radius: 3px;
+  padding-left:10px;
+}
+
 
 .react-datepicker__input-container input{
     margin-top: 0;
@@ -157,6 +168,16 @@ label{
     background-color: #edebeb;
 }
 
+.ledger_search_icon{
+  color:#3F5575;
+  right:17%;
+  position:absolute;
+}
+
+.ledger_cards_list{
+  margin:1rem;
+}
+
 @media(max-width:600px){
   button{
     font-weight: 500;
@@ -165,7 +186,7 @@ label{
   }
 
   .part_details{
-    width:90vw;
+    width:95vw;
     min-height: 5.5rem;
 }
 
@@ -206,7 +227,7 @@ line-height: 1.2rem;
 }
 
 .body{
-  width:90vw;
+  width:95vw;
   margin-top: 1rem;
 }
 
@@ -220,5 +241,16 @@ line-height: 1.2rem;
   line-height: 1.7rem;
   margin-top:10px;
   margin-bottom:20px;
+}
+
+.ledger_search{
+  width: 50%;
+  box-shadow: 0px 2px 1px rgba(225, 228, 237, 0.2);
+  border-radius: 3px;
+  padding-left:0.5rem;
+}
+
+.ledger_search_icon{
+  right:32%;
 }
 }

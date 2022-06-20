@@ -104,8 +104,8 @@ export default function Home() {
         );
         setCardFilter([...filterTable])
       }else{
-        setPartsList([...this.state.partsList])
-        setCardFilter([...this.state.partsList])
+        setPartsList([...partsList])
+        setCardFilter([...partsList])
       }
    }
 

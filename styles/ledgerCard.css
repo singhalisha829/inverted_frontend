@@ -1,0 +1,15 @@
+.ledger_card{
+    background-color: white;
+    border: #e5e5e5 solid 1px;
+    border-radius: 6px;
+    height: 5rem;
+    width: 95vw;
+    display: flex;
+    align-items: center;
+    padding-left: 0.5rem;
+    margin-bottom: 1rem;
+    color: #3F5575;
+    font-size: 1.2rem;
+    line-height: 1.5rem;
+    font-weight: 300;
+  }

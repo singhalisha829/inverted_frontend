@@ -8,6 +8,7 @@ import Table from '../components/table';
 import Dropdown from '../components/dropdown';
 import Header from '../components/header';
 import { fetchPartByPartId, fetchLedgerByPartId, fetchVendorList, fetchUnitList, addNewLedger } from '../services/ledgerService';
+import LedgerCard from '../components/ledgerCard';
 
 import Spinner from '../components/spinner';
 import DatePicker from "react-datepicker";
@@ -29,6 +30,8 @@ const Ledger =(props)=>{
     const [shortDescription, setShortDescription]= useState(null);
     const [longDescription, setlongDescription]= useState(null);
     const [partQuantity, setPartQuantity]= useState(null);
+  const [cardFilter, setCardFilter] = useState([]);
+
 
 
     const [selectedStatus,setSelectedStatus]=useState(null);
@@ -75,6 +78,7 @@ const Ledger =(props)=>{
     fetchLedgerByPartId(partName,token)
     .then(res=>
         {setLedger(res.data);
+            console.log(res.data)
         setShowLedger(true);
         setShowPage(true);
        })}else{
@@ -145,6 +149,21 @@ const Ledger =(props)=>{
     }
 
     }
+
+      // search feature in cards list
+  const searchCard=(event) =>{
+    const search= event.target.value;
+    console.log(search)
+    if(search !== undefined){
+        const filterTable = ledger.filter(o => Object.keys(o).some(
+          k => String(o[k]).toLowerCase().includes(search.toLowerCase()))
+        );
+        setCardFilter([...filterTable])
+      }else{
+        setLedger([...ledger])
+        setCardFilter([...ledger])
+      }
+   }
 
 
     // cancel button of ledger form
@@ -226,20 +245,27 @@ const Ledger =(props)=>{
                 <div className="body_header">
                 <div className='ledger_title'>Ledger</div>
                 <input placeholder="Search for code or name" value={searchText} 
-                        style={{width: "70%",height: "44px",background: "#F6F7FB",
-                          border: "1px solid #E5E5E5",boxSizing: "border-box",boxShadow: "0px 2px 1px rgba(225, 228, 237, 0.2)",
-                          borderRadius: "3px", paddingLeft:'10px'}}
-                        onChange={(e) => {setSearchText(e.target.value)}}/>
-                        <FaSistrix size={17} style={{color:"#3F5575",right:'17%', position:"absolute"}}/>
-                <button style={{height:'4rem'}} onClick={() =>{setShowForm(true)}}><FaPlus size={13}/> Add</button></div>
+                        className="ledger_search"
+                        onChange={(e) => {setSearchText(e.target.value);searchCard(e)}}/>
+                        <FaSistrix size={17} className="ledger_search_icon"/>
+                <button onClick={() =>{setShowForm(true)}}><FaPlus size={13}/> Add</button></div>
 
                 <div className="ledger_table">
                     {form}
                     
-                    {showLedger?<div><Table key={ledger.length} rows={ledger} columns={columns} search={searchText} width="77vw"/></div>:<Spinner/>}</div>
+                    {size.width>'600'?<div><Table key={ledger.length} rows={ledger} columns={columns} search={searchText} width="77vw"/></div>:null}</div>
+                   
+
                 </div>
-                </div>   
-            </div>)
+                {size.width<'600'?<div className='ledger_cards_list'>{searchText != undefined?cardFilter.map((card)=>(<LedgerCard key={card.id} status={card.transaction_type} date={card.date}
+                    quantity={card.quantity} vendor={card.vendor_name}/>)):
+                    ledger.map((card)=>(<LedgerCard key={card.id} status={card.transaction_type} date={card.date}
+                        quantity={card.quantity} vendor={card.vendor_name}/>))}</div>
+                  :null}
+                  </div>
+               
+            </div>
+            )
     }
 
     return(
