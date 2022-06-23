@@ -171,25 +171,26 @@ const StockIn=()=>{
 
     }
 
+    const padding=size.width<'600'?'1rem':null;
 
     // stock in form
            const form=(<div className="form_content">
-            <div style={{width:"15%", textAlign:"center"}}></div>
-            <div style={{width:"30%",display:'flex',justifyContent:'center'}}>
-            {partList?<Dropdown options={partList} placeholder="Select Part" width="60%" name="short_description" isAddNewPart partTypeList={partTypeList}
+            {size.width>'600'?<div style={{width:"15%", textAlign:"center"}}></div>:null}
+            <div style={{width:size.width>'600'?'30%':'100%',display:'flex',justifyContent:'center',paddingBottom:padding}}>
+            {partList?<Dropdown options={partList} placeholder="Select Part" width={size.width>'600'?'60%':'90%'} name="short_description" isAddNewPart partTypeList={partTypeList}
             parentCallback={(data)=>setPartName(data.id)} value={partName} height="3rem" minWidth="12rem" dropdownWidth="20vw" searchWidth="17vw"/>:null}</div>
 
-            <div style={{width:'10%',display:'flex',justifyContent:'center'}}><input style={{width:"80%",height:"3rem"}} type="number" 
+            <div style={{width:size.width>'600'?'10%':'100%',display:'flex',justifyContent:'center',paddingBottom:padding}}><input style={{width:size.width>'600'?'80%':'90%',height:"3rem"}} type="number" 
             onChange={(e)=>setPrice(e.target.value)} value={price}/></div>
 
-            <div style={{width:"30%", display:'flex',justifyContent:'center'}}>
-              <div style={{display:'flex',width:'70%',justifyContent:'space-between'}}>
+            <div style={{width:size.width>'600'?'30%':'100%', display:'flex',justifyContent:'center',paddingBottom:padding}}>
+              <div style={{display:'flex',width:size.width>'600'?'70%':'90%',justifyContent:'space-between'}}>
             <input value={quantity} style={{width:"35%",marginRight:'10px',height:"3rem"}} type="number" onChange={(e)=>setQuantity(e.target.value)}/>
             {unitList?<Dropdown options={unitList} placeholder="Select Unit" width="60%" name="name" minWidth="9rem"
             parentCallback={(data)=>setUnit(data.symbol)} value={unit} dropdownWidth="11vw" searchWidth="8vw" height="3rem"/>:null}</div>
             </div>
 
-            <div style={{width:"15%",display:'flex',justifyContent:'center'}}>
+            <div style={{width:size.width>'600'?'15%':'50%',display:'flex',justifyContent:'center'}}>
             <div className="icons1">
             <FaCheckCircle onClick={submitHandler} size={30} color="#33B850" cursor="pointer"/>
             <FaTimesCircle size={30} color="#F16B6B" onClick={cancelHandler} cursor="pointer"/>
@@ -222,28 +223,42 @@ const StockIn=()=>{
                 </div>
 
                 <div className='stockin_form'>
-                <div style={{width:"33%"}}><label>Invoice Number:</label><input style={{width:'60%',minWidth:'12rem',height:'3rem'}} onChange={(e)=> setInvoice(e.target.value)}/></div>
-                <div style={{width:"33%"}}>Vendor:{vendorList?<Dropdown options={vendorList} placeholder="Select Vendor" width="60%" name="name" minWidth="12rem"
+                <div className='form_column'><label>Invoice Number:</label><input style={{width:size.width>'600'?'60%':'90%',minWidth:'12rem',height:'3rem'}} onChange={(e)=> setInvoice(e.target.value)} placeholder="Enter Invoice Number"/></div>
+                <div className='form_column'>Vendor:{vendorList?<Dropdown options={vendorList} placeholder="Select Vendor" width={size.width>'600'?'60%':'90%'} name="name" minWidth="12rem"
                 parentCallback={(data)=>setVendor(data.id)} dropdownWidth="15vw" searchWidth="12vw" height="3rem"/>:null}</div>
-                <div style={{width:"33%"}}><label>Date:</label>
+                <div className='form_column'><label>Date:</label>
                             <DatePicker placeholderText='Enter Date' selected={selectedDate} onChange={(date) => setSelectedDate(date)} />
                         </div>
             </div>
-            <div className='stockin_list_header'>
+            {size.width>'600'?<div><div className='stockin_list_header'>
                 <div style={{width:'15%',textAlign:'center'}}>Part ID</div>
                 <div style={{width:'30%',textAlign:'center'}}>Part Name</div>
                 <div style={{width:'10%',textAlign:'center'}}>Unit Price</div>
                 <div style={{width:'30%',textAlign:'center'}}>Quantity</div>
                 <div style={{width:'15%',textAlign:'center'}}></div>
             </div>
-            {form}
+            {form}</div>:null}
             
-                </div>
+</div>
+
+            {size.width<'600'?<div className='stockin_form2'>
+            {form}
+              </div>: null}
+
+            {size.width<'600'?<div className='stockin_form2'>
+                <div className='stockin_list_header'>
+                <div style={{width:'15%',textAlign:'center'}}>Part ID</div>
+                <div style={{width:'30%',textAlign:'center'}}>Part Name</div>
+                <div style={{width:'10%',textAlign:'center'}}>Unit Price</div>
+                <div style={{width:'30%',textAlign:'center'}}>Quantity</div>
+                <div style={{width:'15%',textAlign:'center'}}></div>
+            </div>
+            </div>:null}
 
                 {newPartList.map((l)=><List key={l.part} partId={l.part} quantity={l.quantity} unit={l.unit} price={l.price}
             deleteNote={(data)=>handleDeleteNote(data)}/>)}
-
             </div>
+            
         <Modal show={showModal} modalClosed={()=>setShowModal(false)}>hiii
         <input type="file" name="file" onChange={(e)=>uploadFile(e)}/></Modal>
     </div>

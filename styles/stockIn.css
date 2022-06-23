@@ -89,6 +89,8 @@ line-height: 1.5rem;
     display: flex;
     width:100%;
     align-items:center;
+    padding-top: 2rem;
+    padding-bottom: 2rem;
 }
 
 input{
@@ -125,6 +127,20 @@ input{
       height: 3rem !important;
   }
 
+  .form_column{
+      width:33%;
+  }
+
+  .stockin_form2{
+    margin-top: 1rem;
+    background: white;
+    width:90vw;
+    border-radius: 5px;
+    margin-left: auto;
+    margin-right: auto;
+    padding: 1rem;
+}
+
   @media(max-width:600px){
       .stockin_page{
           background-size: 110vw 23.5rem, 200px 200px;
@@ -152,6 +168,7 @@ input{
           line-height: 1.3rem;
           margin-top: 1rem;
           padding-bottom: 1.5rem;
+          flex-direction: column;
       }
 
       input{
@@ -174,5 +191,19 @@ input{
     font-size: 1.2rem;
     height: 3rem;
     line-height: 1.6rem;
+    }
+
+    .form_column{
+        width:100%;
+    }
+
+    .form_content{
+        flex-direction: column;
+        padding-top:0;
+        padding-bottom: 0;
+    }
+
+    .stockin_list_header{
+        border-bottom: none;
     }
   }
