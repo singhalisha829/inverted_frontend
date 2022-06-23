@@ -33,7 +33,7 @@
     max-height: 170px;
     overflow-y: auto;
     position: absolute;
-    /* z-index: 1000 !important; */
+    z-index: 100 !important;
     -webkit-overflow-scrolling: touch;
   }
 
@@ -100,4 +100,10 @@ position: fixed;
   margin-top: 2rem;
   display: flex;
   justify-content: end;
+}
+
+@media(max-width:600px){
+  .add_part{
+    width:65vw;
+  }
 }

@@ -25,5 +25,6 @@
     .Modal{
         width:80vw !important;
         left:10vw;
+        height: auto !important;
     }
 }

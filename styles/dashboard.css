@@ -396,4 +396,8 @@ button{
     .react-datepicker__input-container input{
         width:90%;
     }
+
+    .add_parts_button{
+        margin-bottom: 2rem;
+    }
   }

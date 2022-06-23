@@ -178,16 +178,16 @@ const StockIn=()=>{
             {size.width>'600'?<div style={{width:"15%", textAlign:"center"}}></div>:null}
             <div style={{width:size.width>'600'?'30%':'100%',display:'flex',justifyContent:'center',paddingBottom:padding}}>
             {partList?<Dropdown options={partList} placeholder="Select Part" width={size.width>'600'?'60%':'90%'} name="short_description" isAddNewPart partTypeList={partTypeList}
-            parentCallback={(data)=>setPartName(data.id)} value={partName} height="3rem" minWidth="12rem" dropdownWidth="20vw" searchWidth="17vw"/>:null}</div>
+            parentCallback={(data)=>setPartName(data.id)} value={partName} height="3rem" minWidth="12rem" dropdownWidth={size.width>'600'?'20vw':'70vw'} searchWidth={size.width>'600'?"17vw":'60vw'}/>:null}</div>
 
-            <div style={{width:size.width>'600'?'10%':'100%',display:'flex',justifyContent:'center',paddingBottom:padding}}><input style={{width:size.width>'600'?'80%':'90%',height:"3rem"}} type="number" 
+            <div style={{width:size.width>'600'?'10%':'100%',display:'flex',justifyContent:'center',paddingBottom:padding}}><input style={{width:size.width>'600'?'80%':'90%',height:"3rem"}} type="number" placeholder={size.width<'600'?'Enter Unit Price':null}
             onChange={(e)=>setPrice(e.target.value)} value={price}/></div>
 
             <div style={{width:size.width>'600'?'30%':'100%', display:'flex',justifyContent:'center',paddingBottom:padding}}>
               <div style={{display:'flex',width:size.width>'600'?'70%':'90%',justifyContent:'space-between'}}>
-            <input value={quantity} style={{width:"35%",marginRight:'10px',height:"3rem"}} type="number" onChange={(e)=>setQuantity(e.target.value)}/>
+            <input value={quantity} style={{width:"35%",marginRight:'10px',height:"3rem"}} type="number" onChange={(e)=>setQuantity(e.target.value)} placeholder={size.width<'600'?'Enter Quantity':null}/>
             {unitList?<Dropdown options={unitList} placeholder="Select Unit" width="60%" name="name" minWidth="9rem"
-            parentCallback={(data)=>setUnit(data.symbol)} value={unit} dropdownWidth="11vw" searchWidth="8vw" height="3rem"/>:null}</div>
+            parentCallback={(data)=>setUnit(data.symbol)} value={unit} dropdownWidth={size.width>'600'?"11vw":'40vw'} searchWidth={size.width>'600'?"8vw":'30vw'} height="3rem"/>:null}</div>
             </div>
 
             <div style={{width:size.width>'600'?'15%':'50%',display:'flex',justifyContent:'center'}}>
@@ -223,10 +223,15 @@ const StockIn=()=>{
                 </div>
 
                 <div className='stockin_form'>
-                <div className='form_column'><label>Invoice Number:</label><input style={{width:size.width>'600'?'60%':'90%',minWidth:'12rem',height:'3rem'}} onChange={(e)=> setInvoice(e.target.value)} placeholder="Enter Invoice Number"/></div>
-                <div className='form_column'>Vendor:{vendorList?<Dropdown options={vendorList} placeholder="Select Vendor" width={size.width>'600'?'60%':'90%'} name="name" minWidth="12rem"
-                parentCallback={(data)=>setVendor(data.id)} dropdownWidth="15vw" searchWidth="12vw" height="3rem"/>:null}</div>
-                <div className='form_column'><label>Date:</label>
+                <div className='form_column'>
+                    {size.width>'600'?<label>Invoice Number:</label>:null}
+                    <input style={{width:size.width>'600'?'60%':'90%',minWidth:'12rem',height:'3rem'}} onChange={(e)=> setInvoice(e.target.value)} placeholder="Enter Invoice Number"/></div>
+                <div className='form_column'>
+                    {size.width>'600'?<label>Vendor: </label>:null}
+                    {vendorList?<Dropdown options={vendorList} placeholder="Select Vendor" width={size.width>'600'?'60%':'90%'} name="name" minWidth="12rem"
+                parentCallback={(data)=>setVendor(data.id)} dropdownWidth={size.width>'600'?"15vw":'70vw'} searchWidth={size.width>'600'?"12vw":'60vw'} height="3rem"/>:null}</div>
+                <div className='form_column'>
+                    {size.width>'600'?<label>Date:</label> : null}
                             <DatePicker placeholderText='Enter Date' selected={selectedDate} onChange={(date) => setSelectedDate(date)} />
                         </div>
             </div>
