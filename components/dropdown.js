@@ -138,10 +138,10 @@ const Dropdown= (props) =>{
             <textarea name="part_desc" value={partDesc} placeholder="Description" onChange={(e)=>setPartDesc(e.target.value)}/>
             <hr style={{border:"#e5e5e5 solid 0.001em", width:"70%", marginTop:"20px"}}/>
             <div className="add_parts_button">
-                <button style={{backgroundColor:"white", color:"#ACB3BF",border:"#ACB3BF solid 0.15em", fontFamily: 'Inter',
-                fontStyle: "normal",fontWeight: "600",fontSize: "15px",linHeight: "15px"}}
+                <button style={{backgroundColor:"white", color:"#ACB3BF",border:"#ACB3BF solid 0.15em",
+                marginRight:'1rem'}} className="button2"
                 onClick={cancelPartHandler}>Cancel</button>
-                <button style={{backgroundColor:"#33B850",fontFamily:'Inter',fontStyle: "normal",fontWeight: "600",fontSize: "15px",linHeight: "15px"}}
+                <button style={{backgroundColor:"#33B850"}} className="button2"
                 onClick={submitPartHandler}>Save</button>
             </div></div>
         </Modal>
