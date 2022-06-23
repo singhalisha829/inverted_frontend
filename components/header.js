@@ -12,16 +12,18 @@ import Image from 'next/image';
 const Header = () =>{
     const [openNavbar, setOpenNavbar]= useState(false)
     return(
-    <div className="mobile_header" >
+        <div>
+    {openNavbar===false?<div className="mobile_header" >
         <div className='hamburger'><FaBars size={25} color="#29394A" onClick={()=>setOpenNavbar(!openNavbar)}/></div>
         <div className='inverted_logo'><Image src={Logo} layout="responsive" /></div>
-        
+    </div>:null}
         <Backdrop show={openNavbar} clicked={()=>setOpenNavbar(false)}/>
         
     <div className='mobile_navbar'
     style={{
         opacity: openNavbar ? '1' : '0'
     }}>
+        <div style={{width:'15rem',marginBottom:'3rem'}}><Image src={Logo} layout="responsive"/></div>
             <div className='navbar_items' style={{width:'11rem'}}
             onClick={()=>{Router.push('/');setOpenNavbar(false)}}><FaTh /> Dashboard </div>
             <div className='navbar_items' style={{width:'8rem'}}
