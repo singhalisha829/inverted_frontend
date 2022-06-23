@@ -4,6 +4,7 @@ import Dropdown from "../components/dropdown";
 import Router from "next/router";
 import Head from "next/head";
 import Header from "../components/header";
+import Card from "../components/card";
 
 import Table from '../components/table';
 import { useState, useEffect } from "react";
@@ -91,6 +92,16 @@ const Order=()=>{
                 <Table columns={columns} rows={rows1} search={searchText} filter={filterOnStatus} path="/orderDetails" cursor="pointer"
                 width="77vw"/>
                 </div>:null}
+                <div>
+                <div className="order_list_header">
+                  <div className="order_list_content" style={{paddingLeft:'1rem'}}>Order Number</div>
+                  <div className="order_list_content">Date</div>
+                  <div className="order_list_content">Created By</div>
+                  <div className="order_list_content">Status</div>
+                </div>
+                     </div>
+
+                     {}
                      </div>
         </div>
     )

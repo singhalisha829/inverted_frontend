@@ -8,6 +8,7 @@
     padding-top: 3rem;
     font-size: 1.5rem;
     line-height: 1.7rem;
+    min-height: 100vh;
 }
 
 .order_title{
@@ -28,10 +29,11 @@
     background: white;
     box-shadow: 0px 4px 6px rgba(0, 0, 0, 0.15);
     border-radius: 6px;
+    align-items: center;
 }
 .order_button{
     font-size: 1.6rem;
-    line-height: 1.7rem;
+    line-height: 1rem;
     font-weight: 600;
     width:14rem;
 }
@@ -49,14 +51,37 @@
     margin-top: -0.5rem;
 }
 
+.order_list_header{
+    background-color: white;
+    width: 95vw;
+    border-radius: 6px;
+    margin-left: auto;
+    margin-right: auto;
+    padding: 1rem;
+    margin-top: 1rem;
+    margin-bottom: 0.5rem;
+    font-weight: 500;
+font-size: 1.4rem;
+line-height: 1.7rem;
+color: #6B6B6B;
+display: flex;
+}
+
+.order_list_content{
+    width:25%;
+    display: flex;
+    justify-content: center;
+}
+
 @media(max-width:600px){
+
     .order_title{
         margin-left: 2rem;
         margin-bottom: 2rem;
     }
 
     .order_section{
-        width:90vw;
+        width:95vw;
         height: 5.5rem;
         padding: 1rem;
     }
@@ -64,7 +89,7 @@
     .order_subtitle,.order_button{
         font-weight: 500;
         font-size: 1.5rem;
-        line-height: 1.7rem;
+        line-height: 1rem;
     }
 
    .order_button{

@@ -235,7 +235,7 @@ const StockIn=()=>{
                             <DatePicker placeholderText='Enter Date' selected={selectedDate} onChange={(date) => setSelectedDate(date)} />
                         </div>
             </div>
-            {size.width>'600'?<div><div className='stockin_list_header'>
+            {size.width>'600'?<div style={{width:'100%'}}><div className='stockin_list_header'>
                 <div style={{width:'15%',textAlign:'center'}}>Part ID</div>
                 <div style={{width:'30%',textAlign:'center'}}>Part Name</div>
                 <div style={{width:'10%',textAlign:'center'}}>Unit Price</div>
