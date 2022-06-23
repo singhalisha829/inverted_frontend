@@ -87,10 +87,10 @@ const Order=()=>{
                     <button className="order_button" onClick={()=>Router.push('/newOrder')}>Create Order</button>
                 </div>
 
-                <div className="order_table" >
+                {size.width>'600'?<div className="order_table" >
                 <Table columns={columns} rows={rows1} search={searchText} filter={filterOnStatus} path="/orderDetails" cursor="pointer"
                 width="77vw"/>
-                </div>
+                </div>:null}
                      </div>
         </div>
     )
