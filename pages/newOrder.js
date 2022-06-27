@@ -85,13 +85,13 @@ const NewOrder=()=>{
 
                 <div className="new_order_subsection">
                     <input  style={{width:"70%"}} placeholder="Search.."/>
-                    <div style={{marginTop:'1rem',position:'absolute',right:'27.5vw'}}><FaSistrix size={17} color="#3F5575"/></div>
+                    <div className="new_order_search"><FaSistrix size={17} color="#3F5575"/></div>
                 </div>
 
                 <div className="new_order_form">
                     <div style={{width:'25%'}}><label>Order Type:</label>
                     <Dropdown options={order_type} name="name" width="70%" parentCallback={(data)=>setOrderType(data.value)}
-                    dropdownWidth="13vw" searchWidth="10vw"/></div>
+                    dropdownWidth={size.width>'600'?'13vw':'20vw'} searchWidth={size.width>'600'?'10vw':'12vw'}/></div>
                     <div style={{width:'25%'}}><label>Part Name:</label><input value={name} style={{height:'3rem',width:'70%'}}
                     onChange={(e)=>setName(e.target.value)}/></div>
                     <div style={{width:'25%'}}><label>Required Quantity</label>

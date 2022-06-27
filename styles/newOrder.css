@@ -23,7 +23,8 @@
     height: 8rem;
     margin-left: auto;
     margin-right: auto;
-    padding: 2rem;
+    padding-left: 2rem;
+    align-items: center;
     display: flex;
     background: white;
     box-shadow: 0px 4px 6px rgba(0, 0, 0, 0.15);
@@ -46,6 +47,7 @@ font-size: 1.4rem;
 line-height: 1.7rem;
 color: #6B6B6B;
 margin-bottom:1rem;
+
 }
 
 .form_divs{
@@ -63,10 +65,16 @@ margin-bottom:1rem;
     /* border:green solid; */
 }
 
+.new_order_search{
+    position:absolute;
+    right:27.5vw;
+}
+
 @media(max-width:600px){
     .new_order_subsection{
         width:90vw;
         height:5.5rem;
+        padding-left: 1rem;
     }
 
     .new_order_title{
@@ -76,6 +84,12 @@ margin-bottom:1rem;
 
     .new_order_form{
         width:90vw;
+        padding: 1rem;
+        height: 8rem;
+    }
+
+    .new_order_search{
+        right: 33vw;
     }
 
     

@@ -17,3 +17,9 @@ line-height: 1.5rem;
 color: #3F5575;
 
 }
+
+@media(max-width:600px){
+    .stock_out_list{
+        width: 90vw;
+    }
+}

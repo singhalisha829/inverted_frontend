@@ -78,7 +78,7 @@ const Order=()=>{
                     </div> 
                 <div className="order_section">
                     <Dropdown options={status} placeholder="Status" name="name" width="15vw" height="3.5rem" 
-                    parentCallback={(data)=>setFilterOnStatus(data.id)} dropdownWidth="15vw" searchWidth="12vw"/>
+                    parentCallback={(data)=>setFilterOnStatus(data.id)} dropdownWidth={size.width>'600'?'15vw':'30vw'} searchWidth={size.width>'600'?'12vw':'22vw'}/>
                     <input style={{height:'3.5rem',marginLeft:'2rem',width:'70%'}} value={searchText} onChange={(e)=>setSearchText(e.target.value)}/>
                 </div>
 
