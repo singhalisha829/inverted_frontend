@@ -93,12 +93,12 @@ const Order=()=>{
                 width="77vw"/>
                 </div>:null}
                 <div>
-                <div className="order_list_header">
+                {size.width<'600'?<div className="order_list_header">
                   <div className="order_list_content" style={{paddingLeft:'1rem'}}>Order Number</div>
                   <div className="order_list_content">Date</div>
                   <div className="order_list_content">Created By</div>
                   <div className="order_list_content">Status</div>
-                </div>
+                </div>:null}
                      </div>
 
                      {}
