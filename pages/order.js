@@ -4,7 +4,7 @@ import Dropdown from "../components/dropdown";
 import Router from "next/router";
 import Head from "next/head";
 import Header from "../components/header";
-import Card from "../components/card";
+import OrderList from "../components/orderList";
 
 import Table from '../components/table';
 import { useState, useEffect } from "react";
@@ -13,10 +13,18 @@ import { useState, useEffect } from "react";
 
 const Order=()=>{
 
-    const [rows,setRows]= useState([]);
+    const [rows,setRows]= useState([
+      {order_id:1,date:'22-03-2022',created_by:'tony stark', status:'Partially Processed'},
+      {order_id:2,date:'12-04-2022',created_by:'barry allen', status:'Completed'},
+      {order_id:3,date:'09-12-2022',created_by:'loki', status:'Pending'}
+  ]);
     const [searchText,setSearchText]= useState(null);
     const [filterOnStatus,setFilterOnStatus]= useState(null);
     const [token,setToken]= useState(null);
+    const [cardFilter, setCardFilter] = useState([]);
+    const [listFilter, setListFilter] = useState([]);
+
+
 
     const status=[{name:'Completed',id:'Completed'},{name:'Partially Processed',id:'Partially Processed'},{name:'Pending',id:'Pending'}]
 
@@ -27,11 +35,6 @@ const Order=()=>{
         { accessor1: 'status', label: 'Status',width:"30%" , textalign:"center"},  
       ];
 
-    const rows1=[
-        {order_id:1,date:'22-03-2022',created_by:'tony stark', status:'Partially Processed'},
-        {order_id:2,date:'12-04-2022',created_by:'barry allen', status:'Completed'},
-        {order_id:3,date:'09-12-2022',created_by:'loki', status:'Pending'}
-    ]
 
     useEffect(()=>{
       if(localStorage.getItem('token') != undefined){
@@ -44,6 +47,42 @@ const Order=()=>{
       }
         
     },[])
+
+    useEffect(()=>{
+      //  search table based on dropdown filter and searchbar value
+       if(searchText != undefined && filterOnStatus !=undefined ){
+        const searchList = rows.filter(o => Object.keys(o).some(
+          k => String(o[k]).toLowerCase().includes(searchText.toLowerCase()))
+        );
+  
+        const filterList= searchList.filter(o=> Object.keys(o).some(
+          k=> String(o[k]).toLowerCase().includes(filterOnStatus.toLowerCase())
+        ))
+  
+        setListFilter([...filterList])
+       }
+  
+      //  search table based on searchbar value
+       else if(searchText != undefined ){
+         const searchList = rows.filter(o => Object.keys(o).some(
+           k => String(o[k]).toLowerCase().includes(searchText.toLowerCase()))
+         );
+  
+         setListFilter([...searchList])
+       }
+  
+      //  search table based on dropdown filter
+       else if(filterOnStatus !=undefined){
+        const filterList= rows.filter(o=> Object.keys(o).some(
+          k=> String(o[k]).toLowerCase().includes(filterOnStatus.toLowerCase())
+        ))
+        setListFilter([...filterList])
+       }
+       else{
+         setRows([...rows])
+         setListFilter([...rows])
+       }
+     },[searchText,filterOnStatus])
 
      // calculate screen size
      function useWindowSize() {
@@ -73,6 +112,26 @@ const Order=()=>{
       }
     const size = useWindowSize();
 
+
+    let content= null;
+    if(size.width>'600'){
+      content=(<div className="order_table" >
+                <Table columns={columns} rows={rows} search={searchText} filter={filterOnStatus} path="/orderDetails" cursor="pointer"
+                width="77vw"/>
+                </div>);
+    }
+    else{
+      content=(
+        rows?<div className="cards_list">
+          {searchText != undefined || filterOnStatus != undefined?listFilter.map((l)=>(
+              <OrderList key={l.order_id} order_number={l.order_id} date={l.date} created_by={l.created_by} status={l.status}/>))
+          :rows.map((l)=>(
+              <OrderList key={l.order_id} order_number={l.order_id} date={l.date} created_by={l.created_by} status={l.status}/>
+          ))}
+      </div> : <Spinner />
+      )
+    }
+
     return(
         <div  className="layout">
              <Head>
@@ -97,20 +156,19 @@ const Order=()=>{
                     <button className="order_button" onClick={()=>Router.push('/newOrder')}>Create Order</button>
                 </div>
 
-                {size.width>'600'?<div className="order_table" >
-                <Table columns={columns} rows={rows1} search={searchText} filter={filterOnStatus} path="/orderDetails" cursor="pointer"
-                width="77vw"/>
-                </div>:null}
-                <div>
+                
+                
                 {size.width<'600'?<div className="order_list_header">
                   <div className="order_list_content" style={{paddingLeft:'1rem'}}>Order Number</div>
                   <div className="order_list_content">Date</div>
                   <div className="order_list_content">Created By</div>
                   <div className="order_list_content">Status</div>
                 </div>:null}
-                     </div>
 
-                     {}
+                {content}
+                     
+
+                     
                      </div>
         </div>
     )

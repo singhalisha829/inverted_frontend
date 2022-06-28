@@ -18,6 +18,7 @@ import '../styles/stockOut.css';
 import '../styles/stockOutList.css';
 import '../styles/header.css';
 import '../styles/ledgerCard.css';
+import '../styles/orderList.css';
 
 import { UserContext } from "../components/user";
 import {useEffect} from 'react';
