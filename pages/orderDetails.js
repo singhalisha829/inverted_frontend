@@ -10,6 +10,7 @@ const OrderDetails=()=>{
     const [orderItem,setOrderItem]= useState([{}]);
     const [partItem,setPartItem] = useState([{},{}])
     const [pastTransactions,setPastTransactions] = useState([{},{}])
+    const [token,setToken]= useState(null);
 
 
     const columns = [
@@ -33,6 +34,17 @@ const OrderDetails=()=>{
         { accessor1: 'transaction_id',label: 'Transaction ID' ,width:"33%", textalign:"left"},
         { accessor1: 'created_by', label: 'Created By',width:"33%" , textalign:"left"},   
       ];
+
+      useEffect(()=>{
+        if(localStorage.getItem('token') != undefined){
+          const token=localStorage.getItem('token')
+          setToken(token)
+        
+      }else{
+          Router.push('/login');
+        }
+          
+      },[])
 
           // calculate screen size
     function useWindowSize() {

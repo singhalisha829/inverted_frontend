@@ -10,6 +10,7 @@ import Header from '../components/header';
 
 const StockOut=() =>{
     const [searchText,setSearchText] = useState(null);
+    const [token,setToken]= useState(null);
 
     const columns = [
         { accessor1: 'id', label: 'Part ID' ,width:"33%", textalign:"left"},
@@ -18,6 +19,17 @@ const StockOut=() =>{
       ];
       
     const rows=[{},{},{},{},{},{},{},{},{},{},{},{},{},{},{}];
+
+    useEffect(()=>{
+      if(localStorage.getItem('token') != undefined){
+        const token=localStorage.getItem('token')
+        setToken(token)
+      
+    }else{
+        Router.push('/login');
+      }
+        
+    },[])
 
      // calculate screen size
      function useWindowSize() {

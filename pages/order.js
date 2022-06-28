@@ -16,6 +16,7 @@ const Order=()=>{
     const [rows,setRows]= useState([]);
     const [searchText,setSearchText]= useState(null);
     const [filterOnStatus,setFilterOnStatus]= useState(null);
+    const [token,setToken]= useState(null);
 
     const status=[{name:'Completed',id:'Completed'},{name:'Partially Processed',id:'Partially Processed'},{name:'Pending',id:'Pending'}]
 
@@ -33,7 +34,15 @@ const Order=()=>{
     ]
 
     useEffect(()=>{
+      if(localStorage.getItem('token') != undefined){
         localStorage.setItem('selected_item','orders')
+        const token=localStorage.getItem('token')
+        setToken(token)
+      
+    }else{
+        Router.push('/login');
+      }
+        
     },[])
 
      // calculate screen size
