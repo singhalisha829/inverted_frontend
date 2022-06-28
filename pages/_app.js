@@ -20,38 +20,18 @@ import '../styles/header.css';
 import '../styles/ledgerCard.css';
 import '../styles/orderList.css';
 
-import { UserContext } from "../components/user";
-import {useEffect} from 'react';
-import { useRouter} from 'next/router';
+
+import Sidebar from '../components/sidebar';
 
 
 
 function MyApp({ Component, pageProps }) {
 
-  // const router= useRouter();
-
-  // console.log(pageProps)
-  // useEffect(() => {
-  //   const token= localStorage.getItem('token');
-  //   if(pageProps.protected && !token){
-  //     router.push('/login')
-  //   }
-
-  // }, [])
-
-
-  // if (
-  //   pageProps.protected &&
-  //   user &&
-  //   pageProps.userTypes &&
-  //   pageProps.userTypes.indexOf(user.type) === -1
-  // ) {
-  //   return <div>Sorry, you dont have access</div>;
-  // }
   return(
-    // <UserContext.Provider>
+    // <div className='layout'>
+    // <Sidebar/>
     <Component {...pageProps} />
-  // </UserContext.Provider>
+    // </div>
   )
 }
 

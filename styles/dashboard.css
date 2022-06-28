@@ -172,6 +172,10 @@ line-height: 1.7rem;
 cursor: pointer;
 }
 
+.dashboard_button:hover{
+    background-color: #294465;
+  }
+
 .stockin_button{
     /* position: absolute; */
     background-color: #29394A;

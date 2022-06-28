@@ -134,6 +134,19 @@ td{
     margin-right: auto;
 }
 
+.header_fields{
+    display: flex;
+    justify-content: center;
+}
+
+.arrow{
+    display: none;
+}
+
+.header_title:hover + .arrow{
+    display:block;
+}
+
 @media(max-width:600px){
     thead th{
         padding: 1rem 0.5rem;

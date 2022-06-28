@@ -2,7 +2,7 @@ import { useEffect, useState } from "react";
 import Image from "next/image";
 import Router from "next/router";
 
-import {BsBoxArrowUp, BsBoxArrowInDown} from 'react-icons/bs';
+import {BsBoxArrowUp, BsBoxArrowInDown, BsArrowDownUp,BsArrowUp,BsArrowDown} from 'react-icons/bs';
 
 import Logo  from '../public/Logo_inverted.png';
 
@@ -15,6 +15,8 @@ const Table = (props) => {
     const [data, setData]= useState(props.rows);
     const [order, setOrder]= useState('ASC');
     const [tableFilter, setTableFilter] = useState([]);
+    const [arrow, setArrow] = useState(null);
+    const [sortedColumn,setSortedColumn] = useState(null);
     
    useEffect(()=>{
     //  search table based on dropdown filter and searchbar value
@@ -54,13 +56,16 @@ const Table = (props) => {
 
 
 
+   console.log(sortedColumn)
   //  sort table rows based on selected column
     const sorting= (col) =>{
+      setSortedColumn(col)
         if(order === 'ASC'){
             const sorted= [...props.rows].sort((a,b)=>
             a[col]> b[col] ? 1: -1 );
             setData(sorted);
             setOrder('DSC');
+            setArrow(<BsArrowUp/>)
         }
 
         if(order === 'DSC'){
@@ -68,7 +73,10 @@ const Table = (props) => {
             a[col]< b[col] ? 1: -1 );
             setData(sorted);
             setOrder('ASC');
+            setArrow(<BsArrowDown/>)
         }
+
+        console.log(arrow)
     }
      
     // navigate to given page on clicking a row
@@ -197,8 +205,15 @@ const Table = (props) => {
         <thead >
         <tr>
           {props.columns.map(column => {
-            return <th style={{textAlign:column.textalign}} key={column.accessor1}
-            onClick={()=> sorting(column.accessor1)}>{column.label}</th>
+           
+                 return <th style={{textAlign:column.textalign}} key={column.accessor1}
+            onClick={()=> sorting(column.accessor1)}>
+              <div className="header_fields">
+                <div className="header_title">{column.label}</div>
+                <div className="arrow"><BsArrowDownUp/></div>
+                </div></th>
+                
+              
           })}
         </tr>
       </thead>
