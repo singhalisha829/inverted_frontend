@@ -180,7 +180,7 @@ const StockIn=()=>{
             {partList?<Dropdown options={partList} placeholder="Select Part" width={size.width>'600'?'60%':'90%'} name="short_description" isAddNewPart partTypeList={partTypeList}
             parentCallback={(data)=>setPartName(data.id)} value={partName} height="3rem" minWidth="12rem" dropdownWidth={size.width>'600'?'20vw':'70vw'} searchWidth={size.width>'600'?"17vw":'60vw'}/>:null}</div>
 
-            <div style={{width:size.width>'600'?'10%':'100%',display:'flex',justifyContent:'center',paddingBottom:padding}}><input style={{width:size.width>'600'?'80%':'90%',height:"3rem"}} type="number" placeholder={size.width<'600'?'Enter Unit Price':null}
+            <div style={{width:size.width>'600'?'10%':'100%',display:'flex',justifyContent:'center',paddingBottom:padding}}><input style={{width:size.width>'600'?'80%':'90%',height:"3rem"}} type="number" placeholder={size.width<'600'?'Enter Unit Price':'0.00'}
             onChange={(e)=>setPrice(e.target.value)} value={price}/></div>
 
             <div style={{width:size.width>'600'?'30%':'100%', display:'flex',justifyContent:'center',paddingBottom:padding}}>

@@ -22,10 +22,10 @@ const OrderDetails=()=>{
       ];
 
       const column1 = [
-        { accessor1: 'part_name', label: 'Part Name' ,width:"25%", textalign:"left"},
-        { accessor1: 'required_quantity',label: 'Required Quantity' ,width:"25%", textalign:"center"},
-        { accessor1: 'quantity_released', label: 'Quantity Released',width:"25%" , textalign:"center"}, 
-        { accessor1: 'available_stock', label: 'Available Stock',width:"25%" , textalign:"center"},  
+        { accessor1: 'part_name', label: 'Part Name' ,width:"33%", textalign:"left"},
+        { accessor1: 'required_quantity',label: 'Required Quantity' ,width:"33%", textalign:"center"},
+        // { accessor1: 'quantity_released', label: 'Quantity Released',width:"33%" , textalign:"center"}, 
+        { accessor1: 'available_stock', label: 'Available Stock',width:"33%" , textalign:"center"},  
 
       ];
 

@@ -192,9 +192,7 @@ const Ledger =(props)=>{
                         </div>
                 </div>
             <div style={{display:"flex",marginBottom:'15px'}}>
-                <div style={{width:'33%'}}><label>Part Name:</label>
-                    <div style={{color:'#3F5575'}} className="ledger_input"><strong>{shortDescription?shortDescription:null}</strong></div>
-                </div>
+                
                 <div style={{width:"33%"}}><label>Quantity:</label>
                     <div style={{display:'flex'}} className="ledger_input">
                     <input type="number" style={{marginTop:'0', width:'30%', height:"3rem", marginRight:size.width>'600'?'1rem':'0.5rem'}}    
@@ -204,10 +202,13 @@ const Ledger =(props)=>{
                 </div>
                 <div style={{width:'33%'}}><label>Price:</label><input placeholder="Enter Price" style={{marginTop:'0', height:"3rem"}} type="number" className='ledger_input'
                 onChange={(e)=>setPrice(e.target.value)}/></div>
-            </div>
-            <div style={{display:"flex",justifyContent:'space-between'}}><div style={{width:"33%"}}>
+
+<div style={{width:"33%"}}>
                 Vendor:<Dropdown width={size.width>'600'?'70%':'90%'} placeholder='Select Vendor' name="name" options={vendorList} height="3rem"
             parentCallback={(data)=>setVendor(data.id)} dropdownWidth={size.width>'600'?'16vw':'30vw'} searchWidth={size.width>'600'?'13vw':'20vw'}/></div>
+            </div>
+            <div style={{display:"flex",justifyContent:'flex-end'}}>
+
             <div className='ledger_button'><button style={{backgroundColor:"white", color:"#ACB3BF",border:"#ACB3BF solid 0.15em"}}
                        onClick={()=>{cancelPartHandler()}}>Cancel</button>
                        <button style={{backgroundColor:"#33B850"}}

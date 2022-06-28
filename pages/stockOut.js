@@ -71,10 +71,7 @@ const StockOut=() =>{
                 <div className='title'>Stock Out</div>
                      <div className='sub_title'>Database for all Available Stocks</div>
                     </div> 
-                <div className="stockout_search">
-                <input placeholder="Search.." style={{height:'3.5rem',width:'70%'}} value={searchText} onChange={(e)=>setSearchText(e.target.value)}/>
-                <div className='search_symbol' style={{marginTop:'1rem'}}><FaSistrix size={17} style={{color:"#3F5575"}}/></div>
-                </div>
+                
 
                 <div className="parts_list">
                     <div className="stock_out">Stock Out</div>
@@ -85,7 +82,7 @@ const StockOut=() =>{
                     <div className="stock_out_button">
                         <button style={{marginRight:'2rem',backgroundColor: '#F8F8F8',border: '2px solid rgba(63, 85, 117, 0.1)',
                     color:'#3F5575'}} onClick={()=>{Router.back();}}>Cancel</button>
-                        <button style={{backgroundColor:"#33B850"}}>Confirm</button>
+                        <button style={{backgroundColor:"#33B850"}}>Create Order</button>
                         </div>
                 </div>
             </div>  
