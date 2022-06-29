@@ -56,19 +56,41 @@ font-size: 1.6rem;
     bottom: 10vh;
     display: flex;
     width: 16.66vw;
+transition:0.6s cubic-bezier(0.01, 1.69,    0.99, 0.94); 
+
 }
 
 .center{
+    margin-left: 3vw;
+    display: flex;
+transition:0.6s cubic-bezier(0.01, 1.69,    0.99, 0.94); 
+
+}
+
+.center:hover{
+    color:#7c90ae;
+    letter-spacing: 0.5px;
+}
+
+.logo_center{
     margin-left: 3vw;
     display: flex;
 }
 
 .center1{
     margin-left: 5vw;
+transition:0.6s cubic-bezier(0.01, 1.69,    0.99, 0.94); 
+}
+
+.center1:hover{
+    color:#7c90ae;
 }
 
 .logout_link:hover{
     cursor: pointer;
+    color:#7c90ae;
+    letter-spacing: 0.5px;
+    
 }
 
 .nav_list{
@@ -130,16 +152,41 @@ font-size: 1.6rem;
     right: 5%;
 }
 
+.angle_down:hover{
+    color:#7c90ae;
+}
+
 .suboptions{
-    width:55%;
+    width:60%;
     position: absolute;
     right: 0;
     top:22rem;
+transition:0.6s cubic-bezier(0.01, 1.69,    0.99, 0.94); 
 }
+
+
 
 .suboptions_items{
     height: 5rem;
     display: flex;
     align-items: center;
    
+}
+
+.suboptions_items:hover{
+    color:#7c90ae;
+    letter-spacing: 0.5px;
+}
+
+
+@media(max-width:1250px){
+    .suboptions{
+        width:68%;
+    }
+}
+
+@media(max-width:1000px){
+    .suboptions{
+        width: 40%;
+    }
 }

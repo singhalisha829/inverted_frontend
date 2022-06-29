@@ -6,7 +6,7 @@ import { useEffect } from 'react';
 import Logo from '../public/logo.png';
 import Logo_inverted from '../public/Logo_inverted.png';
 
-import {FaDropbox ,FaTh,FaSignOutAlt, FaAngleDown, FaAngleUp} from 'react-icons/fa';
+import {FaDropbox ,FaTh,FaSignOutAlt, FaAngleDown, FaAngleUp,FaShoppingCart,FaHardHat} from 'react-icons/fa';
 import { useState } from 'react';
 
 const Sidebar = () =>{
@@ -60,7 +60,7 @@ const Sidebar = () =>{
           {/* if the width of screen is greater than 1000px */}
           {size.width>'1000'?
         <div className="navbar" >
-                <div style={{width:'16.66vw',display:'flex',justifyContent:'center'}}>
+                <div style={{width:'16.66vw',display:'flex',justifyContent:'logo_center'}}>
                   <div className='navbar_img'><Image src={Logo} layout="responsive" />
                   </div>
                   </div>
@@ -80,8 +80,8 @@ const Sidebar = () =>{
                           setOrders()}}><div className='empty_strip'/><div className='center'><FaDropbox /><div style={{marginLeft:'2rem'}}>Orders
                           </div></div><div className='angle_down'><FaAngleDown/></div></div>}
                           {showSubOptions?<div className='suboptions'>
-                            <div className='suboptions_items' onClick={()=>Router.push('/order')}>Production</div>
-                            <div className='suboptions_items' onClick={()=>Router.push('/purchaseOrder')}>Purchase</div>
+                            <div className='suboptions_items' onClick={()=>Router.push('/order')}><FaHardHat/><div style={{marginLeft:'1rem'}}>Production</div></div>
+                            <div className='suboptions_items' onClick={()=>Router.push('/purchaseOrder')}><FaShoppingCart /><div style={{marginLeft:'1rem'}}>Purchase</div></div>
                           </div>:null}
                         </div>
                         <div>
@@ -102,12 +102,16 @@ const Sidebar = () =>{
                         setDashboard()}}><div className='empty_strip'/><div className='center1'><FaTh /></div></div>}
 
                           {selectedDiv==='orders'?
-                          <div className='selected_items' onClick={()=>{Router.push('/order');
+                          <div className='selected_items' onClick={()=>{setShowSubOptions(!showSubOptions);
                           setOrders()}}><div className='strip'/><div className='center1'><FaDropbox /></div></div>
                         :
-                        <div className='nav_items' onClick={()=>{Router.push('/order');
-                          setOrders()}}><div className='empty_strip'/><div className='center1'><FaDropbox /></div></div>}
-                            
+                        <div className='nav_items' onClick={()=>{setShowSubOptions(!showSubOptions);
+                          setOrders()}}><div className='empty_strip'/><div className='center1'><FaDropbox />
+                          <div className='angle_down'><FaAngleDown/></div></div></div>}
+                          {showSubOptions?<div className='suboptions'>
+                            <div className='suboptions_items' onClick={()=>Router.push('/order')}><FaHardHat/></div>
+                            <div className='suboptions_items' onClick={()=>Router.push('/purchaseOrder')}><FaShoppingCart /></div>
+                          </div>:null}
                         </div>
                         <div>
     </div>
