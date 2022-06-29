@@ -82,6 +82,10 @@ line-height: 1.7rem;
     width:80%;
   }
 
+  .login_button:hover{
+    background: linear-gradient(180deg, #ef656a 0%, #c73844 100%);
+  }
+
   .login_icon{
       position: absolute;
       right: 1rem;

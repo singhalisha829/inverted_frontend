@@ -155,6 +155,11 @@ margin-bottom:0.5rem;
     font-style: normal;
 }
 
+.export_button:hover{
+    color:#7c90ae;
+    background-color: white;
+}
+
 .dashboard_button{
     /* position: absolute; */
     background-color: #29394A;
@@ -388,7 +393,6 @@ button{
       }
 
       .stockin_button{
-          width:6.5rem;
           margin-right: 0.5rem;
       }
 
@@ -422,7 +426,7 @@ button{
     }
 
     .buttons1{
-        width:19rem;
+        width:20rem;
     }
 
     .add_part_title{

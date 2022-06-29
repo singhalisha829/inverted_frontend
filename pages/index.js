@@ -172,12 +172,13 @@ else{
                      <div className='search_symbol'><FaSistrix size={17} style={{color:"#3F5575"}}/></div>
                      
                      {/* export parts table */}
+                     <div style={{width:'10rem',marginLeft:'10vw',marginRight:'0.8rem'}}>
                      <ReactHtmlTableToExcel
          table="partsTable"
          filename="stock_report"
          sheet="stock_report"
          buttonText="Export" 
-         className="export_button" />
+         className="export_button" /></div>
 
                      <div className='export_symbol'><FaExternalLinkAlt size={15} style={{color:"#3F5575"}} /></div>
              </div>
