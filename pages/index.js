@@ -217,10 +217,9 @@ else{
             <hr style={{border:"#e5e5e5 solid 0.001em", width:"70%", marginTop:"20px"}}/>
           
             <div className="add_parts_button">
-                <button style={{backgroundColor:"white", color:"#ACB3BF",border:"#ACB3BF solid 0.15em",
-                marginRight:'1rem'}} className="button2"
+                <button  className="cancel_button button2"
                 onClick={modalCancelHandler}>Cancel</button>
-                <button style={{backgroundColor:"#33B850"}} className="button2"
+                <button  className="save_button button2"
                 onClick={submitPartHandler}>Save</button></div>
             </div>
         </Modal>

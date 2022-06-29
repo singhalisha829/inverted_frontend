@@ -125,3 +125,21 @@ font-size: 1.6rem;
     align-items: center;
 }
 
+.angle_down{
+    display: none;
+    position: absolute;
+    right: 1rem;
+}
+
+.suboptions{
+    display: none;
+}
+
+.center:hover + .angle_down {
+    display: block;
+}
+
+.center:hover + .selected_items {
+    display: flex;
+    flex-direction: column;
+}

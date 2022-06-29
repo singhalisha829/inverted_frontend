@@ -56,7 +56,7 @@ const Table = (props) => {
 
 
 
-   console.log(sortedColumn)
+  //  console.log(sortedColumn)
   //  sort table rows based on selected column
     const sorting= (col) =>{
       setSortedColumn(col)
@@ -72,8 +72,13 @@ const Table = (props) => {
             const sorted= [...props.rows].sort((a,b)=>
             a[col]< b[col] ? 1: -1 );
             setData(sorted);
-            setOrder('ASC');
+            setOrder('NONE');
             setArrow(<BsArrowDown/>)
+        }
+
+        if(order === 'NONE'){
+          setData(props.rows);
+          setOrder('ASC');
         }
 
         console.log(arrow)
@@ -209,7 +214,10 @@ const Table = (props) => {
                  return <th style={{textAlign:column.textalign}} key={column.accessor1}
             onClick={()=> sorting(column.accessor1)}>
               <div className="header_fields">
-                <div className="header_title">{column.label}</div>
+                <div className="header_title">{column.label}
+                
+                </div>
+                <div>{order != 'ASC'?order === 'DSC'?<BsArrowUp />:<BsArrowDown />:null}</div>
                 <div className="arrow"><BsArrowDownUp/></div>
                 </div></th>
                 

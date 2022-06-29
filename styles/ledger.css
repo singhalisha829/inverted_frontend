@@ -104,11 +104,15 @@ line-height: 1.5rem;
     font-size: 1.4rem;
     line-height: 1.7rem;
     border-radius: 3px;
+    transition:0.6s cubic-bezier(0.01, 1.69,    0.99, 0.94); 
+
     /* margin-left:20px; */
   }
 
   button:hover{
-    background-color: #294465;
+    background-color: #48586c;
+    letter-spacing: 0.1rem;
+
   }
 
   .ledger_form{
@@ -133,8 +137,8 @@ label{
 
 .ledger_button{
   display: flex;
-  justify-content: space-between;
-  width: 19rem;
+  justify-content: space-around;
+  width: 20rem;
   margin-top: 1rem;
 }
 

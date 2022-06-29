@@ -99,8 +99,8 @@ const NewOrder=()=>{
                     <div style={{width:'25%',display:'flex',alignItems:'center',justifyContent:'center'}}>
                     <div className="form_icons">
                    
-            <FaCheckCircle onClick={submitHandler} size={30} color="#33B850" cursor="pointer"/>
-            <FaTimesCircle size={30} color="#F16B6B" onClick={cancelHandler} cursor="pointer"/>
+            <FaCheckCircle onClick={submitHandler} size={30} className="check_icon"/>
+            <FaTimesCircle size={30}  onClick={cancelHandler} className="cross_icon" />
             </div>
                     </div>
 
@@ -112,9 +112,8 @@ const NewOrder=()=>{
 
 <div className="stock_out_footer">
                     <div className="stock_out_button">
-                        <button style={{marginRight:'2rem',backgroundColor: '#F8F8F8',border: '2px solid rgba(63, 85, 117, 0.1)',
-                    color:'#3F5575'}} onClick={()=>{Router.back();}}>Cancel</button>
-                        <button style={{backgroundColor:"#33B850"}}>Confirm</button>
+                        <button className="cancel_button button2" onClick={()=>{Router.back();}}>Cancel</button>
+                        <button className="save_button button2">Confirm</button>
                         </div></div>
                 </div>
         </div>

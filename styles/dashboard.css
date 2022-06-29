@@ -170,10 +170,16 @@ margin-bottom:0.5rem;
     font-size: 1.4rem;
 line-height: 1.7rem;
 cursor: pointer;
+transition:0.6s cubic-bezier(0.01, 1.69,    0.99, 0.94); 
+
+
 }
 
 .dashboard_button:hover{
-    background-color: #294465;
+    background-color: #48586c;
+    letter-spacing: 0.1rem;
+
+
   }
 
 .stockin_button{
@@ -192,7 +198,14 @@ cursor: pointer;
 line-height: 1.7rem;
 cursor: pointer;
 margin-right:2rem;
-width:7.5rem;
+transition:0.6s cubic-bezier(0.01, 1.69,    0.99, 0.94); 
+
+}
+
+.stockin_button:hover{
+    background-color: #48586c;
+    letter-spacing: 0.1rem;
+
 }
 
 
@@ -227,6 +240,7 @@ width:7.5rem;
 button{
     cursor:pointer;
     height:3.5rem;
+
 }
 
 .react-datepicker{
@@ -262,7 +276,7 @@ button{
 
   .buttons1{
     display:flex;
-    width:28rem;
+    width:30rem;
   }
 
   .add_part_title{
@@ -287,9 +301,33 @@ button{
     font-weight: 600;
     font-size: 15px;
     line-height: 15px;
+    transition:0.6s cubic-bezier(0.01, 1.69,    0.99, 0.94); 
   }
 
- 
+  .button2:hover{
+    letter-spacing: 0.1rem;
+  }
+
+  .cancel_button{
+    background-color:white; 
+    color:#ACB3BF;
+    border:#ACB3BF solid 0.15em;
+    margin-right:1rem;
+  }
+
+  .save_button{
+    background-color:#33B850;
+
+  }
+
+ .save_button:hover{
+    background-color: #2b843e;
+ }
+
+ .cancel_button:hover{
+    background-color: #ACB3BF;
+    color:white;
+ }
 
 
   @media (max-width:600px) {

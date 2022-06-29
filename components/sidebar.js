@@ -6,28 +6,15 @@ import { useEffect } from 'react';
 import Logo from '../public/logo.png';
 import Logo_inverted from '../public/Logo_inverted.png';
 
-import {FaDropbox ,FaTh,FaSignOutAlt} from 'react-icons/fa';
+import {FaDropbox ,FaTh,FaSignOutAlt, FaAngleDown} from 'react-icons/fa';
 import { useState } from 'react';
 
 const Sidebar = () =>{
-    const SidebarData= [
-        {
-            title: 'Dashboard',
-            path:'/',
-            cName:"nav_text",
-            icon: <FaTh />
-        },
-        {
-            title: 'Orders',
-            path:'/login',
-            cName:"nav_text",
-            icon:<FaDropbox />
-        },
-        
-    ];
 
     const [selectedDiv, setSelectedDiv]= useState('dashboard');
+    const [showSubOptions, setShowSubOptions] = useState(false);
 
+    console.log(showSubOptions)
 
     // calculate screen size
     function useWindowSize() {
@@ -85,11 +72,17 @@ const Sidebar = () =>{
                           setDashboard()}}><div className='empty_strip'/><div className='center'><FaTh /><div style={{marginLeft:"2rem"}}>Dashboard</div></div></div>}
 
                           {selectedDiv==='orders'?
-                            <div title='Orders' className='selected_items' onClick={()=>{Router.push('/order');
-                          setOrders()}}><div className='strip'/><div className='center'><FaDropbox /><div style={{marginLeft:'2rem'}}>Orders</div></div></div>
+                            <div title='Orders' className='selected_items' onClick={()=>{Router.push('/order');setShowSubOptions(true);
+                          setOrders()}}><div className='strip'/><div className='center'><FaDropbox /><div style={{marginLeft:'2rem'}}>Orders
+                          </div></div><div className='angle_down'><FaAngleDown/></div></div>
                           :
-                          <div title='Orders' className='nav_items' onClick={()=>{Router.push('/order');
-                          setOrders()}}><div className='empty_strip'/><div className='center'><FaDropbox /><div style={{marginLeft:'2rem'}}>Orders</div></div></div>}
+                          <div title='Orders' className='nav_items' onClick={()=>{Router.push('/order');setShowSubOptions(true);
+                          setOrders()}}><div className='empty_strip'/><div className='center'><FaDropbox /><div style={{marginLeft:'2rem'}}>Orders
+                          </div></div><div className='angle_down'><FaAngleDown/></div></div>}
+                          {showSubOptions?<div className='suboptions'>
+                            <div>1</div>
+                            <div>2</div>
+                          </div>:null}
                         </div>
                         <div>
     </div>

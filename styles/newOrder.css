@@ -70,6 +70,25 @@ margin-bottom:1rem;
     right:27.5vw;
 }
 
+.check_icon{
+    color:#33B850;
+    cursor:pointer;
+    
+}
+
+.check_icon:hover{
+    color: #2b843e;
+}
+
+.cross_icon{
+    color:#F16B6B;
+    cursor: pointer;
+}
+
+.cross_icon:hover{
+    color: #C61E2B;
+}
+
 @media(max-width:600px){
     .new_order_subsection{
         width:90vw;

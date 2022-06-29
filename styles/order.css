@@ -35,7 +35,7 @@
     font-size: 1.6rem;
     line-height: 1rem;
     font-weight: 600;
-    width:14rem;
+
 }
 
 .order_subtitle{
@@ -92,7 +92,5 @@ display: flex;
         line-height: 1rem;
     }
 
-   .order_button{
-       width:13rem;
-   }
+   
 }

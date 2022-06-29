@@ -80,9 +80,8 @@ const StockOut=() =>{
 
                 <div className="stock_out_footer">
                     <div className="stock_out_button">
-                        <button style={{marginRight:'2rem',backgroundColor: '#F8F8F8',border: '2px solid rgba(63, 85, 117, 0.1)',
-                    color:'#3F5575'}} onClick={()=>{Router.back();}}>Cancel</button>
-                        <button style={{backgroundColor:"#33B850"}}>Create Order</button>
+                        <button className='cancel_button button2' onClick={()=>{Router.back();}}>Cancel</button>
+                        <button className='save_button button2'>Create Order</button>
                         </div>
                 </div>
             </div>  

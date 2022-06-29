@@ -209,9 +209,9 @@ const Ledger =(props)=>{
             </div>
             <div style={{display:"flex",justifyContent:'flex-end'}}>
 
-            <div className='ledger_button'><button style={{backgroundColor:"white", color:"#ACB3BF",border:"#ACB3BF solid 0.15em"}}
+            <div className='ledger_button'><button className='cancel_button button2'
                        onClick={()=>{cancelPartHandler()}}>Cancel</button>
-                       <button style={{backgroundColor:"#33B850"}}
+                       <button className='save_button button2'
                        onClick={submitPartHandler}>Save</button>
                        </div></div>
         </div>);
