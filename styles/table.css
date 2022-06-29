@@ -139,12 +139,24 @@ td{
     justify-content: center;
 }
 
+.arrow_icon{
+    stroke-width: 0.07rem;
+}
+
 .arrow{
     display: none;
 }
 
+.header_title{
+    display: flex;
+}
+
 .header_title:hover + .arrow{
     display:block;
+}
+
+.header_title:hover .sort_direction{
+    display: none;
 }
 
 @media(max-width:600px){

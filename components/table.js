@@ -214,11 +214,12 @@ const Table = (props) => {
                  return <th style={{textAlign:column.textalign}} key={column.accessor1}
             onClick={()=> sorting(column.accessor1)}>
               <div className="header_fields">
-                <div className="header_title">{column.label}
+                <div className="header_title">
+                  <div className="title_name">{column.label}</div>
+                <div className="sort_direction">{order != 'ASC'?order === 'DSC'?<BsArrowUp className="arrow_icon"/>:<BsArrowDown className="arrow_icon"/>:null}</div>
                 
                 </div>
-                <div>{order != 'ASC'?order === 'DSC'?<BsArrowUp />:<BsArrowDown />:null}</div>
-                <div className="arrow"><BsArrowDownUp/></div>
+                <div className="arrow"><BsArrowDownUp className="arrow_icon"/></div>
                 </div></th>
                 
               
