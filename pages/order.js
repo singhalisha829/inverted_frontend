@@ -141,8 +141,8 @@ const Order=()=>{
             {size.width>'600'?<Sidebar /> : <Header />}
             <div className="order_page">
                 <div className="order_title">
-                <div className="title">Orders</div>
-                     <div className="sub_title">Database for all Available Stocks</div>
+                <div className="title">Production Orders</div>
+                     <div className="sub_title">Database for all Orders</div>
                     </div> 
                 <div className="order_section">
                     <Dropdown options={status} placeholder="Status" name="name" width="15vw" height="3.5rem" 

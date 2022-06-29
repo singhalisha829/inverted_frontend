@@ -108,7 +108,7 @@ const Sidebar = () =>{
                         :
                         <div className='nav_items' onClick={()=>{setShowSubOptions(!showSubOptions);
                           setOrders()}}><div className='empty_strip'/><div className='center1'><FaDropbox />
-                          <div className='angle_down'><FaAngleDown/></div></div></div>}
+                          <div className='angle_down' style={{top:'18.6rem'}}><FaAngleDown/></div></div></div>}
                           {showSubOptions?<div className='suboptions'>
                             <div className='suboptions_items' onClick={()=>{Router.push('/order');setShowSubOptions(false)}}>
                               <FaHardHat/></div>

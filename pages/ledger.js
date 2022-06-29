@@ -122,7 +122,28 @@ const Ledger =(props)=>{
         const partName= localStorage.getItem("partId");
 
         console.log(selectedStatus,invoice,selectedDate,quantity,unit,price,vendor)
-        if(selectedStatus != null && invoice != null && selectedDate !=null && quantity !=null && unit !=null && price != null && vendor !=null){
+        if(selectedStatus === null){
+            toast.warning("Enter Status!")
+            return;
+        }else if(invoice === null){
+            toast.warning("Enter Invoice Number!")
+            return;
+        }else if(selectedDate === null){
+            toast.warning("Enter Date!")
+            return;
+        }else if(unit === null){
+            toast.warning("Enter Unit!")
+            return;
+        }else if(price === null){
+            toast.warning("Enter Price!")
+            return;
+        }else if(quantity === null){
+            toast.warning("Enter Quantity!")
+            return;
+        }else if(vendor === null){
+            toast.warning("Enter Vendor!")
+            return;
+        }else{
             setShowForm(false);
         const formData={
             date:selectedDate,
@@ -144,9 +165,9 @@ const Ledger =(props)=>{
             console.log(err)
         })
         
-    }else{
-
     }
+
+    console.log('end')
 
     }
 
@@ -185,8 +206,8 @@ const Ledger =(props)=>{
                 <Dropdown placeholder='Select Status' options={status} name="name" parentCallback={(data)=>setSelectedStatus(data.value)} width={size.width>'600'?'70%':'100%'}
                 dropdownWidth={size.width>'600'?'16vw':'30vw'} searchWidth={size.width>'600'?'13vw':'22vw'} height="3rem"/></div>
                 </div>
-                <div className="field_width"><label>Invoice:</label>
-                    <input style={{marginTop:'0',height:'3rem',width:size.width>'600'?'70%':'100%'}} placeholder='Enter Invoice' onChange={(e)=>setInvoice(e.target.value)} className="ledger_input"/></div>
+                <div className="field_width"><label>Invoice Number:</label>
+                    <input style={{marginTop:'0',height:'3rem',width:size.width>'600'?'70%':'100%'}} placeholder='Enter Invoice Number' onChange={(e)=>setInvoice(e.target.value)} className="ledger_input"/></div>
                 <div className="field_width"><label>Date:</label>
                             <DatePicker placeholderText='Enter Date' selected={selectedDate} onChange={(date) => setSelectedDate(date)} />
     

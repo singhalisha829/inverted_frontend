@@ -101,9 +101,29 @@ const StockIn=()=>{
     // add new part in the list on clicking the check icon
     const submitHandler = () =>{
        console.log(invoice,selectedDate,vendor,partName,quantity,unit,price)
-       if(partName!='' && invoice !='' && selectedDate!=''&&
-       vendor!='' && quantity!='' && unit !=''&&
-       price != ''){
+       if(invoice=== null || invoice=== ''){
+        toast.warning('Enter Invoice Number!');
+        return;
+       }else if(selectedDate=== null || selectedDate=== ''){
+        toast.warning('Enter Date!');
+        return;
+       }else if(vendor=== null || vendor=== ''){
+        toast.warning('Enter Vendor!');
+        return;
+       }else if(partName === '' || partName === null){
+        toast.warning("Enter Part Name!");
+        return;
+       }else if(price === null || price === ''){
+        toast.warning("Enter Unit Price!");
+        return;
+       }else if(quantity === null || quantity===''){
+        toast.warning('Enter Quantity!');
+        return;
+       }else if(unit=== null || unit=== ''){
+        toast.warning('Enter Unit!');
+        return;
+       }
+       else{
        const data={
            part:partName,
            invoice:invoice,
@@ -211,8 +231,8 @@ const StockIn=()=>{
         <div className="stockin_page">
             <ToastContainer />
         <div className="stockin_title">
-                <div className='title'>Available Stocks</div>
-                     <div className='sub_title'>Database for all Available Stocks</div>
+                <div className='title'>Stock In</div>
+                     <div className='sub_title'>Add New Parts to Stock</div>
                     </div> 
 
                     <div className='stockin_subsection'>

@@ -113,11 +113,22 @@ export default function Home() {
   //  submit new part details
    const submitPartHandler = () =>{  
     console.log(partType,partName,partDesc)
+    if(partType === null){
+      toast.warning('Enter Part Type!');
+      return;
+    }else if(partName === null){
+      toast.warning('Enter Part Name!');
+      return;
+    }if(partDesc === null){
+      toast.warning('Enter Part Description!');
+      return;
+    }else{
     setShowModal(false)
     addNewPart(partType,partName,partDesc,token).then(res=>notify())
     setPartName(()=>"");
     setPartType(()=>"");
     setPartDesc(()=>"");
+    }
 }
 
 // cancel button on modal

@@ -54,7 +54,12 @@ const PurchaseOrder =() =>{
     </Head>
     {size.width>'600'?<Sidebar /> : <Header />}
 
-    <div className="purchase_order_page">Purchase Order</div>
+    <div className="purchase_order_page">
+    <div className="order_title">
+                <div className="title">Purchase Orders</div>
+                     <div className="sub_title">Database for all Orders</div>
+                    </div> 
+    </div>
     </div>
     )
 }
