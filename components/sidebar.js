@@ -6,7 +6,7 @@ import { useEffect } from 'react';
 import Logo from '../public/logo.png';
 import Logo_inverted from '../public/Logo_inverted.png';
 
-import {FaDropbox ,FaTh,FaSignOutAlt, FaAngleDown} from 'react-icons/fa';
+import {FaDropbox ,FaTh,FaSignOutAlt, FaAngleDown, FaAngleUp} from 'react-icons/fa';
 import { useState } from 'react';
 
 const Sidebar = () =>{
@@ -72,16 +72,16 @@ const Sidebar = () =>{
                           setDashboard()}}><div className='empty_strip'/><div className='center'><FaTh /><div style={{marginLeft:"2rem"}}>Dashboard</div></div></div>}
 
                           {selectedDiv==='orders'?
-                            <div title='Orders' className='selected_items' onClick={()=>{Router.push('/order');setShowSubOptions(true);
+                            <div title='Orders' className='selected_items' onClick={()=>{setShowSubOptions(!showSubOptions);
                           setOrders()}}><div className='strip'/><div className='center'><FaDropbox /><div style={{marginLeft:'2rem'}}>Orders
-                          </div></div><div className='angle_down'><FaAngleDown/></div></div>
+                          </div></div><div className='angle_down'>{showSubOptions?<FaAngleUp/>:<FaAngleDown/>}</div></div>
                           :
-                          <div title='Orders' className='nav_items' onClick={()=>{Router.push('/order');setShowSubOptions(true);
+                          <div title='Orders' className='nav_items' onClick={()=>{setShowSubOptions(!showSubOptions);
                           setOrders()}}><div className='empty_strip'/><div className='center'><FaDropbox /><div style={{marginLeft:'2rem'}}>Orders
                           </div></div><div className='angle_down'><FaAngleDown/></div></div>}
                           {showSubOptions?<div className='suboptions'>
-                            <div>1</div>
-                            <div>2</div>
+                            <div className='suboptions_items' onClick={()=>Router.push('/order')}>Production</div>
+                            <div className='suboptions_items' onClick={()=>Router.push('/purchaseOrder')}>Purchase</div>
                           </div>:null}
                         </div>
                         <div>

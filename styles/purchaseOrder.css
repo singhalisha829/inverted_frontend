@@ -1,0 +1,12 @@
+.purchase_order_page{
+    display: flex;
+    flex-direction: column;
+    background-image: url('/bg.png'),url('/background.png');
+    background-size: 100vw 30rem, 200px 200px;
+    background-repeat: no-repeat, repeat;
+    background-position:  top, 0 30px ;
+    padding-top: 3rem;
+    font-size: 1.5rem;
+    line-height: 1.7rem;
+    min-height: 100vh;
+}

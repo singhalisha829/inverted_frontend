@@ -21,7 +21,7 @@
     background-color: white;
     height: 100vh;
     width:50vw;
-    position: fixed;
+    /* position: fixed; */
     padding-top:2rem ;
     padding-left: 5vw;
     top:5rem;

@@ -19,6 +19,7 @@ import '../styles/stockOutList.css';
 import '../styles/header.css';
 import '../styles/ledgerCard.css';
 import '../styles/orderList.css';
+import '../styles/purchaseOrder.css';
 
 
 import Sidebar from '../components/sidebar';
