@@ -440,7 +440,7 @@ button{
     }
 
     .react-datepicker__input-container input{
-        width:90%;
+        width:100%;
     }
 
     .add_parts_button{

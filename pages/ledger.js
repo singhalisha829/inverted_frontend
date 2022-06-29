@@ -172,39 +172,41 @@ const Ledger =(props)=>{
         setSelectedDate(()=>'')
     }
 
+
     const status=[{name:'Stock In', value:'CREDIT'},{name:'Stock Out', value:'DEBIT'}]
     let form = null;
 
     // ledger form visible on clicking add button
     if(showForm){
         form=(<div className="ledger_form">
-            <div style={{display:'flex',marginBottom:'15px'}}>
-                <div style={{width:"33%"}}>Status:
+            <div className='ledger_form_row'>
+                <div className="field_width">Status:
                 <div >
-                <Dropdown placeholder='Select Status' options={status} name="name" parentCallback={(data)=>setSelectedStatus(data.value)} width={size.width>'600'?'70%':'90%'}
+                <Dropdown placeholder='Select Status' options={status} name="name" parentCallback={(data)=>setSelectedStatus(data.value)} width={size.width>'600'?'70%':'100%'}
                 dropdownWidth={size.width>'600'?'16vw':'30vw'} searchWidth={size.width>'600'?'13vw':'22vw'} height="3rem"/></div>
                 </div>
-                <div style={{width:"33%"}}><label>Invoice:</label>
-                    <input style={{marginTop:'0',height:'3rem'}} placeholder='Enter Invoice' onChange={(e)=>setInvoice(e.target.value)} className="ledger_input"/></div>
-                <div style={{width:"33%"}}><label>Date:</label>
+                <div className="field_width"><label>Invoice:</label>
+                    <input style={{marginTop:'0',height:'3rem',width:size.width>'600'?'70%':'100%'}} placeholder='Enter Invoice' onChange={(e)=>setInvoice(e.target.value)} className="ledger_input"/></div>
+                <div className="field_width"><label>Date:</label>
                             <DatePicker placeholderText='Enter Date' selected={selectedDate} onChange={(date) => setSelectedDate(date)} />
     
                         </div>
                 </div>
-            <div style={{display:"flex",marginBottom:'15px'}}>
+            <div className='ledger_form_row'>
                 
-                <div style={{width:"33%"}}><label>Quantity:</label>
+                <div className='field_width'>
+                    <label>Quantity:</label>
                     <div style={{display:'flex'}} className="ledger_input">
                     <input type="number" style={{marginTop:'0', width:'30%', height:"3rem", marginRight:size.width>'600'?'1rem':'0.5rem'}}    
                     onChange={(e)=>setQuantity(e.target.value)} />
                     <Dropdown width="70%" placeholder='Select Unit' options={unitList} name="name" dropdownWidth={size.width>'600'?'11vw':'27vw'} searchWidth={size.width>'600'?'8vw':'19vw'} height="3rem"
                     parentCallback={(data)=>setUnit(data.symbol)}/></div>
                 </div>
-                <div style={{width:'33%'}}><label>Price:</label><input placeholder="Enter Price" style={{marginTop:'0', height:"3rem"}} type="number" className='ledger_input'
+                <div className='field_width'><label>Price:</label><input placeholder="Enter Price" style={{marginTop:'0', height:"3rem"}} type="number" className='ledger_input'
                 onChange={(e)=>setPrice(e.target.value)}/></div>
 
-<div style={{width:"33%"}}>
-                Vendor:<Dropdown width={size.width>'600'?'70%':'90%'} placeholder='Select Vendor' name="name" options={vendorList} height="3rem"
+<div className="field_width">
+                Vendor:<Dropdown width={size.width>'600'?'70%':'100%'} placeholder='Select Vendor' name="name" options={vendorList} height="3rem"
             parentCallback={(data)=>setVendor(data.id)} dropdownWidth={size.width>'600'?'16vw':'30vw'} searchWidth={size.width>'600'?'13vw':'20vw'}/></div>
             </div>
             <div style={{display:"flex",justifyContent:'flex-end'}}>

@@ -230,7 +230,7 @@ const StockIn=()=>{
                     {size.width>'600'?<label>Vendor: </label>:null}
                     {vendorList?<Dropdown options={vendorList} placeholder="Select Vendor" width={size.width>'600'?'60%':'90%'} name="name" minWidth="12rem"
                 parentCallback={(data)=>setVendor(data.id)} dropdownWidth={size.width>'600'?"15vw":'70vw'} searchWidth={size.width>'600'?"12vw":'60vw'} height="3rem"/>:null}</div>
-                <div className='form_column'>
+                <div className='date_column'>
                     {size.width>'600'?<label>Date:</label> : null}
                             <DatePicker placeholderText='Enter Date' selected={selectedDate} onChange={(date) => setSelectedDate(date)} />
                         </div>

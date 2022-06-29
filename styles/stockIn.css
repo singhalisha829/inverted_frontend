@@ -127,7 +127,7 @@ input{
       height: 3rem !important;
   }
 
-  .form_column{
+  .form_column, .date_column{
       width:33%;
       
   }
@@ -211,5 +211,11 @@ input{
 
     .stockin_list_header{
         border-bottom: none;
+    }
+
+    .date_column{
+        width:90%;
+        margin-left: auto;
+        margin-right: auto;
     }
   }
