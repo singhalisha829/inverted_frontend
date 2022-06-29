@@ -14,7 +14,6 @@ const Sidebar = () =>{
     const [selectedDiv, setSelectedDiv]= useState('dashboard');
     const [showSubOptions, setShowSubOptions] = useState(false);
 
-    console.log(showSubOptions)
 
     // calculate screen size
     function useWindowSize() {
@@ -80,8 +79,10 @@ const Sidebar = () =>{
                           setOrders()}}><div className='empty_strip'/><div className='center'><FaDropbox /><div style={{marginLeft:'2rem'}}>Orders
                           </div></div><div className='angle_down'><FaAngleDown/></div></div>}
                           {showSubOptions?<div className='suboptions'>
-                            <div className='suboptions_items' onClick={()=>Router.push('/order')}><FaHardHat/><div style={{marginLeft:'1rem'}}>Production</div></div>
-                            <div className='suboptions_items' onClick={()=>Router.push('/purchaseOrder')}><FaShoppingCart /><div style={{marginLeft:'1rem'}}>Purchase</div></div>
+                            <div className='suboptions_items' onClick={()=>{Router.push('/order');setShowSubOptions(false)}}>
+                              <FaHardHat/><div style={{marginLeft:'1rem'}}>Production</div></div>
+                            <div className='suboptions_items' onClick={()=>{Router.push('/purchaseOrder');setShowSubOptions(false)}}>
+                              <FaShoppingCart /><div style={{marginLeft:'1rem'}}>Purchase</div></div>
                           </div>:null}
                         </div>
                         <div>
@@ -109,8 +110,9 @@ const Sidebar = () =>{
                           setOrders()}}><div className='empty_strip'/><div className='center1'><FaDropbox />
                           <div className='angle_down'><FaAngleDown/></div></div></div>}
                           {showSubOptions?<div className='suboptions'>
-                            <div className='suboptions_items' onClick={()=>Router.push('/order')}><FaHardHat/></div>
-                            <div className='suboptions_items' onClick={()=>Router.push('/purchaseOrder')}><FaShoppingCart /></div>
+                            <div className='suboptions_items' onClick={()=>{Router.push('/order');setShowSubOptions(false)}}>
+                              <FaHardHat/></div>
+                            <div className='suboptions_items' onClick={()=>{Router.push('/purchaseOrder');setShowSubOptions(false)}}><FaShoppingCart /></div>
                           </div>:null}
                         </div>
                         <div>

@@ -56,10 +56,15 @@ const Table = (props) => {
 
 
 
-  //  console.log(sortedColumn)
   //  sort table rows based on selected column
     const sorting= (col) =>{
-      setSortedColumn(col)
+      if(col != sortedColumn){
+        const sorted= [...props.rows].sort((a,b)=>
+        a[col]> b[col] ? 1: -1 );
+        setData(sorted);
+        setOrder('DSC');
+        setArrow(<BsArrowUp/>)
+      }else{
         if(order === 'ASC'){
             const sorted= [...props.rows].sort((a,b)=>
             a[col]> b[col] ? 1: -1 );
@@ -80,8 +85,9 @@ const Table = (props) => {
           setData(props.rows);
           setOrder('ASC');
         }
-
-        console.log(arrow)
+      }
+        setSortedColumn(col)
+      
     }
      
     // navigate to given page on clicking a row
@@ -90,6 +96,9 @@ const Table = (props) => {
       Router.push(props.path)}
     
     }
+
+   console.log(sortedColumn)
+
 
     let table_content=null;
     
@@ -210,8 +219,8 @@ const Table = (props) => {
         <thead >
         <tr>
           {props.columns.map(column => {
-           
-                 return <th style={{textAlign:column.textalign}} key={column.accessor1}
+           if(column.accessor1 === sortedColumn){
+            return <th style={{textAlign:column.textalign}} key={column.accessor1}
             onClick={()=> sorting(column.accessor1)}>
               <div className="header_fields">
                 <div className="header_title">
@@ -221,7 +230,18 @@ const Table = (props) => {
                 </div>
                 <div className="arrow"><BsArrowDownUp className="arrow_icon"/></div>
                 </div></th>
+           }else{
+                 return <th style={{textAlign:column.textalign}} key={column.accessor1}
+            onClick={()=> sorting(column.accessor1)}>
+              <div className="header_fields">
+                <div className="header_title">
+                  <div className="title_name">{column.label}</div>
+                {/* <div className="sort_direction">{order != 'ASC'?order === 'DSC'?<BsArrowUp className="arrow_icon"/>:<BsArrowDown className="arrow_icon"/>:null}</div> */}
                 
+                </div>
+                <div className="arrow"><BsArrowDownUp className="arrow_icon"/></div>
+                </div></th>
+           }
               
           })}
         </tr>
