@@ -43,8 +43,7 @@ line-height: 1.5rem;
     font-weight: 600;
     font-size: 18px;
     line-height: 22px;
-    margin-top:10px;
-    margin-bottom:20px;
+   
   }
 
   .part_desc{
@@ -98,7 +97,7 @@ line-height: 1.5rem;
     background-color: #29394A;
     border: none;
     outline: none;
-    padding: 10px 20px;
+    padding: 0px 20px;
     color: white;
     font-weight:600;
     font-size: 1.4rem;
@@ -245,7 +244,7 @@ line-height: 1.5rem;
 
   .ledger_page{
     padding-top: 1rem;
-    background-size: 100vw 19rem, 200px 200px;
+    background-size: 100vw 18rem, 200px 200px;
   }
 
   .part_id1{
@@ -292,8 +291,7 @@ line-height: 1.2rem;
   /* font-weight: 400; */
   font-size: 1.5rem;
   line-height: 1.7rem;
-  margin-top:10px;
-  margin-bottom:20px;
+
 }
 
 .ledger_search{
