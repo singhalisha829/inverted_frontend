@@ -6,7 +6,8 @@ import { useEffect } from 'react';
 import Logo from '../public/logo.png';
 import Logo_inverted from '../public/Logo_inverted.png';
 
-import {FaDropbox ,FaTh,FaSignOutAlt, FaAngleDown, FaAngleUp,FaShoppingCart,FaHardHat} from 'react-icons/fa';
+import {FaDropbox ,FaTh,FaSignOutAlt, FaAngleDown, FaAngleUp,FaShoppingCart} from 'react-icons/fa';
+import {IoConstruct} from 'react-icons/io5';
 import { useState } from 'react';
 
 const Sidebar = () =>{
@@ -80,7 +81,7 @@ const Sidebar = () =>{
                           </div></div><div className='angle_down'><FaAngleDown/></div></div>}
                           {showSubOptions?<div className='suboptions'>
                             <div className='suboptions_items' onClick={()=>{Router.push('/order');setShowSubOptions(false)}}>
-                              <FaHardHat/><div style={{marginLeft:'1rem'}}>Production</div></div>
+                              <IoConstruct/><div style={{marginLeft:'1rem'}}>Production</div></div>
                             <div className='suboptions_items' onClick={()=>{Router.push('/purchaseOrder');setShowSubOptions(false)}}>
                               <FaShoppingCart /><div style={{marginLeft:'1rem'}}>Purchase</div></div>
                           </div>:null}
@@ -111,7 +112,7 @@ const Sidebar = () =>{
                           <div className='angle_down' style={{top:'18.6rem'}}><FaAngleDown/></div></div></div>}
                           {showSubOptions?<div className='suboptions'>
                             <div className='suboptions_items' onClick={()=>{Router.push('/order');setShowSubOptions(false)}}>
-                              <FaHardHat/></div>
+                              <IoConstruct/></div>
                             <div className='suboptions_items' onClick={()=>{Router.push('/purchaseOrder');setShowSubOptions(false)}}><FaShoppingCart /></div>
                           </div>:null}
                         </div>
