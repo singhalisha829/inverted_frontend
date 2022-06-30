@@ -3,7 +3,10 @@
     display: flex;
     justify-content: space-between;
     padding: 1rem;
-    position: relative;
+    position: fixed;
+    background-color: white;
+    width: 100vw;
+    z-index: 999;
 }
 
 .inverted_logo{
