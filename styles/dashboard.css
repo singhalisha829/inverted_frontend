@@ -283,6 +283,7 @@ button{
   .buttons1{
     display:flex;
     width:30rem;
+    justify-content: flex-end;
   }
 
   .add_part_title{
@@ -343,7 +344,7 @@ button{
       }
 
       .dashboard_page{
-        background-size: 100vw 23rem, 200px 200px;
+        background-size: 100vw 28rem, 200px 200px;
       }
 
       .dashboard_title{
@@ -427,7 +428,7 @@ button{
     }
 
     .buttons1{
-        width:20rem;
+        width:22rem;
     }
 
     .add_part_title{

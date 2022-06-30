@@ -82,6 +82,10 @@ display: flex;
 
     }
 
+    .order_page{
+    background-size: 100vw 29rem, 200px 200px;
+    }
+
     .order_section{
         width:95vw;
         height: 5.5rem;
