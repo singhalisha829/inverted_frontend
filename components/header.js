@@ -2,7 +2,7 @@ import { FaBars } from 'react-icons/fa';
 import Logo from "../public/logo.png";
 import { useState,useRef ,useEffect} from 'react';
 
-import {FaDropbox ,FaTh,FaSignOutAlt, FaAngleDown, FaAngleUp,FaShoppingCart} from 'react-icons/fa';
+import {FaDropbox ,FaTh,FaSignOutAlt, FaAngleDown, FaAngleUp,FaShoppingCart,FaAngleLeft} from 'react-icons/fa';
 import {IoConstruct} from 'react-icons/io5';
 
 import Router from 'next/router';
@@ -11,7 +11,8 @@ import Router from 'next/router';
 import Image from 'next/image';
 
 
-const Header = () =>{
+
+const Header = (props) =>{
     const [openNavbar, setOpenNavbar]= useState(false);
     const [showSubOptions,setShowSubOptions] = useState(false);
 
@@ -36,7 +37,9 @@ const Header = () =>{
     return(
         <div>
     <div className="mobile_header" >
-        <div className='hamburger'><FaBars size={25} color="#29394A" onClick={()=>setOpenNavbar(!openNavbar)}/></div>
+      <div style={{display:'flex'}}>
+        {props.show?<div style={{marginRight:'1rem'}}><FaAngleLeft size={25} color="#29394A" onClick={()=>Router.back()}/></div>:null}
+        <div className='hamburger'><FaBars size={25} color="#29394A" onClick={()=>setOpenNavbar(!openNavbar)}/></div></div>
         <div className='inverted_logo'><Image src={Logo} layout="responsive" /></div>
     </div>
 

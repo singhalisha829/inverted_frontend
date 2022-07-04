@@ -124,9 +124,9 @@ const Order=()=>{
       content=(
         rows?<div className="cards_list">
           {searchText != undefined || filterOnStatus != undefined?listFilter.map((l)=>(
-              <OrderList key={l.order_id} order_number={l.order_id} date={l.date} created_by={l.created_by} status={l.status}/>))
+              <OrderList key={l.order_id} order_number={l.order_id} date={l.date} path="/orderDetails" created_by={l.created_by} status={l.status}/>))
           :rows.map((l)=>(
-              <OrderList key={l.order_id} order_number={l.order_id} date={l.date} created_by={l.created_by} status={l.status}/>
+              <OrderList key={l.order_id} order_number={l.order_id} date={l.date} path="/orderDetails" created_by={l.created_by} status={l.status}/>
           ))}
       </div> : <Spinner />
       )

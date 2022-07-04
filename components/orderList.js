@@ -1,4 +1,6 @@
 import { useEffect, useState } from 'react';
+import Router from 'next/router';
+
 
 const OrderList = (props) =>{
 
@@ -18,7 +20,7 @@ const OrderList = (props) =>{
     }
     
     return(
-        <div className="order_list">
+        <div className="order_list" onClick={()=>Router.push(props.path)}>
         <div className="order_list_content">{props.order_number}</div>
         <div className="order_list_content">{props.date}</div>
         <div className="order_list_content">{props.created_by}</div>
