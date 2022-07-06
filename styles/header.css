@@ -20,6 +20,8 @@
     width:100%;
     position: relative;
     cursor: pointer;
+    -webkit-tap-highlight-color: rgba(0,0,0,0);
+
 }
 
 .header_suboptions_items{
