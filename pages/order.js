@@ -7,6 +7,7 @@ import Header from "../components/header";
 import OrderList from "../components/orderList";
 
 import Table from '../components/table';
+import {FaSistrix} from 'react-icons/fa';
 import { useState, useEffect } from "react";
 
 
@@ -122,7 +123,7 @@ const Order=()=>{
     }
     else{
       content=(
-        rows?<div className="cards_list">
+        rows?<div className="order_card_list">
           {searchText != undefined || filterOnStatus != undefined?listFilter.map((l)=>(
               <OrderList key={l.order_id} order_number={l.order_id} date={l.date} path="/orderDetails" created_by={l.created_by} status={l.status}/>))
           :rows.map((l)=>(
@@ -147,7 +148,7 @@ const Order=()=>{
                 <div className="order_section">
                     <Dropdown options={status} placeholder="Status" name="name" width="15vw" height="3.5rem" 
                     parentCallback={(data)=>setFilterOnStatus(data.id)} dropdownWidth={size.width>'600'?'15vw':'30vw'} searchWidth={size.width>'600'?'12vw':'22vw'}/>
-                    <input style={{height:'3.5rem',marginLeft:'2rem',width:'70%'}} value={searchText} onChange={(e)=>setSearchText(e.target.value)}/>
+                    <input style={{height:'3.5rem',marginLeft:'2rem',width:'70%'}} value={searchText} onChange={(e)=>setSearchText(e.target.value)}/><div><FaSistrix className="search_order"/></div>
                 </div>
 
                 <div style={{marginTop:'2rem',justifyContent:'space-between'}} className="order_section">

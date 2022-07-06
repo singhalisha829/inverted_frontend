@@ -19,6 +19,13 @@
     margin-bottom: 3rem;
 }
 
+.search_order{
+    color:#3F5575;
+    position: absolute;
+    top:15.2rem;
+    left: 88vw;
+}
+
 .order_section{
     width: 77vw;
     height: 8rem;
@@ -63,6 +70,8 @@
     font-weight: 500;
 font-size: 1.4rem;
 line-height: 1.7rem;
+border-bottom: #e5e5e5 solid 0.1em;
+
 color: #6B6B6B;
 display: flex;
 }
@@ -71,6 +80,15 @@ display: flex;
     width:25%;
     display: flex;
     justify-content: center;
+}
+
+.order_card_list{
+    width:95vw;
+    padding-top: 0;
+    grid-gap: 1rem;
+    grid-template-columns: repeat(auto-fill, minmax(250px, 1fr));
+    margin-left:auto;
+    margin-right: auto;
 }
 
 @media(max-width:600px){
@@ -96,6 +114,11 @@ display: flex;
         font-weight: 500;
         font-size: 1.5rem;
         line-height: 1rem;
+    }
+
+    .search_order{
+        top:17.1rem;
+        left:82.1vw;
     }
 
    

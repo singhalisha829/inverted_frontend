@@ -272,7 +272,7 @@ const Ledger =(props)=>{
                         className="ledger_search"
                         onChange={(e) => {setSearchText(e.target.value);searchCard(e)}}/>
                         <FaSistrix size={17} className="ledger_search_icon"/>
-                <button onClick={() =>{setShowForm(true)}}><FaPlus size={13}/> Add</button></div>
+                <button onClick={() =>{setShowForm(true)}}><FaPlus size={size.width>'600'?'13':'10'}/> Add</button></div>
 
                 <div className="ledger_table">
                     {form}

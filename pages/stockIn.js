@@ -210,11 +210,14 @@ const StockIn=()=>{
             parentCallback={(data)=>setUnit(data.symbol)} value={unit} dropdownWidth={size.width>'600'?"11vw":'40vw'} searchWidth={size.width>'600'?"8vw":'30vw'} height="3rem"/>:null}</div>
             </div>
 
-            <div style={{width:size.width>'600'?'15%':'50%',display:'flex',justifyContent:'center'}}>
-            <div className="icons1">
+            <div style={{width:size.width>'600'?'15%':'90%',display:'flex',justifyContent:'center'}}>
+            {size.width>'600'?<div className="icons1">
             <FaCheckCircle onClick={submitHandler} size={30} className="check_icon"/>
             <FaTimesCircle size={30} onClick={cancelHandler} className="cross_icon"/>
-            </div>
+            </div>:  <div className="stockin_buttons">
+                        <button className='cancel_button button2 plus'  onClick={cancelHandler}>Clear</button>
+                        <button className='save_button button2 plus' onClick={submitHandler}>Save</button>
+                        </div>}
                 </div>
                 
                 </div>
@@ -270,7 +273,8 @@ const StockIn=()=>{
             {form}
               </div>: null}
 
-            {size.width<'600'?<div className='stockin_form2'>
+    
+            {size.width<'600'?<div className='stockin_form2' style={{borderBottom:'#e5e5e5 solid 0.1em'}}>
                 <div className='stockin_list_header'>
                 <div style={{width:'15%',textAlign:'center'}}>Part ID</div>
                 <div style={{width:'30%',textAlign:'center'}}>Part Name</div>

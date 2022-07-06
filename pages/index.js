@@ -199,7 +199,7 @@ else{
                  <ToastContainer/>
                  <div className='buttons1'>
                      {size.width>'600'?<div className="icon_box" onClick={()=>setIsList(!isList)}>
-                         {isList? <FaList cursor="pointer"/>: <FaTh cursor="pointer"/>} 
+                         {isList? <FaList className='list_type_icon'/>: <FaTh className='list_type_icon'/>} 
                      </div>:null }
                      <Link href="/stockIn" ><div  className='stockin_button'>Stock In</div></Link>
                      <Link href="" ><div onClick={()=>setShowModal(true)}  className='dashboard_button'>Add New Part</div></Link>

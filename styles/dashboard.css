@@ -58,6 +58,7 @@
     height: 70px;   
     padding-bottom: 9px;
     width:77vw;
+    border-bottom: #e5e5e5 solid 0.01em;
     justify-content: space-between;
     margin-top: 1rem;
     margin-left: auto;
@@ -116,9 +117,10 @@ margin-bottom:0.5rem;
 
 .cards_list {
     display: flex;
-    margin: 2rem;
+    margin-top: 2rem;
+    width:77vw;
     /* position: absolute; */
-    padding-top: 20px;
+    padding-top: 1rem;
     flex-wrap: wrap;
     grid-gap: 3rem;
     grid-template-columns: repeat(auto-fill, minmax(250px, 1fr));
@@ -141,7 +143,12 @@ margin-bottom:0.5rem;
 .export_symbol{
     margin-top: 1.4rem;
     margin-left: -1.5rem;
+    cursor: pointer;
 }
+
+.export_symbol:hover{
+    color:#48586c;
+ }
 
 .export_button{
     color: #3F5575;
@@ -284,6 +291,7 @@ button{
     display:flex;
     width:30rem;
     justify-content: flex-end;
+    margin-right: 1.5rem;
   }
 
   .add_part_title{
@@ -336,11 +344,29 @@ button{
     color:white;
  }
 
+ .list_type_icon{
+    cursor: pointer;
+ }
+
+ .list_type_icon:hover{
+    color: #48586c ;
+ }
+
+
+
 
   @media (max-width:600px) {
       .layout{
           display: flex;
           flex-direction: column;
+      }
+
+      .subsection{
+        border: none;
+      }
+
+      .dashboard_table{
+        margin-top:0;
       }
 
       .dashboard_page{
@@ -403,7 +429,8 @@ button{
       }
       
       .cards_list {
-        margin: 2rem;
+        /* margin: 1rem; */
+        width:90vw;
         padding-top: 0;
         grid-gap: 1rem;
         grid-template-columns: repeat(auto-fill, minmax(250px, 1fr));
@@ -429,6 +456,7 @@ button{
 
     .buttons1{
         width:22rem;
+        margin-right: 0;
     }
 
     .add_part_title{

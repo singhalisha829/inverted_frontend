@@ -145,6 +145,8 @@ td{
 
 .arrow{
     display: none;
+    margin-left: 0.4rem;
+    margin-top: 0.1rem;
 }
 
 .header_title{
@@ -153,6 +155,10 @@ td{
 
 .header_title:hover + .arrow{
     display:block;
+}
+
+.sort_direction{
+    margin-top: 0.1rem;
 }
 
 .header_title:hover .sort_direction{

@@ -25,6 +25,7 @@
     border-radius: 6px;
     margin-left: auto;
     margin-right:auto;
+    border-bottom: #e5e5e5 solid 0.1em;
     background-color: white;
     align-items: center;
     padding: 2rem;
@@ -136,10 +137,21 @@ input{
     margin-top: 1rem;
     background: white;
     width:90vw;
+    border-bottom: #e5e5e5 solid 0.1em;
     border-radius: 5px;
     margin-left: auto;
     margin-right: auto;
     padding: 1rem;
+}
+
+.stockin_buttons{
+    display: flex;
+    width:100%;
+}
+
+.plus{
+    letter-spacing: 0.1rem;
+    width:48%;
 }
 
   @media(max-width:600px){
