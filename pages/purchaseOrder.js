@@ -8,7 +8,7 @@ const PurchaseOrder =() =>{
 
     useEffect(()=>{
         if(localStorage.getItem('token') != undefined){
-            localStorage.setItem('selected_item','orders')
+            localStorage.setItem('selected_item','purchase_orders')
             const token=localStorage.getItem('token')
             setToken(token)
           
