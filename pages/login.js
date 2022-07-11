@@ -31,14 +31,14 @@ const Login =()=>{
     </Head>
                 <ToastContainer />
             <div className="box">
-                <div className="img"><Image src={logo} width={200} height={50} layout="fixed" /></div>
+                <div className="img"><Image src={logo} width={200} height={50} layout="fixed" alt=""/></div>
                 <div className="content">Enter your details with login and password</div>
                 <div className="input_area">
                 <div style={{display:'flex',width:'80%',position:'relative'}}>
-                    <input style={{marginBottom:"10px",width:'100%',background:'#E8EDF8'}} type="text" value={username} placeholder="Username"
+                    <input style={{marginBottom:"10px",width:'100%',background:'#E8EDF8',height:'4rem'}} type="text" value={username} placeholder="Username"
                     onChange={(e)=>setUsername(e.target.value)}/><div className="login_icon"><FaAt size={11}/></div></div>
                     <div style={{display:'flex',width:'80%',position:'relative'}}>
-                        <input style={{width:"100%",background:'#E8EDF8'}} type={viewPassword?'text':'password'} value={password} placeholder="Password"
+                        <input style={{width:"100%",background:'#E8EDF8',height:"4rem"}} type={viewPassword?'text':'password'} value={password} placeholder="Password"
                     onChange={(e)=>setPassword(e.target.value)}/><div className="login_icon"><FaStarOfLife cursor="pointer" size={11} onClick={()=>setViewPassword(!viewPassword)}/></div></div>
                 </div>
                 <div className="footer">

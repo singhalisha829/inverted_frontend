@@ -15,7 +15,6 @@ export const fetchUnitList=(token) =>{
         }
 
 export const fetchLedgerByPartId=(partId,token) =>{
-    console.log(partId)
     return axios.get(URL+MAIN.LEDGER_BY_PARTID+partId,{headers:{
         "Authorization":"Token "+ token
     }})
@@ -29,7 +28,6 @@ export const fetchPartByPartId=(partId,token) =>{
 
 
 export const addNewLedger=(formData,token) =>{
-    console.log(formData)
     const d= formData.date.getDate();
     const month= formData.date.getMonth()+1;
     const year= formData.date.getFullYear();

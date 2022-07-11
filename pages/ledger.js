@@ -228,7 +228,7 @@ const Ledger =(props)=>{
 
 <div className="field_width">
                 Vendor:<Dropdown width={size.width>'600'?'70%':'100%'} placeholder='Select Vendor' name="name" options={vendorList} height="3rem"
-            parentCallback={(data)=>setVendor(data.id)} dropdownWidth={size.width>'600'?'16vw':'30vw'} searchWidth={size.width>'600'?'13vw':'20vw'}/></div>
+            parentCallback={(data)=>setVendor(data.id)} dropdownWidth={size.width>'600'?'16vw':'30vw'} searchWidth={size.width>'600'?'13vw':'20vw'} border={true}/></div>
             </div>
             <div style={{display:"flex",justifyContent:'flex-end'}}>
 

@@ -1,5 +1,4 @@
 import axios from "axios";
-import { useEffect } from "react";
 
 import { MAIN ,URL} from "../services/constants";
 

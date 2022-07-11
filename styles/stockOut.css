@@ -44,7 +44,7 @@ color: #29394A;
 .stock_out_footer{
     position:fixed;
     bottom:0;
-    box-shadow: 20px 8px 34px rgba(0, 0, 0, 0.2);
+    box-shadow: 25px 8px 34px rgba(0, 0, 0, 0.2);
     height:10rem;
     background-color:white;
     width:83.4%;

@@ -10,7 +10,7 @@ import Spinner from '../components/spinner';
 
 
 
-import { fetchPurchaseOrderList } from "../services/purchaseOrder";
+import { fetchPurchaseOrderList } from "../services/purchaseOrderService";
 import {ToastContainer, toast } from "react-toastify";
 
 const PurchaseOrder =() =>{
@@ -84,7 +84,7 @@ const PurchaseOrder =() =>{
                     </div> 
 
       <div className="po_subsection">
-        <input placeholder="Search for code or name" style={{width:'50vw',marginLeft:'1.3rem'}} onChange={(e)=>setSearchText(e.target.value)}/>
+        <input placeholder="Search for code or name" style={{width:'50vw',marginLeft:'1.3rem',height:'3.5rem'}} onChange={(e)=>setSearchText(e.target.value)}/>
         <button style={{marginLeft:'2rem'}}>Search</button>
       </div>
 
