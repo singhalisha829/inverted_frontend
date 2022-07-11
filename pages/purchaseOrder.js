@@ -2,15 +2,36 @@ import { useState, useEffect } from "react";
 import Sidebar from "../components/sidebar";
 import Head from "next/head";
 import Header from "../components/header";
+import Router from 'next/router';
+
+
+import Table from '../components/table';
+import Spinner from '../components/spinner';
+
+
+
+import { fetchPurchaseOrderList } from "../services/purchaseOrder";
+import {ToastContainer, toast } from "react-toastify";
 
 const PurchaseOrder =() =>{
     const [token,setToken]= useState(null);
+    const [searchText,setSearchText]= useState(null);
+    const [purchaseOrderList, setPurchaseOrderList] = useState(null);
+
+    const columns = [
+      { accessor1: 'purchase_order_no', label: 'Order ID' ,width:"33%", textalign:"center"},
+      { accessor1: 'date', label:'Date'  ,width:"33%", textalign:"center"},
+      { accessor1: 'status', label: 'Status',width:"33%" , textalign:"center"},  
+    ];
 
     useEffect(()=>{
         if(localStorage.getItem('token') != undefined){
             localStorage.setItem('selected_item','purchase_orders')
             const token=localStorage.getItem('token')
             setToken(token)
+
+            fetchPurchaseOrderList(token).then(res=> {console.log(res.data.data.output);setPurchaseOrderList(res.data.data.output)})
+            .catch(err=> toast.error(err.message))
           
         }else{
             Router.push('/login');
@@ -55,10 +76,24 @@ const PurchaseOrder =() =>{
     {size.width>'600'?<Sidebar /> : <Header />}
 
     <div className="purchase_order_page">
+    <ToastContainer/>
+
     <div className="order_title">
                 <div className="title">Purchase Orders</div>
                      <div className="sub_title">Database for all Orders</div>
                     </div> 
+
+      <div className="po_subsection">
+        <input placeholder="Search for code or name" style={{width:'50vw',marginLeft:'1.3rem'}} onChange={(e)=>setSearchText(e.target.value)}/>
+        <button style={{marginLeft:'2rem'}}>Search</button>
+      </div>
+
+      <div className="order_section" style={{justifyContent:'space-between'}}>
+        <div className="order_subtitle">Your Orders</div>
+        <button onClick={()=>Router.push('/newPurchaseOrder')}>Create Order</button>
+        </div>
+      <div className="po_table">{purchaseOrderList?<Table key={purchaseOrderList.length} id="purchaseOrderTable" rows={purchaseOrderList} columns={columns} cursor="pointer" search={searchText} 
+    width="77vw" />:<Spinner />}</div>
     </div>
     </div>
     )

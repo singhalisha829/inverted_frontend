@@ -35,7 +35,6 @@ export default function Home() {
     const [partType, setPartType] = useState(null);
     const [partName, setPartName] = useState(null);
     const [partDesc, setPartDesc]= useState(null);
-    const [showPage, setShowPage]= useState(false);
     const [token,setToken]= useState(null);
 
 
@@ -55,12 +54,13 @@ export default function Home() {
       const token=localStorage.getItem('token')
       setToken(token)
     fetchPartsList(token).then(
-      res=>
-        setPartsList(res.data)).catch(err=>toast.error(err.message))
+      res=>{
+        console.log(res.data)
+        setPartsList(res.data)}).catch(err=>toast.error(err.message))
     fetchPartTypeList(token).then(
       res=>setPartTypeList(res.data)
     ).catch(err=>toast.error(err.message))
-    setShowPage(true);
+    
   }else{
       router.push('/login');
     }

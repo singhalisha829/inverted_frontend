@@ -20,6 +20,7 @@ import '../styles/header.css';
 import '../styles/ledgerCard.css';
 import '../styles/orderList.css';
 import '../styles/purchaseOrder.css';
+import '../styles/newPurchaseOrder.css';
 
 
 import Sidebar from '../components/sidebar';

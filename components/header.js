@@ -39,7 +39,7 @@ const Header = (props) =>{
       <div style={{display:'flex'}}>
         {props.show?<div style={{marginRight:'1rem'}}><FaAngleLeft size={25} color="#29394A" onClick={()=>Router.back()}/></div>:null}
         <div className='hamburger'><FaBars size={25} color="#29394A" onClick={()=>setOpenNavbar(!openNavbar)}/></div></div>
-        <div className='inverted_logo'><Image src={Logo} layout="responsive" /></div>
+        <div className='inverted_logo'><Image src={Logo} layout="responsive" alt="" /></div>
     </div>
 
     {openNavbar?<div className='nav_wrapper' >    

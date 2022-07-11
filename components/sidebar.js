@@ -64,7 +64,7 @@ const Sidebar = () =>{
           {size.width>'1200'?
         <div className="navbar" >
                 <div style={{width:'16.66vw',display:'flex',justifyContent:'logo_center'}}>
-                  <div className='navbar_img'><Image src={Logo} layout="responsive" />
+                  <div className='navbar_img'><Image src={Logo} layout="responsive" alt="" />
                   </div>
                   </div>
                         <div className='nav_list'>
@@ -101,7 +101,7 @@ const Sidebar = () =>{
                         
                 </div>:
                 <div className="navbar" >
-                <div style={{width:'16.66vw',display:'flex',justifyContent:'center'}}><div className='navbar_img1'><Image src={Logo_inverted} layout="fill" /></div></div>
+                <div style={{width:'16.66vw',display:'flex',justifyContent:'center'}}><div className='navbar_img1'><Image src={Logo_inverted} layout="fill" alt="" /></div></div>
                         <div className='nav_list'>
                           {selectedDiv === 'dashboard'?
                             <div title='Dashboard' className='selected_items' onClick={()=>{Router.push('/');
