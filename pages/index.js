@@ -218,7 +218,7 @@ else{
             <div className='add_part_form'>
           
               {partTypeList?<Dropdown  options={partTypeList} placeholder='Select Part Type' name="name" width="70%" 
-            parentCallback={(data)=>setPartType(data.id)} value={partType} dropdownWidth={size.width>'600'?'21vw':'56vw'} 
+            parentCallback={(data)=>setPartType(data.id)} value={partType} dropdownWidth={size.width>'600'?'21vw':'56vw'} border={true}
             searchWidth={size.width>'600'?'17vw':'48vw'}/> : <Spinner/>}
       
     

@@ -3,9 +3,21 @@
     cursor: default;
     top:100px;
     border-radius: 5px;
-    border:#e5e5e5 solid 0.1em;
+    /* border:#e5e5e5 solid 0.1em; */
     display: flex;
     flex-direction: column;
+  }
+
+  .selected_value_without_outline {
+    color:black ;
+    font-size: 1.4rem;
+    border: none;
+    width:100%;
+  }
+
+  .selected_value_without_outline:focus{
+    outline: none;
+    border:none;
   }
   
  .control{

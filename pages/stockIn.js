@@ -197,16 +197,17 @@ const StockIn=()=>{
            const form=(<div className="form_content">
             {size.width>'600'?<div style={{width:"15%", textAlign:"center"}}></div>:null}
             <div style={{width:size.width>'600'?'30%':'100%',display:'flex',justifyContent:'center',paddingBottom:padding}}>
-            {partList?<Dropdown options={partList} placeholder="Select Part" width={size.width>'600'?'60%':'90%'} name="short_description" isAddNewPart partTypeList={partTypeList}
+            {partList?<Dropdown options={partList} placeholder="Select Part" width={size.width>'600'?'60%':'90%'} name="short_description" isAddNewPart partTypeList={partTypeList} border={true}
             parentCallback={(data)=>setPartName(data.id)} value={partName} height="3rem" minWidth="12rem" dropdownWidth={size.width>'600'?'20vw':'70vw'} searchWidth={size.width>'600'?"17vw":'60vw'}/>:null}</div>
 
             <div style={{width:size.width>'600'?'10%':'100%',display:'flex',justifyContent:'center',paddingBottom:padding}}><input style={{width:size.width>'600'?'80%':'90%',height:"3rem"}} type="number" placeholder={size.width<'600'?'Enter Unit Price':'0.00'}
             onChange={(e)=>setPrice(e.target.value)} value={price}/></div>
 
             <div style={{width:size.width>'600'?'30%':'100%', display:'flex',justifyContent:'center',paddingBottom:padding}}>
-              <div style={{display:'flex',width:size.width>'600'?'70%':'90%',justifyContent:'space-between'}}>
-            <input value={quantity} style={{width:"35%",marginRight:'10px',height:"3rem"}} type="number" onChange={(e)=>setQuantity(e.target.value)} placeholder={size.width<'600'?'Enter Quantity':null}/>
-            {unitList?<Dropdown options={unitList} placeholder="Select Unit" width="60%" name="name" minWidth="9rem"
+              <div style={{display:'flex',width:size.width>'600'?'70%':'90%', border:"#e5e5e5 solid 0.1em",borderRadius:'5px'}}>
+            <input value={quantity} style={{width:"35%",height:"3rem",border:'none'}} className="quantity" type="number" onChange={(e)=>setQuantity(e.target.value)} placeholder={size.width<'600'?'Enter Quantity':null}/>
+            <div style={{borderLeft:"#e5e5e5 solid 0.1em"}}/>
+            {unitList?<Dropdown options={unitList} placeholder="Select Unit" width="60%" name="name" minWidth="9rem" no_outline={true}
             parentCallback={(data)=>setUnit(data.symbol)} value={unit} dropdownWidth={size.width>'600'?"11vw":'40vw'} searchWidth={size.width>'600'?"8vw":'30vw'} height="3rem"/>:null}</div>
             </div>
 
@@ -251,7 +252,7 @@ const StockIn=()=>{
                     <input style={{width:size.width>'600'?'60%':'90%',minWidth:'12rem',height:'3rem'}} onChange={(e)=> setInvoice(e.target.value)} placeholder="Enter Invoice Number"/></div>
                 <div className='form_column'>
                     {size.width>'600'?<label>Vendor: </label>:null}
-                    {vendorList?<Dropdown options={vendorList} placeholder="Select Vendor" width={size.width>'600'?'60%':'90%'} name="name" minWidth="12rem"
+                    {vendorList?<Dropdown options={vendorList} placeholder="Select Vendor" width={size.width>'600'?'60%':'90%'} name="name" minWidth="12rem" border={true}
                 parentCallback={(data)=>setVendor(data.id)} dropdownWidth={size.width>'600'?"15vw":'70vw'} searchWidth={size.width>'600'?"12vw":'60vw'} height="3rem"/>:null}</div>
                 <div className='date_column'>
                     {size.width>'600'?<label>Date:</label> : null}

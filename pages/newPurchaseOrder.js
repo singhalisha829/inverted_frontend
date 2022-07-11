@@ -117,10 +117,10 @@ const NewPurchaseOrder =() =>{
                 <div className="new_order_form">
                     <div style={{width:'25%'}}><label>Order Type:</label>
                     <Dropdown options={order_type} name="name" width="70%" parentCallback={(data)=>{setOrderType(data.value);fetchOrderName(data.value)}}
-                    dropdownWidth={size.width>'600'?'13vw':'20vw'} searchWidth={size.width>'600'?'10vw':'12vw'}/></div>
+                    dropdownWidth={size.width>'600'?'13vw':'20vw'} searchWidth={size.width>'600'?'10vw':'12vw'} border={true}/></div>
                     <div style={{width:'25%'}}><label>Part Name:</label>
                     <Dropdown options={name} name="short_description" width="70%" parentCallback={(data)=>setName(data.value)}
-                    dropdownWidth={size.width>'600'?'13vw':'20vw'} searchWidth={size.width>'600'?'10vw':'12vw'}/></div>
+                    dropdownWidth={size.width>'600'?'13vw':'20vw'} searchWidth={size.width>'600'?'10vw':'12vw'} border={true}/></div>
                     <div style={{width:'25%'}}><label>Required Quantity</label>
                     <input type="number" value={quantity} style={{height:'3rem',width:'70%'}} onChange={(e)=>setQuantity(e.target.value)}/></div>
                     <div style={{width:'25%',display:'flex',alignItems:'center',justifyContent:'center'}}>

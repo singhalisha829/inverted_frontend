@@ -117,9 +117,9 @@ const Dropdown= (props) =>{
     }
     
     return(
-        <div ref={wrapperRef} className="custom_dropdown" style={{width:props.width, height:props.height,minWidth:props.minWidth}} >
+        <div ref={wrapperRef} className="custom_dropdown" style={{width:props.width, height:props.height,minWidth:props.minWidth, border:props.border?"#e5e5e5 solid 0.1em":null}} >
            <div className="control" onClick={()=>setIsDropdownOpen(!isDropdownOpen)} >
-           <input className="selected_value" placeholder={props.placeholder} value={value} style={{margin:"0",height:'2.8rem'}}/>
+           <input className={props.no_outline?"selected_value_without_outline":"selected_value"} placeholder={props.placeholder} value={value} style={{margin:"0",height:'2.8rem'}}/>
            
            {/* <div style={{position:'relative',right:'10px'}}><FaSistrix /></div> */}
            </div>
@@ -129,7 +129,7 @@ const Dropdown= (props) =>{
             <div style={{color:"#6B6B6B", padding:'2rem',paddingBottom:'4rem',fontFamily: 'Inter',fontStyle: "normal",fontWeight: "600",
             fontSize: "16px",lineHeight: "19px"}}>Add Part</div>
             <div className="add_part_form">
-              {props.partTypeList?<Dropdown options={props.partTypeList} placeholder='Select Part Type' name="name" width="70%"
+              {props.partTypeList?<Dropdown options={props.partTypeList} placeholder='Select Part Type' name="name" width="70%" border={true}
             parentCallback={(data)=>setPartType(data.id)}/> : null}
             
             
