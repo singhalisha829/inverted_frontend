@@ -11,7 +11,9 @@ import { createPurchaseOrder } from "../services/purchaseOrderService";
 import PurchaseOrderList from "../components/purchaseOrderList";
 import Dropdown from "../components/dropdown";
 import { FaSistrix,FaCheckCircle, FaTimesCircle} from 'react-icons/fa';
-import { toast } from "react-toastify";
+import { toast, ToastContainer } from "react-toastify";
+import 'react-toastify/dist/ReactToastify.css';
+
 
 
 const NewPurchaseOrder =() =>{
@@ -35,7 +37,6 @@ const NewPurchaseOrder =() =>{
           const token=localStorage.getItem('token');
           setToken(token)
           fetchUnitList(token).then((res)=>setUnitList(res.data))
-        
         
         
       }else{
@@ -105,9 +106,15 @@ const NewPurchaseOrder =() =>{
     }
 
     const submitPurchaseOrder=()=>{
+        console.log(newPoList.length)
+        if(newPoList.length===0){
+            toast.warning('Enter Form Details!')
+        }else{
         createPurchaseOrder(newPoList,token).then(()=>{
-            toast.success('Submited Successfully')
+            cancelHandler();
+            Router.push('/selectVendor');
         })
+    }
     }
 
     // remove the part from list on clicking the trash icon
@@ -124,6 +131,7 @@ const NewPurchaseOrder =() =>{
     </Head>
     {size.width>'600'?<Sidebar /> : <Header />}
     <div className="new_purchase_order_page">
+        <ToastContainer />
     <div className="order_title">
                 <div className="title">Purchase Orders</div>
                      <div className="sub_title">Place New Orders</div>
@@ -166,7 +174,7 @@ const NewPurchaseOrder =() =>{
 <div className="stock_out_footer">
                     <div className="stock_out_button">
                         <button className="cancel_button button2" onClick={()=>{Router.back();}}>Cancel</button>
-                        <button className="save_button button2" onClick={submitPurchaseOrder}>Create Order</button>
+                        <button className="save_button button2" onClick={submitPurchaseOrder}>Save</button>
                         </div></div>
     </div>
         </div>

@@ -12,6 +12,8 @@ import Spinner from '../components/spinner';
 
 import { fetchPurchaseOrderList } from "../services/purchaseOrderService";
 import {ToastContainer, toast } from "react-toastify";
+import 'react-toastify/dist/ReactToastify.css';
+
 
 const PurchaseOrder =() =>{
     const [token,setToken]= useState(null);
