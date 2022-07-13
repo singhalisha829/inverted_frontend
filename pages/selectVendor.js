@@ -4,10 +4,23 @@ import Head from "next/head";
 import Header from "../components/header";
 import Router from 'next/router';
 
+import { fetchPartWiseList } from "../services/purchaseOrderService";
+
 import { FaSistrix,FaCheckCircle, FaTimesCircle} from 'react-icons/fa';
+import PartsList from "../components/partList";
 
 
 const SelectVendor=() =>{
+
+    const [token,setToken]= useState(null);
+    const [partsList,setPartsList]= useState([]);
+
+
+    useEffect(()=>{
+        const token=localStorage.getItem('token');
+        setToken(token)
+        fetchPartWiseList(token).then(res=>{setPartsList(res.data.data.output);console.log(res.data.data.output)})
+    },[])
 
     // calculate screen size
     function useWindowSize() {
@@ -54,8 +67,22 @@ const SelectVendor=() =>{
             <input  style={{width:"70%",height:'3.5rem'}} placeholder="Search.."/>
             <div className="new_order_search"><FaSistrix size={17} color="#3F5575"/></div>
         </div>
+
+        <div className="vendor_subsection">
+            <div style={{width:'20%'}}>PART ID</div>
+            <div style={{width:'20%'}}>PART NAME</div>
+            <div style={{width:'20%'}}>QUANTITY</div>
+            <div style={{width:'20%'}}>UNIT PRICE</div>
+            <div style={{width:'20%'}}>VENDOR</div>
+        </div>
+        <div style={{marginTop:"1rem"}}>
+            {partsList?partsList.map((part)=>(
+            <PartsList key={part.id} partId={part.part_id} partName={part.short_description}
+            quantity={part.quantity_value} unit={part.quantity_symbol} />
+        )):null}</div>
     </div>
 
+       
         </div>
     )
 }

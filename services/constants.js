@@ -1,4 +1,6 @@
 export const URL="http://3.6.90.222/";
+// export const URL="https://bom.inverted.in/";
+
 
 export const MAIN={
     PARTS:'api/v1/part/',
@@ -11,5 +13,6 @@ export const MAIN={
     PART_BY_ID:'api/v1/part/',
     PART_TYPE:'api/v1/part-type/',
     PURCHASE_ORDER:'api/v1/purchase-order/',
-    BOM:'api/v1/bom'
+    BOM:'api/v1/bom',
+    PART_WISE_LIST:'api/v1/purchase-order-items-wise/?production_order_id='
 }

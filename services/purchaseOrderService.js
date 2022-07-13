@@ -25,3 +25,9 @@ export const fetchBOMList=(token) =>{
             "Authorization":"Token "+ token
         }})
     }
+
+export const fetchPartWiseList=(token) =>{
+    return axios.get(URL+MAIN.PART_WISE_LIST+"15",{headers:{
+        "Authorization":"Token "+ token
+    }})
+}
