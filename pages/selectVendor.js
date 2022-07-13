@@ -23,9 +23,11 @@ const SelectVendor=() =>{
 
     useEffect(()=>{
         const token=localStorage.getItem('token');
-        setPurchaseOrderId(localStorage.getItem('purchase_order'))
+        const poId=localStorage.getItem('purchase_order_id')
+        console.log(poId)
+        setPurchaseOrderId(localStorage.getItem('purchase_order_id'))
         setToken(token)
-        fetchPartWiseList(token).then(res=>{console.log(res.data.data.output);setPartsList(res.data.data.output.order_items);})
+        fetchPartWiseList(token,poId).then(res=>{console.log(res.data.data.output);setPartsList(res.data.data.output.order_items);})
     },[])
 
     // calculate screen size
@@ -97,7 +99,13 @@ const SelectVendor=() =>{
             toast.warning('Enter All Fields!')
             return;
         }else{
-            postPoVendor(token,vendorList).then(res=>toast.success("Successfully Submitted!"))
+            postPoVendor(token,vendorList).then(res=>{
+                toast.success("Successfully Submitted!")
+                console.log(res)
+            localStorage.setItem('purchase_order_id_vendor',res.data.status.purchase_order_id);
+            Router.push('/vendorList')
+
+            })
         }
     }
 

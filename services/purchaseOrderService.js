@@ -34,14 +34,14 @@ export const postPoVendor=(token,vendorList) =>{
     }})
 }
 
-export const fetchPartWiseList=(token) =>{
-    return axios.get(URL+MAIN.PART_WISE_LIST+"45",{headers:{
+export const fetchPartWiseList=(token,poId) =>{
+    return axios.get(URL+MAIN.PART_WISE_LIST+poId,{headers:{
         "Authorization":"Token "+ token
     }})
 }
 
-export const fetchVendorWiseList=(token) =>{
-    return axios.get(URL+MAIN.VENDOR_WISE_LIST+"45",{headers:{
+export const fetchVendorWiseList=(token,poId) =>{
+    return axios.get(URL+MAIN.VENDOR_WISE_LIST+poId,{headers:{
         "Authorization":"Token "+ token
     }})
 }

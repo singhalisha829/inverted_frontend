@@ -22,6 +22,7 @@ import '../styles/orderList.css';
 import '../styles/purchaseOrder.css';
 import '../styles/newPurchaseOrder.css';
 import '../styles/selectVendor.css';
+import '../styles/vendorList.css';
 
 
 import Sidebar from '../components/sidebar';
