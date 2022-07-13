@@ -6,7 +6,7 @@ import Router from 'next/router';
 
 import { fetchPartsList } from '../services/dashboardService';
 import { fetchUnitList } from '../services/ledgerService';
-import { createPurchaseOrder } from "../services/purchaseOrderService";
+import { createPurchaseOrder , fetchBOMList } from "../services/purchaseOrderService";
 
 import PurchaseOrderList from "../components/purchaseOrderList";
 import Dropdown from "../components/dropdown";
@@ -19,13 +19,16 @@ import 'react-toastify/dist/ReactToastify.css';
 const NewPurchaseOrder =() =>{
 
     const [orderType,setOrderType]= useState(null);
-    const [name,setName]= useState([]);
+    // const [name,setName]= useState([]);
     const [quantity,setQuantity]= useState('');
     const [token,setToken]= useState(null);
     const [unit,setUnit] = useState(null);
     const [unitList, setUnitList]= useState(null);
     const [showUnit,setShowUnit]= useState(false);
     const [newPoList,setNewPoList]= useState([]);
+    const [orderList,setOrderList]= useState([]);
+    const [orderName,setOrderName]= useState(null);
+    const [orderValue,setOrderValue]= useState(null);
 
 
 
@@ -37,6 +40,9 @@ const NewPurchaseOrder =() =>{
           const token=localStorage.getItem('token');
           setToken(token)
           fetchUnitList(token).then((res)=>setUnitList(res.data))
+          
+
+
         
         
       }else{
@@ -73,37 +79,68 @@ const NewPurchaseOrder =() =>{
     const size = useWindowSize();
 
     const submitHandler = () =>{
-        console.log(name,quantity,orderType,unit)
-        if(name !='' && quantity != '' && orderType !=''){
+        if(orderType=== null || orderType===''){
+            toast.warning('Select Order Type!')
+        }else if(orderName=== null || orderName===''){
+            toast.warning('Select Order Name!')
+        }else if(quantity === ''){
+            toast.warning('Enter Qunatity!')
+        }else if(orderType==='Part' && unit === ''){
+            toast.warning('Select Unit!')
+        }else if(orderType==='BOM'){
+
             const data={
                 ItemType:orderType,
-                item_id:name,
-                quantity:quantity+" "+unit,
+                item_id:orderName,
+                quantity:quantity+" Nos",
             }
+            console.log(data)
             const newList = [data,...newPoList];
             setNewPoList(newList);
-            cancelHandler();
-
+            cancelHandler(); 
         }
+        else{ 
+
+            const data={
+                ItemType:orderType,
+                item_id:orderName,
+                quantity:quantity+" "+unit,
+            }
+            console.log(data)
+            const newList = [data,...newPoList];
+            setNewPoList(newList);
+            cancelHandler(); 
+        }
+        
     }
 
     const cancelHandler=() =>{
         setOrderType("");
         setQuantity(()=>'');
-        setName('');
+        setOrderName('');
         setUnit('');
     }
+
 
     const fetchOrderName=(data)=>{
         setToken(localStorage.getItem('token'))
         if(data==="PART"){
+            setOrderValue('short_description')
             fetchPartsList(token).then(
-                res=>setName(res.data)).catch(err=>toast.error(err.message))
+                res=>{setOrderList(res.data)}).catch(err=>toast.error(err.message))
+                
             setShowUnit(true);
+ 
         }else{
+            setOrderValue('product_description')
+            fetchBOMList(token).then(
+                res=>{setOrderList(res.data.data.output)}).catch(err=>toast.error(err.message))
+            
 
         }
     }
+
+    
 
     const submitPurchaseOrder=()=>{
         console.log(newPoList.length)
@@ -113,7 +150,9 @@ const NewPurchaseOrder =() =>{
         createPurchaseOrder(newPoList,token).then(()=>{
             cancelHandler();
             Router.push('/selectVendor');
-        })
+        }
+        )
+        console.log(newPoList)
     }
     }
 
@@ -144,10 +183,12 @@ const NewPurchaseOrder =() =>{
                 <div className="new_order_form">
                     <div style={{width:'25%'}}><label>Order Type:</label>
                     <Dropdown options={order_type} name="name" width="70%" parentCallback={(data)=>{setOrderType(data.value);fetchOrderName(data.value)}}
-                    dropdownWidth={size.width>'600'?'13vw':'20vw'} searchWidth={size.width>'600'?'10vw':'12vw'} border={true} value={orderType}/></div>
+                    dropdownWidth={size.width>'600'?'13vw':'20vw'} searchWidth={size.width>'600'?'10vw':'12vw'} border={true} value={orderName}/></div>
+                    
                     <div style={{width:'25%'}}><label>Order Name:</label>
-                    <Dropdown options={name} name="short_description" width="70%" parentCallback={(data)=>setName(data.id)} value={name}
-                    dropdownWidth={size.width>'600'?'13vw':'20vw'} searchWidth={size.width>'600'?'10vw':'12vw'} border={true}/></div>
+                    <Dropdown options={orderList} name={orderValue} width="70%" parentCallback={(data)=>setOrderName(data.id)} value={orderName}
+            dropdownWidth={size.width>'600'?'13vw':'20vw'} searchWidth={size.width>'600'?'10vw':'12vw'} border={true}/>
+            </div>
                     <div style={{width:'25%'}}><label>Required Quantity</label>
                     {showUnit? <div style={{display:'flex',width:size.width>'600'?'70%':'90%', border:"#e5e5e5 solid 0.1em",borderRadius:'5px'}}>
             <input value={quantity} style={{width:"35%",height:"3rem",border:'none'}} className="quantity" type="number" onChange={(e)=>setQuantity(e.target.value)} placeholder={size.width<'600'?'Enter Quantity':null}/>

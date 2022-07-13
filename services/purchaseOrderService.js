@@ -19,3 +19,9 @@ export const createPurchaseOrder=(poItems,token) =>{
                 "Authorization":"Token "+ token
             }})
     }
+
+export const fetchBOMList=(token) =>{
+        return axios.get(URL+MAIN.BOM,{headers:{
+            "Authorization":"Token "+ token
+        }})
+    }

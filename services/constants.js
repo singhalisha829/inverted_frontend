@@ -10,5 +10,6 @@ export const MAIN={
     PART_BY_PARTID:'api/v1/part/?part_id=',
     PART_BY_ID:'api/v1/part/',
     PART_TYPE:'api/v1/part-type/',
-    PURCHASE_ORDER:'api/v1/purchase-order/'
+    PURCHASE_ORDER:'api/v1/purchase-order/',
+    BOM:'api/v1/bom'
 }
