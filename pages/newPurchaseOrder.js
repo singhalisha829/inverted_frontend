@@ -32,7 +32,7 @@ const NewPurchaseOrder =() =>{
 
 
 
-    const order_type=[{value:'BOM',name:'BOM'},{value:'PART',name:'PART'}]
+    const order_type=[{value:'BOM',name:'BOM'},{value:'Part',name:'PART'}]
 
     useEffect(()=>{
         // fetch data only if token is defined or redirect to login
@@ -124,7 +124,7 @@ const NewPurchaseOrder =() =>{
 
     const fetchOrderName=(data)=>{
         setToken(localStorage.getItem('token'))
-        if(data==="PART"){
+        if(data==="Part"){
             setOrderValue('short_description')
             fetchPartsList(token).then(
                 res=>{setOrderList(res.data)}).catch(err=>toast.error(err.message))
@@ -147,7 +147,8 @@ const NewPurchaseOrder =() =>{
         if(newPoList.length===0){
             toast.warning('Enter Form Details!')
         }else{
-        createPurchaseOrder(newPoList,token).then(()=>{
+        createPurchaseOrder(newPoList,token).then((res)=>{
+            localStorage.setItem('purchase_order',res.purchase_order_id);
             cancelHandler();
             Router.push('/selectVendor');
         }

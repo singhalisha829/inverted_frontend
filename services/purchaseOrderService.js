@@ -26,8 +26,22 @@ export const fetchBOMList=(token) =>{
         }})
     }
 
+export const postPoVendor=(token,vendorList) =>{
+    return axios.post(URL+MAIN.PO_VENDOR,
+        vendorList
+        ,{headers:{
+        "Authorization":"Token "+ token
+    }})
+}
+
 export const fetchPartWiseList=(token) =>{
-    return axios.get(URL+MAIN.PART_WISE_LIST+"15",{headers:{
+    return axios.get(URL+MAIN.PART_WISE_LIST+"45",{headers:{
+        "Authorization":"Token "+ token
+    }})
+}
+
+export const fetchVendorWiseList=(token) =>{
+    return axios.get(URL+MAIN.VENDOR_WISE_LIST+"45",{headers:{
         "Authorization":"Token "+ token
     }})
 }

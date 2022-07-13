@@ -19,12 +19,12 @@ const PartsList = (props) =>{
 
            <div  style={{width:"20%"}}>{props.partName}</div>
            <div  style={{width:"20%"}}>{props.quantity} {props.unit}</div>
-           <div style={{width:'20%'}}><input type="number" style={{height:'3rem'}} /></div>
+           <div style={{width:'20%'}}><input type="number" style={{height:'3rem'}} onChange={(e)=>props.handleUnitPrice(props.id,e.target.value,props.quantity,props.unit)}/></div>
         <div style={{width:'20%'}}>
         {vendorList?<Dropdown  placeholder='Select Vendor' name="name" options={vendorList} height="3rem" value={vendor}
-            parentCallback={(data)=>setVendor(data.id)} border={true}/>:null}
+            parentCallback={(data)=>{setVendor(data.id);props.handleVendor(props.id,data.id,props.quantity,props.unit)}} border={true}/>:null}
             </div>
-
+        
         </div>
     )
 }
