@@ -1,4 +1,4 @@
-export const URL="http://3.6.90.222/";
+export const URL=process.env.SERVER;
 // export const URL="https://bom.inverted.in/";
 
 
