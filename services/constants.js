@@ -1,6 +1,4 @@
 export const URL=process.env.SERVER;
-// export const URL="https://bom.inverted.in/";
-
 
 export const MAIN={
     PARTS:'api/v1/part/',

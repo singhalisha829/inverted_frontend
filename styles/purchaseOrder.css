@@ -18,7 +18,7 @@
     background: white;
     border-radius: 6px;  
     display: flex;
-    height: 70px;   
+    height: 7rem;   
     width:77vw;
     border-bottom: #e5e5e5 solid 0.01em;
     margin-top: 1rem;
@@ -33,4 +33,16 @@
     margin-left: auto;
     margin-right: auto;
 
+}
+
+@media(max-width:600px){
+    .po_subsection{
+        width:95vw;
+        height: 6rem;
+    }
+
+    .purchase_order_page{
+    background-size: 100vw 29rem, 200px 200px;
+
+    }
 }

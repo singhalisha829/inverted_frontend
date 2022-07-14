@@ -163,6 +163,36 @@ const NewPurchaseOrder =() =>{
         setNewPoList(newList)
     }
 
+    const field_width=size.width>'600'?'25%':'100%';
+
+    const form=( <div className="new_po_order_form">
+        <div style={{width:"25%"}}>{size.width>'600'?<label>Order Type:</label>:null}
+        <Dropdown options={order_type} name="name" width={size.width>'600'?'70%':'90%'} parentCallback={(data)=>{setOrderType(data.value);fetchOrderName(data.value)}}
+        dropdownWidth={size.width>'600'?'13vw':'20vw'} searchWidth={size.width>'600'?'10vw':'12vw'} border={true} value={orderName}
+        placeholder="Select Order Type"/></div>
+        
+        <div style={{width:"25%"}}>{size.width>'600'?<label>Order Name:</label>:null}
+        <Dropdown options={orderList} name={orderValue} width="70%" parentCallback={(data)=>setOrderName(data.id)} value={orderName}
+dropdownWidth={size.width>'600'?'13vw':'20vw'} searchWidth={size.width>'600'?'10vw':'12vw'} border={true} placeholder="Select Order"/>
+</div>
+        <div style={{width:"25%"}}>{size.width>'600'?<label>Required Quantity</label>:null}
+        {showUnit? <div style={{display:'flex',width:size.width>'600'?'70%':'90%', border:"#e5e5e5 solid 0.1em",borderRadius:'5px'}}>
+<input value={quantity} style={{width:"35%",height:"3rem",border:'none'}} className="quantity" type="number" onChange={(e)=>setQuantity(e.target.value)} placeholder={size.width<'600'?'Enter Quantity':null}/>
+<div style={{borderLeft:"#e5e5e5 solid 0.1em"}}/>
+{unitList?<Dropdown options={unitList} placeholder="Select Unit" width="60%" name="name" minWidth="9rem" no_outline={true}
+parentCallback={(data)=>setUnit(data.symbol)} value={unit} dropdownWidth={size.width>'600'?"11vw":'40vw'} searchWidth={size.width>'600'?"8vw":'30vw'} height="3rem"/>:null}</div>
+:
+<input type="number" value={quantity} style={{height:'3rem',width:'70%'}} onChange={(e)=>setQuantity(e.target.value)}/>}
+        </div>
+        <div style={{width:'25%',display:'flex',alignItems:'center',justifyContent:'center'}}>
+        <div className="form_icons">
+       
+<FaCheckCircle onClick={submitHandler} size={30} className="check_icon"/>
+<FaTimesCircle size={30}  onClick={cancelHandler} className="cross_icon" />
+</div>
+        </div></div>);
+    
+
     return(
         <div className="layout">
             <Head>
@@ -175,40 +205,14 @@ const NewPurchaseOrder =() =>{
     <div className="order_title">
                 <div className="title">Purchase Orders</div>
                      <div className="sub_title">Place New Orders</div>
-                    </div> 
+    </div> 
                     <div className="new_order_subsection">
                     <input  style={{width:"70%",height:'3.5rem'}} placeholder="Search.."/>
                     <div className="new_order_search"><FaSistrix size={17} color="#3F5575"/></div>
                 </div>
 
-                <div className="new_order_form">
-                    <div style={{width:'25%'}}><label>Order Type:</label>
-                    <Dropdown options={order_type} name="name" width="70%" parentCallback={(data)=>{setOrderType(data.value);fetchOrderName(data.value)}}
-                    dropdownWidth={size.width>'600'?'13vw':'20vw'} searchWidth={size.width>'600'?'10vw':'12vw'} border={true} value={orderName}/></div>
-                    
-                    <div style={{width:'25%'}}><label>Order Name:</label>
-                    <Dropdown options={orderList} name={orderValue} width="70%" parentCallback={(data)=>setOrderName(data.id)} value={orderName}
-            dropdownWidth={size.width>'600'?'13vw':'20vw'} searchWidth={size.width>'600'?'10vw':'12vw'} border={true}/>
-            </div>
-                    <div style={{width:'25%'}}><label>Required Quantity</label>
-                    {showUnit? <div style={{display:'flex',width:size.width>'600'?'70%':'90%', border:"#e5e5e5 solid 0.1em",borderRadius:'5px'}}>
-            <input value={quantity} style={{width:"35%",height:"3rem",border:'none'}} className="quantity" type="number" onChange={(e)=>setQuantity(e.target.value)} placeholder={size.width<'600'?'Enter Quantity':null}/>
-            <div style={{borderLeft:"#e5e5e5 solid 0.1em"}}/>
-            {unitList?<Dropdown options={unitList} placeholder="Select Unit" width="60%" name="name" minWidth="9rem" no_outline={true}
-            parentCallback={(data)=>setUnit(data.symbol)} value={unit} dropdownWidth={size.width>'600'?"11vw":'40vw'} searchWidth={size.width>'600'?"8vw":'30vw'} height="3rem"/>:null}</div>
-            :
-            <input type="number" value={quantity} style={{height:'3rem',width:'70%'}} onChange={(e)=>setQuantity(e.target.value)}/>}
-                    </div>
-                    <div style={{width:'25%',display:'flex',alignItems:'center',justifyContent:'center'}}>
-                    <div className="form_icons">
-                   
-            <FaCheckCircle onClick={submitHandler} size={30} className="check_icon"/>
-            <FaTimesCircle size={30}  onClick={cancelHandler} className="cross_icon" />
-            </div>
-                    </div>
-
-                    
-                </div>
+                {form}
+        
                 {newPoList.map((l)=><PurchaseOrderList key={l.item_id} order_type={l.ItemType}  quantity={l.quantity} order_name={l.item_id}
             deleteNote={(data)=>handleDeleteNote(data)}/>)}
 

@@ -44,7 +44,7 @@
     margin-top: 3px;
     max-height: 170px;
     overflow-y: auto;
-    position: absolute;
+    position: relative;
     z-index: 100 !important;
     -webkit-overflow-scrolling: touch;
   }
@@ -97,7 +97,7 @@ position: fixed;
   }
 
   .dropdown_input{
-    position: fixed;
+    position: absolute;
     margin-top: 1rem;
     margin-left: 0.5vw;
     width:18;
