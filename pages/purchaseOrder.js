@@ -21,9 +21,10 @@ const PurchaseOrder =() =>{
     const [purchaseOrderList, setPurchaseOrderList] = useState(null);
 
     const columns = [
-      { accessor1: 'purchase_order_no', label: 'Order ID' ,width:"33%", textalign:"center"},
-      { accessor1: 'date', label:'Date'  ,width:"33%", textalign:"center"},
-      { accessor1: 'status', label: 'Status',width:"33%" , textalign:"center"},  
+      { accessor1: 'purchase_order_no', label: 'Order ID' ,width:"25%", textalign:"center"},
+      { accessor1: 'date', label:'Date'  ,width:"25%", textalign:"center"},
+      { accessor1: 'status', label: 'Status',width:"25%" , textalign:"center"},  
+      {accessor1:'created_by',label:'Created By', width:'25%',textalign:'center'}
     ];
 
     useEffect(()=>{

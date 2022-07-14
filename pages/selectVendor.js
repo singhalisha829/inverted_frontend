@@ -19,6 +19,9 @@ const SelectVendor=() =>{
     const [partsList,setPartsList]= useState([]);
     const [vendorList,setVendorList]= useState([]);
     const [purchaseOrderId,setPurchaseOrderId]= useState(null);
+    const [orderDetails,setOrderDetails] = useState(null);
+    const [searchText,setSearchText]= useState(null);
+    const [cardFilter,setCardFilter]= useState(null);
 
 
     useEffect(()=>{
@@ -27,9 +30,10 @@ const SelectVendor=() =>{
         console.log(poId)
         setPurchaseOrderId(localStorage.getItem('purchase_order_id'))
         setToken(token)
-        fetchPartWiseList(token,poId).then(res=>{console.log(res.data.data.output);setPartsList(res.data.data.output.order_items);})
+        fetchPartWiseList(token,poId).then(res=>{setOrderDetails(res.data.data.output);setPartsList(res.data.data.output.order_items);})
     },[])
 
+    console.log(partsList)
     // calculate screen size
     function useWindowSize() {
         const [windowSize, setWindowSize] = useState({
@@ -110,6 +114,20 @@ const SelectVendor=() =>{
     }
 
 
+    const searchParts = (value)=>{
+        setSearchText(value);
+        if(value !== undefined){
+            const filterCard = partsList.filter(o => Object.keys(o).some(
+              k => String(o[k]).toLowerCase().includes(value.toLowerCase()))
+            );
+            setCardFilter([...filterCard])
+          }else{
+            setPartsList([...partsList])
+            setCardFilter([...partsList])
+          }
+    }
+
+
     return(
         <div className="layout">
              <Head>
@@ -123,9 +141,24 @@ const SelectVendor=() =>{
             <div className="title">Purchase Orders</div>
             <div className="sub_title">Select Vendors For Parts</div>
     </div> 
-    <div className="new_order_subsection">
-            <input  style={{width:"70%",height:'3.5rem'}} placeholder="Search.."/>
+    <div className="new_order_subsection" style={{height:'6rem',paddingLeft:'1.2rem'}}>
+            <input  style={{width:"70%",height:'3.5rem'}} placeholder="Search.." value={searchText} onChange={(e)=>{searchParts(e.target.value);}}/>
             <div className="new_order_search"><FaSistrix size={17} color="#3F5575"/></div>
+        </div>
+
+        <div className="po_details">
+            <div className="po_details_border">
+                <div className="detail_header">
+                    <div style={{width:'33%'}}>Order Number</div>
+                    <div style={{width:'33%'}}>Date</div>
+                    <div style={{width:'33%'}}>Created By</div>
+                </div>
+                <div className="details">
+                <div style={{width:'33%'}}>{orderDetails?orderDetails.purchase_order_no:null}</div>
+                    <div style={{width:'33%'}}>{orderDetails?orderDetails.date:null}</div>
+                    <div style={{width:'33%'}}>{orderDetails?orderDetails.created_by:null}</div>
+                </div>
+            </div>
         </div>
 
         <div className="vendor_subsection">
@@ -136,11 +169,17 @@ const SelectVendor=() =>{
             <div style={{width:'20%'}}>VENDOR</div>
         </div>
         <div style={{marginTop:"1rem"}}>
-            {partsList?partsList.map((part)=>(
+            {partsList?
+            <div className="parts_wise_list">
+                {searchText!= undefined? cardFilter.map((part)=>(
+                 <PartsList key={part.id} id={part.id} partId={part.part_id} partName={part.short_description}
+            quantity={part.quantity_value} unit={part.quantity_symbol} handleUnitPrice={(id,value,quantity,unit)=>handleUnitPrice(id,value,quantity,unit)} 
+            handleVendor={(id,value,quantity,unit)=>handleVendor(id,value,quantity,unit)}/>)):
+                partsList.map((part)=>(
             <PartsList key={part.id} id={part.id} partId={part.part_id} partName={part.short_description}
             quantity={part.quantity_value} unit={part.quantity_symbol} handleUnitPrice={(id,value,quantity,unit)=>handleUnitPrice(id,value,quantity,unit)} 
-            handleVendor={(id,value,quantity,unit)=>handleVendor(id,value,quantity,unit)}/>
-        )):null}</div>
+            handleVendor={(id,value,quantity,unit)=>handleVendor(id,value,quantity,unit)}/>))}</div>
+        :null}</div>
 
 <div className="stock_out_footer">
                     <div className="stock_out_button">
