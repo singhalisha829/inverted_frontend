@@ -40,15 +40,11 @@ const NewPurchaseOrder =() =>{
           const token=localStorage.getItem('token');
           setToken(token)
           fetchUnitList(token).then((res)=>setUnitList(res.data))
-          
-
-
-        
-        
       }else{
           router.push('/login');
         }
       },[])
+
 
     // calculate screen size
     function useWindowSize() {
@@ -77,6 +73,7 @@ const NewPurchaseOrder =() =>{
         return windowSize;
       }
     const size = useWindowSize();
+
 
     const submitHandler = () =>{
         if(orderType=== null || orderType===''){
@@ -135,6 +132,7 @@ const NewPurchaseOrder =() =>{
             setOrderValue('product_description')
             fetchBOMList(token).then(
                 res=>{setOrderList(res.data.data.output)}).catch(err=>toast.error(err.message))
+            setShowUnit(false);
             
 
         }
@@ -166,23 +164,23 @@ const NewPurchaseOrder =() =>{
     const field_width=size.width>'600'?'25%':'100%';
 
     const form=( <div className="new_po_order_form">
-        <div style={{width:"25%"}}>{size.width>'600'?<label>Order Type:</label>:null}
+        <div style={{width:"25%"}}>{size.width>'600'?<label style={{marginBottom:"0.5rem"}}>Order Type:</label>:null}
         <Dropdown options={order_type} name="name" width={size.width>'600'?'70%':'90%'} parentCallback={(data)=>{setOrderType(data.value);fetchOrderName(data.value)}}
         dropdownWidth={size.width>'600'?'13vw':'20vw'} searchWidth={size.width>'600'?'10vw':'12vw'} border={true} value={orderName}
         placeholder="Select Order Type"/></div>
         
-        <div style={{width:"25%"}}>{size.width>'600'?<label>Order Name:</label>:null}
+        <div style={{width:"25%"}}>{size.width>'600'?<label style={{marginBottom:"0.5rem"}}>Order Name:</label>:null}
         <Dropdown options={orderList} name={orderValue} width="70%" parentCallback={(data)=>setOrderName(data.id)} value={orderName}
 dropdownWidth={size.width>'600'?'13vw':'20vw'} searchWidth={size.width>'600'?'10vw':'12vw'} border={true} placeholder="Select Order"/>
 </div>
-        <div style={{width:"25%"}}>{size.width>'600'?<label>Required Quantity</label>:null}
+        <div style={{width:"25%"}}>{size.width>'600'?<label style={{marginBottom:"0.5rem"}}>Required Quantity</label>:null}
         {showUnit? <div style={{display:'flex',width:size.width>'600'?'70%':'90%', border:"#e5e5e5 solid 0.1em",borderRadius:'5px'}}>
-<input value={quantity} style={{width:"35%",height:"3rem",border:'none'}} className="quantity" type="number" onChange={(e)=>setQuantity(e.target.value)} placeholder={size.width<'600'?'Enter Quantity':null}/>
+<input value={quantity} placeholder="0.00" style={{width:"35%",height:"3rem",border:'none'}} className="quantity" type="number" onChange={(e)=>setQuantity(e.target.value)}/>
 <div style={{borderLeft:"#e5e5e5 solid 0.1em"}}/>
 {unitList?<Dropdown options={unitList} placeholder="Select Unit" width="60%" name="name" minWidth="9rem" no_outline={true}
 parentCallback={(data)=>setUnit(data.symbol)} value={unit} dropdownWidth={size.width>'600'?"11vw":'40vw'} searchWidth={size.width>'600'?"8vw":'30vw'} height="3rem"/>:null}</div>
 :
-<input type="number" value={quantity} style={{height:'3rem',width:'70%'}} onChange={(e)=>setQuantity(e.target.value)}/>}
+<input type="number" placeholder="0.00" value={quantity} style={{height:'3rem',width:'70%'}} onChange={(e)=>setQuantity(e.target.value)}/>}
         </div>
         <div style={{width:'25%',display:'flex',alignItems:'center',justifyContent:'center'}}>
         <div className="form_icons">

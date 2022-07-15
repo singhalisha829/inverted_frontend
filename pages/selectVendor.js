@@ -4,9 +4,9 @@ import Head from "next/head";
 import Header from "../components/header";
 import Router from 'next/router';
 
-import { fetchPartWiseList, postPoVendor } from "../services/purchaseOrderService";
+import { fetchPartWiseList, fetchPurchaseOrderDetails, postPoVendor } from "../services/purchaseOrderService";
 
-import { FaSistrix} from 'react-icons/fa';
+import { FaSistrix, FaTimes} from 'react-icons/fa';
 import PartsList from "../components/partList";
 import { toast, ToastContainer } from "react-toastify";
 import 'react-toastify/dist/ReactToastify.css';
@@ -22,6 +22,8 @@ const SelectVendor=() =>{
     const [orderDetails,setOrderDetails] = useState(null);
     const [searchText,setSearchText]= useState(null);
     const [cardFilter,setCardFilter]= useState(null);
+    const [poDetails,setPoDetails]= useState(null);
+    const [showDetails,setShowDetails]= useState(false);
 
 
     useEffect(()=>{
@@ -29,11 +31,12 @@ const SelectVendor=() =>{
         const poId=localStorage.getItem('purchase_order_id')
         console.log(poId)
         setPurchaseOrderId(localStorage.getItem('purchase_order_id'))
+        fetchPurchaseOrderDetails(token,poId).then(res=>{setPoDetails(res.data.data.output[0].invoice_products)})
         setToken(token)
         fetchPartWiseList(token,poId).then(res=>{setOrderDetails(res.data.data.output);setPartsList(res.data.data.output.order_items);})
     },[])
 
-    console.log(partsList)
+    console.log(poDetails)
     // calculate screen size
     function useWindowSize() {
         const [windowSize, setWindowSize] = useState({
@@ -148,25 +151,44 @@ const SelectVendor=() =>{
 
         <div className="po_details">
             <div className="po_details_border">
+                <div style={{display:'flex',width:"100%"}}>
+                
+                    <div style={{display:'flex',flexDirection:'column',width:'80%'}}>
                 <div className="detail_header">
-                    <div style={{width:'33%'}}>Order Number</div>
-                    <div style={{width:'33%'}}>Date</div>
-                    <div style={{width:'33%'}}>Created By</div>
+                    <div className="detail_field">Order Number</div>
+                    <div className="detail_field">Date</div>
+                    <div className="detail_field">Created By</div>
                 </div>
                 <div className="details">
-                <div style={{width:'33%'}}>{orderDetails?orderDetails.purchase_order_no:null}</div>
-                    <div style={{width:'33%'}}>{orderDetails?orderDetails.date:null}</div>
-                    <div style={{width:'33%'}}>{orderDetails?orderDetails.created_by:null}</div>
-                </div>
+                <div className="detail_field">{orderDetails?orderDetails.purchase_order_no:null}</div>
+                    <div className="detail_field">{orderDetails?orderDetails.date:null}</div>
+                    <div className="detail_field">{orderDetails?orderDetails.created_by:null}</div>
+                </div></div>
+                <div style={{display:'flex',alignItems:'center'}}><a onClick={()=>setShowDetails(true)}>View Details</a>
+                
+                    </div></div>
+                    {showDetails?<div className="detail_card">
+                        <div className="detail_card_header">
+                            <div>Order Details</div>
+                            <div className="close_details"><FaTimes onClick={()=>setShowDetails(false)}/></div>
+                        </div>
+                        {poDetails.map((item)=>(
+                        <div className="po_card" key={item.id}>
+                            <div>{item.ItemType}</div>
+                            <div>{item.item_name}</div>
+                            <div>{item.quantity}</div>
+                        </div>))}
+                    </div>:null}
             </div>
         </div>
 
         <div className="vendor_subsection">
-            <div style={{width:'20%'}}>PART ID</div>
-            <div style={{width:'20%'}}>PART NAME</div>
-            <div style={{width:'20%'}}>QUANTITY</div>
-            <div style={{width:'20%'}}>UNIT PRICE</div>
-            <div style={{width:'20%'}}>VENDOR</div>
+            <div style={{width:'20%'}} className="vendor_header">PART ID</div>
+            <div style={{width:'23%'}} className="vendor_header">PART DESCRIPTION</div>
+            <div style={{width:'2%'}} />
+            <div style={{width:'25%'}} className="vendor_header">QUANTITY</div>
+            <div style={{width:'15%'}} className="vendor_header">UNIT PRICE</div>
+            <div style={{width:'15%'}} className="vendor_header">VENDOR</div>
         </div>
         <div style={{marginTop:"1rem"}}>
             {partsList?
