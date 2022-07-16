@@ -64,36 +64,42 @@ const SelectVendor=() =>{
       }
     const size = useWindowSize();
 
-    const handleUnitPrice=(id,value,quantity,unit)=>{
-        const index= vendorList.findIndex(el=>el.part===id)
+    const handleUnitPrice=(id,value,branch_id,quantity,unit)=>{
+        console.log(id,value,branch_id,quantity,unit)
+        const index= vendorList.findIndex(el=>el.part===id && el.branch_id===branch_id)
         if(index== -1){
             vendorList.push({
                 purchase_order:purchaseOrderId,
                 part:id,
                 quantity:quantity+" "+unit,
                 vendor:null,
-                unit_price:value
+                unit_price:value,
+                branch_id:branch_id
             })
         }else{
             vendorList[index].unit_price=value;
         }
     
+        console.log(vendorList)
 
     }
 
-    const handleVendor=(id,value,quantity,unit)=>{
-        const index= vendorList.findIndex(el=>el.part===id)
+    const handleVendor=(id,value,branch_id,quantity,unit)=>{
+        const index= vendorList.findIndex(el=>el.part===id && el.branch_id===branch_id)
         if(index== -1){
             vendorList.push({
                 purchase_order:purchaseOrderId,
                 part:id,
                 quantity:quantity+" "+unit,
                 vendor:value,
-                unit_price:null
+                unit_price:null,
+                branch_id:branch_id
             })
         }else{
             vendorList[index].vendor=value;
         }
+        console.log(vendorList)
+
         
 
     }
@@ -195,12 +201,12 @@ const SelectVendor=() =>{
             <div className="parts_wise_list">
                 {searchText!= undefined? cardFilter.map((part)=>(
                  <PartsList key={part.id} id={part.id} partId={part.part_id} partName={part.short_description}
-            quantity={part.quantity_value} unit={part.quantity_symbol} handleUnitPrice={(id,value,quantity,unit)=>handleUnitPrice(id,value,quantity,unit)} 
-            handleVendor={(id,value,quantity,unit)=>handleVendor(id,value,quantity,unit)}/>)):
+            quantity={part.quantity_value} unit={part.quantity_symbol} handleUnitPrice={(id,value,branch_id,quantity,unit)=>handleUnitPrice(id,value,branch_id,quantity,unit)} 
+            handleVendor={(id,value,branch_id,quantity,unit)=>handleVendor(id,value,branch_id,quantity,unit)}/>)):
                 partsList.map((part)=>(
             <PartsList key={part.id} id={part.id} partId={part.part_id} partName={part.short_description}
-            quantity={part.quantity_value} unit={part.quantity_symbol} handleUnitPrice={(id,value,quantity,unit)=>handleUnitPrice(id,value,quantity,unit)} 
-            handleVendor={(id,value,quantity,unit)=>handleVendor(id,value,quantity,unit)}/>))}</div>
+            quantity={part.quantity_value} unit={part.quantity_symbol} handleUnitPrice={(id,value,branch_id,quantity,unit)=>handleUnitPrice(id,value,branch_id,quantity,unit)} 
+            handleVendor={(id,value,branch_id,quantity,unit)=>handleVendor(id,value,branch_id,quantity,unit)}/>))}</div>
         :null}</div>
         </div>
         <div style={{width:'30%'}}>
