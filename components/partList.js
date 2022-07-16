@@ -7,14 +7,14 @@ import { FaTrashAlt, FaCheckCircle } from 'react-icons/fa';
 
 import { ToastContainer, toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
-import { VALID_LOADERS } from 'next/dist/shared/lib/image-config';
+
 
 
 const PartsList = (props) =>{
     const [vendorList, setvendorList] = useState(null);
     const [vendor,setVendor]= useState(null);
     const [split,setSplit]= useState([]);
-    const [quantity,setquantity]= useState([{quantity:props.quantity,id:1}]);
+    const [quantity,setquantity]= useState([{quantity:props.quantity,id:1,unit_price:null}]);
     const [lastId,setLastId]= useState(1);
     const [currentVal,setCurrentVal]= useState(props.quantity)
     const [value,setValue]= useState(null);
@@ -54,23 +54,35 @@ const PartsList = (props) =>{
         
        setquantity(newList)
        setCurrentVal(newVal) //just to update ui,update state
-            
+       props.handleQuantity(props.id,newList[lastId-1],props.unit);
     }
 
     const splitHandler=() =>{
         const newList1=null;
         if(quantity.length==1){
-        newList1= [...quantity,{id:lastId+1,quantity:props.quantity-quantity[0].quantity}]
+        newList1= [...quantity,{id:lastId+1,quantity:props.quantity-quantity[0].quantity,unit_price:null}]
         }else{
-        newList1=[...quantity,{id:lastId+1,quantity:lastBranch-quantity[lastId-1].quantity}]
+        newList1=[...quantity,{id:lastId+1,quantity:lastBranch-quantity[lastId-1].quantity,unit_price:null}]
         }
         setquantity(newList1)
         setLastBranch(newList1[lastId].quantity)
         setLastId(lastId+1);
         setShowForm(false);
+        setValue('');
     }
 // console.log("quantity",quantity)
 // console.log("splitBranch",splitBranch)
+
+const closeSplit=()=>{
+    setShowForm(false);
+    if(value != undefined){
+    const newList=quantity;
+    newList[lastId-1].quantity += parseInt(value);
+    setquantity(newList)
+    }
+    setValue('')
+
+}
 
     
     return(
@@ -105,10 +117,8 @@ const PartsList = (props) =>{
                 <div style={{width:'50%',display:'flex',justifyContent:'end'}}><input type="number" style={{height:'3rem',width:'70%'}} onChange={(e)=>e.target.validity.valid?handleQuantity(e.target.value):null} min="1"
                 pattern="[0-9]*" value={value}/></div>
                 <div style={{width:'50%',display:'flex',justifyContent:'end'}}><input type="number" style={{height:'3rem',width:'90%'}}/></div></div>
-                <div style={{width:'25%',display:'flex',justifyContent:"center"}}><input type="number" style={{height:'3rem',width:'65%'}}/></div>
-                <div style={{width:'27%',display:'flex',justifyContent:'end'}}>{vendorList?<Dropdown  placeholder='Select Vendor' name="name" options={vendorList} height="3rem" value={vendor} width="66%"
-            parentCallback={(data)=>{setVendor(data.id);props.handleVendor(props.id,data.id,props.quantity,props.unit)}} border={true} dropdownWidth="15vw" searchWidth="12vw"/>:null}</div>
-            <div className='split_trash' onClick={()=>setShowForm(false)}><FaTrashAlt size={17}/></div>
+                
+            <div className='split_trash' onClick={closeSplit}><FaTrashAlt size={17}/></div>
             <div className='split_trash'><FaCheckCircle size={17} onClick={()=>splitHandler()}/></div>
             </div>
             </div>

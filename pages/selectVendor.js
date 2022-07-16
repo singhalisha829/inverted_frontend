@@ -65,7 +65,6 @@ const SelectVendor=() =>{
     const size = useWindowSize();
 
     const handleUnitPrice=(id,value,branch_id,quantity,unit)=>{
-        console.log(id,value,branch_id,quantity,unit)
         const index= vendorList.findIndex(el=>el.part===id && el.branch_id===branch_id)
         if(index== -1){
             vendorList.push({
@@ -132,6 +131,15 @@ const SelectVendor=() =>{
             setPartsList([...partsList])
             setCardFilter([...partsList])
           }
+    }
+
+    const handleQuantity =(id,list,unit)=>{
+        const index= vendorList.findIndex(el=>el.part===id && el.branch_id===list.id)
+        if(index != -1){
+            vendorList[index].quantity= list.quantity+" "+unit;
+        }
+
+        console.log(vendorList)
     }
 
 
@@ -202,11 +210,15 @@ const SelectVendor=() =>{
                 {searchText!= undefined? cardFilter.map((part)=>(
                  <PartsList key={part.id} id={part.id} partId={part.part_id} partName={part.short_description}
             quantity={part.quantity_value} unit={part.quantity_symbol} handleUnitPrice={(id,value,branch_id,quantity,unit)=>handleUnitPrice(id,value,branch_id,quantity,unit)} 
-            handleVendor={(id,value,branch_id,quantity,unit)=>handleVendor(id,value,branch_id,quantity,unit)}/>)):
+            handleVendor={(id,value,branch_id,quantity,unit)=>handleVendor(id,value,branch_id,quantity,unit)} handleQuantity={
+                (id,list,unit)=>handleQuantity(id,list,unit)
+            }/>)):
                 partsList.map((part)=>(
             <PartsList key={part.id} id={part.id} partId={part.part_id} partName={part.short_description}
             quantity={part.quantity_value} unit={part.quantity_symbol} handleUnitPrice={(id,value,branch_id,quantity,unit)=>handleUnitPrice(id,value,branch_id,quantity,unit)} 
-            handleVendor={(id,value,branch_id,quantity,unit)=>handleVendor(id,value,branch_id,quantity,unit)}/>))}</div>
+            handleVendor={(id,value,branch_id,quantity,unit)=>handleVendor(id,value,branch_id,quantity,unit)} handleQuantity={
+                (id,list,unit)=>handleQuantity(id,list,unit)
+            }/>))}</div>
         :null}</div>
         </div>
         <div style={{width:'30%'}}>
