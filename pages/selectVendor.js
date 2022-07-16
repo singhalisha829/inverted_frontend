@@ -28,9 +28,9 @@ const SelectVendor=() =>{
 
     useEffect(()=>{
         const token=localStorage.getItem('token');
-        const poId=localStorage.getItem('purchase_order_id')
+        const poId=localStorage.getItem('poId')
         console.log(poId)
-        setPurchaseOrderId(localStorage.getItem('purchase_order_id'))
+        setPurchaseOrderId(localStorage.getItem('poId'))
         fetchPurchaseOrderDetails(token,poId).then(res=>{setPoDetails(res.data.data.output[0].invoice_products)})
         setToken(token)
         fetchPartWiseList(token,poId).then(res=>{setOrderDetails(res.data.data.output);setPartsList(res.data.data.output.order_items);})

@@ -96,7 +96,7 @@ const PurchaseOrder =() =>{
         <button onClick={()=>Router.push('/newPurchaseOrder')}>Create Order</button>
         </div>
       <div className="po_table">{purchaseOrderList?<Table key={purchaseOrderList.length} id="purchaseOrderTable" rows={purchaseOrderList} columns={columns} cursor="pointer" search={searchText} 
-    width={size.width>'600'?'77vw':'95vw'} />:<Spinner />}</div>
+    width={size.width>'600'?'77vw':'95vw'} path="/selectVendor"/>:<Spinner />}</div>
     </div>
     </div>
     )

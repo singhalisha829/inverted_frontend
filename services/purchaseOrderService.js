@@ -35,7 +35,7 @@ export const postPoVendor=(token,vendorList) =>{
 }
 
 export const fetchPartWiseList=(token,poId) =>{
-    return axios.get(URL+MAIN.PART_WISE_LIST+'47',{headers:{
+    return axios.get(URL+MAIN.PART_WISE_LIST+poId,{headers:{
         "Authorization":"Token "+ token
     }})
 }
@@ -47,7 +47,7 @@ export const fetchVendorWiseList=(token,poId) =>{
 }
 
 export const fetchPurchaseOrderDetails=(token,poId) =>{
-    return axios.get(URL+MAIN.PURCHASE_ORDER+"?id="+"47",{headers:{
+    return axios.get(URL+MAIN.PURCHASE_ORDER+"?id="+poId,{headers:{
         "Authorization":"Token "+ token
     }})
 }

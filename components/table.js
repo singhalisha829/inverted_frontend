@@ -108,6 +108,7 @@ const Table = (props) => {
         .map(row => {
           return (
             <tr key={row.part_id} onClick={()=>{localStorage.setItem('partId',row.part_id);localStorage.setItem('orderId',row.order_id);
+            localStorage.setItem('poId',row.id);
             clickHandler()}}>
               {props.columns.map(column => {
                 if(column.accessor1==='part_id'){
@@ -160,6 +161,7 @@ const Table = (props) => {
         .map(row => {
           return (
             <tr key={row.part_id} onClick={()=> {localStorage.setItem('partId',row.part_id);localStorage.setItem('orderId',row.order_id);
+            localStorage.setItem('poId',row.id);
              clickHandler()}}>
               {props.columns.map(column => {
                 if(column.accessor1==='part_id'){
