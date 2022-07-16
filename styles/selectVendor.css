@@ -22,7 +22,7 @@
     align-items: center; 
     padding-left: 1rem;
     padding-right: 1rem;
-    width:77vw;
+    width:95%;
     border-bottom: #e5e5e5 solid 0.01em;
     margin-top: 1rem;
     margin-left: auto;
@@ -120,4 +120,12 @@ transition:0.6s cubic-bezier(0.01, 1.69,    0.99, 0.94);
 .vendor_header{
     display: flex;
     justify-content: center;
+}
+
+.vendor_card{
+    width:95%;
+    background-color: white;
+    border-radius: 5px;
+    margin-top:1rem;
+    min-height:90%;
 }

@@ -36,7 +36,6 @@ const SelectVendor=() =>{
         fetchPartWiseList(token,poId).then(res=>{setOrderDetails(res.data.data.output);setPartsList(res.data.data.output.order_items);})
     },[])
 
-    console.log(poDetails)
     // calculate screen size
     function useWindowSize() {
         const [windowSize, setWindowSize] = useState({
@@ -78,7 +77,7 @@ const SelectVendor=() =>{
         }else{
             vendorList[index].unit_price=value;
         }
-        console.log(vendorList)
+    
 
     }
 
@@ -95,7 +94,7 @@ const SelectVendor=() =>{
         }else{
             vendorList[index].vendor=value;
         }
-        console.log(vendorList)
+        
 
     }
 
@@ -108,7 +107,6 @@ const SelectVendor=() =>{
         }else{
             postPoVendor(token,vendorList).then(res=>{
                 toast.success("Successfully Submitted!")
-                console.log(res)
             localStorage.setItem('purchase_order_id_vendor',res.data.status.purchase_order_id);
             Router.push('/vendorList')
 
@@ -182,13 +180,15 @@ const SelectVendor=() =>{
             </div>
         </div>
 
+        <div style={{display:"flex"}}>
+        <div style={{width:"70%"}}>
         <div className="vendor_subsection">
-            <div style={{width:'20%'}} className="vendor_header">PART ID</div>
+            <div style={{width:'10%'}} className="vendor_header">PART ID</div>
             <div style={{width:'23%'}} className="vendor_header">PART DESCRIPTION</div>
             <div style={{width:'2%'}} />
-            <div style={{width:'25%'}} className="vendor_header">QUANTITY</div>
+            <div style={{width:'20%'}} className="vendor_header">QUANTITY</div>
             <div style={{width:'15%'}} className="vendor_header">UNIT PRICE</div>
-            <div style={{width:'15%'}} className="vendor_header">VENDOR</div>
+            <div style={{width:'30%'}} className="vendor_header">VENDOR</div>
         </div>
         <div style={{marginTop:"1rem"}}>
             {partsList?
@@ -202,6 +202,13 @@ const SelectVendor=() =>{
             quantity={part.quantity_value} unit={part.quantity_symbol} handleUnitPrice={(id,value,quantity,unit)=>handleUnitPrice(id,value,quantity,unit)} 
             handleVendor={(id,value,quantity,unit)=>handleVendor(id,value,quantity,unit)}/>))}</div>
         :null}</div>
+        </div>
+        <div style={{width:'30%'}}>
+            <div className="vendor_card">hii</div>
+            
+        </div>
+        
+        </div>
 
 <div className="stock_out_footer">
                     <div className="stock_out_button">

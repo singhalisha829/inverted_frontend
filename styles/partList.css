@@ -9,9 +9,9 @@
 .po_list_form{
     background-color: white;
     border-bottom: #e5e5e5 solid 0.1em;
-    padding: 2rem;
+    padding: 1rem;
     min-height: 70px;
-    width: 77vw;
+    width: 95%;
     display: flex;
     align-items:center;
     font-style: normal;
@@ -27,12 +27,26 @@ flex-direction: column;
 
 }
 
+.po_list_form_rows{
+    display:flex;
+    width:100%;
+    align-items:center;
+    min-height: 5rem;
+}
+
 .split_row{
     display: flex;
-    width:55%;
-    padding-left: 2rem;
+    width:65%;
+    /* padding-left: 2rem; */
+    /* margin-left: 5vw; */
     height: 5rem;
-    align-items: end;
+    align-items: center;
+}
+
+.split_trash{
+    width:5%;
+    display:flex;
+    justify-content: end;
 }
 
 .split_trash:hover{
