@@ -24,6 +24,9 @@ const PartsList = (props) =>{
     // const [splitBranch,setSplitBranch]= useState([]);
     const [lastBranch,setLastBranch]= useState(null);
     const [showForm,setShowForm]= useState(false);
+    const [quantityBorder,setQuantityBorder]= useState(' #e5e5e5 solid 0.1em');
+
+    // const quantityBorder=' #e5e5e5 solid 0.1em';
 
 
 
@@ -63,7 +66,7 @@ const PartsList = (props) =>{
 
 
     const handleUnit=(symbol)=>{
-        console.log(previousState)
+        console.log(symbol)
         const newVal=null;
         const length= quantity.length
         if(quantity[length-1].unit=== 'M' && symbol==='mm'){
@@ -73,10 +76,18 @@ const PartsList = (props) =>{
         }else{
             newVal= previousState.quantity-value;
         }
+        console.log(newVal)
+        // if(newVal<1){
+        //     setQuantityBorder("red solid 0.1em");
+        // }else{
+        //     setQuantityBorder("#e5e5e5 solid 0.1em");
+        // }
         quantity[length-1].quantity= newVal;
         props.handleQuantity(props.id,quantity[length-1])
-    
     setCurrentVal(newVal)
+        
+        
+    
     }
 
     const splitHandler=() =>{
@@ -91,6 +102,8 @@ const PartsList = (props) =>{
         const new_quantity=value;
         if(parseInt(new_quantity) != new_quantity){
             new_quantity= parseFloat(new_quantity).toFixed(2)
+        }else{
+            new_quantity= parseInt(new_quantity)
         }
         
         newList1=[...quantity,{id:lastId+1,quantity:new_quantity,unit:unit}]
@@ -104,21 +117,24 @@ const PartsList = (props) =>{
 
     }
     }
-// console.log("quantity",quantity)
-// console.log("splitBranch",splitBranch)
+
 
 const closeSplit=()=>{
     setShowForm(false);
-    if(value != undefined){
+    console.log(value)
+    if(value=== null || value === ''){
+        return;
+    }
+    else{
     const newList=quantity;
     const length=newList.length;
     newList[length-1].quantity += parseInt(value);
-    setquantity(newList)
+    setquantity(newList);
     }
     setValue('')
 
 }
-// console.log(quantity)
+console.log(quantity)
 
 const deleteBranch=(id)=>{
     // console.log(id,quantity)
@@ -139,6 +155,8 @@ const deleteBranch=(id)=>{
     
 
 }
+
+    
 
     
     return(
@@ -181,10 +199,11 @@ const deleteBranch=(id)=>{
             <div style={{width:'100%',display:'flex',justifyContent:'flex-end',paddingRight:'2rem'}}>
             <div className='split_row'>
                 {/* <div style={{width:'30%',display:'flex'}}> */}
-                <div style={{width:'30%',display:'flex',justifyContent:'end'}}><input type="number" style={{height:'3rem',width:'90%'}} onChange={(e)=>setValue(e.target.value)}
+                <div style={{width:'30%',display:'flex',justifyContent:'end'}}><input type="number" style={{height:'3rem',width:'90%',border:quantityBorder}} onChange={(e)=>setValue(e.target.value)}
              value={value}/></div>
-                <div style={{width:'30%',display:'flex',justifyContent:'end'}}><Dropdown width="90%" placeholder='Select Unit' options={unitList} name="name" dropdownWidth={size.width>'600'?'11vw':'27vw'} searchWidth={size.width>'600'?'8vw':'19vw'} height="3rem"
-                    parentCallback={(data)=>{setUnit(data.symbol);handleUnit(data.symbol)}} border={true}/>
+                <div style={{width:'30%',display:'flex',justifyContent:'end'}}>
+                    <Dropdown width="90%" placeholder='Select Unit' options={unitList} name="name" dropdownWidth={size.width>'600'?'11vw':'27vw'} searchWidth={size.width>'600'?'8vw':'19vw'} height="3rem"
+                    parentCallback={(data)=>{setUnit(data.symbol);handleUnit(data.symbol)}} border={true} value={unit}/>
                 </div>
                 {/* </div> */}
             <div className='split_trash'><FaCheckCircle size={17} onClick={()=>splitHandler()}/></div>

@@ -26,3 +26,9 @@ textarea::placeholder{
   font-family: 'Inter';
   font-size: 1.4rem;
 }
+
+input::-webkit-outer-spin-button,
+input::-webkit-inner-spin-button {
+  -webkit-appearance: none;
+  margin: 0;
+}

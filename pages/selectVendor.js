@@ -33,9 +33,10 @@ const SelectVendor=() =>{
     const [displayList,setDisplayList]= useState([]);
 
     const columns = [
-        { accessor1: 'part_name', label: 'Part Description' ,width:"50%", textalign:"center"},
-        { accessor1: 'quantity', label: 'Quantity' ,width:"25%", textalign:"left"},
-        { accessor1: 'unit_price', label: 'Unit Price',width:"25%" , textalign:"center"},  
+        { accessor1: 'ItemType', label: 'ORDER TYPE' ,width:"25%", textalign:"center"},
+        { accessor1: 'item_name',label: 'ORDER ID' ,width:"25%", textalign:"center"},
+        { accessor1: 'product_description', label: 'ORDER DESCRIPTION',width:"25%" , textalign:"center"},  
+        { accessor1: 'quantity', label: 'Quantity',width:"25%" , textalign:"center"},  
       ];
 
     useEffect(()=>{
@@ -43,7 +44,7 @@ const SelectVendor=() =>{
         const poId=localStorage.getItem('poId')
         // console.log(poId)
         setPurchaseOrderId(localStorage.getItem('poId'))
-        fetchPurchaseOrderDetails(token,poId).then(res=>{console.log(res.data);setPoDetails(res.data.data.output[0].invoice_products)})
+        fetchPurchaseOrderDetails(token,poId).then(res=>{setPoDetails(res.data.data.output[0].invoice_products)})
         setToken(token)
         fetchPartWiseList(token,poId).then(res=>{setOrderDetails(res.data.data.output);setPartsList(res.data.data.output.order_items);})
         fetchVendorList(token).then(res=>setVendorLists(res.data))
@@ -173,7 +174,7 @@ const SelectVendor=() =>{
     }
 
 
-    console.log(vendorList);
+    // console.log(vendorList);
     
 
     const handleDisplayList=(id)=>{
@@ -223,7 +224,7 @@ const SelectVendor=() =>{
                     <div className="detail_field">{orderDetails?orderDetails.date:null}</div>
                     <div className="detail_field">{orderDetails?orderDetails.created_by:null}</div>
                 </div></div>
-                <div style={{display:'flex',alignItems:'center'}}><a onClick={()=>setShowDetails(true)}>View Details</a>
+                <div className="common view_details"><a onClick={()=>setShowDetails(true)}>View Details</a>
                 
                     </div></div>
                     {showDetails?<div className="detail_card">
@@ -231,13 +232,21 @@ const SelectVendor=() =>{
                             <div>Order Details</div>
                             <div className="close_details"><FaTimes onClick={()=>setShowDetails(false)}/></div>
                         </div>
+                        <div style={{marginLeft:'1rem',marginRight:'1rem'}}>
+                        <div className="order_detail_header">
+                            <div style={{width:'20%'}} className="common">ORDER TYPE</div>
+                            <div style={{width:'20%'}} className="common">ORDER ID</div>
+                            <div style={{width:'40%'}} className="common">ORDER DESCRIPTION</div>
+                            <div style={{width:'20%'}} className="common">QUANTITY</div>
+                        </div>
                         {poDetails.map((item)=>(
                         <div className="po_card" key={item.id}>
-                            <div>{item.ItemType}</div>
-                            <div>{item.item_name}</div>
-                            <div>{item.product_description}</div>
-                            <div>{item.quantity}</div>
-                        </div>))}
+                            <div style={{width:'20%'}} className="common">{item.ItemType}</div>
+                            <div style={{width:'20%'}} className="common">{item.item_name}</div>
+                            <div style={{width:'40%'}} className="common">{item.product_description}</div>
+                            <div style={{width:'20%'}} className="common">{item.quantity}</div>
+                        </div>))}</div>
+                        {/* <Table rows={poDetails} columns={columns} /> */}
                     </div>:null}
             </div>
         </div>

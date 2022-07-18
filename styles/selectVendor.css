@@ -84,26 +84,41 @@ a:hover{
 }
 
 .detail_card{
-    /* background-color: rgb(247, 236, 236); */
+    background-color :#e5e4e4;
     margin-top: 1rem;
     transition:0.6s cubic-bezier(0.01, 1.69,    0.99, 0.94); 
-
+    border-radius: 3px;
 }
 
 .po_card{
-    height:5rem;
+    height:4rem;
     display: flex;
     justify-content: space-between;
-    margin-left: 2rem;
-    margin-right:2rem;
+    /* padding-top: 1rem; */
 }
 
 .detail_card_header{
-    height: 5rem;
+    /* height: 3.5rem; */
     display: flex;
     justify-content: space-between;
     padding: 1rem;
+    font-size: 1.7rem;
+    font-weight: 600;
 
+}
+
+.order_detail_header{
+    display: flex;
+    align-items: center;
+    padding-bottom: 0.5rem;
+    border-bottom: white solid 0.1em;
+    font-weight: 500;
+}
+
+.common{
+    display: flex;
+    justify-content: center;
+    align-items: center;
 }
 
 .close_details{
@@ -151,4 +166,14 @@ transition:0.6s cubic-bezier(0.01, 1.69,    0.99, 0.94);
     padding: 0.5rem;
     font-size: 1.3rem;
     font-weight: 600;
+}
+
+.view_details{
+    color: #3f5575;
+    font-weight: 500;
+transition:0.6s cubic-bezier(0.01, 1.69,    0.99, 0.94); 
+}
+
+.view_details:hover{
+    letter-spacing: 0.1rem;
 }
