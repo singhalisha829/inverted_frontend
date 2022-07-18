@@ -5,11 +5,13 @@ import Header from "../components/header";
 import Router from 'next/router';
 
 import { fetchPartWiseList, fetchPurchaseOrderDetails, postPoVendor } from "../services/purchaseOrderService";
+import { fetchVendorList } from "../services/ledgerService";
 
 import { FaSistrix, FaTimes} from 'react-icons/fa';
 import PartsList from "../components/partList";
 import { toast, ToastContainer } from "react-toastify";
 import 'react-toastify/dist/ReactToastify.css';
+
 
 
 
@@ -24,16 +26,22 @@ const SelectVendor=() =>{
     const [cardFilter,setCardFilter]= useState(null);
     const [poDetails,setPoDetails]= useState(null);
     const [showDetails,setShowDetails]= useState(false);
+    const [upadteUi,setUpdateUi]= useState(null);
+    const [vendorLists,setVendorLists]= useState(null);
+
+    const [displayList,setDisplayList]= useState([]);
 
 
     useEffect(()=>{
         const token=localStorage.getItem('token');
         const poId=localStorage.getItem('poId')
-        console.log(poId)
+        // console.log(poId)
         setPurchaseOrderId(localStorage.getItem('poId'))
-        fetchPurchaseOrderDetails(token,poId).then(res=>{setPoDetails(res.data.data.output[0].invoice_products)})
+        fetchPurchaseOrderDetails(token,poId).then(res=>{console.log(res.data);setPoDetails(res.data.data.output[0].invoice_products)})
         setToken(token)
         fetchPartWiseList(token,poId).then(res=>{setOrderDetails(res.data.data.output);setPartsList(res.data.data.output.order_items);})
+        fetchVendorList(token).then(res=>setVendorLists(res.data))
+
     },[])
 
     // calculate screen size
@@ -64,12 +72,13 @@ const SelectVendor=() =>{
       }
     const size = useWindowSize();
 
-    const handleUnitPrice=(id,value,branch_id,quantity,unit)=>{
+    const handleUnitPrice=(id,value,branch_id,quantity,unit,part_name)=>{
         const index= vendorList.findIndex(el=>el.part===id && el.branch_id===branch_id)
         if(index== -1){
             vendorList.push({
                 purchase_order:purchaseOrderId,
                 part:id,
+                part_name:part_name,
                 quantity:quantity+" "+unit,
                 vendor:null,
                 unit_price:value,
@@ -78,18 +87,20 @@ const SelectVendor=() =>{
         }else{
             vendorList[index].unit_price=value;
         }
-    
-        console.log(vendorList)
+    setUpdateUi(value);
+        // console.log(vendorList)
 
     }
 
-    const handleVendor=(id,value,branch_id,quantity,unit)=>{
+    const handleVendor=(id,value,branch_id,quantity,unit,part_name)=>{
+        const quantity1= quantity.filter(el=>el.id===branch_id)[0].quantity;
         const index= vendorList.findIndex(el=>el.part===id && el.branch_id===branch_id)
         if(index== -1){
             vendorList.push({
                 purchase_order:purchaseOrderId,
                 part:id,
-                quantity:quantity+" "+unit,
+                part_name:part_name,
+                quantity:quantity1+" "+unit,
                 vendor:value,
                 unit_price:null,
                 branch_id:branch_id
@@ -97,8 +108,8 @@ const SelectVendor=() =>{
         }else{
             vendorList[index].vendor=value;
         }
-        console.log(vendorList)
-
+        // console.log(vendorList)
+        handleDisplayList(value);
         
 
     }
@@ -133,14 +144,44 @@ const SelectVendor=() =>{
           }
     }
 
-    const handleQuantity =(id,list,unit)=>{
+    const handleQuantity =(id,list)=>{
         const index= vendorList.findIndex(el=>el.part===id && el.branch_id===list.id)
         if(index != -1){
-            vendorList[index].quantity= list.quantity+" "+unit;
+            vendorList[index].quantity= list.quantity+" "+list.unit;
         }
 
-        console.log(vendorList)
+        // console.log(vendorList)
     }
+
+    const deleteBranch= (id,part_id) =>{
+        console.log(vendorList)
+        const newList= vendorList.filter(el=>{
+            if(el.part === part_id && el.branch_id === id){
+            }else{
+                return el;
+            }
+        }
+            )
+            console.log(newList)
+        setVendorList(newList)
+    }
+
+
+    console.log(vendorList);
+    
+
+    const handleDisplayList=(id)=>{
+        const list=vendorLists.filter(el=>el.id===id);
+        const index= displayList.findIndex(el=>el.id===id);
+        const newList= null;
+        if(index== -1){
+            newList=[...displayList,{id:id,name:list[0].name}]
+            setDisplayList(newList);
+        }
+        setUpdateUi (id)
+
+    }
+
 
 
     return(
@@ -188,6 +229,7 @@ const SelectVendor=() =>{
                         <div className="po_card" key={item.id}>
                             <div>{item.ItemType}</div>
                             <div>{item.item_name}</div>
+                            <div>{item.product_description}</div>
                             <div>{item.quantity}</div>
                         </div>))}
                     </div>:null}
@@ -198,31 +240,50 @@ const SelectVendor=() =>{
         <div style={{width:"70%"}}>
         <div className="vendor_subsection">
             <div style={{width:'10%'}} className="vendor_header">PART ID</div>
-            <div style={{width:'23%'}} className="vendor_header">PART DESCRIPTION</div>
-            <div style={{width:'2%'}} />
-            <div style={{width:'20%'}} className="vendor_header">QUANTITY</div>
+            <div style={{width:'30%'}} className="vendor_header">PART DESCRIPTION</div>
+            <div style={{width:'5%'}} />
+            <div style={{width:'15%'}} className="vendor_header">QUANTITY</div>
             <div style={{width:'15%'}} className="vendor_header">UNIT PRICE</div>
-            <div style={{width:'30%'}} className="vendor_header">VENDOR</div>
+            <div style={{width:'20%'}} className="vendor_header">VENDOR</div>
+            <div style={{width:'5%'}} />
+
         </div>
         <div style={{marginTop:"1rem"}}>
             {partsList?
             <div className="parts_wise_list">
                 {searchText!= undefined? cardFilter.map((part)=>(
                  <PartsList key={part.id} id={part.id} partId={part.part_id} partName={part.short_description}
-            quantity={part.quantity_value} unit={part.quantity_symbol} handleUnitPrice={(id,value,branch_id,quantity,unit)=>handleUnitPrice(id,value,branch_id,quantity,unit)} 
-            handleVendor={(id,value,branch_id,quantity,unit)=>handleVendor(id,value,branch_id,quantity,unit)} handleQuantity={
-                (id,list,unit)=>handleQuantity(id,list,unit)
-            }/>)):
+            quantity={part.quantity_value} unit={part.quantity_symbol} handleUnitPrice={(id,value,branch_id,quantity,unit,part_name)=>handleUnitPrice(id,value,branch_id,quantity,unit,part_name)} 
+            handleVendor={(id,value,branch_id,quantity,unit,part_name)=>handleVendor(id,value,branch_id,quantity,unit,part_name)} handleQuantity={
+                (id,list,unit)=>handleQuantity(id,list,unit)} deleteBranch={(id,part_id)=>deleteBranch(id,part_id)}
+            />)):
                 partsList.map((part)=>(
             <PartsList key={part.id} id={part.id} partId={part.part_id} partName={part.short_description}
-            quantity={part.quantity_value} unit={part.quantity_symbol} handleUnitPrice={(id,value,branch_id,quantity,unit)=>handleUnitPrice(id,value,branch_id,quantity,unit)} 
-            handleVendor={(id,value,branch_id,quantity,unit)=>handleVendor(id,value,branch_id,quantity,unit)} handleQuantity={
-                (id,list,unit)=>handleQuantity(id,list,unit)
-            }/>))}</div>
+            quantity={part.quantity_value} unit={part.quantity_symbol} handleUnitPrice={(id,value,branch_id,quantity,unit,part_name)=>handleUnitPrice(id,value,branch_id,quantity,unit,part_name)} 
+            handleVendor={(id,value,branch_id,quantity,unit,part_name)=>handleVendor(id,value,branch_id,quantity,unit,part_name)} handleQuantity={
+                (id,list,unit)=>handleQuantity(id,list,unit)} deleteBranch={(id,branch_id)=>deleteBranch(id,branch_id)}
+            />))}</div>
         :null}</div>
         </div>
         <div style={{width:'30%'}}>
-            <div className="vendor_card">hii</div>
+            <div className="vendor_card">
+            {displayList?displayList.map((vendor)=><div key={vendor.id} className="single_vendor_card">
+                <div className="vendor_name"># {vendor.name}</div> 
+                <div>
+                    {vendorList.map((part)=>{
+                        if(part.vendor=== vendor.id){
+                            return(
+                                <div style={{display:'flex'}}>
+                                    <div style={{width:'50%'}}>{part.part_name}</div> 
+                                    <div style={{width:'25%'}}>{part.quantity}</div> 
+                                    <div style={{width:'25%'}}>{part.unit_price}</div>
+                                    </div>
+                                    )
+                        }
+                    })}
+                </div>
+            </div>):null}
+            </div>
             
         </div>
         

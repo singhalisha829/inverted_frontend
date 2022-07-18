@@ -2,11 +2,16 @@ import axios from "axios";
 
 import { MAIN , URL} from "./constants";
 
-export const fetchVendorList=(token) =>{
+export const fetchVendorList=(token,id) =>{
+    if(id != null){
+        return axios.get(URL+MAIN.VENDOR+id,{headers:{
+            "Authorization":"Token "+ token
+        }})  
+    }else{
             return axios.get(URL+MAIN.VENDOR,{headers:{
                 "Authorization":"Token "+ token
             }})
-        }
+        }}
 
 export const fetchUnitList=(token) =>{
         return axios.get(URL+MAIN.UNIT,{headers:{

@@ -19,6 +19,7 @@ const PartsList = (props) =>{
     const [value,setValue]= useState(null);
     const [unitList,setUnitList]= useState([]);
     const [unit,setUnit]= useState(null);
+    const [previousState,setPreviousState]= useState({quantity:props.quantity,id:1,unit:props.unit});
 
     // const [splitBranch,setSplitBranch]= useState([]);
     const [lastBranch,setLastBranch]= useState(null);
@@ -60,24 +61,21 @@ const PartsList = (props) =>{
       }
     const size = useWindowSize();
 
-    
-    const handleQuantity=(value)=>{
-        setValue(value)
-        const newList= quantity;
-        console.log(lastId,quantity)
+
+    const handleUnit=(symbol)=>{
+        console.log(previousState)
         const newVal=null;
-        if(newList.length==1){
-            newVal=props.quantity-value;
-            newList[0].quantity=newVal;
+        if(quantity[lastId-1].unit=== 'M' && symbol==='mm'){
+            newVal= (previousState.quantity * 1000 - value)/1000;
+        }else if(quantity[lastId-1].unit=== 'Kg' && symbol==='gm'){
+            newVal= (previousState.quantity * 1000 - value)/1000;
         }else{
-            newVal=lastBranch-value;
-            newList[lastId-1].quantity=newVal;
+            newVal= previousState.quantity-value;
         }
-       
-        
-       setquantity(newList)
-       setCurrentVal(newVal) //just to update ui,update state
-       props.handleQuantity(props.id,newList[lastId-1]);
+        quantity[lastId-1].quantity= newVal;
+        props.handleQuantity(props.id,quantity[lastId-1])
+    
+    setCurrentVal(newVal)
     }
 
     const splitHandler=() =>{
@@ -88,11 +86,13 @@ const PartsList = (props) =>{
             return;
         }
         else{
-        if(quantity.length==1){
-        newList1= [...quantity,{id:lastId+1,quantity:props.quantity-quantity[0].quantity,unit:unit}]
-        }else{
-        newList1=[...quantity,{id:lastId+1,quantity:lastBranch-quantity[lastId-1].quantity,unit:unit}]
+        const new_quantity=value;
+        if(parseInt(new_quantity) != new_quantity){
+            new_quantity= parseFloat(new_quantity).toFixed(2)
         }
+        
+        newList1=[...quantity,{id:lastId+1,quantity:new_quantity,unit:unit}]
+        setPreviousState(newList1[lastId])
         setquantity(newList1)
         setLastBranch(newList1[lastId].quantity)
         setLastId(lastId+1);
@@ -115,6 +115,24 @@ const closeSplit=()=>{
     setValue('')
 
 }
+console.log(quantity)
+
+const deleteBranch=(id)=>{
+    console.log(id,quantity)
+    const newList=quantity;
+    if(id===1){
+    newList[id].quantity=parseInt(newList[id].quantity)+ (quantity[id-1].quantity)
+    props.handleQuantity(props.id,newList[id])
+    }else{
+    newList[id-2].quantity+= parseInt(quantity[id-1].quantity);
+    props.handleQuantity(props.id,newList[id-2])
+    }
+    newList= quantity.filter((el)=>el.id !=id);
+    setquantity(newList)
+    props.deleteBranch(id,props.id);
+    
+
+}
 
     
     return(
@@ -123,37 +141,49 @@ const closeSplit=()=>{
             <div className='po_list_form_rows'>
         <div style={{width:"10%"}} className="vendor_header">{props.partId}</div>
 
-           <div  style={{width:"23%"}} className="vendor_header">{props.partName}</div>
-           <div style={{width:'2%'}} className="split"><GoRepoForked size={20}  style = {{transform: 'rotate(90deg)'}} onClick={()=>setShowForm(true)}/></div>
+           <div  style={{width:"30%"}} className="vendor_header">{props.partName}</div>
+           <div style={{width:'5%'}} className="split"><GoRepoForked size={20}  style = {{transform: 'rotate(90deg)'}} onClick={()=>setShowForm(true)}/></div>
            
-           <div  style={{width:"20%",display:'flex',flexDirection:'column',alignItems:'center'}} className="vendor_header">
+           <div  style={{width:"15%",display:'flex',flexDirection:'column',alignItems:'center'}} className="vendor_header">
             {quantity.map((branch)=>(<div key={branch.id} style={{display:'flex'}} className="gap">
             {branch.quantity} <div style={{marginLeft:'2vw'}}>{branch.unit}</div></div>))}</div>
            
            <div style={{width:'15%',display:'flex',flexDirection:'column',alignItems:'center'}} className="vendor_header">
             {quantity.map((branch)=>(<div key={branch.id}  className="gap"><input type="number" style={{height:'3rem',width:'70%'}} onChange={(e)=>
-                props.handleUnitPrice(props.id,e.target.value,branch.id,quantity[branch.id-1].quantity,quantity[branch.id-1].unit)}/></div>))}</div>
+                props.handleUnitPrice(props.id,e.target.value,branch.id,quantity[branch.id-1].quantity,quantity[branch.id-1].unit,props.partId)}/></div>))}</div>
 
-        <div style={{width:'30%',paddingLeft:'5vw',display:'flex',flexDirection:'column',alignItems:'center'}} >
-        {quantity.map((branch)=>(<div key={branch.id}  className="gap">{vendorList?<Dropdown  placeholder='Select Vendor' name="name" options={vendorList} height="3rem" value={vendor} width="50%"
+        <div style={{width:'20%',display:'flex',flexDirection:'column',alignItems:'center'}} >
+        {quantity.map((branch)=>(<div key={branch.id}  className="gap">{vendorList?<Dropdown  placeholder='Select Vendor' name="name" options={vendorList} height="3rem" value={vendor} width="70%"
             parentCallback={(data)=>{
-                setVendor(data.id);props.handleVendor(props.id,data.id,branch.id,quantity[branch.id-1].quantity,quantity[branch.id-1].unit)}} border={true} dropdownWidth="15vw" searchWidth="12vw"/>:null}
+                setVendor(data.id);props.handleVendor(props.id,data.id,branch.id,quantity,quantity[branch.id-1].unit,props.partId)}} 
+                border={true} dropdownWidth="15vw" searchWidth="12vw"/>:null}
             </div>))}
             </div>
+
+            <div style={{width:'5%',display:'flex',flexDirection:'column',alignItems:'center'}} > 
+        {quantity.map((branch)=>{
+            if(quantity.length>1){
+                return(
+                    <div key={branch.id} className="gap trash"><FaTrashAlt onClick={()=>deleteBranch(branch.id)}/></div>
+                )
+            }
+        })}
+        </div>
         
         </div>
         {showForm?
-            <div style={{width:'100%',display:'flex',justifyContent:'flex-end'}}>
+            <div style={{width:'100%',display:'flex',justifyContent:'flex-end',paddingRight:'2rem'}}>
             <div className='split_row'>
-                <div style={{width:'30%',display:'flex'}}>
-                <div style={{width:'50%',display:'flex',justifyContent:'end'}}><input type="number" style={{height:'3rem',width:'70%'}} onChange={(e)=>e.target.validity.valid?handleQuantity(e.target.value):null} min="1"
-                pattern="[0-9]*" value={value}/></div>
-                <div style={{width:'50%',display:'flex',justifyContent:'end'}}><Dropdown width="70%" placeholder='Select Unit' options={unitList} name="name" dropdownWidth={size.width>'600'?'11vw':'27vw'} searchWidth={size.width>'600'?'8vw':'19vw'} height="3rem"
-                    parentCallback={(data)=>setUnit(data.symbol)} border={true}/>
-                </div></div>
+                {/* <div style={{width:'30%',display:'flex'}}> */}
+                <div style={{width:'30%',display:'flex',justifyContent:'end'}}><input type="number" style={{height:'3rem',width:'90%'}} onChange={(e)=>setValue(e.target.value)}
+             value={value}/></div>
+                <div style={{width:'30%',display:'flex',justifyContent:'end'}}><Dropdown width="90%" placeholder='Select Unit' options={unitList} name="name" dropdownWidth={size.width>'600'?'11vw':'27vw'} searchWidth={size.width>'600'?'8vw':'19vw'} height="3rem"
+                    parentCallback={(data)=>{setUnit(data.symbol);handleUnit(data.symbol)}} border={true}/>
+                </div>
+                {/* </div> */}
+            <div className='split_trash'><FaCheckCircle size={17} onClick={()=>splitHandler()}/></div>
                 
             <div className='split_trash' onClick={closeSplit}><FaTrashAlt size={17}/></div>
-            <div className='split_trash'><FaCheckCircle size={17} onClick={()=>splitHandler()}/></div>
             </div>
             </div>
            :null}

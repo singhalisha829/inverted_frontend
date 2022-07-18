@@ -128,4 +128,19 @@ transition:0.6s cubic-bezier(0.01, 1.69,    0.99, 0.94);
     border-radius: 5px;
     margin-top:1rem;
     min-height:90%;
+    padding: 1rem;
+}
+
+.single_vendor_card{
+    background-color: #f4d4d5;
+    border-radius: 3px;
+    padding: 1rem;
+    margin-bottom: 1rem;
+}
+
+.vendor_name{
+    font-size: 1.7rem;
+    font-weight: 700;
+    color:#3F5575;
+    margin-bottom: 1rem;
 }

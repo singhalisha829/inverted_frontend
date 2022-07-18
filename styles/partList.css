@@ -36,7 +36,7 @@ flex-direction: column;
 
 .split_row{
     display: flex;
-    width:65%;
+    width:55%;
     /* padding-left: 2rem; */
     /* margin-left: 5vw; */
     height: 5rem;
@@ -44,7 +44,7 @@ flex-direction: column;
 }
 
 .split_trash{
-    width:5%;
+    width:20%;
     display:flex;
     justify-content: end;
 }
@@ -53,10 +53,15 @@ flex-direction: column;
     cursor: pointer;
 }
 
+.trash:hover{
+    cursor: pointer;
+}
+
 .gap{
     /* margin-bottom:1rem; */
     height:4rem;
     display: flex;
+    justify-content: center;
     align-items: center;
 }
 
