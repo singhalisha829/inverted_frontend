@@ -65,22 +65,24 @@ const PartsList = (props) =>{
     const handleUnit=(symbol)=>{
         console.log(previousState)
         const newVal=null;
-        if(quantity[lastId-1].unit=== 'M' && symbol==='mm'){
+        const length= quantity.length
+        if(quantity[length-1].unit=== 'M' && symbol==='mm'){
             newVal= (previousState.quantity * 1000 - value)/1000;
-        }else if(quantity[lastId-1].unit=== 'Kg' && symbol==='gm'){
+        }else if(quantity[length-1].unit=== 'Kg' && symbol==='gm'){
             newVal= (previousState.quantity * 1000 - value)/1000;
         }else{
             newVal= previousState.quantity-value;
         }
-        quantity[lastId-1].quantity= newVal;
-        props.handleQuantity(props.id,quantity[lastId-1])
+        quantity[length-1].quantity= newVal;
+        props.handleQuantity(props.id,quantity[length-1])
     
     setCurrentVal(newVal)
     }
 
     const splitHandler=() =>{
         const newList1=null;
-        if(quantity[lastId-1].quantity<=0){
+        const length= quantity.length
+        if(quantity[length-1].quantity<=0){
             return;
         }else if(unit === null || unit===''){
             return;
@@ -109,23 +111,27 @@ const closeSplit=()=>{
     setShowForm(false);
     if(value != undefined){
     const newList=quantity;
-    newList[lastId-1].quantity += parseInt(value);
+    const length=newList.length;
+    newList[length-1].quantity += parseInt(value);
     setquantity(newList)
     }
     setValue('')
 
 }
-console.log(quantity)
+// console.log(quantity)
 
 const deleteBranch=(id)=>{
-    console.log(id,quantity)
+    // console.log(id,quantity)
     const newList=quantity;
-    if(id===1){
+    const index= newList.findIndex(el=>el.id === id)
+    if(newList.length===2 && index===0){
     newList[id].quantity=parseInt(newList[id].quantity)+ (quantity[id-1].quantity)
     props.handleQuantity(props.id,newList[id])
+    setPreviousState(newList[id])
     }else{
     newList[id-2].quantity+= parseInt(quantity[id-1].quantity);
     props.handleQuantity(props.id,newList[id-2])
+    setPreviousState(newList[id-2])
     }
     newList= quantity.filter((el)=>el.id !=id);
     setquantity(newList)
@@ -150,12 +156,12 @@ const deleteBranch=(id)=>{
            
            <div style={{width:'15%',display:'flex',flexDirection:'column',alignItems:'center'}} className="vendor_header">
             {quantity.map((branch)=>(<div key={branch.id}  className="gap"><input type="number" style={{height:'3rem',width:'70%'}} onChange={(e)=>
-                props.handleUnitPrice(props.id,e.target.value,branch.id,quantity[branch.id-1].quantity,quantity[branch.id-1].unit,props.partId)}/></div>))}</div>
+                props.handleUnitPrice(props.id,e.target.value,branch.id,quantity[branch.id-1].quantity,quantity[branch.id-1].unit,props.partName)}/></div>))}</div>
 
         <div style={{width:'20%',display:'flex',flexDirection:'column',alignItems:'center'}} >
         {quantity.map((branch)=>(<div key={branch.id}  className="gap">{vendorList?<Dropdown  placeholder='Select Vendor' name="name" options={vendorList} height="3rem" value={vendor} width="70%"
             parentCallback={(data)=>{
-                setVendor(data.id);props.handleVendor(props.id,data.id,branch.id,quantity,quantity[branch.id-1].unit,props.partId)}} 
+                setVendor(data.id);props.handleVendor(props.id,data.id,branch.id,quantity,quantity[branch.id-1].unit,props.partName)}} 
                 border={true} dropdownWidth="15vw" searchWidth="12vw"/>:null}
             </div>))}
             </div>

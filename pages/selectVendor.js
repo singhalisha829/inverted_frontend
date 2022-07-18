@@ -2,6 +2,7 @@ import { useState, useEffect } from "react";
 import Sidebar from "../components/sidebar";
 import Head from "next/head";
 import Header from "../components/header";
+import Table from "../components/table";
 import Router from 'next/router';
 
 import { fetchPartWiseList, fetchPurchaseOrderDetails, postPoVendor } from "../services/purchaseOrderService";
@@ -31,6 +32,11 @@ const SelectVendor=() =>{
 
     const [displayList,setDisplayList]= useState([]);
 
+    const columns = [
+        { accessor1: 'part_name', label: 'Part Description' ,width:"50%", textalign:"center"},
+        { accessor1: 'quantity', label: 'Quantity' ,width:"25%", textalign:"left"},
+        { accessor1: 'unit_price', label: 'Unit Price',width:"25%" , textalign:"center"},  
+      ];
 
     useEffect(()=>{
         const token=localStorage.getItem('token');
@@ -117,14 +123,14 @@ const SelectVendor=() =>{
     const submitVendor=()=>{
         const ifVendorNull= vendorList.some(el=>el.vendor===null);
         const ifUnitPriceNull= vendorList.some(el=>el.unit_price===null);
-        if(vendorList.length != partsList.length || ifVendorNull || ifUnitPriceNull){
+        if(vendorList.length < partsList.length || ifVendorNull || ifUnitPriceNull){
             toast.warning('Enter All Fields!')
             return;
         }else{
             postPoVendor(token,vendorList).then(res=>{
                 toast.success("Successfully Submitted!")
             localStorage.setItem('purchase_order_id_vendor',res.data.status.purchase_order_id);
-            Router.push('/vendorList')
+            // Router.push('/vendorList')
 
             })
         }
@@ -265,22 +271,29 @@ const SelectVendor=() =>{
             />))}</div>
         :null}</div>
         </div>
-        <div style={{width:'30%'}}>
+        <div style={{width:'30%',marginBottom:'10rem'}}>
             <div className="vendor_card">
             {displayList?displayList.map((vendor)=><div key={vendor.id} className="single_vendor_card">
                 <div className="vendor_name"># {vendor.name}</div> 
-                <div>
+                <div className="vendor_table">
+                    <div style={{display:'flex',paddingBottom:'0.5rem',borderBottom:'#e5e5e5 solid 0.1em'}}>
+                        <div style={{width:'50%'}}>PART DESCRIPTION</div>
+                        <div style={{width:'25%'}}>QUANTITY</div>
+                        <div style={{width:'25%'}}>UNIT PRICE</div>
+                    </div>
+                    <div style={{paddingTop:'0.5rem'}}>
                     {vendorList.map((part)=>{
                         if(part.vendor=== vendor.id){
                             return(
-                                <div style={{display:'flex'}}>
+                                <div style={{display:'flex',marginBottom:"0.5rem",fontWeight:"400"}}>
                                     <div style={{width:'50%'}}>{part.part_name}</div> 
-                                    <div style={{width:'25%'}}>{part.quantity}</div> 
-                                    <div style={{width:'25%'}}>{part.unit_price}</div>
+                                    <div style={{width:'25%',display:'flex',justifyContent:'center'}}>{part.quantity}</div> 
+                                    <div style={{width:'25%',display:'flex',justifyContent:'center'}}>{part.unit_price}</div>
                                     </div>
                                     )
                         }
-                    })}
+                    })}</div>
+                   
                 </div>
             </div>):null}
             </div>
