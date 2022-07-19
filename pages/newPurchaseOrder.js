@@ -146,7 +146,8 @@ const NewPurchaseOrder =() =>{
             toast.warning('Enter Form Details!')
         }else{
         createPurchaseOrder(newPoList,token).then((res)=>{
-            localStorage.setItem('purchase_order_id',res.data.status.purchase_order_id);
+            localStorage.setItem('poId',res.data.status.purchase_order_id);
+            console.log(res.data.status.purchase_order_id);
             cancelHandler();
             Router.push('/selectVendor');
         }
