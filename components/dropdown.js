@@ -116,7 +116,6 @@ const Dropdown= (props) =>{
         
         );
     }
-    
     return(
         <div ref={wrapperRef} className="custom_dropdown" style={{width:props.width, height:props.height,minWidth:props.minWidth, border:props.border?"#e5e5e5 solid 0.1em":null}} >
            <div className="control" onClick={()=>setIsDropdownOpen(!isDropdownOpen)} >
