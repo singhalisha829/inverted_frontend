@@ -155,6 +155,8 @@ const NewPurchaseOrder =() =>{
     }
     }
 
+    console.log(orderType)
+
     // remove the part from list on clicking the trash icon
     const handleDeleteNote=(id)=>{
         const newList=newPoList.filter((list) => list.order_name !== id);
@@ -166,7 +168,7 @@ const NewPurchaseOrder =() =>{
     const form=( <div className="new_po_order_form">
         <div style={{width:"25%"}}>{size.width>'600'?<label style={{marginBottom:"0.5rem"}}>Order Type:</label>:null}
         <Dropdown options={order_type} name="name" width={size.width>'600'?'70%':'90%'} parentCallback={(data)=>{setOrderType(data.value);fetchOrderName(data.value)}}
-        dropdownWidth={size.width>'600'?'13vw':'20vw'} searchWidth={size.width>'600'?'10vw':'12vw'} border={true} value={orderName}
+        dropdownWidth={size.width>'600'?'13vw':'20vw'} searchWidth={size.width>'600'?'10vw':'12vw'} border={true} value={orderType}
         placeholder="Select Order Type"/></div>
         
         <div style={{width:"25%"}}>{size.width>'600'?<label style={{marginBottom:"0.5rem"}}>Order Name:</label>:null}

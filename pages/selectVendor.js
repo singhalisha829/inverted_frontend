@@ -182,11 +182,17 @@ const SelectVendor=() =>{
         const index= displayList.findIndex(el=>el.id===id);
         const newList= null;
         if(index== -1){
-            newList=[...displayList,{id:id,name:list[0].name}]
+            newList=[{id:id,name:list[0].name},...displayList]
             setDisplayList(newList);
         }
+
         setUpdateUi (id)
 
+    }
+
+    const removeVendor=(id)=>{
+        const newList=displayList.filter(el=>el.id != id);
+        setDisplayList(newList)
     }
 
 
@@ -282,7 +288,13 @@ const SelectVendor=() =>{
         </div>
         <div style={{width:'30%',marginBottom:'10rem'}}>
             <div className="vendor_card">
-            {displayList?displayList.map((vendor)=><div key={vendor.id} className="single_vendor_card">
+            {displayList?displayList.map((vendor)=>{
+                const index= vendorList.findIndex(el=>el.vendor=== vendor.id);
+                if(index=== -1){
+                    removeVendor(vendor.id);
+                }
+            return(
+            <div key={vendor.id} className="single_vendor_card">
                 <div className="vendor_name"># {vendor.name}</div> 
                 <div className="vendor_table">
                     <div style={{display:'flex',paddingBottom:'0.5rem',borderBottom:'#e5e5e5 solid 0.1em'}}>
@@ -292,6 +304,7 @@ const SelectVendor=() =>{
                     </div>
                     <div style={{paddingTop:'0.5rem'}}>
                     {vendorList.map((part)=>{
+                        
                         if(part.vendor=== vendor.id){
                             return(
                                 <div style={{display:'flex',marginBottom:"0.5rem",fontWeight:"400"}}>
@@ -304,7 +317,7 @@ const SelectVendor=() =>{
                     })}</div>
                    
                 </div>
-            </div>):null}
+            </div>)}):null}
             </div>
             
         </div>

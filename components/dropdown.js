@@ -45,6 +45,7 @@ const Dropdown= (props) =>{
     },[searchText])
 
     useEffect(()=>{
+      console.log(props.value)
         if(props.value==='' ){
             setValue(()=>"")
         }

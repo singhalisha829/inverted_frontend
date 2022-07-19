@@ -77,22 +77,25 @@ const PartsList = (props) =>{
             newVal= previousState.quantity-value;
         }
         console.log(newVal)
-        // if(newVal<1){
-        //     setQuantityBorder("red solid 0.1em");
-        // }else{
-        //     setQuantityBorder("#e5e5e5 solid 0.1em");
-        // }
-        quantity[length-1].quantity= newVal;
+        if(newVal<1){
+            setValue('');
+            setUnit('');
+            setCurrentVal(newVal);
+        }else{
+            
+            quantity[length-1].quantity= newVal;
         props.handleQuantity(props.id,quantity[length-1])
     setCurrentVal(newVal)
-        
-        
-    
+        }   
     }
+
+    console.log(unit)
+
 
     const splitHandler=() =>{
         const newList1=null;
         const length= quantity.length
+        console.log(quantity[length-1].quantity)
         if(quantity[length-1].quantity<=0){
             return;
         }else if(unit === null || unit===''){
