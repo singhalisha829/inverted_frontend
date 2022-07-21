@@ -175,7 +175,7 @@ const closeSplit=()=>{
     setValue('')
 
 }
-console.log(quantity)
+// console.log(quantity)
 
 const deleteBranch=(id)=>{
     const newList=quantity;

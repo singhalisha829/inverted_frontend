@@ -5,7 +5,7 @@ import Header from "../components/header";
 import Table from "../components/table";
 import Router from 'next/router';
 
-import { fetchPartWiseList, fetchPurchaseOrderDetails, postPoVendor } from "../services/purchaseOrderService";
+import { fetchPartWiseList, fetchPurchaseOrderDetails, postPoVendor,postPoVendor1 } from "../services/purchaseOrderService";
 import { fetchVendorList } from "../services/ledgerService";
 
 import { FaSistrix, FaTimes} from 'react-icons/fa';
@@ -29,6 +29,7 @@ const SelectVendor=() =>{
     const [showDetails,setShowDetails]= useState(false);
     const [upadteUi,setUpdateUi]= useState(null);
     const [vendorLists,setVendorLists]= useState(null);
+    const [finalList,setFinalList]= useState([]);
 
     const [displayList,setDisplayList]= useState([]);
 
@@ -46,10 +47,27 @@ const SelectVendor=() =>{
         setPurchaseOrderId(localStorage.getItem('poId'))
         fetchPurchaseOrderDetails(token,poId).then(res=>{setPoDetails(res.data.data.output[0].invoice_products)})
         setToken(token)
-        fetchPartWiseList(token,poId).then(res=>{setOrderDetails(res.data.data.output);setPartsList(res.data.data.output.order_items);})
+        fetchPartWiseList(token,poId).then(res=>{
+            setOrderDetails(res.data.data.output);
+            setPartsList(res.data.data.output.order_items);
+            const list=res.data.data.output.order_items;
+            const newList=[];
+            console.log('start')
+            for(let i=0;i<list.length;i++){
+                newList.push({
+                    part:list[i].id,
+                    purchase_order:poId,
+                    quantity:list[i].quantity_value+" "+list[i].quantity_symbol,
+                    branch_id:1
+                })
+            }
+            setFinalList(newList)
+        })
         fetchVendorList(token).then(res=>setVendorLists(res.data))
 
     },[])
+
+    // console.log(finalList)
 
     // calculate screen size
     function useWindowSize() {
@@ -96,6 +114,24 @@ const SelectVendor=() =>{
         }else{
             vendorList[index].unit_price=value;
         }
+
+        // const i= finalList.findIndex(el=>el.part===id);
+        const e= finalList.findIndex(el=>el.part===id && el.branch_id=== branch_id);
+        console.log(e,branch_id)
+        if(e == -1){
+            finalList.push({
+                purchase_order:purchaseOrderId,
+                part:id,
+                quantity:quantity1+" "+unit,
+                vendor:null,
+                unit_price:value,
+                branch_id:branch_id
+            })
+        }else{
+            finalList[e].unit_price=value;
+        }
+            
+        console.log(finalList)
     localStorage.setItem('vendorList',vendorList);
     setUpdateUi(value);
         // console.log(vendorList)
@@ -115,11 +151,28 @@ const SelectVendor=() =>{
                 vendor:value,
                 unit_price:null,
                 branch_id:branch_id
-            })
+            });
         }else{
             vendorList[index].vendor=value;
         }
-        // console.log(vendorList)
+
+        // const i= finalList.findIndex(el=>el.part===id);
+        const e= finalList.findIndex(el=>el.part===id && el.branch_id=== branch_id);
+        console.log(e,branch_id)
+        if(e == -1){
+            finalList.push({
+                purchase_order:purchaseOrderId,
+                part:id,
+                quantity:quantity1+" "+unit,
+                vendor:value,
+                unit_price:null,
+                branch_id:branch_id
+            })
+        }else{
+            finalList[e].vendor=value;
+        }
+        
+        console.log(finalList)
         localStorage.setItem('vendorList',vendorList)
         handleDisplayList(value);
         
@@ -163,6 +216,9 @@ const SelectVendor=() =>{
         if(index != -1){
             vendorList[index].quantity= list.quantity+" "+list.unit;
         }
+
+        const index1=finalList.findIndex(el=>el.part===id && el.branch_id===list.id)
+        finalList[index1].quantity=list.quantity+" "+list.unit;
 
         // console.log(vendorList)
     }
@@ -284,12 +340,13 @@ const SelectVendor=() =>{
             handleVendor={(id,value,branch_id,quantity,part_name)=>handleVendor(id,value,branch_id,quantity,part_name)} handleQuantity={
                 (id,list,unit)=>handleQuantity(id,list,unit)} deleteBranch={(id,part_id)=>deleteBranch(id,part_id)}
             />)):
-                partsList.map((part)=>(
+                partsList.map((part)=>{
+                return(
             <PartsList key={part.id} id={part.id} partId={part.part_id} partName={part.short_description}
             quantity={part.quantity_value} unit={part.quantity_symbol} handleUnitPrice={(id,value,branch_id,quantity,part_name)=>handleUnitPrice(id,value,branch_id,quantity,part_name)} 
             handleVendor={(id,value,branch_id,quantity,part_name)=>handleVendor(id,value,branch_id,quantity,part_name)} handleQuantity={
                 (id,list,unit)=>handleQuantity(id,list,unit)} deleteBranch={(id,branch_id)=>deleteBranch(id,branch_id)}
-            />))}</div>
+            />)})}</div>
         :null}</div>
         </div>
         <div style={{width:'30%',marginBottom:'10rem'}}>

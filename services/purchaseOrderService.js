@@ -60,3 +60,11 @@ export const unitConversion=(token,required_symbol,entered_symbol) =>{
         "Authorization":"Token "+ token
     }})
 }
+
+export const postPoVendor1=(token,vendorList) =>{
+    return axios.post(URL+MAIN.PO_VENDOR1,
+        vendorList
+        ,{headers:{
+        "Authorization":"Token "+ token
+    }})
+}
