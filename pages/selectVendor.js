@@ -164,7 +164,6 @@ const SelectVendor=() =>{
     }
 
     const deleteBranch= (id,part_id) =>{
-        console.log(vendorList)
         const newList= vendorList.filter(el=>{
             if(el.part === part_id && el.branch_id === id){
             }else{
@@ -172,7 +171,7 @@ const SelectVendor=() =>{
             }
         }
             )
-            console.log(newList)
+            
         setVendorList(newList)
     }
 

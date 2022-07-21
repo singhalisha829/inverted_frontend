@@ -10,6 +10,7 @@ import StockOutList from '../components/stockOutList';
 import { fetchPartsList } from "../services/dashboardService";
 import { fetchBOMList } from "../services/purchaseOrderService";
 import { fetchUnitList } from "../services/ledgerService";
+import { createProductionOrder } from "../services/productionOrderService";
 
 import PurchaseOrderList from "../components/purchaseOrderList";
 
@@ -117,7 +118,7 @@ const NewOrder=()=>{
     }
 
     const cancelHandler=() =>{
-      setOrderType("");
+      setOrderType('');
         setQuantity(()=>'');
         setOrderName('');
         setUnit('');
@@ -147,13 +148,13 @@ const NewOrder=()=>{
     if(newPoList.length===0){
         toast.warning('Enter Form Details!')
     }else{
-    // createPurchaseOrder(newPoList,token).then((res)=>{
-    //     localStorage.setItem('poId',res.data.status.purchase_order_id);
-    //     console.log(res.data.status.purchase_order_id);
-    //     cancelHandler();
+    createProductionOrder(newPoList,token).then((res)=>{
+        // localStorage.setItem('poId',res.data.status.purchase_order_id);
+        // console.log(res.data.status.purchase_order_id);
+        cancelHandler();
       
-    // }
-    // )
+    }
+    )
     console.log(newPoList)
 }
 }
@@ -180,7 +181,7 @@ const NewOrder=()=>{
                 <div className="new_order_form">
                     <div style={{width:'25%'}}><label>Order Type:</label>
                     <Dropdown options={order_type} name="name" width="70%" parentCallback={(data)=>{setOrderType(data.value);fetchOrderName(data.value)}}
-                    dropdownWidth={size.width>'600'?'13vw':'20vw'} searchWidth={size.width>'600'?'10vw':'12vw'} border={true}/></div>
+                    dropdownWidth={size.width>'600'?'13vw':'20vw'} searchWidth={size.width>'600'?'10vw':'12vw'} border={true} value={orderType} placeholder="Select Order Type"/></div>
                     <div style={{width:'25%'}}><label>Order Name:</label>
                     <Dropdown options={orderList} name={orderValue} width="70%" parentCallback={(data)=>setOrderName(data.id)} value={orderName}
 dropdownWidth={size.width>'600'?'13vw':'20vw'} searchWidth={size.width>'600'?'10vw':'12vw'} border={true} placeholder="Select Order"/></div>

@@ -135,15 +135,15 @@ const closeSplit=()=>{
     setValue('')
 
 }
-console.log(quantity)
+// console.log(quantity)
 
 const deleteBranch=(id)=>{
     const newList=quantity;
     const index= newList.findIndex(el=>el.id === id)
     if(index===0){
     newList[index+1].quantity+= quantity[index].quantity;
-    props.handleQuantity(props.id,newList[id])
-    setPreviousState(newList[id])
+    props.handleQuantity(props.id,newList[index+1])
+    setPreviousState(newList[index+1])
     }else{
     newList[index-1].quantity+= quantity[index].quantity;
     props.handleQuantity(props.id,newList[index-1])
