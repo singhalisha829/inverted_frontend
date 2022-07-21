@@ -51,3 +51,12 @@ export const fetchPurchaseOrderDetails=(token,poId) =>{
         "Authorization":"Token "+ token
     }})
 }
+
+
+export const unitConversion=(token,required_symbol,entered_symbol) =>{
+    return axios.get(URL+MAIN.UNIT_CONVERSION+required_symbol+
+        "&entered_symbol="+entered_symbol
+        ,{headers:{
+        "Authorization":"Token "+ token
+    }})
+}

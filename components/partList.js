@@ -1,6 +1,7 @@
 import { useEffect, useState } from 'react';
 
 import { fetchVendorList,fetchUnitList } from '../services/ledgerService';
+import { unitConversion } from '../services/purchaseOrderService';
 import Dropdown from './dropdown';
 import { GoRepoForked} from 'react-icons/go';
 import { FaTrashAlt, FaCheckCircle } from 'react-icons/fa';
@@ -20,6 +21,8 @@ const PartsList = (props) =>{
     const [unitList,setUnitList]= useState([]);
     const [unit,setUnit]= useState(null);
     const [previousState,setPreviousState]= useState({quantity:props.quantity,id:1,unit:props.unit});
+    const [token,setToken]= useState(null);
+    const [factor,setFactor]= useState(null);
 
     // const [splitBranch,setSplitBranch]= useState([]);
     const [lastBranch,setLastBranch]= useState(null);
@@ -32,9 +35,16 @@ const PartsList = (props) =>{
 
     useEffect(()=>{
         const token= localStorage.getItem('token')
+        setToken(token)
         fetchVendorList(token).then(res=>setvendorList(res.data))
         fetchUnitList(token).then(res=>setUnitList(res.data))
     },[])
+
+    // useEffect(()=>{
+    //     if(quantity.length===0){
+    //         props.emptyVendorList();
+    //     }
+    // },[quantity])
 
     // calculate screen size
     function useWindowSize() {
@@ -68,12 +78,25 @@ const PartsList = (props) =>{
     const handleUnit=(symbol)=>{
         const newVal=null;
         const length= quantity.length;
-        if(quantity[length-1].unit=== 'M' && symbol==='mm'){
-            newVal= (previousState.quantity * 1000 - value)/1000;
-        }else if(quantity[length-1].unit=== 'Kg' && symbol==='gm'){
-            newVal= (previousState.quantity * 1000 - value)/1000;
+        if(props.unit != symbol){
+            newVal=previousState.quantity;
+            unitConversion(token,props.unit,symbol).then(res=>{
+                if(res.data.status.code==404){
+                    toast.warning(res.data.status.description);
+                    setUnit(()=>'');
+                    setValue(()=>'')
+                    
+                }else{
+                    console.log(res.data)
+                    const factor=res.data.output[0].entered_base_conversion_factor;
+                    setFactor(factor);
+                    newVal=parseFloat(((previousState.quantity*factor - value)/factor).toFixed(2));
+                    console.log(newVal,typeof newVal);
+                    updateQuantity(newVal,length)
+                }
+            })
         }else{
-            newVal= previousState.quantity-value;
+        newVal= previousState.quantity-value;
         }
 
         if(newVal<0){
@@ -81,11 +104,28 @@ const PartsList = (props) =>{
             setUnit(()=>'');
             setCurrentVal(newVal);
         }else{
+            console.log(newVal)
             newVal= parseInt(newVal) != newVal?parseFloat(parseFloat(newVal).toFixed(2)):newVal;
             quantity[length-1].quantity= newVal;
         props.handleQuantity(props.id,quantity[length-1])
     setCurrentVal(newVal)
-        }   
+
+         
+    } 
+    }
+
+    const updateQuantity=(value,length)=>{
+        if(value<0){
+            setValue('');
+            setUnit(()=>'');
+            setCurrentVal(value);
+        }else{
+            quantity[length-1].quantity= value;
+        props.handleQuantity(props.id,quantity[length-1])
+    setCurrentVal(value)
+
+         
+    } 
     }
 
 
@@ -135,18 +175,33 @@ const closeSplit=()=>{
     setValue('')
 
 }
-// console.log(quantity)
+console.log(quantity)
 
 const deleteBranch=(id)=>{
     const newList=quantity;
     const index= newList.findIndex(el=>el.id === id)
+    
     if(index===0){
+    if(newList[index].unit===newList[index+1].unit){
     newList[index+1].quantity+= quantity[index].quantity;
+    }else{
+        const newVal=newList[index+1].quantity/factor+quantity[index].quantity;
+        newVal=parseInt(newVal) != newVal?parseFloat(newVal.toFixed(2)):newVal;
+        newList[index+1].quantity= newVal;
+    }
     props.handleQuantity(props.id,newList[index+1])
     setPreviousState(newList[index+1])
     }else{
+        if(newList[index].unit===newList[index-1].unit){
     newList[index-1].quantity+= quantity[index].quantity;
-    props.handleQuantity(props.id,newList[index-1])
+        }
+        else{
+            const newVal=quantity[index].quantity/factor;
+            newVal=parseInt(newVal) != newVal?parseFloat(newVal.toFixed(2)):newVal;
+            newList[index-1].quantity+= newVal;
+            
+        }
+        props.handleQuantity(props.id,newList[index-1])
     setPreviousState(newList[index-1])
     }
     newList= quantity.filter((el)=>el.id !=id);

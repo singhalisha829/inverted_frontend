@@ -96,6 +96,7 @@ const SelectVendor=() =>{
         }else{
             vendorList[index].unit_price=value;
         }
+    localStorage.setItem('vendorList',vendorList);
     setUpdateUi(value);
         // console.log(vendorList)
 
@@ -119,6 +120,7 @@ const SelectVendor=() =>{
             vendorList[index].vendor=value;
         }
         // console.log(vendorList)
+        localStorage.setItem('vendorList',vendorList)
         handleDisplayList(value);
         
 
@@ -153,6 +155,8 @@ const SelectVendor=() =>{
             setCardFilter([...partsList])
           }
     }
+
+    // console.log(localStorage.getItem('vendorList'))
 
     const handleQuantity =(id,list)=>{
         const index= vendorList.findIndex(el=>el.part===id && el.branch_id===list.id)
