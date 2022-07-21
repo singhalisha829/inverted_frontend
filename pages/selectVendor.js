@@ -56,7 +56,7 @@ const SelectVendor=() =>{
             for(let i=0;i<list.length;i++){
                 newList.push({
                     part:list[i].id,
-                    purchase_order:poId,
+                    purchase_order:parseInt(poId),
                     quantity:list[i].quantity_value+" "+list[i].quantity_symbol,
                     branch_id:1
                 })
@@ -103,7 +103,7 @@ const SelectVendor=() =>{
         const index= vendorList.findIndex(el=>el.part===id && el.branch_id===branch_id)
         if(index== -1){
             vendorList.push({
-                purchase_order:purchaseOrderId,
+                purchase_order:parseInt(purchaseOrderId),
                 part:id,
                 part_name:part_name,
                 quantity:quantity1+" "+unit,
@@ -120,7 +120,7 @@ const SelectVendor=() =>{
         console.log(e,branch_id)
         if(e == -1){
             finalList.push({
-                purchase_order:purchaseOrderId,
+                purchase_order:parseInt(purchaseOrderId),
                 part:id,
                 quantity:quantity1+" "+unit,
                 vendor:null,
@@ -182,17 +182,18 @@ const SelectVendor=() =>{
     const submitVendor=()=>{
         const ifVendorNull= vendorList.some(el=>el.vendor===null);
         const ifUnitPriceNull= vendorList.some(el=>el.unit_price===null);
-        if(vendorList.length < partsList.length || ifVendorNull || ifUnitPriceNull){
-            toast.warning('Enter All Fields!')
-            return;
-        }else{
-            postPoVendor(token,vendorList).then(res=>{
+        // if(vendorList.length < partsList.length || ifVendorNull || ifUnitPriceNull){
+        //     toast.warning('Enter All Fields!')
+        //     return;
+        // }else{
+            postPoVendor1(token,finalList).then(res=>{
+                console.log(res.data)
                 toast.success("Successfully Submitted!")
             localStorage.setItem('purchase_order_id_vendor',res.data.status.purchase_order_id);
-            // Router.push('/vendorList')
+            Router.push('/vendorList')
 
             })
-        }
+        // }
     }
 
 
@@ -216,10 +217,11 @@ const SelectVendor=() =>{
         if(index != -1){
             vendorList[index].quantity= list.quantity+" "+list.unit;
         }
-
+        
         const index1=finalList.findIndex(el=>el.part===id && el.branch_id===list.id)
+        if(index1 != -1){
         finalList[index1].quantity=list.quantity+" "+list.unit;
-
+        }
         // console.log(vendorList)
     }
 
@@ -231,8 +233,16 @@ const SelectVendor=() =>{
             }
         }
             )
-            
         setVendorList(newList)
+
+        const newList1= finalList.filter(el=>{
+            if(el.part === part_id && el.branch_id === id){
+            }else{
+                return el;
+            }
+        }
+            )
+        setFinalList(newList1)
     }
 
 

@@ -10,3 +10,45 @@
     font-size: 1.5rem;
     line-height: 1.7rem;
 }
+
+.vendor_list_subsection{
+    width: 77vw;
+    min-height: 6rem;
+    margin-left: auto;
+    margin-right: auto;
+    padding-left: 2rem;
+    align-items: center;
+    display: flex;
+    background: white;
+    box-shadow: 0px 4px 6px rgba(0, 0, 0, 0.15);
+    border-radius: 6px;
+}
+
+.vendor_list{
+    width: 77vw;
+    min-height: 6rem;
+    margin-left: auto;
+    margin-right: auto;
+    display: flex;
+    background: white;
+    border-radius: 6px;
+    flex-direction: column;
+    padding: 2rem;
+    margin-bottom: 2rem;
+}
+
+.vendor_title{
+    color:#29394A;
+    font-weight: 600;
+font-size: 1.8rem;
+line-height: 2.2rem;
+margin-bottom: 2rem;
+}
+
+@media(max-width:600px){
+    .vendor_list_subsection,.vendor_list{
+        width:90vw;
+        height:5.5rem;
+        padding-left: 1rem;
+    }
+}

@@ -68,3 +68,10 @@ export const postPoVendor1=(token,vendorList) =>{
         "Authorization":"Token "+ token
     }})
 }
+
+export const fetchUnassignedParts=(token,poId) =>{
+    return axios.get(URL+MAIN.PO_VENDOR1+"?production_order_id="+poId
+        ,{headers:{
+        "Authorization":"Token "+ token
+    }})
+}
