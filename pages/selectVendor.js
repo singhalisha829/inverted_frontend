@@ -158,7 +158,6 @@ const SelectVendor=() =>{
 
         // const i= finalList.findIndex(el=>el.part===id);
         const e= finalList.findIndex(el=>el.part===id && el.branch_id=== branch_id);
-        console.log(e,branch_id)
         if(e == -1){
             finalList.push({
                 purchase_order:purchaseOrderId,
@@ -222,7 +221,7 @@ const SelectVendor=() =>{
         if(index1 != -1){
         finalList[index1].quantity=list.quantity+" "+list.unit;
         }
-        // console.log(vendorList)
+        console.log(localStorage.getItem('vendorList'))
     }
 
     const deleteBranch= (id,part_id) =>{

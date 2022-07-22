@@ -158,6 +158,9 @@ transition:0.6s cubic-bezier(0.01, 1.69,    0.99, 0.94);
     font-weight: 700;
     color:#3F5575;
     margin-bottom: 1rem;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
 }
 
 .vendor_table{
