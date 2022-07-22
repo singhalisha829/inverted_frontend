@@ -229,12 +229,12 @@ const deleteBranch=(id)=>{
            
            <div style={{width:'15%',display:'flex',flexDirection:'column',alignItems:'center'}} className="vendor_header">
             {quantity.map((branch)=>(<div key={branch.id}  className="gap"><input type="number" style={{height:'3rem',width:'70%'}} onChange={(e)=>
-                props.handleUnitPrice(props.id,e.target.value,branch.id,quantity,props.partName)}/></div>))}</div>
+                props.handleUnitPrice(props.id,e.target.value,branch.id,quantity,props.partName,props.partId)}/></div>))}</div>
 
         <div style={{width:'20%',display:'flex',flexDirection:'column',alignItems:'center'}} >
         {quantity.map((branch)=>(<div key={branch.id}  className="gap">{vendorList?<Dropdown  placeholder='Select Vendor' name="name" options={vendorList} height="3rem" value={vendor} width="70%"
             parentCallback={(data)=>{
-                setVendor(data.id);props.handleVendor(props.id,data.id,branch.id,quantity,props.partName)}} 
+                setVendor(data.id);props.handleVendor(props.id,data.id,branch.id,quantity,props.partName,props.partId)}} 
                 border={true} dropdownWidth="15vw" searchWidth="12vw"/>:null}
             </div>))}
             </div>

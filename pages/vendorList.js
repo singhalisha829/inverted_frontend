@@ -28,7 +28,15 @@ const VendorList = () =>{
 
     useEffect(()=>{
         const token=localStorage.getItem('token');
-        const poId=localStorage.getItem('purchase_order_id_vendor')
+        const poId=localStorage.getItem('poId')
+        fetchUnassignedParts(token,poId).then((res)=>{
+          if(res.data.data.output[0] === undefined){
+              Router.push('/selectVendor')
+          }else{
+            setUnassignedParts(res.data.data.output[0].temp_part)
+          }
+      })
+
         console.log(poId)
           setToken(token)
           fetchVendorWiseList(token,poId).then((res)=>{
@@ -43,7 +51,6 @@ const VendorList = () =>{
             }
             setLockState(newList)
           })
-          fetchUnassignedParts(token,poId).then((res)=>{setUnassignedParts(res.data.data.output[0].temp_part)})
 
           
     },[])
@@ -77,7 +84,7 @@ const VendorList = () =>{
     const size = useWindowSize();
 
     const goToSelectVendor=()=>{
-      Router.push('/selectVendor');
+      Router.push('/editVendor');
     }
 
     const lockVendor=(id)=>{
