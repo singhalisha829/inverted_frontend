@@ -70,8 +70,16 @@ export const postPoVendor1=(token,vendorList) =>{
 }
 
 export const fetchUnassignedParts=(token,poId) =>{
-    return axios.get(URL+MAIN.PO_VENDOR1+"?production_order_id="+poId
+    return axios.get(URL+MAIN.PO_VENDOR1+"?purchase_order_id="+poId
         ,{headers:{
         "Authorization":"Token "+ token
     }})
 }
+
+export const deleteAssignedParts=(token,list) =>{
+    return axios.delete(URL+MAIN.PO_VENDOR1,
+    {headers:{
+        "Authorization":"Token "+ token
+    },list})
+}
+

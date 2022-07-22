@@ -5,7 +5,7 @@ import Header from "../components/header";
 import Table from "../components/table";
 import Router from 'next/router';
 
-import { fetchPartWiseList, fetchPurchaseOrderDetails, postPoVendor,postPoVendor1 } from "../services/purchaseOrderService";
+import { fetchPartWiseList, fetchPurchaseOrderDetails, deleteAssignedParts,postPoVendor1,fetchUnassignedParts } from "../services/purchaseOrderService";
 import { fetchVendorList } from "../services/ledgerService";
 
 import { FaSistrix, FaTimes} from 'react-icons/fa';
@@ -30,6 +30,7 @@ const SelectVendor=() =>{
     const [upadteUi,setUpdateUi]= useState(null);
     const [vendorLists,setVendorLists]= useState(null);
     const [finalList,setFinalList]= useState([]);
+    const [deleteParts,setDeleteParts]= useState([]);
 
     const [displayList,setDisplayList]= useState([]);
 
@@ -52,7 +53,6 @@ const SelectVendor=() =>{
             setPartsList(res.data.data.output.order_items);
             const list=res.data.data.output.order_items;
             const newList=[];
-            console.log('start')
             for(let i=0;i<list.length;i++){
                 newList.push({
                     part:list[i].id,
@@ -189,7 +189,17 @@ const SelectVendor=() =>{
                 console.log(res.data)
                 toast.success("Successfully Submitted!")
             localStorage.setItem('purchase_order_id_vendor',res.data.status.purchase_order_id);
-            Router.push('/vendorList')
+            Router.push('/vendorList');
+            // fetchUnassignedParts(token,res.data.status.purchase_order_id).then(res=>{
+            //     console.log(res.data)
+            //     const list=res.data.data.output[0].purchase_order;
+            //     for(let i =0;i<list.length;i++){
+            //         deleteParts.push(list[i].id)
+            //     }
+            //     console.log('delete',deleteParts);
+
+            // deleteAssignedParts(token,deleteParts).then(res=>console.log(res.data))
+            // })
 
             })
         // }
