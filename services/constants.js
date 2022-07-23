@@ -18,5 +18,7 @@ export const MAIN={
     PRODUCTION_ORDER:'api/v1/production-order/',
     UNIT_CONVERSION:'api/v1/unit-conversion/?required_symbol=',
     PO_VENDOR1:'api/v1/purchase-order-items-vendor1/',
+    DELETE_PART:'api/v1/purchase-order-items-vendor-delete/',
+
 
 }

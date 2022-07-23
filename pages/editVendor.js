@@ -54,11 +54,12 @@ const EditVendor=() =>{
             setPartsList(res.data.data.output[0].temp_part);
             const list=res.data.data.output[0].temp_part;
             const newList=[];
+            console.log(list.length)
             for(let i=0;i<list.length;i++){
                 newList.push({
-                    part:list[i].id,
+                    part:list[i].part_id_id,
                     purchase_order:parseInt(poId),
-                    quantity:list[i].quantity_value+" "+list[i].quantity_symbol,
+                    quantity:list[i].quantity__value+" "+list[i].quantity__unit__symbol,
                     branch_id:1,
                     part_id:list[i].part_id
                 })
@@ -100,7 +101,6 @@ const EditVendor=() =>{
     const size = useWindowSize();
 
     const handleUnitPrice=(id,value,branch_id,quantity,part_name,partId)=>{
-        console.log(partId)
         const quantity1= quantity.filter(el=>el.id===branch_id)[0].quantity;
         const unit= quantity.filter(el=>el.id===branch_id)[0].unit;
         const index= vendorList.findIndex(el=>el.part===id && el.branch_id===branch_id)
@@ -134,7 +134,6 @@ const EditVendor=() =>{
             finalList[e].unit_price=value;
         }
             
-        console.log(finalList)
     localStorage.setItem('vendorList',vendorList);
     setUpdateUi(value);
         // console.log(vendorList)
@@ -160,6 +159,7 @@ const EditVendor=() =>{
         }
 
         // const i= finalList.findIndex(el=>el.part===id);
+
         const e= finalList.findIndex(el=>el.part===id && el.branch_id=== branch_id);
         if(e == -1){
             finalList.push({
@@ -175,7 +175,6 @@ const EditVendor=() =>{
             finalList[e].vendor=value;
         }
         
-        console.log(finalList)
         localStorage.setItem('vendorList',vendorList)
         handleDisplayList(value);
         
@@ -189,22 +188,23 @@ const EditVendor=() =>{
         const ifUnitPriceNull= vendorList.some(el=>el.unit_price===null);
         const newList=[];
         for(let i =0;i<finalList.length;i++){
-            const index= partsList.findIndex(el=>el.part_id== finalList.part_id);
+            const index= partsList.findIndex(el=>el.part_id== finalList[i].part_id && finalList[i].vendor != null && finalList[i].unit_price != null);
             console.log(index)
+            if(index != -1){
             newList.push(partsList[index].id)
+            }
         }
         console.log(newList)
 
-            // postPoVendor1(token,finalList).then(res=>{
-            // toast.success("Successfully Submitted!")
-            // localStorage.setItem('poId',res.data.status.purchase_order_id);
-            // Router.push('/vendorList');
+            postPoVendor1(token,finalList).then(res=>{
+            toast.success("Successfully Submitted!")
+            localStorage.setItem('poId',res.data.status.purchase_order_id);
 
-            // deleteAssignedParts(token,deleteParts).then(res=>console.log(res.data))
-            // })
-
-            
-        
+            deleteAssignedParts(token,newList).then(res=>{console.log(res.data);            
+                Router.push('/vendorList');
+            }
+            )
+            })  
     }
 
 
@@ -356,14 +356,14 @@ const EditVendor=() =>{
             {partsList?
             <div className="parts_wise_list">
                 {searchText!= undefined? cardFilter.map((part)=>(
-                 <PartsList key={part.id} id={part.id} partId={part.part_id} partName={part.part__short_description}
+                 <PartsList key={part.id} id={part.part_id_id} partId={part.part_id} partName={part.part__short_description}
             quantity={part.quantity__value} unit={part.quantity_unit__symbol} handleUnitPrice={(id,value,branch_id,quantity,part_name,partId)=>handleUnitPrice(id,value,branch_id,quantity,part_name,partId)} 
             handleVendor={(id,value,branch_id,quantity,part_name,partId)=>handleVendor(id,value,branch_id,quantity,part_name,partId)} handleQuantity={
                 (id,list,unit)=>handleQuantity(id,list,unit)} deleteBranch={(id,part_id)=>deleteBranch(id,part_id)}
             />)):
                 partsList.map((part)=>{
                 return(
-            <PartsList key={part.id} id={part.id} partId={part.part_id} partName={part.part__short_description}
+            <PartsList key={part.id} id={part.part_id_id} partId={part.part_id} partName={part.part__short_description}
             quantity={part.quantity__value} unit={part.quantity__unit__symbol} handleUnitPrice={(id,value,branch_id,quantity,part_name,partId)=>handleUnitPrice(id,value,branch_id,quantity,part_name,partId)} 
             handleVendor={(id,value,branch_id,quantity,part_name,partId)=>handleVendor(id,value,branch_id,quantity,part_name,partId)} handleQuantity={
                 (id,list,unit)=>handleQuantity(id,list,unit)} deleteBranch={(id,branch_id)=>deleteBranch(id,branch_id)}
