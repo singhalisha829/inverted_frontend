@@ -184,29 +184,53 @@ const deleteBranch=(id)=>{
     if(index===0){
     if(newList[index].unit===newList[index+1].unit){
     newList[index+1].quantity+= quantity[index].quantity;
-    }else{
-        const newVal=newList[index+1].quantity/factor+quantity[index].quantity;
-        newVal=parseInt(newVal) != newVal?parseFloat(newVal.toFixed(2)):newVal;
-        newList[index+1].quantity= newVal;
-    }
     props.handleQuantity(props.id,newList[index+1])
     setPreviousState(newList[index+1])
-    }else{
-        if(newList[index].unit===newList[index-1].unit){
-    newList[index-1].quantity+= quantity[index].quantity;
-        }
-        else{
-            const newVal=quantity[index].quantity/factor;
-            newVal=parseInt(newVal) != newVal?parseFloat(newVal.toFixed(2)):newVal;
-            newList[index-1].quantity+= newVal;
-            
-        }
-        props.handleQuantity(props.id,newList[index-1])
-    setPreviousState(newList[index-1])
-    }
     newList= quantity.filter((el)=>el.id !=id);
     setquantity(newList)
     props.deleteBranch(id,props.id);
+    }else{
+        
+            unitConversion(token,newList[index].unit,newList[index+1].unit).then(res=>{
+                    const factor=res.data.output[0].entered_base_conversion_factor;
+                    setFactor(factor);
+                    const newVal=parseFloat(((newList[index+1].quantity + quantity[index].quantity*factor)/factor).toFixed(2));
+                    newList[index+1].quantity= newVal; 
+                    newList[index+1].unit=newList[index].unit;  
+                    props.handleQuantity(props.id,newList[index+1])
+                    setPreviousState(newList[index+1])
+                    newList= quantity.filter((el)=>el.id !=id);
+    setquantity(newList)
+    props.deleteBranch(id,props.id);
+            })
+    }
+    
+    }else{
+        if(newList[index].unit===newList[index-1].unit){
+    newList[index-1].quantity+= quantity[index].quantity;
+    props.handleQuantity(props.id,newList[index-1])
+    setPreviousState(newList[index-1])
+    newList= quantity.filter((el)=>el.id !=id);
+    setquantity(newList)
+    props.deleteBranch(id,props.id);
+        }
+        else{
+            
+            unitConversion(token,newList[index-1].unit,newList[index].unit).then(res=>{
+                const factor=res.data.output[0].entered_base_conversion_factor;
+                setFactor(factor);
+                const newVal=parseFloat(((newList[index-1].quantity*factor + quantity[index].quantity)/factor).toFixed(2));
+                newList[index-1].quantity= newVal;
+            props.handleQuantity(props.id,newList[index-1])
+    setPreviousState(newList[index-1])
+    newList= quantity.filter((el)=>el.id !=id);
+    setquantity(newList)
+    props.deleteBranch(id,props.id);
+            })
+        }
+        
+    }
+    
     
 
 }
