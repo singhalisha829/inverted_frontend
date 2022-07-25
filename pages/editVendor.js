@@ -44,7 +44,6 @@ const EditVendor=() =>{
     useEffect(()=>{
         const token=localStorage.getItem('token');
         const poId=localStorage.getItem('poId')
-        // console.log(poId)
 
         setPurchaseOrderId(localStorage.getItem('poId'))
         fetchPurchaseOrderDetails(token,poId).then(res=>{setPoDetails(res.data.data.output[0].invoice_products)})
@@ -52,13 +51,22 @@ const EditVendor=() =>{
         fetchPartWiseList(token,poId).then(res=>setOrderDetails(res.data.data.output))
         fetchUnassignedParts(token,poId).then(res=>{    
             setPartsList(res.data.data.output[0].temp_part);
-            console.log(res.data.data.output[0].temp_part.length)
+            const list=res.data.data.output[0].temp_part;
+            const newList=[];
+            for(let i=0;i<list.length;i++){
+                newList.push({
+                    part:list[i].part_id_id,
+                    purchase_order:parseInt(poId),
+                    quantity:list[i].quantity__value+" "+list[i].quantity__unit__symbol,
+                    branch_id:1,
+                    part_id:list[i].part_id,
+                })
+            }
+            setFinalList(newList)
         })
         fetchVendorList(token).then(res=>setVendorLists(res.data))
 
     },[])
-
-    // console.log(finalList)
 
     // calculate screen size
     function useWindowSize() {
@@ -100,7 +108,7 @@ const EditVendor=() =>{
                 quantity:quantity1+" "+unit,
                 vendor:null,
                 unit_price:value,
-                branch_id:branch_id
+                branch_id:branch_id,
             })
         }else{
             vendorList[index].unit_price=value;
@@ -116,7 +124,7 @@ const EditVendor=() =>{
                 vendor:null,
                 unit_price:value,
                 branch_id:branch_id,
-                part_id:partId
+                part_id:partId,
             })
         }else{
             finalList[e].unit_price=value;
@@ -124,8 +132,6 @@ const EditVendor=() =>{
             
     localStorage.setItem('vendorList',vendorList);
     setUpdateUi(value);
-        // console.log(vendorList)
-
     }
 
     const handleVendor=(id,value,branch_id,quantity,part_name,partId)=>{
@@ -165,26 +171,32 @@ const EditVendor=() =>{
         
         localStorage.setItem('vendorList',vendorList)
         handleDisplayList(value);
-        console.log(vendorList)
-
     }
 
     const submitVendor=()=>{
-        console.log(partsList)
-        console.log(finalList)
-        const ifVendorNull= vendorList.some(el=>el.vendor===null);
-        const ifUnitPriceNull= vendorList.some(el=>el.unit_price===null);
         const newList=[];
-        for(let i =0;i<finalList.length;i++){
-            const index= partsList.findIndex(el=>el.part_id== finalList[i].part_id && finalList[i].vendor != null && finalList[i].unit_price != null);
-            console.log(index)
+        console.log(finalList)
+        const submitPartList=[];
+        for(let i=0;i<finalList.length;i++){
+            const count=finalList.filter(el=>el.part==finalList[i].part).length;
+            if(count >1){
+                submitPartList.push(finalList[i])
+            }
+
+        }
+        console.log(submitPartList)       
+
+        for(let i =0;i<submitPartList.length;i++){
+            const index= partsList.findIndex(el=>el.part_id== submitPartList[i].part_id);
             if(index != -1){
+                if(newList.includes(partsList[index].id)){
+                    continue;
+                }
             newList.push(partsList[index].id)
             }
         }
         console.log(newList)
-
-            postPoVendor1(token,finalList).then(res=>{
+            postPoVendor1(token,submitPartList).then(res=>{
             toast.success("Successfully Submitted!")
             localStorage.setItem('poId',res.data.status.purchase_order_id);
 
@@ -209,7 +221,6 @@ const EditVendor=() =>{
           }
     }
 
-    // console.log(localStorage.getItem('vendorList'))
 
     const handleQuantity =(id,list)=>{
         const index= vendorList.findIndex(el=>el.part===id && el.branch_id===list.id)
@@ -221,7 +232,6 @@ const EditVendor=() =>{
         if(index1 != -1){
         finalList[index1].quantity=list.quantity+" "+list.unit;
         }
-        console.log(localStorage.getItem('vendorList'))
     }
 
     const deleteBranch= (id,part_id) =>{
@@ -243,9 +253,6 @@ const EditVendor=() =>{
             )
         setFinalList(newList1)
     }
-
-
-    // console.log(vendorList);
     
 
     const handleDisplayList=(id)=>{

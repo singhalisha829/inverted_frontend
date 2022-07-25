@@ -4,7 +4,7 @@ import Head from "next/head";
 import Header from "../components/header";
 import Router from 'next/router';
 
-import { FaSistrix,FaExternalLinkAlt,FaDownload,FaPen} from 'react-icons/fa';
+import { FaSistrix,FaExternalLinkAlt,FaDownload,FaTimes} from 'react-icons/fa';
 
 import ReactHtmlTableToExcel from "react-html-table-to-excel"; 
 import Table from "../components/table";
@@ -36,8 +36,6 @@ const VendorList = () =>{
             setUnassignedParts(res.data.data.output[0].temp_part)
           }
       })
-
-        console.log(poId)
           setToken(token)
           fetchVendorWiseList(token,poId).then((res)=>{
             setVendorList(res.data.data.output)
@@ -94,10 +92,7 @@ const VendorList = () =>{
       setUpdateUi(id);
     }
 
-    console.log(lockState)
-
     const editPart= (id)=>{
-      console.log(id)
       deleteParts(token,id).then(res=>{console.log(res);
         Router.push('/editVendor')});
     }
@@ -162,7 +157,7 @@ const VendorList = () =>{
                                     <div style={{width:'25%',display:'flex',justifyContent:'center'}}>{part.quantity}</div> 
                                     <div style={{width:'20%',display:'flex',justifyContent:'center'}}>{part.unit_price}</div>
                                     <div style={{width:'5%',display:'flex',justifyContent:'center'}}><div className="edit_parts">
-                                      <FaPen onClick={()=>editPart(part.id)}/></div></div>
+                                      <FaTimes onClick={()=>editPart(part.id)} className="trash"/></div></div>
 
                                     </div>
                                     )

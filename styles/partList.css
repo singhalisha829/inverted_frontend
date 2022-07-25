@@ -43,18 +43,32 @@ flex-direction: column;
     align-items: center;
 }
 
-.split_trash{
+.split_icon{
     width:20%;
     display:flex;
     justify-content: end;
 }
 
-.split_trash:hover{
+.split_icon:hover{
     cursor: pointer;
+}
+
+.trash{
+    color: #F16B6B;
+}
+
+.check{
+    color:#33B850;
+}
+
+.check:hover{
+    color: #19702a;
 }
 
 .trash:hover{
     cursor: pointer;
+    color: #f44040;
+
 }
 
 .gap{

@@ -111,7 +111,7 @@ const PartsList = (props) =>{
     setCurrentVal(newVal)
 
          
-    } 
+    } console.log(quantity)
     }
 
     const updateQuantity=(value,length)=>{
@@ -261,9 +261,9 @@ const deleteBranch=(id)=>{
                     parentCallback={(data)=>{setUnit(data.symbol);handleUnit(data.symbol)}} border={true} value={unit}/>
                 </div>
                 {/* </div> */}
-            <div className='split_trash'><FaCheckCircle size={17} onClick={()=>splitHandler()}/></div>
+            <div className='split_icon check'><FaCheckCircle size={17} onClick={()=>splitHandler()}/></div>
                 
-            <div className='split_trash' onClick={closeSplit}><FaTrashAlt size={17}/></div>
+            <div className='split_icon trash'><FaTrashAlt size={17} onClick={closeSplit}/></div>
             </div>
             </div>
            :null}
