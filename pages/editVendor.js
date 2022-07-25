@@ -52,19 +52,7 @@ const EditVendor=() =>{
         fetchPartWiseList(token,poId).then(res=>setOrderDetails(res.data.data.output))
         fetchUnassignedParts(token,poId).then(res=>{    
             setPartsList(res.data.data.output[0].temp_part);
-            const list=res.data.data.output[0].temp_part;
-            const newList=[];
-            console.log(list.length)
-            for(let i=0;i<list.length;i++){
-                newList.push({
-                    part:list[i].part_id_id,
-                    purchase_order:parseInt(poId),
-                    quantity:list[i].quantity__value+" "+list[i].quantity__unit__symbol,
-                    branch_id:1,
-                    part_id:list[i].part_id
-                })
-            }
-            setFinalList(newList)
+            console.log(res.data.data.output[0].temp_part.length)
         })
         fetchVendorList(token).then(res=>setVendorLists(res.data))
 
@@ -177,7 +165,7 @@ const EditVendor=() =>{
         
         localStorage.setItem('vendorList',vendorList)
         handleDisplayList(value);
-        
+        console.log(vendorList)
 
     }
 

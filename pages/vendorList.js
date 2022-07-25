@@ -4,12 +4,12 @@ import Head from "next/head";
 import Header from "../components/header";
 import Router from 'next/router';
 
-import { FaSistrix,FaExternalLinkAlt,FaDownload} from 'react-icons/fa';
+import { FaSistrix,FaExternalLinkAlt,FaDownload,FaPen} from 'react-icons/fa';
 
 import ReactHtmlTableToExcel from "react-html-table-to-excel"; 
 import Table from "../components/table";
 
-import { fetchVendorWiseList, fetchUnassignedParts } from "../services/purchaseOrderService";
+import { fetchVendorWiseList, fetchUnassignedParts,deleteParts } from "../services/purchaseOrderService";
 
 const VendorList = () =>{
 
@@ -46,7 +46,7 @@ const VendorList = () =>{
             for(let i=0;i<list.length;i++){
               newList.push({
                 id:list[i].id,
-                isLock:false
+                status:list[i].status
               })
             }
             setLockState(newList)
@@ -89,12 +89,18 @@ const VendorList = () =>{
 
     const lockVendor=(id)=>{
       const index= lockState.findIndex(el=>el.id===id)
-      lockState[index].isLock=true;
+      // lockState[index].isLock=true;
       setLockState(lockState)
       setUpdateUi(id);
     }
 
     console.log(lockState)
+
+    const editPart= (id)=>{
+      console.log(id)
+      deleteParts(token,id).then(res=>{console.log(res);
+        Router.push('/editVendor')});
+    }
     
 
     return(
@@ -137,21 +143,27 @@ const VendorList = () =>{
             <div key={vendor.id} className="single_vendor_card">
                 <div className="vendor_name"><div># {vendor.vendor}</div>
                 {lockState[index]?
-                <div>{lockState[index].isLock?<button className="common"><div style={{marginRight:"0.5rem",marginTop:'0.3rem'}}>Download</div> <FaDownload size={13}/></button>:<button onClick={()=>lockVendor(vendor.id)}>Confirm</button>}</div>:null}
+                <div>{lockState[index].status !='Created'?<button className="common"><div style={{marginRight:"0.5rem",marginTop:'0.3rem'}}>Download</div> <FaDownload size={13}/></button>:<button onClick={()=>lockVendor(vendor.id)}>Confirm</button>}</div>:null}
                 </div> 
 
                 <div className="vendor_table">
                     <div style={{display:'flex',paddingBottom:'0.5rem',borderBottom:'#e5e5e5 solid 0.1em'}}>
-                        <div style={{width:'40%',display:'flex',justifyContent:'center'}}>PART DESCRIPTION</div>
-                        <div style={{width:'30%',display:'flex',justifyContent:'center'}}>QUANTITY</div>
-                        <div style={{width:'30%',display:'flex',justifyContent:'center'}}>UNIT PRICE</div>
+                    <div style={{width:'20%',display:'flex',justifyContent:'center'}}>PART ID</div>
+                        <div style={{width:'30%',display:'flex',justifyContent:'center'}}>PART DESCRIPTION</div>
+                        <div style={{width:'25%',display:'flex',justifyContent:'center'}}>QUANTITY</div>
+                        <div style={{width:'20%',display:'flex',justifyContent:'center'}}>UNIT PRICE</div>
+                        <div style={{width:'5%',display:'flex',justifyContent:'center'}} />
                     </div>
                     <div style={{paddingTop:'0.5rem'}}>
                     {vendor.invoice_products.map((part)=>(
                                 <div key={part.id} style={{display:'flex',marginBottom:"0.5rem",fontWeight:"400"}}>
-                                    <div style={{width:'40%',display:'flex',justifyContent:'center'}}>{part.part_short_description}</div> 
-                                    <div style={{width:'30%',display:'flex',justifyContent:'center'}}>{part.quantity}</div> 
-                                    <div style={{width:'30%',display:'flex',justifyContent:'center'}}>{part.unit_price}</div>
+                                    <div style={{width:'20%',display:'flex',justifyContent:'center'}}>{part.part}</div> 
+                                    <div style={{width:'30%',display:'flex',justifyContent:'center'}}>{part.part_short_description}</div> 
+                                    <div style={{width:'25%',display:'flex',justifyContent:'center'}}>{part.quantity}</div> 
+                                    <div style={{width:'20%',display:'flex',justifyContent:'center'}}>{part.unit_price}</div>
+                                    <div style={{width:'5%',display:'flex',justifyContent:'center'}}><div className="edit_parts">
+                                      <FaPen onClick={()=>editPart(part.id)}/></div></div>
+
                                     </div>
                                     )
                       

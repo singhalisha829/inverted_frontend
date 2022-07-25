@@ -84,3 +84,10 @@ export const deleteAssignedParts=(token,list) =>{
     }})
 }
 
+export const deleteParts=(token,partId) =>{
+    return axios.delete(URL+MAIN.PO_VENDOR+"?id="+partId
+        ,{headers:{
+        "Authorization":"Token "+ token
+    }})
+}
+

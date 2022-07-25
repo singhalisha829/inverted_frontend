@@ -54,6 +54,14 @@ justify-content: space-between;
     border-radius: 3px;
 }
 
+.edit_parts{
+    color: #29394A;
+}
+
+.edit_parts:hover{
+    cursor: pointer;
+}
+
 @media(max-width:600px){
     .vendor_list_subsection,.vendor_list{
         width:90vw;
