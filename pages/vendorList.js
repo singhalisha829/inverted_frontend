@@ -7,9 +7,12 @@ import Router from 'next/router';
 import { FaSistrix,FaExternalLinkAlt,FaDownload,FaTimes} from 'react-icons/fa';
 
 import ReactHtmlTableToExcel from "react-html-table-to-excel"; 
-import Table from "../components/table";
 
-import { fetchVendorWiseList, fetchUnassignedParts,deleteParts } from "../services/purchaseOrderService";
+
+import { toast, ToastContainer } from "react-toastify";
+import 'react-toastify/dist/ReactToastify.css';
+
+import { fetchVendorWiseList, fetchUnassignedParts,deleteParts,confirmVendor } from "../services/purchaseOrderService";
 
 const VendorList = () =>{
 
@@ -18,7 +21,7 @@ const VendorList = () =>{
     const [searchText,setSearchText]= useState(null);
     const [unassignedParts,setUnassignedParts]= useState([]);
     const [lockState,setLockState]= useState([]);
-    const [updateUi,setUpdateUi]= useState(null);
+    const [poId,setPoId]= useState(null);
 
     const columns = [
       { accessor1: 'part_id', label: 'Part ID' ,width:"20%", textalign:"center"},
@@ -29,6 +32,7 @@ const VendorList = () =>{
     useEffect(()=>{
         const token=localStorage.getItem('token');
         const poId=localStorage.getItem('poId')
+        setPoId(poId);
         fetchUnassignedParts(token,poId).then((res)=>{
           if(res.data.data.output[0] === undefined){
               Router.push('/selectVendor')
@@ -86,16 +90,31 @@ const VendorList = () =>{
     }
 
     const lockVendor=(id)=>{
-      const index= lockState.findIndex(el=>el.id===id)
-      // lockState[index].isLock=true;
-      setLockState(lockState)
-      setUpdateUi(id);
+      console.log(id)
+      confirmVendor(token,id).then(res=>{
+        toast.success('Vendor List Confirmed!');
+        fetchVendorWiseList(token,poId).then((res)=>{
+          setVendorList(res.data.data.output)
+          const newList=[];
+          const list=res.data.data.output;
+          for(let i=0;i<list.length;i++){
+            newList.push({
+              id:list[i].id,
+              status:list[i].status
+            })
+          }
+          setLockState(newList)
+        })
+      });
+     
     }
 
     const editPart= (id)=>{
       deleteParts(token,id).then(res=>{console.log(res);
         Router.push('/editVendor')});
     }
+
+    console.log(unassignedParts)
     
 
     return(
@@ -106,6 +125,7 @@ const VendorList = () =>{
     </Head>
     {size.width>'600'?<Sidebar /> : <Header />}
     <div className="vendor_list_page">
+      <ToastContainer />
     <div className="order_title">
             <div className="title">Purchase Orders</div>
             <div className="sub_title">Vendors List</div>
@@ -138,7 +158,7 @@ const VendorList = () =>{
             <div key={vendor.id} className="single_vendor_card">
                 <div className="vendor_name"><div># {vendor.vendor}</div>
                 {lockState[index]?
-                <div>{lockState[index].status !='Created'?<button className="common"><div style={{marginRight:"0.5rem",marginTop:'0.3rem'}}>Download</div> <FaDownload size={13}/></button>:<button onClick={()=>lockVendor(vendor.id)}>Confirm</button>}</div>:null}
+                <div>{lockState[index].status =='Confirmed'?<button className="common"><div style={{marginRight:"0.5rem",marginTop:'0.3rem'}}>Download</div> <FaDownload size={13}/></button>:<button onClick={()=>lockVendor(vendor.id)}>Confirm</button>}</div>:null}
                 </div> 
 
                 <div className="vendor_table">
@@ -157,7 +177,8 @@ const VendorList = () =>{
                                     <div style={{width:'25%',display:'flex',justifyContent:'center'}}>{part.quantity}</div> 
                                     <div style={{width:'20%',display:'flex',justifyContent:'center'}}>{part.unit_price}</div>
                                     <div style={{width:'5%',display:'flex',justifyContent:'center'}}><div className="edit_parts">
-                                      <FaTimes onClick={()=>editPart(part.id)} className="trash"/></div></div>
+                                    {lockState[index].status=='Created'?  <FaTimes onClick={()=>editPart(part.id)} className="trash"/>:null}
+                                    </div></div>
 
                                     </div>
                                     )
@@ -167,7 +188,7 @@ const VendorList = () =>{
             </div>
 )}):null}
         </div>
-        <div className="vendor_list">
+        {unassignedParts.length !=0?<div className="vendor_list">
           <div className="vendor_title">
             <div>Unassigned Parts</div>
             <button style={{marginRight:'2rem'}} onClick={()=>goToSelectVendor()}>Edit</button>
@@ -178,17 +199,15 @@ const VendorList = () =>{
           <div style={{width:'20%'}} className="common">QUANTITY</div>
             
           </div>
-            {unassignedParts?
-            // <Table key={unassignedParts.length} columns={columns} rows={unassignedParts} />
-            unassignedParts.map((part)=>(
+            
+            {unassignedParts.map((part)=>(
               <div key={part.id} className="single_vendor_card common" style={{color:'#3F5575'}}>
                 <div style={{width:'20%'}} className="common">{part.part_id}</div>
                 <div style={{width:'60%'}} className="common">{part.part__short_description}</div>
                 <div style={{width:'20%'}} className="common">{part.quantity__value} {part.quantity__unit__symbol}</div>
               </div>
-            ))
-            :null}
-        </div>
+            ))}
+        </div>:null}
     </div>
         </div>
     )

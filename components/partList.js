@@ -24,12 +24,9 @@ const PartsList = (props) =>{
     const [token,setToken]= useState(null);
     const [factor,setFactor]= useState(null);
 
-    // const [splitBranch,setSplitBranch]= useState([]);
     const [lastBranch,setLastBranch]= useState(null);
     const [showForm,setShowForm]= useState(false);
     const [quantityBorder,setQuantityBorder]= useState(' #e5e5e5 solid 0.1em');
-
-    // const quantityBorder=' #e5e5e5 solid 0.1em';
 
 
 
@@ -40,11 +37,6 @@ const PartsList = (props) =>{
         fetchUnitList(token).then(res=>setUnitList(res.data))
     },[])
 
-    // useEffect(()=>{
-    //     if(quantity.length===0){
-    //         props.emptyVendorList();
-    //     }
-    // },[quantity])
 
     // calculate screen size
     function useWindowSize() {
@@ -79,7 +71,7 @@ const PartsList = (props) =>{
         const newVal=null;
         const length= quantity.length;
         if(props.unit != symbol){
-            newVal=previousState.quantity;
+            newVal=quantity[0].quantity;
             unitConversion(token,props.unit,symbol).then(res=>{
                 if(res.data.status.code==404){
                     toast.warning(res.data.status.description);
@@ -87,16 +79,14 @@ const PartsList = (props) =>{
                     setValue(()=>'')
                     
                 }else{
-                    console.log(res.data)
                     const factor=res.data.output[0].entered_base_conversion_factor;
                     setFactor(factor);
-                    newVal=parseFloat(((previousState.quantity*factor - value)/factor).toFixed(2));
-                    console.log(newVal,typeof newVal);
+                    newVal=parseFloat(((quantity[0].quantity*factor - value)/factor).toFixed(2));
                     updateQuantity(newVal,length)
                 }
             })
         }else{
-        newVal= previousState.quantity-value;
+        newVal= quantity[0].quantity-value;
         }
 
         if(newVal<0){
@@ -106,12 +96,12 @@ const PartsList = (props) =>{
         }else{
             console.log(newVal)
             newVal= parseInt(newVal) != newVal?parseFloat(parseFloat(newVal).toFixed(2)):newVal;
-            quantity[length-1].quantity= newVal;
+            quantity[0].quantity= newVal;
         props.handleQuantity(props.id,quantity[length-1])
     setCurrentVal(newVal)
 
          
-    } console.log(quantity)
+    }
     }
 
     const updateQuantity=(value,length)=>{
@@ -120,8 +110,8 @@ const PartsList = (props) =>{
             setUnit(()=>'');
             setCurrentVal(value);
         }else{
-            quantity[length-1].quantity= value;
-        props.handleQuantity(props.id,quantity[length-1])
+            quantity[0].quantity= value;
+        props.handleQuantity(props.id,quantity[0])
     setCurrentVal(value)
 
          
@@ -175,30 +165,30 @@ const closeSplit=()=>{
     setValue('')
 
 }
-// console.log(quantity)
+
 
 const deleteBranch=(id)=>{
     const newList=quantity;
     const index= newList.findIndex(el=>el.id === id)
     
     if(index===0){
-    if(newList[index].unit===newList[index+1].unit){
-    newList[index+1].quantity+= quantity[index].quantity;
-    props.handleQuantity(props.id,newList[index+1])
-    setPreviousState(newList[index+1])
+    if(newList[0].unit===newList[1].unit){
+    newList[1].quantity+= quantity[0].quantity;
+    props.handleQuantity(props.id,newList[1])
+    setPreviousState(newList[1])
     newList= quantity.filter((el)=>el.id !=id);
     setquantity(newList)
     props.deleteBranch(id,props.id);
     }else{
         
-            unitConversion(token,newList[index].unit,newList[index+1].unit).then(res=>{
+            unitConversion(token,newList[0].unit,newList[1].unit).then(res=>{
                     const factor=res.data.output[0].entered_base_conversion_factor;
                     setFactor(factor);
-                    const newVal=parseFloat(((newList[index+1].quantity + quantity[index].quantity*factor)/factor).toFixed(2));
-                    newList[index+1].quantity= newVal; 
-                    newList[index+1].unit=newList[index].unit;  
-                    props.handleQuantity(props.id,newList[index+1])
-                    setPreviousState(newList[index+1])
+                    const newVal=parseFloat(((newList[1].quantity + quantity[0].quantity*factor)/factor).toFixed(2));
+                    newList[1].quantity= newVal; 
+                    newList[1].unit=newList[0].unit;  
+                    props.handleQuantity(props.id,newList[1])
+                    setPreviousState(newList[1])
                     newList= quantity.filter((el)=>el.id !=id);
     setquantity(newList)
     props.deleteBranch(id,props.id);
@@ -206,23 +196,24 @@ const deleteBranch=(id)=>{
     }
     
     }else{
-        if(newList[index].unit===newList[index-1].unit){
-    newList[index-1].quantity+= quantity[index].quantity;
-    props.handleQuantity(props.id,newList[index-1])
-    setPreviousState(newList[index-1])
+        if(newList[index].unit===newList[0].unit){
+    newList[0].quantity+= quantity[index].quantity;
+    props.handleQuantity(props.id,newList[0])
+    setPreviousState(newList[0])
     newList= quantity.filter((el)=>el.id !=id);
     setquantity(newList)
     props.deleteBranch(id,props.id);
         }
         else{
             
-            unitConversion(token,newList[index-1].unit,newList[index].unit).then(res=>{
+            unitConversion(token,newList[0].unit,newList[index].unit).then(res=>{
                 const factor=res.data.output[0].entered_base_conversion_factor;
                 setFactor(factor);
-                const newVal=parseFloat(((newList[index-1].quantity*factor + quantity[index].quantity)/factor).toFixed(2));
-                newList[index-1].quantity= newVal;
-            props.handleQuantity(props.id,newList[index-1])
-    setPreviousState(newList[index-1])
+
+                const newVal=parseFloat(((newList[0].quantity*factor + quantity[index].quantity)/factor).toFixed(2));
+                newList[0].quantity= newVal;
+            props.handleQuantity(props.id,newList[0])
+    setPreviousState(newList[0])
     newList= quantity.filter((el)=>el.id !=id);
     setquantity(newList)
     props.deleteBranch(id,props.id);
@@ -230,13 +221,7 @@ const deleteBranch=(id)=>{
         }
         
     }
-    
-    
-
 }
-
-    
-
     
     return(
         <div className="po_list_form">

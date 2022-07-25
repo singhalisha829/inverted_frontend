@@ -41,7 +41,7 @@ export const fetchPartWiseList=(token,poId) =>{
 }
 
 export const fetchVendorWiseList=(token,poId) =>{
-    return axios.get(URL+MAIN.VENDOR_WISE_LIST+poId,{headers:{
+    return axios.get(URL+MAIN.VENDOR_WISE_LIST+"?purchase_order_id="+poId,{headers:{
         "Authorization":"Token "+ token
     }})
 }
@@ -91,3 +91,10 @@ export const deleteParts=(token,partId) =>{
     }})
 }
 
+export const confirmVendor=(token,id) =>{
+    return axios.put(URL+MAIN.VENDOR_WISE_LIST+"?id="+id,{
+        status:'Confirmed'
+    },{headers:{
+        "Authorization":"token "+ token,
+    }})
+}

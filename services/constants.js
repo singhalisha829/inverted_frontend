@@ -14,7 +14,7 @@ export const MAIN={
     BOM:'api/v1/bom',
     PART_WISE_LIST:'api/v1/purchase-order-items-wise/?production_order_id=',
     PO_VENDOR:'api/v1/purchase-order-items-vendor/',
-    VENDOR_WISE_LIST:'api/v1/vendor-purchase-order/?purchase_order_id=',
+    VENDOR_WISE_LIST:'api/v1/vendor-purchase-order/',
     PRODUCTION_ORDER:'api/v1/production-order/',
     UNIT_CONVERSION:'api/v1/unit-conversion/?required_symbol=',
     PO_VENDOR1:'api/v1/purchase-order-items-vendor1/',
