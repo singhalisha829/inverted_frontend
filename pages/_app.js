@@ -26,17 +26,11 @@ import '../styles/vendorList.css';
 import '../styles/partList.css';
 
 
-import Sidebar from '../components/sidebar';
-
-
 
 function MyApp({ Component, pageProps }) {
 
   return(
-    // <div className='layout'>
-    // <Sidebar/>
     <Component {...pageProps} />
-    // </div>
   )
 }
 

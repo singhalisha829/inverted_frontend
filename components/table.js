@@ -138,9 +138,9 @@ const Table = (props) => {
     return <td key={column.accessor1} width={column.width} style={{textAlign:column.textalign}}
     ><div className="stock_out_style"><BsBoxArrowUp />Stock Out</div></td>
     }
-    else if(column.accessor1==='status' && row.status==="Pending"){
+    else if(column.accessor1==='status' && row.status==="Created"){
       return <td key={column.accessor1} width={column.width} style={{textAlign:column.textalign}}
-    ><div className="pending_status_style">Pending</div></td>
+    ><div className="pending_status_style">Created</div></td>
     }
     else if(column.accessor1==='status' && row.status==='Partially Processed' ){
       return <td key={column.accessor1} width={column.width} 
@@ -189,9 +189,9 @@ const Table = (props) => {
                   return <td key={column.accessor1} width={column.width} style={{textAlign:column.textalign}}
                   ><div className="stock_out_style"><BsBoxArrowUp />Stock Out</div></td>
                   }
-                  else if(column.accessor1==='status' && row.status==='Pending' ){
+                  else if(column.accessor1==='status' && row.status==='Created' ){
                     return <td key={column.accessor1} width={column.width} 
-                  ><div className="pending_status_style">Pending</div></td>
+                  ><div className="pending_status_style">Created</div></td>
                   }
                   else if(column.accessor1==='status' && row.status==='Partially Processed' ){
                     return <td key={column.accessor1} width={column.width} 

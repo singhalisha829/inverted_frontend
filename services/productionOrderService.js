@@ -13,3 +13,9 @@ export const createProductionOrder=(poItems,token) =>{
                 "Authorization":"Token "+ token
             }})
     }
+
+export const fetchProductionOrderList=(token) =>{
+    return axios.get(URL+MAIN.PRODUCTION_ORDER,{headers:{
+            "Authorization":"Token "+ token
+        }})
+    }

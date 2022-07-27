@@ -10,27 +10,26 @@ import Table from '../components/table';
 import {FaSistrix} from 'react-icons/fa';
 import { useState, useEffect } from "react";
 
+import { fetchProductionOrderList } from "../services/productionOrderService";
+import { fetchPurchaseOrderList } from "../services/purchaseOrderService";
+
 
 
 const Order=()=>{
 
-    const [rows,setRows]= useState([
-      {order_id:1,date:'22-03-2022',created_by:'tony stark', status:'Partially Processed'},
-      {order_id:2,date:'12-04-2022',created_by:'barry allen', status:'Completed'},
-      {order_id:3,date:'09-12-2022',created_by:'loki', status:'Pending'}
-  ]);
     const [searchText,setSearchText]= useState(null);
     const [filterOnStatus,setFilterOnStatus]= useState(null);
     const [token,setToken]= useState(null);
     const [cardFilter, setCardFilter] = useState([]);
     const [listFilter, setListFilter] = useState([]);
+    const [productionOrderList,setProductionOrderList]= useState([]);
 
 
 
-    const status=[{name:'Completed',id:'Completed'},{name:'Partially Processed',id:'Partially Processed'},{name:'Pending',id:'Pending'}]
+    const status=[{name:'Completed',id:'Completed'},{name:'Partially Processed',id:'Partially Processed'},{name:'Created',id:'Created'}]
 
     const columns = [
-        { accessor1: 'order_id', label: 'Order Number' ,width:"20%", textalign:"center"},
+        { accessor1: 'production_order_no', label: 'Order Number' ,width:"20%", textalign:"center"},
         { accessor1: 'date' ,label: 'Date' ,width:"20%", textalign:"center"},
         { accessor1: 'created_by', label: 'Created By',width:"30%" , textalign:"center"}, 
         { accessor1: 'status', label: 'Status',width:"30%" , textalign:"center"},  
@@ -42,17 +41,19 @@ const Order=()=>{
         localStorage.setItem('selected_item','production_orders')
         const token=localStorage.getItem('token')
         setToken(token)
+        fetchProductionOrderList(token).then(res=>setProductionOrderList(res.data.data.output))
       
     }else{
         Router.push('/login');
       }
         
     },[])
+    console.log(productionOrderList)
 
     useEffect(()=>{
       //  search table based on dropdown filter and searchbar value
        if(searchText != undefined && filterOnStatus !=undefined ){
-        const searchList = rows.filter(o => Object.keys(o).some(
+        const searchList = productionOrderList.filter(o => Object.keys(o).some(
           k => String(o[k]).toLowerCase().includes(searchText.toLowerCase()))
         );
   
@@ -65,7 +66,7 @@ const Order=()=>{
   
       //  search table based on searchbar value
        else if(searchText != undefined ){
-         const searchList = rows.filter(o => Object.keys(o).some(
+         const searchList = productionOrderList.filter(o => Object.keys(o).some(
            k => String(o[k]).toLowerCase().includes(searchText.toLowerCase()))
          );
   
@@ -74,14 +75,14 @@ const Order=()=>{
   
       //  search table based on dropdown filter
        else if(filterOnStatus !=undefined){
-        const filterList= rows.filter(o=> Object.keys(o).some(
+        const filterList= productionOrderList.filter(o=> Object.keys(o).some(
           k=> String(o[k]).toLowerCase().includes(filterOnStatus.toLowerCase())
         ))
         setListFilter([...filterList])
        }
        else{
-         setRows([...rows])
-         setListFilter([...rows])
+         setProductionOrderList([...productionOrderList])
+         setListFilter([...productionOrderList])
        }
      },[searchText,filterOnStatus])
 
@@ -117,17 +118,17 @@ const Order=()=>{
     let content= null;
     if(size.width>'600'){
       content=(<div className="order_table" >
-                <Table columns={columns} rows={rows} search={searchText} filter={filterOnStatus} path="/orderDetails" cursor="pointer"
-                width="77vw"/>
+                {productionOrderList?<Table columns={columns} rows={productionOrderList} search={searchText} filter={filterOnStatus} path="/orderDetails" cursor="pointer"
+                width="77vw"/>:null}
                 </div>);
     }
     else{
       content=(
-        rows?<div className="order_card_list">
+        productionOrderList?<div className="order_card_list">
           {searchText != undefined || filterOnStatus != undefined?listFilter.map((l)=>(
-              <OrderList key={l.order_id} order_number={l.order_id} date={l.date} path="/orderDetails" created_by={l.created_by} status={l.status}/>))
-          :rows.map((l)=>(
-              <OrderList key={l.order_id} order_number={l.order_id} date={l.date} path="/orderDetails" created_by={l.created_by} status={l.status}/>
+              <OrderList key={l.id} order_number={l.production_order_no} date={l.date} path="/orderDetails" created_by={l.created_by} status={l.status}/>))
+          :productionOrderList.map((l)=>(
+              <OrderList key={l.id} order_number={l.production_order_no} date={l.date} path="/orderDetails" created_by={l.created_by} status={l.status}/>
           ))}
       </div> : <Spinner />
       )
@@ -166,7 +167,10 @@ const Order=()=>{
                   <div className="order_list_content">Status</div>
                 </div>:null}
 
-                {content}
+                <div className="order_table" >
+                {productionOrderList?<Table key={productionOrderList.length} columns={columns} rows={productionOrderList} search={searchText} filter={filterOnStatus} path="/orderDetails" cursor="pointer"
+                width="77vw"/>:<Spinner/>}
+                </div>
                      
 
                      

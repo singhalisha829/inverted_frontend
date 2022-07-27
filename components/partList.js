@@ -6,8 +6,8 @@ import Dropdown from './dropdown';
 import { GoRepoForked} from 'react-icons/go';
 import { FaTrashAlt, FaCheckCircle } from 'react-icons/fa';
 
-import { ToastContainer, toast } from 'react-toastify';
-import 'react-toastify/dist/ReactToastify.css';
+import {toast} from 'react-toastify';
+
 
 
 
@@ -20,13 +20,15 @@ const PartsList = (props) =>{
     const [value,setValue]= useState(null);
     const [unitList,setUnitList]= useState([]);
     const [unit,setUnit]= useState(null);
-    const [previousState,setPreviousState]= useState({quantity:props.quantity,id:1,unit:props.unit});
+
     const [token,setToken]= useState(null);
     const [factor,setFactor]= useState(null);
 
     const [lastBranch,setLastBranch]= useState(null);
     const [showForm,setShowForm]= useState(false);
-    const [quantityBorder,setQuantityBorder]= useState(' #e5e5e5 solid 0.1em');
+
+   
+   
 
 
 
@@ -68,6 +70,10 @@ const PartsList = (props) =>{
 
 
     const handleUnit=(symbol)=>{
+        if(value=== null || value ===''){
+            toast.warning('Enter Quantity!');
+            // setUnit(()=>'')
+        }else{
         const newVal=null;
         const length= quantity.length;
         if(props.unit != symbol){
@@ -102,9 +108,9 @@ const PartsList = (props) =>{
 
          
     }
-    }
+    }}
 
-    const updateQuantity=(value,length)=>{
+    const updateQuantity=(value)=>{
         if(value<0){
             setValue('');
             setUnit(()=>'');
@@ -123,10 +129,10 @@ const PartsList = (props) =>{
     const splitHandler=() =>{
         const newList1=null;
         const length= quantity.length
-        if(quantity[length-1].quantity<=0){
-            return;
+        if(value== null){
+            toast.warning('Enter Quantity!');
         }else if(unit === null || unit===''){
-            return;
+            toast.warning('Enter Unit!');    
         }
         else{
         const new_quantity=value;
@@ -139,7 +145,7 @@ const PartsList = (props) =>{
         
         newList1=[...quantity,{id:lastId+1,quantity:new_quantity,unit:unit}]
         const length1=newList1.length;
-        setPreviousState(newList1[length1-1])
+    
         setquantity(newList1)
         setLastBranch(newList1[length1-1].quantity)
         setLastId(lastId+1);
@@ -175,7 +181,7 @@ const deleteBranch=(id)=>{
     if(newList[0].unit===newList[1].unit){
     newList[1].quantity+= quantity[0].quantity;
     props.handleQuantity(props.id,newList[1])
-    setPreviousState(newList[1])
+    
     newList= quantity.filter((el)=>el.id !=id);
     setquantity(newList)
     props.deleteBranch(id,props.id);
@@ -188,7 +194,6 @@ const deleteBranch=(id)=>{
                     newList[1].quantity= newVal; 
                     newList[1].unit=newList[0].unit;  
                     props.handleQuantity(props.id,newList[1])
-                    setPreviousState(newList[1])
                     newList= quantity.filter((el)=>el.id !=id);
     setquantity(newList)
     props.deleteBranch(id,props.id);
@@ -199,7 +204,7 @@ const deleteBranch=(id)=>{
         if(newList[index].unit===newList[0].unit){
     newList[0].quantity+= quantity[index].quantity;
     props.handleQuantity(props.id,newList[0])
-    setPreviousState(newList[0])
+    
     newList= quantity.filter((el)=>el.id !=id);
     setquantity(newList)
     props.deleteBranch(id,props.id);
@@ -213,7 +218,7 @@ const deleteBranch=(id)=>{
                 const newVal=parseFloat(((newList[0].quantity*factor + quantity[index].quantity)/factor).toFixed(2));
                 newList[0].quantity= newVal;
             props.handleQuantity(props.id,newList[0])
-    setPreviousState(newList[0])
+    
     newList= quantity.filter((el)=>el.id !=id);
     setquantity(newList)
     props.deleteBranch(id,props.id);
@@ -224,8 +229,10 @@ const deleteBranch=(id)=>{
 }
     
     return(
+        <div>            
+        {/* <ToastContainer/> */}
+
         <div className="po_list_form">
-            <ToastContainer />
             <div className='po_list_form_rows'>
         <div style={{width:"10%"}} className="vendor_header">{props.partId}</div>
 
@@ -262,21 +269,21 @@ const deleteBranch=(id)=>{
         {showForm?
             <div style={{width:'100%',display:'flex',justifyContent:'flex-end',paddingRight:'2rem'}}>
             <div className='split_row'>
-                {/* <div style={{width:'30%',display:'flex'}}> */}
-                <div style={{width:'30%',display:'flex',justifyContent:'end'}}><input type="number" style={{height:'3rem',width:'90%',border:quantityBorder}} onChange={(e)=>setValue(e.target.value)}
+               
+                <div style={{width:'30%',display:'flex',justifyContent:'end'}}><input type="number" style={{height:'3rem',width:'90%'}} onChange={(e)=>setValue(e.target.value)}
              value={value}/></div>
                 <div style={{width:'30%',display:'flex',justifyContent:'end'}}>
                     <Dropdown width="90%" placeholder='Select Unit' options={unitList} name="name" dropdownWidth={size.width>'600'?'11vw':'27vw'} searchWidth={size.width>'600'?'8vw':'19vw'} height="3rem"
                     parentCallback={(data)=>{setUnit(data.symbol);handleUnit(data.symbol)}} border={true} value={unit}/>
                 </div>
-                {/* </div> */}
+            
             <div className='split_icon check'><FaCheckCircle size={17} onClick={()=>splitHandler()}/></div>
                 
             <div className='split_icon trash'><FaTrashAlt size={17} onClick={closeSplit}/></div>
             </div>
             </div>
            :null}
-        </div>
+        </div></div>
     )
 }
 

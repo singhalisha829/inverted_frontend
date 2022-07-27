@@ -14,13 +14,13 @@ const PurchaseOrderList = (props) =>{
     
     return(
         <div className="stock_out_list">
-        <div style={{width:"25%"}}>{props.order_type}</div>
+        <div style={{width:"25%",paddingLeft:'7%'}}>{props.order_type}</div>
 
            <div  style={{width:"25%"}}>{orderName}</div>
-           <div  style={{width:"25%",display:'flex'}}>{props.quantity} </div>
+           <div  style={{width:"25%",paddingLeft:'7%'}}>{props.quantity} </div>
            <div className="icons" style={{width:"25%",display:'flex',justifyContent:'center'}}>
                {/* <FaPen style={{color:"#c4c4c4"}} /> */}
-           <FaTrashAlt style={{color:"#F16B6B"}} onClick={()=>props.deleteNote(props.order_name)}  size={17} cursor="pointer"/></div>
+           <div className='trash'><FaTrashAlt style={{color:"#F16B6B"}} onClick={()=>props.deleteOrder(props.order_name)}  size={17} /></div></div>
 
         </div>
     )

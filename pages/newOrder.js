@@ -20,6 +20,9 @@ import { FaSistrix,FaCheckCircle, FaTimesCircle} from 'react-icons/fa';
 import { toast, ToastContainer } from "react-toastify";
 import 'react-toastify/dist/ReactToastify.css';
 
+import ReactTooltip from 'react-tooltip';
+
+
 
 
 const NewOrder=()=>{
@@ -145,19 +148,24 @@ const NewOrder=()=>{
   }
 
   const submitOrder=()=>{
-    if(newPoList.length===0){
+    console.log(newOrderList);
+    if(newOrderList.length===0){
         toast.warning('Enter Form Details!')
     }else{
-    createProductionOrder(newPoList,token).then((res)=>{
-        // localStorage.setItem('poId',res.data.status.purchase_order_id);
-        // console.log(res.data.status.purchase_order_id);
+    createProductionOrder(newOrderList,token).then((res)=>{
+        console.log(res.data)
         cancelHandler();
       
     }
     )
-    console.log(newPoList)
+   
 }
 }
+
+    const handleDeleteOrder=(data)=>{
+      const newList=newOrderList.filter((list) => list.item_id !== data);
+        setNewOrderList(newList)
+    }
 
     return(
         <div  className="layout">
@@ -168,6 +176,7 @@ const NewOrder=()=>{
             {size.width>'600'?<Sidebar />: <Header />}
             <div className="new_order_page">
               <ToastContainer />
+              <ReactTooltip id="bom_quantity" place="top" effect="solid">1</ReactTooltip>
                 <div className="new_order_title">
                 <div className="title">Orders</div>
                      <div className="sub_title">Database for all Available Stocks</div>
@@ -192,7 +201,7 @@ dropdownWidth={size.width>'600'?'13vw':'20vw'} searchWidth={size.width>'600'?'10
 {unitList?<Dropdown options={unitList} placeholder="Select Unit" width="60%" name="name" minWidth="9rem" no_outline={true}
 parentCallback={(data)=>setUnit(data.symbol)} value={unit} dropdownWidth={size.width>'600'?"11vw":'40vw'} searchWidth={size.width>'600'?"8vw":'30vw'} height="3rem"/>:null}</div>
 :
-<input type="number" placeholder="0.00" value={quantity} style={{height:'3rem',width:'70%'}} onChange={(e)=>setQuantity(e.target.value)}/>}
+<input type="number" data-tip data-for="bom_quantity" value={quantity} style={{height:'3rem',width:'70%'}} onChange={(e)=>setQuantity(e.target.value)}/>}
                     </div>
                     <div style={{width:'25%',display:'flex',alignItems:'center',justifyContent:'center'}}>
                     <div className="form_icons">
@@ -206,7 +215,7 @@ parentCallback={(data)=>setUnit(data.symbol)} value={unit} dropdownWidth={size.w
                 </div>
 
 {newOrderList.map((l)=><PurchaseOrderList key={l.item_id} order_type={l.ItemType}  quantity={l.quantity} order_name={l.item_id}
-            deleteNote={(data)=>handleDeleteNote(data)}/>)}
+            deleteOrder={(data)=>handleDeleteOrder(data)}/>)}
 
 <div className="stock_out_footer">
                     <div className="stock_out_button">

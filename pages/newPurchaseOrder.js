@@ -159,8 +159,8 @@ const NewPurchaseOrder =() =>{
     console.log(orderType)
 
     // remove the part from list on clicking the trash icon
-    const handleDeleteNote=(id)=>{
-        const newList=newPoList.filter((list) => list.order_name !== id);
+    const handleDeleteOrder=(id)=>{
+        const newList=newPoList.filter((list) => list.item_id !== id);
         setNewPoList(newList)
     }
 
@@ -215,7 +215,7 @@ parentCallback={(data)=>setUnit(data.symbol)} value={unit} dropdownWidth={size.w
                 {form}
         
                 {newPoList.map((l)=><PurchaseOrderList key={l.item_id} order_type={l.ItemType}  quantity={l.quantity} order_name={l.item_id}
-            deleteNote={(data)=>handleDeleteNote(data)}/>)}
+            deleteOrder={(data)=>handleDeleteOrder(data)}/>)}
 
             
 <div className="stock_out_footer">
