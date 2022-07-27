@@ -220,7 +220,7 @@ const Ledger =(props)=>{
                     <div style={{display:'flex'}} className="ledger_input">
                     <input type="number" style={{marginTop:'0', width:'30%', height:"3rem", marginRight:size.width>'600'?'1rem':'0.5rem'}}    
                     onChange={(e)=>setQuantity(e.target.value)} />
-                    <Dropdown width="70%" placeholder='Select Unit' options={unitList} name="name" dropdownWidth={size.width>'600'?'11vw':'27vw'} searchWidth={size.width>'600'?'8vw':'19vw'} height="3rem"
+                    <Dropdown width="70%" placeholder='Unit' options={unitList} name="name" dropdownWidth={size.width>'600'?'11vw':'27vw'} searchWidth={size.width>'600'?'8vw':'19vw'} height="3rem"
                     parentCallback={(data)=>setUnit(data.symbol)} border={true}/></div>
                 </div>
                 <div className='field_width'><label>Price:</label><input placeholder="Enter Price" style={{marginTop:'0', height:"3rem"}} type="number" className='ledger_input'

@@ -85,10 +85,17 @@ const PartsList = (props) =>{
                     setValue(()=>'')
                     
                 }else{
+                    console.log(res.data)
+                    if(res.data.output[0].required_base_unit == null){
                     const factor=res.data.output[0].entered_base_conversion_factor;
-                    setFactor(factor);
                     newVal=parseFloat(((quantity[0].quantity*factor - value)/factor).toFixed(2));
+                    }else{
+                        const factor=res.data.output[0].required_base_conversion_factor;
+                        newVal=parseFloat(((quantity[0].quantity/factor - value)*factor).toFixed(2)); 
+                    }
                     updateQuantity(newVal,length)
+                    setFactor(factor);
+
                 }
             })
         }else{
@@ -188,9 +195,15 @@ const deleteBranch=(id)=>{
     }else{
         
             unitConversion(token,newList[0].unit,newList[1].unit).then(res=>{
+                const newVal=null;
+                if(res.data.output[0].required_base_unit == null){
                     const factor=res.data.output[0].entered_base_conversion_factor;
-                    setFactor(factor);
-                    const newVal=parseFloat(((newList[1].quantity + quantity[0].quantity*factor)/factor).toFixed(2));
+                    newVal=parseFloat(((newList[1].quantity + quantity[0].quantity*factor)/factor).toFixed(2));
+                }else{
+                    const factor=res.data.output[0].required_base_conversion_factor;
+                    newVal=parseFloat(((newList[1].quantity + quantity[0].quantity/factor)*factor).toFixed(2));
+                }
+                setFactor(factor);
                     newList[1].quantity= newVal; 
                     newList[1].unit=newList[0].unit;  
                     props.handleQuantity(props.id,newList[1])
@@ -212,10 +225,15 @@ const deleteBranch=(id)=>{
         else{
             
             unitConversion(token,newList[0].unit,newList[index].unit).then(res=>{
+                const newVal=null;
+                if(res.data.output[0].required_base_unit == null){
                 const factor=res.data.output[0].entered_base_conversion_factor;
+                newVal=parseFloat(((newList[0].quantity*factor + quantity[index].quantity)/factor).toFixed(2));
+                }else{
+                    const factor=res.data.output[0].required_base_conversion_factor;
+                    newVal=parseFloat(((newList[0].quantity/factor + quantity[index].quantity)*factor).toFixed(2)); 
+                }
                 setFactor(factor);
-
-                const newVal=parseFloat(((newList[0].quantity*factor + quantity[index].quantity)/factor).toFixed(2));
                 newList[0].quantity= newVal;
             props.handleQuantity(props.id,newList[0])
     
@@ -273,7 +291,7 @@ const deleteBranch=(id)=>{
                 <div style={{width:'30%',display:'flex',justifyContent:'end'}}><input type="number" style={{height:'3rem',width:'90%'}} onChange={(e)=>setValue(e.target.value)}
              value={value}/></div>
                 <div style={{width:'30%',display:'flex',justifyContent:'end'}}>
-                    <Dropdown width="90%" placeholder='Select Unit' options={unitList} name="name" dropdownWidth={size.width>'600'?'11vw':'27vw'} searchWidth={size.width>'600'?'8vw':'19vw'} height="3rem"
+                    <Dropdown width="90%" placeholder='Unit' options={unitList} name="name" dropdownWidth={size.width>'600'?'11vw':'27vw'} searchWidth={size.width>'600'?'8vw':'19vw'} height="3rem"
                     parentCallback={(data)=>{setUnit(data.symbol);handleUnit(data.symbol)}} border={true} value={unit}/>
                 </div>
             
