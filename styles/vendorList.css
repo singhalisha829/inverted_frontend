@@ -61,6 +61,7 @@ justify-content: space-between;
 .edit_parts:hover{
     cursor: pointer;
 }
+  
 
 @media(max-width:600px){
     .vendor_list_subsection,.vendor_list{

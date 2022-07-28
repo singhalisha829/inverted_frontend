@@ -86,13 +86,8 @@ const PartsList = (props) =>{
                     
                 }else{
                     console.log(res.data)
-                    if(res.data.output[0].required_base_unit == null){
-                    const factor=res.data.output[0].entered_base_conversion_factor;
-                    newVal=parseFloat(((quantity[0].quantity*factor - value)/factor).toFixed(2));
-                    }else{
-                        const factor=res.data.output[0].required_base_conversion_factor;
-                        newVal=parseFloat(((quantity[0].quantity/factor - value)*factor).toFixed(2)); 
-                    }
+                    const factor=res.data.output[0].conversion_factor;
+                    newVal=parseFloat((quantity[0].quantity-value*factor).toFixed(2)); 
                     updateQuantity(newVal,length)
                     setFactor(factor);
 
@@ -195,14 +190,8 @@ const deleteBranch=(id)=>{
     }else{
         
             unitConversion(token,newList[0].unit,newList[1].unit).then(res=>{
-                const newVal=null;
-                if(res.data.output[0].required_base_unit == null){
-                    const factor=res.data.output[0].entered_base_conversion_factor;
-                    newVal=parseFloat(((newList[1].quantity + quantity[0].quantity*factor)/factor).toFixed(2));
-                }else{
-                    const factor=res.data.output[0].required_base_conversion_factor;
-                    newVal=parseFloat(((newList[1].quantity + quantity[0].quantity/factor)*factor).toFixed(2));
-                }
+                const factor=res.data.output[0].conversion_factor;
+                const newVal=parseFloat((newList[1].quantity*factor + quantity[0].quantity).toFixed(2));
                 setFactor(factor);
                     newList[1].quantity= newVal; 
                     newList[1].unit=newList[0].unit;  
@@ -225,14 +214,8 @@ const deleteBranch=(id)=>{
         else{
             
             unitConversion(token,newList[0].unit,newList[index].unit).then(res=>{
-                const newVal=null;
-                if(res.data.output[0].required_base_unit == null){
-                const factor=res.data.output[0].entered_base_conversion_factor;
-                newVal=parseFloat(((newList[0].quantity*factor + quantity[index].quantity)/factor).toFixed(2));
-                }else{
-                    const factor=res.data.output[0].required_base_conversion_factor;
-                    newVal=parseFloat(((newList[0].quantity/factor + quantity[index].quantity)*factor).toFixed(2)); 
-                }
+            const factor=res.data.output[0].conversion_factor;
+                const newVal=parseFloat((newList[0].quantity + quantity[index].quantity*factor).toFixed(2)); 
                 setFactor(factor);
                 newList[0].quantity= newVal;
             props.handleQuantity(props.id,newList[0])

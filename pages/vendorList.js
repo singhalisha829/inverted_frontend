@@ -7,6 +7,8 @@ import Router from 'next/router';
 import { FaSistrix,FaExternalLinkAlt,FaDownload,FaTimes} from 'react-icons/fa';
 
 import ReactHtmlTableToExcel from "react-html-table-to-excel"; 
+import GifLoader from 'react-gif-loader';
+
 
 
 import { toast, ToastContainer } from "react-toastify";
@@ -23,18 +25,14 @@ const VendorList = () =>{
     const [lockState,setLockState]= useState([]);
     const [poId,setPoId]= useState(null);
 
-    const columns = [
-      { accessor1: 'part_id', label: 'Part ID' ,width:"20%", textalign:"center"},
-      { accessor1: 'part_short_description',label: 'Part Description' ,width:"60%", textalign:"left"},
-      { accessor1: 'quantity_value', label: 'Quantity',width:"20%" , textalign:"center"},  
-    ];
+    
 
     useEffect(()=>{
         const token=localStorage.getItem('token');
         const poId=localStorage.getItem('poId')
         setPoId(poId);
         fetchUnassignedParts(token,poId).then((res)=>{
-          if(res.data.data.output[0] === undefined){
+          if(res.data.data.output[0].purchase_order.length ===0){
               Router.push('/selectVendor')
           }else{
             setUnassignedParts(res.data.data.output[0].temp_part)
@@ -113,8 +111,6 @@ const VendorList = () =>{
       deleteParts(token,id).then(res=>{console.log(res);
         Router.push('/editVendor')});
     }
-
-    console.log(unassignedParts)
     
 
     return(
@@ -150,6 +146,13 @@ const VendorList = () =>{
         <div className="vendor_list">
           <div className="vendor_title">
             <div>Vendor List</div>
+            {/* <GifLoader
+                loading={true}
+                imageSrc="/loading.gif"
+              
+                overlayBackground="rgba(0,0,0,0.5)"
+            /> */}
+            
            </div>
 
           {vendorList?vendorList.map((vendor)=>{
