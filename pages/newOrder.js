@@ -20,8 +20,6 @@ import { FaSistrix,FaCheckCircle, FaTimesCircle} from 'react-icons/fa';
 import { toast, ToastContainer } from "react-toastify";
 import 'react-toastify/dist/ReactToastify.css';
 
-import ReactTooltip from 'react-tooltip';
-
 
 
 
@@ -42,8 +40,6 @@ const NewOrder=()=>{
     const [unitList, setUnitList]= useState(null);
     const [unit,setUnit] = useState(null);
     const [newOrderList,setNewOrderList]= useState([]);
-    const [showTooltip,setShowTooltip]= useState(false);
-    const [showPartTooltip,setShowPartTooltip]= useState(false);
 
     
 
@@ -181,8 +177,6 @@ const NewOrder=()=>{
             {size.width>'600'?<Sidebar />: <Header />}
             <div className="new_order_page">
             
-{showTooltip?<ReactTooltip id="bom_quantity" place="bottom" effect="solid">1</ReactTooltip>:null}
-{showPartTooltip?<ReactTooltip id="part_quantity" place="bottom" effect="solid">0.00</ReactTooltip>:null}
               <ToastContainer />
                 <div className="new_order_title">
                 <div className="title">Orders</div>
@@ -195,22 +189,20 @@ const NewOrder=()=>{
                 </div>
 
                 <div className="new_order_form">
-                    <div style={{width:'25%'}}><label>Order Type:</label>
+                    <div style={{width:'25%'}}><label style={{marginBottom:"0.5rem"}}>Order Type:</label>
                     <Dropdown options={order_type} name="name" width="70%" parentCallback={(data)=>{setOrderType(data.value);fetchOrderName(data.value)}}
                     dropdownWidth={size.width>'600'?'13vw':'20vw'} searchWidth={size.width>'600'?'10vw':'12vw'} border={true} value={orderType} placeholder="Select Order Type"/></div>
-                    <div style={{width:'25%'}}><label>Order Description:</label>
+                    <div style={{width:'25%'}}><label style={{marginBottom:"0.5rem"}}>Order Description:</label>
                     <Dropdown options={orderList} name={orderValue} width="70%" parentCallback={(data)=>setOrderName(data.id)} value={orderName}
 dropdownWidth={size.width>'600'?'13vw':'20vw'} searchWidth={size.width>'600'?'10vw':'12vw'} border={true} placeholder="Select Order"/></div>
-                    <div style={{width:'25%'}}><label>Required Quantity</label>
+                    <div style={{width:'25%'}}><label style={{marginBottom:"0.5rem"}}>Required Quantity</label>
                     {showUnit? <div style={{display:'flex',width:size.width>'600'?'70%':'90%', border:"#e5e5e5 solid 0.1em",borderRadius:'5px'}}>
-<input value={quantity} data-tip data-for="part_quantity" style={{width:"35%",height:"3rem",border:'none'}} className="quantity" type="number" onChange={(e)=>setQuantity(e.target.value)}
-onMouseEnter={()=>setShowPartTooltip(true)} onMouseLeave={()=>setShowPartTooltip(false)}/>
+<input value={quantity} style={{width:"35%",height:"3rem",border:'none'}} className="quantity" type="number" onChange={(e)=>setQuantity(e.target.value)} placeholder="0.00"/>
 <div style={{borderLeft:"#e5e5e5 solid 0.1em"}} />
 {unitList?<Dropdown options={unitList} placeholder="Unit" width="60%" name="name" minWidth="9rem" no_outline={true}
 parentCallback={(data)=>setUnit(data.symbol)} value={unit} dropdownWidth={size.width>'600'?"11vw":'40vw'} searchWidth={size.width>'600'?"8vw":'30vw'} height="3rem"/>:null}</div>
 :
-<input type="number" data-tip data-for="bom_quantity" value={quantity} style={{height:'3rem',width:'70%'}} onChange={(e)=>setQuantity(e.target.value)}
-onMouseLeave={()=>setShowTooltip(false)} onMouseEnter={()=>setShowTooltip(true)}/>}
+<input type="number" value={quantity} style={{height:'3rem',width:'70%'}} onChange={(e)=>setQuantity(e.target.value)} placeholder="1"/>}
                     </div>
                     <div style={{width:'25%',display:'flex',alignItems:'center',justifyContent:'center'}}>
                     <div className="form_icons">

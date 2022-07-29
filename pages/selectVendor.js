@@ -299,7 +299,7 @@ const SelectVendor=() =>{
                     <div className="detail_field">{orderDetails?orderDetails.date:null}</div>
                     <div className="detail_field">{orderDetails?orderDetails.created_by:null}</div>
                 </div></div>
-                <div className="common view_details"><a onClick={()=>setShowDetails(true)}>View Details</a>
+                <div className="common view_details"><button onClick={()=>setShowDetails(true)}>View Details</button>
                 
                     </div></div>
                     {showDetails?<div className="detail_card">

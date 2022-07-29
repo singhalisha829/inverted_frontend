@@ -177,12 +177,12 @@ dropdownWidth={size.width>'600'?'13vw':'20vw'} searchWidth={size.width>'600'?'10
 </div>
         <div style={{width:"25%"}}>{size.width>'600'?<label style={{marginBottom:"0.5rem"}}>Required Quantity</label>:null}
         {showUnit? <div style={{display:'flex',width:size.width>'600'?'70%':'90%', border:"#e5e5e5 solid 0.1em",borderRadius:'5px'}}>
-<input value={quantity} placeholder="0.00" style={{width:"35%",height:"3rem",border:'none'}} className="quantity" type="number" onChange={(e)=>setQuantity(e.target.value)}/>
+<input value={quantity} style={{width:"35%",height:"3rem",border:'none'}} className="quantity" type="number" onChange={(e)=>setQuantity(e.target.value)} placeholder="0.00"/>
 <div style={{borderLeft:"#e5e5e5 solid 0.1em"}}/>
 {unitList?<Dropdown options={unitList} placeholder="Unit" width="60%" name="name" minWidth="9rem" no_outline={true}
 parentCallback={(data)=>setUnit(data.symbol)} value={unit} dropdownWidth={size.width>'600'?"11vw":'40vw'} searchWidth={size.width>'600'?"8vw":'30vw'} height="3rem"/>:null}</div>
 :
-<input type="number" placeholder="0.00" value={quantity} style={{height:'3rem',width:'70%'}} onChange={(e)=>setQuantity(e.target.value)}/>}
+<input type="number" value={quantity} style={{height:'3rem',width:'70%'}} onChange={(e)=>setQuantity(e.target.value)} placeholder="1"/>}
         </div>
         <div style={{width:'25%',display:'flex',alignItems:'center',justifyContent:'center'}}>
         <div className="form_icons">

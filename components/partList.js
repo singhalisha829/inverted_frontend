@@ -70,7 +70,7 @@ const PartsList = (props) =>{
 
 
     const handleUnit=(symbol)=>{
-        props.handleLoading();
+        // props.handleLoading();
         if(value=== null || value ===''){
             toast.warning('Enter Quantity!');
             // setUnit(()=>'')
