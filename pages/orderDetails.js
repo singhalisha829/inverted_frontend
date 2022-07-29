@@ -18,21 +18,22 @@ const OrderDetails=()=>{
     const [date,setDate]= useState(null);
     const [createdBy,setCreatedBy]= useState(null);
     const [status,setStatus]= useState(null);
+    const [list,setList]= useState([]);
 
 
     const columns = [
-        { accessor1: 'ItemType', label: 'Type' ,width:"25%", textalign:"center"},
+        { accessor1: 'ItemType', label: 'Type' ,width:"20%", textalign:"center"},
         { accessor1: 'item_name',label: 'ID' ,width:"25%", textalign:"center"},
         { accessor1: 'quantity', label: 'Required Quantity',width:"25%" , textalign:"center"}, 
-        { accessor1: 'stock_released', label: 'Stock Released',width:"25%" , textalign:"center"},  
+        { accessor1: 'stock_released', label: 'Stock Released',width:"30%" , textalign:"left"},  
 
       ];
 
       const column1 = [
-        { accessor1: 'part_id', label: 'Part ID' ,width:"33%", textalign:"left"},
-        { accessor1: 'short_description', label: 'Part Description' ,width:"33%", textalign:"left"},
-        { accessor1: 'required_quantity',label: 'Required Quantity' ,width:"33%", textalign:"center"},
-        { accessor1: 'available_stock', label: 'Available Stock',width:"33%" , textalign:"center"},  
+        { accessor1: 'part_id', label: 'Part ID' ,width:"20%", textalign:"center"},
+        { accessor1: 'short_description', label: 'Part Description' ,width:"30%", textalign:"center"},
+        { accessor1: 'required_quantity',label: 'Required Quantity' ,width:"25%", textalign:"center"},
+        { accessor1: 'available_stock', label: 'Available Stock',width:"25%" , textalign:"center"},  
 
       ];
 
@@ -95,6 +96,23 @@ const OrderDetails=()=>{
       }
     const size = useWindowSize();
 
+    const handleQuantity=(value,id,item_name)=>{
+      console.log(value,id)
+      const index= list.findIndex(el=>el.id==id);
+      console.log(index)
+      if(index== -1){
+        list.push({
+          id:id,
+          value:value,
+          item_name:item_name
+        })
+      }else{
+          list[index].value=value;
+        
+      }
+      localStorage.setItem('stock_out_list',JSON.stringify(list))
+    }
+
 
     return(
         <div className="layout">
@@ -129,7 +147,8 @@ const OrderDetails=()=>{
                         <button onClick={()=> Router.push('/stockOut')}>Stock Out</button>
                     </div>  
                     <div className="order_detail_table">
-                      {orderItem?<Table rows={orderItem} columns={columns} width="100%"/>:<Spinner />}</div>
+                      {orderItem?<Table rows={orderItem} columns={columns} width="100%" 
+                      handleQuantity={(value,id,item_name)=>handleQuantity(value,id,item_name)}/>:<Spinner />}</div>
                 </div>
 
                 <div className="parts_in_order">

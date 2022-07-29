@@ -119,7 +119,7 @@ const Order=()=>{
     if(size.width>'600'){
       content=(<div className="order_table" >
                 {productionOrderList?<Table columns={columns} rows={productionOrderList} search={searchText} filter={filterOnStatus} path="/orderDetails" cursor="pointer"
-                width="77vw"/>:null}
+                width='77vw'/>:null}
                 </div>);
     }
     else{
@@ -168,8 +168,7 @@ const Order=()=>{
                 </div>:null}
 
                 <div className="order_table" >
-                {productionOrderList?<Table key={productionOrderList.length} columns={columns} rows={productionOrderList} search={searchText} filter={filterOnStatus} path="/orderDetails" cursor="pointer"
-                width="77vw"/>:<Spinner/>}
+                {content}
                 </div>
                      
 

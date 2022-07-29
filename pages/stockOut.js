@@ -6,24 +6,28 @@ import Head from 'next/head';
 
 import Table from '../components/table';
 import Header from '../components/header';
+import Spinner from '../components/spinner';
 
 
 const StockOut=() =>{
     const [searchText,setSearchText] = useState(null);
     const [token,setToken]= useState(null);
+    const [stockOutList,setStockOutList]= useState(null);
 
     const columns = [
         { accessor1: 'id', label: 'Part ID' ,width:"33%", textalign:"left"},
-        { accessor1: 'name' ,label: 'Name' ,width:"33%", textalign:"left"},
-        { accessor1: 'quantity', label: 'Quantity',width:"33%" , textalign:"center"},  
+        { accessor1: 'item_name' ,label: 'Name' ,width:"33%", textalign:"left"},
+        { accessor1: 'value', label: 'Quantity',width:"33%" , textalign:"center"},  
       ];
       
-    const rows=[{},{},{},{},{},{},{},{},{},{},{},{},{},{},{}];
 
     useEffect(()=>{
       if(localStorage.getItem('token') != undefined){
         const token=localStorage.getItem('token')
         setToken(token)
+        const list=localStorage.getItem('stock_out_list');
+        console.log(list)
+        setStockOutList(list)
       
     }else{
         Router.push('/login');
@@ -58,6 +62,7 @@ const StockOut=() =>{
         return windowSize;
       }
     const size = useWindowSize();
+    console.log(stockOutList)
 
     return(
         <div className='layout'>
@@ -75,7 +80,8 @@ const StockOut=() =>{
 
                 <div className="parts_list">
                     <div className="stock_out">Stock Out</div>
-                    <div style={{marginTop:'1rem'}}><Table columns={columns} rows={rows} width="100%"/></div>
+                    {/* <div style={{marginTop:'1rem'}}>{stockOutList?<Table columns={columns} rows={stockOutList} width="100%"/>:<Spinner />}</div> */}
+                    {/* {stockOutList?stockOutList.map((el)=>{<div>{el.id}</div>}:null} */}
                 </div>
 
                 <div className="stock_out_footer">

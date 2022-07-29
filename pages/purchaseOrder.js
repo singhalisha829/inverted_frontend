@@ -13,6 +13,7 @@ import Spinner from '../components/spinner';
 import { fetchPurchaseOrderList } from "../services/purchaseOrderService";
 import {ToastContainer, toast } from "react-toastify";
 import 'react-toastify/dist/ReactToastify.css';
+import OrderList from "../components/orderList";
 
 
 const PurchaseOrder =() =>{
@@ -23,8 +24,9 @@ const PurchaseOrder =() =>{
     const columns = [
       { accessor1: 'purchase_order_no', label: 'Order ID' ,width:"25%", textalign:"center"},
       { accessor1: 'date', label:'Date'  ,width:"25%", textalign:"center"},
+      {accessor1:'created_by',label:'Created By', width:'25%',textalign:'center'},
       { accessor1: 'status', label: 'Status',width:"25%" , textalign:"center"},  
-      {accessor1:'created_by',label:'Created By', width:'25%',textalign:'center'}
+
     ];
 
     useEffect(()=>{
@@ -68,8 +70,22 @@ const PurchaseOrder =() =>{
         return windowSize;
       }
     const size = useWindowSize();
-      console.log(size)
 
+    let content=null;
+    if(size.width>'600'){
+      content=   (purchaseOrderList?<Table key={purchaseOrderList.length} id="purchaseOrderTable" rows={purchaseOrderList} columns={columns} cursor="pointer" search={searchText} 
+      width={size.width>'600'?'77vw':'95vw'} path="/vendorList"/>:<Spinner />) 
+    }else{
+      content=(
+        purchaseOrderList?<div className="order_card_list">
+          {searchText != undefined ?listFilter.map((l)=>(
+              <OrderList key={l.id} id={l.id} order_number={l.purchase_order_no} date={l.date} path="/vendorList" created_by={l.created_by} status={l.status}/>))
+          :purchaseOrderList.map((l)=>(
+              <OrderList key={l.id} id={l.id} order_number={l.purchase_order_no} date={l.date} path="/vendorList" created_by={l.created_by} status={l.status}/>
+          ))}
+      </div> : <Spinner />
+      )
+    }
     return(
         <div className="layout">
             <Head>
@@ -95,8 +111,7 @@ const PurchaseOrder =() =>{
         <div className="order_subtitle">Your Orders</div>
         <button onClick={()=>Router.push('/newPurchaseOrder')}>Create Order</button>
         </div>
-      <div className="po_table">{purchaseOrderList?<Table key={purchaseOrderList.length} id="purchaseOrderTable" rows={purchaseOrderList} columns={columns} cursor="pointer" search={searchText} 
-    width={size.width>'600'?'77vw':'95vw'} path="/vendorList"/>:<Spinner />}</div>
+      <div className="po_table">{content}</div>
     </div>
     </div>
     )

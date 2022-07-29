@@ -101,7 +101,6 @@ const Table = (props) => {
     let table_content=null;
     
       table_content=(<tbody>
-        {/*  */}
         {props.search != undefined || props.filter != undefined?tableFilter
         .map(row => {
           return (
@@ -147,6 +146,9 @@ const Table = (props) => {
     else if(column.accessor1==='status' && row.status==='Completed' ){
       return <td key={column.accessor1} width={column.width} 
     ><div className="completed_status_style">Completed</div></td>
+    }else if(column.accessor1==='stock_released'){
+      return <td key={column.accessor1} width={column.width} style={{textAlign:column.textalign}}
+  ><div style={{marginLeft:"20%"}}><input type="number" style={{width:'40%',height:'3rem'}} onChange={(e)=>props.handleQuantity(e.target.value,row.id,row.item_name)}/></div></td>
     }
                 else{
                 return <td key={column.accessor1} width={column.width} style={{textAlign:column.textalign}}
@@ -157,6 +159,7 @@ const Table = (props) => {
           )
         }):data
         .map(row => {
+          console.log(row)
           return (
             <tr key={row.part_id} onClick={()=> {localStorage.setItem('partId',row.part_id);localStorage.setItem('orderId',row.order_id);
             localStorage.setItem('poId',row.id);localStorage.setItem('production_order_id',row.id);
@@ -200,7 +203,7 @@ const Table = (props) => {
                   ><div className="completed_status_style">Completed</div></td>
                   }else if(column.accessor1==='stock_released'){
                     return <td key={column.accessor1} width={column.width} style={{textAlign:column.textalign}}
-                ><div><input type="number" style={{width:'40%',height:'3rem'}}/></div></td>
+                ><div style={{marginLeft:"20%"}}><input type="number" style={{width:'40%',height:'3rem'}} onChange={(e)=>props.handleQuantity(e.target.value,row.id,row.item_name)}/></div></td>
                   }
                 else{
                 return <td key={column.accessor1} width={column.width} style={{textAlign:column.textalign}}
@@ -235,9 +238,9 @@ const Table = (props) => {
             onClick={()=> sorting(column.accessor1)}>
               <div className="header_fields">
                 <div className="header_title">
+                  
                   <div className="title_name">{column.label}</div>
-                {/* <div className="sort_direction">{order != 'ASC'?order === 'DSC'?<BsArrowUp className="arrow_icon"/>:<BsArrowDown className="arrow_icon"/>:null}</div> */}
-                
+
                 </div>
                 <div className="arrow"><BsArrowDownUp className="arrow_icon"/></div>
                 </div></th>
