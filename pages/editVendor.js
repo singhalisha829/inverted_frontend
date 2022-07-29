@@ -13,6 +13,13 @@ import PartsList from "../components/partList";
 import { toast, ToastContainer } from "react-toastify";
 import 'react-toastify/dist/ReactToastify.css';
 
+import GifLoader from 'react-gif-loader';
+import LoadingOverlay from 'react-loading-overlay';
+import DarkBackground from "../components/darkBackground";
+// import DarkBackground from "../components/darkBackground";
+
+import Image from "next/image";
+
 
 
 
@@ -30,10 +37,9 @@ const EditVendor=() =>{
     const [upadteUi,setUpdateUi]= useState(null);
     const [vendorLists,setVendorLists]= useState(null);
     const [finalList,setFinalList]= useState([]);
-    const [deleteParts,setDeleteParts]= useState([]);
 
     const [displayList,setDisplayList]= useState([]);
-
+    const [loading,setLoading]= useState(false);
     const columns = [
         { accessor1: 'ItemType', label: 'ORDER TYPE' ,width:"25%", textalign:"center"},
         { accessor1: 'item_name',label: 'ORDER ID' ,width:"25%", textalign:"center"},
@@ -233,6 +239,7 @@ const EditVendor=() =>{
         if(index1 != -1){
         finalList[index1].quantity=list.quantity+" "+list.unit;
         }
+        setLoading(false)
     }
 
     const deleteBranch= (id,part_id) =>{
@@ -272,6 +279,10 @@ const EditVendor=() =>{
     const removeVendor=(id)=>{
         const newList=displayList.filter(el=>el.id != id);
         setDisplayList(newList)
+    }
+
+    const handleLoading=()=>{
+        setLoading(true);
     }
 
 
@@ -355,14 +366,14 @@ const EditVendor=() =>{
                  <PartsList key={part.id} id={part.part_id_id} partId={part.part_id} partName={part.part__short_description}
             quantity={part.quantity__value} unit={part.quantity_unit__symbol} handleUnitPrice={(id,value,branch_id,quantity,part_name,partId)=>handleUnitPrice(id,value,branch_id,quantity,part_name,partId)} 
             handleVendor={(id,value,branch_id,quantity,part_name,partId)=>handleVendor(id,value,branch_id,quantity,part_name,partId)} handleQuantity={
-                (id,list,unit)=>handleQuantity(id,list,unit)} deleteBranch={(id,part_id)=>deleteBranch(id,part_id)}
+                (id,list,unit)=>handleQuantity(id,list,unit)} deleteBranch={(id,part_id)=>deleteBranch(id,part_id)} handleLoading={()=>handleLoading()}
             />)):
                 partsList.map((part)=>{
                 return(
             <PartsList key={part.id} id={part.part_id_id} partId={part.part_id} partName={part.part__short_description}
             quantity={part.quantity__value} unit={part.quantity__unit__symbol} handleUnitPrice={(id,value,branch_id,quantity,part_name,partId)=>handleUnitPrice(id,value,branch_id,quantity,part_name,partId)} 
             handleVendor={(id,value,branch_id,quantity,part_name,partId)=>handleVendor(id,value,branch_id,quantity,part_name,partId)} handleQuantity={
-                (id,list,unit)=>handleQuantity(id,list,unit)} deleteBranch={(id,branch_id)=>deleteBranch(id,branch_id)}
+                (id,list,unit)=>handleQuantity(id,list,unit)} deleteBranch={(id,branch_id)=>deleteBranch(id,branch_id)} handleLoading={()=>handleLoading()}
             />)})}</div>
         :null}</div>
         </div>
@@ -411,8 +422,18 @@ const EditVendor=() =>{
                         </div></div>
     </div>
 
+    {/* <GifLoader
+                loading={loading}
+                imageSrc="/loading.gif"
+              
+                overlayBackground="rgba(0,0,0,0.5)"
+            /> */}
+        {/* <DarkBackground dissapear={false} /> */}
+        
+    
        
         </div>
+    
     )
 }
 

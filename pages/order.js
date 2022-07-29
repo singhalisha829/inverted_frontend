@@ -11,7 +11,7 @@ import {FaSistrix} from 'react-icons/fa';
 import { useState, useEffect } from "react";
 
 import { fetchProductionOrderList } from "../services/productionOrderService";
-import { fetchPurchaseOrderList } from "../services/purchaseOrderService";
+
 
 
 

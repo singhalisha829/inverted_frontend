@@ -95,9 +95,7 @@ const Table = (props) => {
       if(props.path){
       Router.push(props.path)}
     
-    }
-
-   
+    } 
 
 
     let table_content=null;
@@ -108,7 +106,7 @@ const Table = (props) => {
         .map(row => {
           return (
             <tr key={row.part_id} onClick={()=>{localStorage.setItem('partId',row.part_id);localStorage.setItem('orderId',row.order_id);
-            localStorage.setItem('poId',row.id);
+            localStorage.setItem('poId',row.id);localStorage.setItem('production_order_id',row.id);
             clickHandler()}}>
               {props.columns.map(column => {
                 if(column.accessor1==='part_id'){
@@ -116,7 +114,7 @@ const Table = (props) => {
                 ><div className="part_id_box">#{row[column.accessor1]}</div></td>
                 }
 
-                else if(column.accessor1==='short_description'){
+                else if(column.accessor2==='long_description'){
                   return <td key={column.accessor1} width={column.width} style={{textAlign:column.textalign, color:"#9E9E9E",
                   }}
                 ><div style={{display:'flex'}}>
@@ -161,7 +159,7 @@ const Table = (props) => {
         .map(row => {
           return (
             <tr key={row.part_id} onClick={()=> {localStorage.setItem('partId',row.part_id);localStorage.setItem('orderId',row.order_id);
-            localStorage.setItem('poId',row.id);
+            localStorage.setItem('poId',row.id);localStorage.setItem('production_order_id',row.id);
              clickHandler()}}>
               {props.columns.map(column => {
                 if(column.accessor1==='part_id'){
@@ -169,7 +167,7 @@ const Table = (props) => {
                 ><div className="part_id_box">#{row[column.accessor1]}</div></td>
                 }
                 
-                else if(column.accessor1==='short_description'){
+                else if(column.accessor2==='long_description'){
                   return <td key={column.accessor1} width={column.width} style={{textAlign:column.textalign, color:'#9E9E9E'}}
                 ><div style={{display:'flex'}}>
                   <div className="parts_image">

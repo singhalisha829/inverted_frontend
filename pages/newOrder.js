@@ -157,6 +157,8 @@ const NewOrder=()=>{
     }else{
     createProductionOrder(newOrderList,token).then((res)=>{
         console.log(res.data)
+        localStorage.setItem('production_order_id',res.data.status.last_id);
+        Router.push('/orderDetails');
         cancelHandler();
       
     }

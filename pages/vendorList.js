@@ -7,7 +7,6 @@ import Router from 'next/router';
 import { FaSistrix,FaExternalLinkAlt,FaDownload,FaTimes} from 'react-icons/fa';
 
 import ReactHtmlTableToExcel from "react-html-table-to-excel"; 
-import GifLoader from 'react-gif-loader';
 
 
 
@@ -146,12 +145,7 @@ const VendorList = () =>{
         <div className="vendor_list">
           <div className="vendor_title">
             <div>Vendor List</div>
-            {/* <GifLoader
-                loading={true}
-                imageSrc="/loading.gif"
-              
-                overlayBackground="rgba(0,0,0,0.5)"
-            /> */}
+            
             
            </div>
 

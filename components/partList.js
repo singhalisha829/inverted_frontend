@@ -70,6 +70,7 @@ const PartsList = (props) =>{
 
 
     const handleUnit=(symbol)=>{
+        props.handleLoading();
         if(value=== null || value ===''){
             toast.warning('Enter Quantity!');
             // setUnit(()=>'')
@@ -130,7 +131,6 @@ const PartsList = (props) =>{
 
     const splitHandler=() =>{
         const newList1=null;
-        const length= quantity.length
         if(value== null){
             toast.warning('Enter Quantity!');
         }else if(unit === null || unit===''){

@@ -35,7 +35,7 @@ export const postPoVendor=(token,vendorList) =>{
 }
 
 export const fetchPartWiseList=(token,poId) =>{
-    return axios.get(URL+MAIN.PART_WISE_LIST+poId,{headers:{
+    return axios.get(URL+MAIN.PURCHASE_ORDER_PART_WISE_LIST+poId,{headers:{
         "Authorization":"Token "+ token
     }})
 }
@@ -98,3 +98,4 @@ export const confirmVendor=(token,id) =>{
         "Authorization":"token "+ token,
     }})
 }
+

@@ -19,3 +19,15 @@ export const fetchProductionOrderList=(token) =>{
             "Authorization":"Token "+ token
         }})
     }
+
+export const fetchProductionOrderDetails=(token,id) =>{
+        return axios.get(URL+MAIN.PRODUCTION_ORDER+"?id="+id,{headers:{
+                "Authorization":"Token "+ token
+            }})
+    }
+
+export const fetchPartWiseList=(token,poId) =>{
+        return axios.get(URL+MAIN.PRODUCTION_ORDER_PART_WISE_LIST+poId,{headers:{
+            "Authorization":"Token "+ token
+        }})
+    }
