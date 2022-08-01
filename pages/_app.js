@@ -24,6 +24,8 @@ import '../styles/newPurchaseOrder.css';
 import '../styles/selectVendor.css';
 import '../styles/vendorList.css';
 import '../styles/partList.css';
+import '../styles/loader.css';
+import '../styles/buttonLoader.css';
 
 
 

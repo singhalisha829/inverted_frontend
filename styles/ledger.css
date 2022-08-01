@@ -103,6 +103,8 @@ line-height: 1.5rem;
     font-size: 1.4rem;
     line-height: 1.7rem;
     border-radius: 3px;
+    display: flex;
+    align-items: center;
     transition:0.6s cubic-bezier(0.01, 1.69,    0.99, 0.94); 
 
     /* margin-left:20px; */
@@ -113,6 +115,13 @@ line-height: 1.5rem;
     letter-spacing: 0.1rem;
 
   }
+
+  button:disabled,
+button[disabled]{
+  background-color: #6f8194;
+  transition: none;
+  letter-spacing: 0;
+}
 
   .ledger_form{
       display: flex;

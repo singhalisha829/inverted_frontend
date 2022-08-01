@@ -7,6 +7,8 @@ import Router from 'next/router';
 import { FaSistrix,FaExternalLinkAlt,FaDownload,FaTimes} from 'react-icons/fa';
 
 import ReactHtmlTableToExcel from "react-html-table-to-excel"; 
+import Loader from '../components/loader';
+import ButtonLoader from '../components/buttonLoader';
 
 
 
@@ -23,6 +25,7 @@ const VendorList = () =>{
     const [unassignedParts,setUnassignedParts]= useState([]);
     const [lockState,setLockState]= useState([]);
     const [poId,setPoId]= useState(null);
+    const [loading,setLoading]= useState(false);
 
     
 
@@ -88,21 +91,22 @@ const VendorList = () =>{
 
     const lockVendor=(id)=>{
       console.log(id)
-      confirmVendor(token,id).then(res=>{
-        toast.success('Vendor List Confirmed!');
-        fetchVendorWiseList(token,poId).then((res)=>{
-          setVendorList(res.data.data.output)
-          const newList=[];
-          const list=res.data.data.output;
-          for(let i=0;i<list.length;i++){
-            newList.push({
-              id:list[i].id,
-              status:list[i].status
-            })
-          }
-          setLockState(newList)
-        }).catch(err=>toast.error(err.message));
-      });
+      setLoading(true)
+      // confirmVendor(token,id).then(res=>{
+      //   toast.success('Vendor List Confirmed!');
+      //   fetchVendorWiseList(token,poId).then((res)=>{
+      //     setVendorList(res.data.data.output)
+      //     const newList=[];
+      //     const list=res.data.data.output;
+      //     for(let i=0;i<list.length;i++){
+      //       newList.push({
+      //         id:list[i].id,
+      //         status:list[i].status
+      //       })
+      //     }
+      //     setLockState(newList)
+      //   })
+      // }).catch(err=>toast.error(err.message));
      
     }
 
@@ -122,7 +126,7 @@ const VendorList = () =>{
     <div className="vendor_list_page">
       <ToastContainer />
     <div className="order_title">
-            <div className="title">Purchase Orders</div>
+            <div className="title">Purchase Orders  </div>
             <div className="sub_title">Vendors List</div>
     </div> 
     {/* <div className="vendor_list_subsection" style={{paddingLeft:'1.2rem'}}>
@@ -156,7 +160,9 @@ const VendorList = () =>{
             <div key={vendor.id} className="single_vendor_card1">
                 <div className="vendor_name"><div># {vendor.vendor}</div>
                 {lockState[index]?
-                <div>{lockState[index].status =='Confirmed'?<button className="common"><div style={{marginRight:"0.5rem",marginTop:'0.3rem'}}>Download</div> <FaDownload size={13}/></button>:<button onClick={()=>lockVendor(vendor.id)}>Confirm</button>}</div>:null}
+                <div>{lockState[index].status =='Confirmed'?<button className="common"><div style={{marginRight:"0.5rem",marginTop:'0.3rem'}}>Download</div> <FaDownload size={13}/></button>:
+                <button onClick={()=>lockVendor(vendor.id)} disabled={loading}>
+                  {loading?<div style={{marginRight:'5px'}}><ButtonLoader /></div>:null}Confirm</button>}</div>:null}
                 </div> 
 
                 <div className="vendor_table">
