@@ -122,9 +122,9 @@ const Order=()=>{
       content=(
         productionOrderList?<div className="order_card_list">
           {searchText != undefined || filterOnStatus != undefined?listFilter.map((l)=>(
-              <OrderList key={l.id} order_number={l.production_order_no} date={l.date} path="/orderDetails" created_by={l.created_by} status={l.status}/>))
+              <OrderList key={l.id} id={l.id} order_number={l.production_order_no} date={l.date} path="/orderDetails" created_by={l.created_by} status={l.status}/>))
           :productionOrderList.map((l)=>(
-              <OrderList key={l.id} order_number={l.production_order_no} date={l.date} path="/orderDetails" created_by={l.created_by} status={l.status}/>
+              <OrderList key={l.id} id={l.id} order_number={l.production_order_no} date={l.date} path="/orderDetails" created_by={l.created_by} status={l.status}/>
           ))}
       </div> : <Spinner />
       )

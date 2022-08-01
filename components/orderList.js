@@ -20,7 +20,8 @@ const OrderList = (props) =>{
     }
     
     return(
-        <div className="order_list" onClick={()=>{Router.push(props.path);localStorage.setItem('poId',props.id)}}>
+        <div className="order_list" onClick={()=>{Router.push(props.path);localStorage.setItem('poId',props.id);
+        localStorage.setItem('production_order_id',props.id)}}>
         <div className="order_list_content">{props.order_number}</div>
         <div className="order_list_content">{props.date}</div>
         <div className="order_list_content">{props.created_by}</div>

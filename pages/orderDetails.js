@@ -33,10 +33,11 @@ const OrderDetails=()=>{
       ];
 
       const column1 = [
-        { accessor1: 'part_id', label: 'Part ID' ,width:"20%", textalign:"center"},
+        { accessor1: 'part_id', label: 'Part ID' ,width:"10%", textalign:"center"},
         { accessor1: 'short_description', label: 'Part Description' ,width:"30%", textalign:"center"},
-        { accessor1: 'quantity_value',accessor2:'quantity_symbol',label: 'Required Quantity' ,width:"25%", textalign:"center"},
-        { accessor1: 'available_stock', label: 'Available Stock',width:"25%" , textalign:"center"},  
+        { accessor1: 'quantity_value',accessor2:'quantity_symbol',label: 'Required Quantity' ,width:"20%", textalign:"center"},
+        { accessor1: 'quantity_value1',accessor2:'quantity_symbol', label: 'Released Quantity',width:"20%" , textalign:"center"}, 
+        { accessor1: 'available_stock', label: 'Available Stock',width:"20%" , textalign:"center"},  
 
       ];
 
@@ -153,7 +154,7 @@ const OrderDetails=()=>{
                         <button onClick={()=> Router.push('/stockOut')}>Stock Out</button>
                     </div>  
                     <div className="order_detail_table">
-                      {orderItem?<Table rows={orderItem} columns={columns} width="100%" 
+                      {orderItem?<Table rows={orderItem} columns={columns} width="100%" outOf={true}
                       handleQuantity={(value,id,item_name,symbol,item_description)=>handleQuantity(value,id,item_name,symbol,item_description)}/>:<Spinner />}</div>
                 </div>
 

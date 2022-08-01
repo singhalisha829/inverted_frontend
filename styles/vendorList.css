@@ -80,4 +80,15 @@ justify-content: space-between;
     .single_vendor_card1{
         padding: 0.5rem;
     }
+
+    .unassigned_parts_title{
+        font-size: 1.2rem;
+        line-height: 1.5rem;
+        font-weight: 500;
+    }
+
+    .single_vendor_card{
+        font-size: 1.2rem;
+        line-height: 1.5rem;
+    }
 }

@@ -18,6 +18,7 @@ height: 2.5rem;
 padding-top: 0.5rem;
 line-height: 1.5rem;
 display: inline-block;
+color:#EB2129;
 /* margin-left: 20%; */
 }
 
@@ -172,6 +173,11 @@ td{
     line-height: 1.5rem;
 }
 
+.quantity_field{
+    width:30%;
+    height:3rem; 
+}
+
 @media(max-width:600px){
     thead th{
         padding: 1rem 0.5rem;
@@ -183,5 +189,22 @@ td{
 
     td{
         padding: 1rem 0.5rem;
+        font-size: 1.1rem;
+    line-height: 1.3rem;
+    font-weight: 500;
+    }
+    .part_id_box{
+        font-size: 1.1rem;
+    line-height: 1.3rem;
+    font-weight: 500;
+    width:9rem;
+    }
+
+    .available_quantity{
+        font-size: 1rem;
+    }
+
+    .quantity_field{
+        width:90%;
     }
 }

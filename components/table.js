@@ -111,7 +111,7 @@ const Table = (props) => {
       }
     }
     
-    console.log(data)
+    // console.log(data)
 
     let table_content=null;
     
@@ -163,7 +163,7 @@ const Table = (props) => {
     ><div className="completed_status_style">Completed</div></td>
     }else if(column.accessor1==='stock_released'){
       return <td key={column.accessor1} width={column.width} style={{textAlign:column.textalign}}
-  ><div style={{marginLeft:"20%",display:'flex',alignItems:'center'}}><input type="number" style={{width:'40%',height:'3rem'}} 
+  ><div style={{marginLeft:"20%",display:'flex',alignItems:'center'}}><input type="number" className="quantity_field"
   onChange={(e)=>handleQuantity(e.target.value,row.available_qty,row.available_qty_symbol,row.id,row.product_code,row.product_description)}/>
   <div className="available_quantity">*Only {row.available_qty} {row.available_qty_symbol} available</div></div></td>
     }else if(column.accessor1==='quantity_value'){
@@ -185,7 +185,7 @@ const Table = (props) => {
              clickHandler()}}>
               {props.columns.map(column => {
                 if(column.accessor1==='part_id'){
-                  return <td key={column.accessor1} width={column.width} style={{ margin:'auto', color:'#EB2129'}}
+                  return <td key={column.accessor1} width={column.width} style={{ margin:'auto'}}
                 ><div className="part_id_box">#{row[column.accessor1]}</div></td>
                 }
                 
@@ -223,13 +223,17 @@ const Table = (props) => {
                   }else if(column.accessor1==='stock_released'){
                     console.log(row.available_qty,row.available_qty_symbol)
                     return <td key={column.accessor1} width={column.width} style={{textAlign:column.textalign}}
-                ><div style={{marginLeft:"20%",display:'flex',alignItems:'center'}}><input type="number" style={{width:'40%',height:'3rem',border:border}} 
+                ><div className="common"><input type="number" style={{border:border}} className="quantity_field" 
                 onChange={(e)=>handleQuantity(e.target.value,row.available_qty,row.available_qty_symbol,row.id,row.product_code,row.product_description)}/>
                 <div className="available_quantity">*Only {row.available_qty} {row.available_qty_symbol} available</div></div></td>
                   }
-                  else if(column.accessor1==='quantity_value'){
+                  else if(column.accessor1==='quantity_value' && props.outOf==false){
                     return <td key={column.accessor1} width={column.width} style={{textAlign:column.textalign}}
                     ><div>{row[column.accessor1]} {row[column.accessor2]}</div></td>
+                  }
+                  else if(column.accessor1==='quantity_value' && props.outOf==true){
+                    return <td key={column.accessor1} width={column.width} style={{textAlign:column.textalign}}
+                    ><div>{row.released_quantity_value} {row.released_quantity_unit_symbol} / {row[column.accessor1]} {row[column.accessor2]}</div></td>
                   }
                 else{
                 return <td key={column.accessor1} width={column.width} style={{textAlign:column.textalign}}

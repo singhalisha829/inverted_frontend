@@ -36,7 +36,7 @@ const VendorList = () =>{
           }else{
             setUnassignedParts(res.data.data.output[0].temp_part)
           }
-      })
+      }).catch(err=>toast.error(err.message));
           setToken(token)
           fetchVendorWiseList(token,poId).then((res)=>{
             setVendorList(res.data.data.output)
@@ -49,7 +49,7 @@ const VendorList = () =>{
               })
             }
             setLockState(newList)
-          })
+          }).catch(err=>toast.error(err.message));
 
           
     },[])
@@ -101,14 +101,14 @@ const VendorList = () =>{
             })
           }
           setLockState(newList)
-        })
+        }).catch(err=>toast.error(err.message));
       });
      
     }
 
     const editPart= (id)=>{
-      deleteParts(token,id).then(res=>{console.log(res);
-        Router.push('/editVendor')});
+      deleteParts(token,id).then(res=>{console.log(res)
+        Router.push('/editVendor')}).catch(err=>toast.error(err.message));
     }
     
 
@@ -118,7 +118,7 @@ const VendorList = () =>{
       <title>Inverted</title>
       <link rel="icon" href="/logo icon 2-01.png" />
     </Head>
-    {size.width>'600'?<Sidebar /> : <Header />}
+    {size.width>'600'?<Sidebar /> : <Header show={true} path='/purchaseOrder'/>}
     <div className="vendor_list_page">
       <ToastContainer />
     <div className="order_title">
@@ -151,6 +151,7 @@ const VendorList = () =>{
 
           {vendorList?vendorList.map((vendor)=>{
             const index= lockState.findIndex(el=>el.id===vendor.id)
+            if(vendor.invoice_products.length !=0){
             return(
             <div key={vendor.id} className="single_vendor_card1">
                 <div className="vendor_name"><div># {vendor.vendor}</div>
@@ -179,11 +180,13 @@ const VendorList = () =>{
 
                                     </div>
                                     )
+                                  
+
                       
                     )}</div>
                     </div>
             </div>
-)}):null}
+)}}):null}
         </div>
         {unassignedParts.length !=0?<div className="vendor_list">
           <div className="vendor_title">
@@ -200,7 +203,7 @@ const VendorList = () =>{
             {unassignedParts.map((part)=>(
               <div key={part.id} className="single_vendor_card common" style={{color:'#3F5575'}}>
                 <div style={{width:'20%'}} className="common">{part.part_id}</div>
-                <div style={{width:'60%'}} className="common">{part.part__short_description}</div>
+                <div style={{width:'60%',paddingLeft:'1rem'}} className="common">{part.part__short_description}</div>
                 <div style={{width:'20%'}} className="common">{part.quantity__value} {part.quantity__unit__symbol}</div>
               </div>
             ))}

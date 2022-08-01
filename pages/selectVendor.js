@@ -396,7 +396,7 @@ const SelectVendor=() =>{
 
 <div className="stock_out_footer">
                     <div className="stock_out_button">
-                        <button className="cancel_button button2" onClick={()=>{Router.back();}}>Cancel</button>
+                        <button className="cancel_button button2" onClick={()=>{Router.push('/purchaseOrder');}}>Cancel</button>
                         <button className="save_button button2" onClick={submitVendor}>Save</button>
                         </div></div>
     </div>
