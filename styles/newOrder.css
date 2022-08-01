@@ -106,8 +106,9 @@ margin-bottom:1rem;
 
     .new_order_form{
         width:90vw;
-        padding: 1rem;
-        height: 8rem;
+        padding: 2rem;
+        height:20rem;
+        flex-direction: column;
     }
 
     .new_order_search{

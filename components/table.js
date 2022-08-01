@@ -20,6 +20,7 @@ const Table = (props) => {
     const [tableFilter, setTableFilter] = useState([]);
     const [arrow, setArrow] = useState(null);
     const [sortedColumn,setSortedColumn] = useState(null);
+    const [border,setBorder]= useState('#e5e5e5 solid 0.1em');
     
    useEffect(()=>{
     //  search table based on dropdown filter and searchbar value
@@ -100,15 +101,13 @@ const Table = (props) => {
     
     } 
 
-    const border='#e5e5e5 solid 0.1em';
-
     const handleQuantity=(value,quantity,symbol,id,product_code,product_description)=>{
       if(value>quantity){
         toast.warning('Entered Quantity exceeds the Required Qunatity! ');
-        border="red solid 0.1em";
+        setBorder("red solid 0.1em");
       }else{
       props.handleQuantity(value,id,product_code,symbol,product_description);
-      border='#e5e5e5 solid 0.1em';
+      setBorder('#e5e5e5 solid 0.1em');
       }
     }
     
@@ -135,7 +134,7 @@ const Table = (props) => {
                 ><div style={{display:'flex'}}>
                 <div className="parts_image">
                   
-                {row.image === null? <Image src={Logo} layout="fill" objectFit="contain" alt=""/>
+                {row.image1 == null? <Image src={Logo} layout="fill" objectFit="contain" alt=""/>
                     :<Image src={row.image} layout="fill" objectFit="fill" alt="" />}
                   
                 </div><div><div style={{color:"#3F5575", fontFamily: 'Inter',fontStyle: "normal",fontWeight: "500",fontSize: "1.6rem",lineHeight: "1.9rem",marginBottom:'7px'}}>{row[column.accessor1]}</div>
@@ -195,7 +194,7 @@ const Table = (props) => {
                 ><div style={{display:'flex'}}>
                   <div className="parts_image">
               
-                    {row.image === null? <Image src={Logo} layout="fill" objectFit="contain" alt=""/>
+                    {row.image1 == null? <Image src={Logo} layout="fill" objectFit="contain" alt=""/>
                     :<Image src={row.image} layout="fill" objectFit="fill" alt="" />}
                   </div><div><div style={{color:"#3F5575", fontWeight:"500",fontSize:"1.6rem",lineHeight:'1.9rem',marginBottom:'7px'}}>{row[column.accessor1]}</div>
                   <div style={{fontSize:'1.2rem', lineHeight:'1.5rem',fontWeight:'400'}}>{row[column.accessor2]}</div></div>

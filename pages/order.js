@@ -163,9 +163,7 @@ const Order=()=>{
                   <div className="order_list_content">Status</div>
                 </div>:null}
 
-                <div className="order_table" >
                 {content}
-                </div>
                      
 
                      
