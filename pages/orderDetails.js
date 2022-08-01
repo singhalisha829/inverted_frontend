@@ -8,6 +8,9 @@ import Spinner from "../components/spinner";
 
 import { fetchProductionOrderDetails, fetchPartWiseList } from "../services/productionOrderService";
 
+import { toast, ToastContainer } from "react-toastify";
+import 'react-toastify/dist/ReactToastify.css';
+
 const OrderDetails=()=>{
 
     const [orderItem,setOrderItem]= useState();
@@ -23,8 +26,8 @@ const OrderDetails=()=>{
 
     const columns = [
         { accessor1: 'ItemType', label: 'Type' ,width:"20%", textalign:"center"},
-        { accessor1: 'item_name',label: 'ID' ,width:"25%", textalign:"center"},
-        { accessor1: 'quantity', label: 'Required Quantity',width:"25%" , textalign:"center"}, 
+        { accessor1: 'product_code',label: 'ID' ,width:"25%", textalign:"center"},
+        { accessor1: 'quantity_value',accessor2:'quantity_symbol', label: 'Required Quantity',width:"25%" , textalign:"center"}, 
         { accessor1: 'stock_released', label: 'Stock Released',width:"30%" , textalign:"left"},  
 
       ];
@@ -32,7 +35,7 @@ const OrderDetails=()=>{
       const column1 = [
         { accessor1: 'part_id', label: 'Part ID' ,width:"20%", textalign:"center"},
         { accessor1: 'short_description', label: 'Part Description' ,width:"30%", textalign:"center"},
-        { accessor1: 'required_quantity',label: 'Required Quantity' ,width:"25%", textalign:"center"},
+        { accessor1: 'quantity_value',accessor2:'quantity_symbol',label: 'Required Quantity' ,width:"25%", textalign:"center"},
         { accessor1: 'available_stock', label: 'Available Stock',width:"25%" , textalign:"center"},  
 
       ];
@@ -96,15 +99,17 @@ const OrderDetails=()=>{
       }
     const size = useWindowSize();
 
-    const handleQuantity=(value,id,item_name)=>{
+    const handleQuantity=(value,id,item_name,symbol,item_description)=>{
       console.log(value,id)
       const index= list.findIndex(el=>el.id==id);
       console.log(index)
       if(index== -1){
         list.push({
           id:id,
-          value:value,
-          item_name:item_name
+          quantity_value:value,
+          quantity_symbol:symbol,
+          item_name:item_name,
+          item_description:item_description
         })
       }else{
           list[index].value=value;
@@ -122,6 +127,7 @@ const OrderDetails=()=>{
     </Head>
             {size.width>'600'?<Sidebar />: <Header show={true}/>}
             <div className="order_details_page">
+              <ToastContainer />
             <div className="order_title">
                 <div className="title">Orders</div>
                      <div className="sub_title">Database for all Available Stocks</div>
@@ -148,7 +154,7 @@ const OrderDetails=()=>{
                     </div>  
                     <div className="order_detail_table">
                       {orderItem?<Table rows={orderItem} columns={columns} width="100%" 
-                      handleQuantity={(value,id,item_name)=>handleQuantity(value,id,item_name)}/>:<Spinner />}</div>
+                      handleQuantity={(value,id,item_name,symbol,item_description)=>handleQuantity(value,id,item_name,symbol,item_description)}/>:<Spinner />}</div>
                 </div>
 
                 <div className="parts_in_order">

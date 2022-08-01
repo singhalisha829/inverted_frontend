@@ -61,12 +61,23 @@ justify-content: space-between;
 .edit_parts:hover{
     cursor: pointer;
 }
+
+.single_vendor_card1{
+    background-color: #e5e4e4;
+    border-radius: 3px;
+    padding: 1rem;
+    margin-bottom: 1rem;
+}
   
 
 @media(max-width:600px){
-    .vendor_list_subsection,.vendor_list{
-        width:90vw;
-        height:5.5rem;
-        padding-left: 1rem;
+    .vendor_list{
+        width: 95vw;
+        padding: 0.5rem;
+        padding-top: 1rem;
+    }
+
+    .single_vendor_card1{
+        padding: 0.5rem;
     }
 }

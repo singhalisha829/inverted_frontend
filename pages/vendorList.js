@@ -152,7 +152,7 @@ const VendorList = () =>{
           {vendorList?vendorList.map((vendor)=>{
             const index= lockState.findIndex(el=>el.id===vendor.id)
             return(
-            <div key={vendor.id} className="single_vendor_card">
+            <div key={vendor.id} className="single_vendor_card1">
                 <div className="vendor_name"><div># {vendor.vendor}</div>
                 {lockState[index]?
                 <div>{lockState[index].status =='Confirmed'?<button className="common"><div style={{marginRight:"0.5rem",marginTop:'0.3rem'}}>Download</div> <FaDownload size={13}/></button>:<button onClick={()=>lockVendor(vendor.id)}>Confirm</button>}</div>:null}
@@ -160,20 +160,20 @@ const VendorList = () =>{
 
                 <div className="vendor_table">
                     <div style={{display:'flex',paddingBottom:'0.5rem',borderBottom:'#e5e5e5 solid 0.1em'}}>
-                    <div style={{width:'20%',display:'flex',justifyContent:'center'}}>PART ID</div>
-                        <div style={{width:'30%',display:'flex',justifyContent:'center'}}>PART DESCRIPTION</div>
-                        <div style={{width:'25%',display:'flex',justifyContent:'center'}}>QUANTITY</div>
-                        <div style={{width:'20%',display:'flex',justifyContent:'center'}}>UNIT PRICE</div>
-                        <div style={{width:'5%',display:'flex',justifyContent:'center'}} />
+                    <div style={{width:'25%'}} className="common">PART ID</div>
+                        <div style={{width:'30%'}} className="common">PART DESCRIPTION</div>
+                        <div style={{width:'20%'}} className="common">QUANTITY</div>
+                        <div style={{width:'20%'}} className="common">UNIT PRICE</div>
+                        <div style={{width:'5%'}} />
                     </div>
                     <div style={{paddingTop:'0.5rem'}}>
                     {vendor.invoice_products.map((part)=>(
                                 <div key={part.id} style={{display:'flex',marginBottom:"0.5rem",fontWeight:"400"}}>
-                                    <div style={{width:'20%',display:'flex',justifyContent:'center'}}>{part.part}</div> 
-                                    <div style={{width:'30%',display:'flex',justifyContent:'center'}}>{part.part_short_description}</div> 
-                                    <div style={{width:'25%',display:'flex',justifyContent:'center'}}>{part.quantity}</div> 
-                                    <div style={{width:'20%',display:'flex',justifyContent:'center'}}>{part.unit_price}</div>
-                                    <div style={{width:'5%',display:'flex',justifyContent:'center'}}><div className="edit_parts">
+                                    <div style={{width:'25%'}} className="common">{part.part}</div> 
+                                    <div style={{width:'30%',padding:'3px'}} className="common">{part.part_short_description}</div> 
+                                    <div style={{width:'20%'}} className="common">{part.quantity}</div> 
+                                    <div style={{width:'20%'}} className="common">{part.unit_price}</div>
+                                    <div style={{width:'5%'}} className="common"><div className="edit_parts">
                                     {lockState[index].status=='Created'?  <FaTimes onClick={()=>editPart(part.id)} className="trash"/>:null}
                                     </div></div>
 

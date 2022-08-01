@@ -15,9 +15,9 @@ const StockOut=() =>{
     const [stockOutList,setStockOutList]= useState(null);
 
     const columns = [
-        { accessor1: 'id', label: 'Part ID' ,width:"33%", textalign:"left"},
-        { accessor1: 'item_name' ,label: 'Name' ,width:"33%", textalign:"left"},
-        { accessor1: 'value', label: 'Quantity',width:"33%" , textalign:"center"},  
+        { accessor1: 'item_name', label: 'Part ID' ,width:"33%", textalign:"center"},
+        { accessor1: 'item_description' ,label: 'Name' ,width:"33%", textalign:"center"},
+        { accessor1: 'quantity_value', accessor2:'quantity_symbol',label: 'Quantity',width:"33%" , textalign:"center"},  
       ];
       
 
@@ -25,8 +25,8 @@ const StockOut=() =>{
       if(localStorage.getItem('token') != undefined){
         const token=localStorage.getItem('token')
         setToken(token)
-        const list=localStorage.getItem('stock_out_list');
-        console.log(list)
+        const list=JSON.parse(localStorage.getItem("stock_out_list") || "[]");
+        console.log(list[0])
         setStockOutList(list)
       
     }else{
@@ -62,7 +62,8 @@ const StockOut=() =>{
         return windowSize;
       }
     const size = useWindowSize();
-    console.log(stockOutList)
+    // console.log(stockOutList)
+    // console.log(stockOutList[0]?stockOutList[0]:null)
 
     return(
         <div className='layout'>
@@ -80,7 +81,7 @@ const StockOut=() =>{
 
                 <div className="parts_list">
                     <div className="stock_out">Stock Out</div>
-                    {/* <div style={{marginTop:'1rem'}}>{stockOutList?<Table columns={columns} rows={stockOutList} width="100%"/>:<Spinner />}</div> */}
+                    <div style={{marginTop:'1rem'}}>{stockOutList?<Table columns={columns} rows={stockOutList} width="100%"/>:<Spinner />}</div>
                     {/* {stockOutList?stockOutList.map((el)=>{<div>{el.id}</div>}:null} */}
                 </div>
 

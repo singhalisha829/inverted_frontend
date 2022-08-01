@@ -22,7 +22,7 @@ const Order=()=>{
     const [token,setToken]= useState(null);
     const [cardFilter, setCardFilter] = useState([]);
     const [listFilter, setListFilter] = useState([]);
-    const [productionOrderList,setProductionOrderList]= useState([]);
+    const [productionOrderList,setProductionOrderList]= useState(null);
 
 
 
@@ -80,10 +80,6 @@ const Order=()=>{
         ))
         setListFilter([...filterList])
        }
-       else{
-         setProductionOrderList([...productionOrderList])
-         setListFilter([...productionOrderList])
-       }
      },[searchText,filterOnStatus])
 
      // calculate screen size
@@ -119,7 +115,7 @@ const Order=()=>{
     if(size.width>'600'){
       content=(<div className="order_table" >
                 {productionOrderList?<Table columns={columns} rows={productionOrderList} search={searchText} filter={filterOnStatus} path="/orderDetails" cursor="pointer"
-                width='77vw'/>:null}
+                width='77vw'/>:<Spinner />}
                 </div>);
     }
     else{

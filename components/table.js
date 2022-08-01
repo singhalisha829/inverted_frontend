@@ -6,6 +6,9 @@ import {BsBoxArrowUp, BsBoxArrowInDown, BsArrowDownUp,BsArrowUp,BsArrowDown} fro
 
 import Logo  from '../public/Logo_inverted.png';
 
+import { toast } from "react-toastify";
+import 'react-toastify/dist/ReactToastify.css';
+
 
 
 
@@ -97,6 +100,19 @@ const Table = (props) => {
     
     } 
 
+    const border='#e5e5e5 solid 0.1em';
+
+    const handleQuantity=(value,quantity,symbol,id,product_code,product_description)=>{
+      if(value>quantity){
+        toast.warning('Entered Quantity exceeds the Required Qunatity! ');
+        border="red solid 0.1em";
+      }else{
+      props.handleQuantity(value,id,product_code,symbol,product_description);
+      border='#e5e5e5 solid 0.1em';
+      }
+    }
+    
+    console.log(data)
 
     let table_content=null;
     
@@ -148,7 +164,12 @@ const Table = (props) => {
     ><div className="completed_status_style">Completed</div></td>
     }else if(column.accessor1==='stock_released'){
       return <td key={column.accessor1} width={column.width} style={{textAlign:column.textalign}}
-  ><div style={{marginLeft:"20%"}}><input type="number" style={{width:'40%',height:'3rem'}} onChange={(e)=>props.handleQuantity(e.target.value,row.id,row.item_name)}/></div></td>
+  ><div style={{marginLeft:"20%",display:'flex',alignItems:'center'}}><input type="number" style={{width:'40%',height:'3rem'}} 
+  onChange={(e)=>handleQuantity(e.target.value,row.available_qty,row.available_qty_symbol,row.id,row.product_code,row.product_description)}/>
+  <div className="available_quantity">*Only {row.available_qty} {row.available_qty_symbol} available</div></div></td>
+    }else if(column.accessor1==='quantity_value'){
+      return <td key={column.accessor1} width={column.width} style={{textAlign:column.textalign}}
+      ><div>{row[column.accessor1]} {row[column.accessor2]}</div></td>
     }
                 else{
                 return <td key={column.accessor1} width={column.width} style={{textAlign:column.textalign}}
@@ -159,7 +180,6 @@ const Table = (props) => {
           )
         }):data
         .map(row => {
-          console.log(row)
           return (
             <tr key={row.part_id} onClick={()=> {localStorage.setItem('partId',row.part_id);localStorage.setItem('orderId',row.order_id);
             localStorage.setItem('poId',row.id);localStorage.setItem('production_order_id',row.id);
@@ -202,8 +222,15 @@ const Table = (props) => {
                     return <td key={column.accessor1} width={column.width} 
                   ><div className="completed_status_style">Completed</div></td>
                   }else if(column.accessor1==='stock_released'){
+                    console.log(row.available_qty,row.available_qty_symbol)
                     return <td key={column.accessor1} width={column.width} style={{textAlign:column.textalign}}
-                ><div style={{marginLeft:"20%"}}><input type="number" style={{width:'40%',height:'3rem'}} onChange={(e)=>props.handleQuantity(e.target.value,row.id,row.item_name)}/></div></td>
+                ><div style={{marginLeft:"20%",display:'flex',alignItems:'center'}}><input type="number" style={{width:'40%',height:'3rem',border:border}} 
+                onChange={(e)=>handleQuantity(e.target.value,row.available_qty,row.available_qty_symbol,row.id,row.product_code,row.product_description)}/>
+                <div className="available_quantity">*Only {row.available_qty} {row.available_qty_symbol} available</div></div></td>
+                  }
+                  else if(column.accessor1==='quantity_value'){
+                    return <td key={column.accessor1} width={column.width} style={{textAlign:column.textalign}}
+                    ><div>{row[column.accessor1]} {row[column.accessor2]}</div></td>
                   }
                 else{
                 return <td key={column.accessor1} width={column.width} style={{textAlign:column.textalign}}
