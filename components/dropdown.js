@@ -22,7 +22,7 @@ const Dropdown= (props) =>{
     const [listTopMargin,setListTopMargin] = useState('5rem');
 
     const [data,setData] = useState(props.options);
-    const [dataFilter, setDataFilter] = useState([null,null]);
+    const [dataFilter, setDataFilter] = useState([]);
 
     
     useEffect(()=>{
@@ -34,6 +34,8 @@ const Dropdown= (props) =>{
     // search in dropdown list
     useEffect(()=>{
         if(searchText != undefined){
+          console.log(searchText)
+          console.log(data)
             const filterData = data.filter(o => Object.keys(o).some(
               k => String(o[k]).toLowerCase().includes(searchText.toLowerCase()))
             );
@@ -42,6 +44,7 @@ const Dropdown= (props) =>{
             setData([...data])
             setDataFilter([...data])
           }
+          console.log(dataFilter)
     },[searchText])
 
     useEffect(()=>{
@@ -95,6 +98,7 @@ const Dropdown= (props) =>{
 
 
     if(isDropdownOpen){
+      console.log(props.name)
         content=(
             <div className="dropdown_options1" style={{width:props.dropdownWidth}}>
             {add_part}

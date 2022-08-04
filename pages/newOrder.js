@@ -32,15 +32,18 @@ const NewOrder=()=>{
     const [name,setName]= useState('');
     const [token,setToken]= useState(null);
     const [quantity,setQuantity]= useState('');
-    const [stockOutList, setStockOutList]= useState([]);
-    const [orderValue,setOrderValue]= useState(null);
     const [showUnit,setShowUnit]= useState(false);
-    const [orderList,setOrderList]= useState([]);
-    const [orderName,setOrderName]= useState(null);
+    const [partsList,setPartsList]= useState([]);
+    const [bomList,setBOMList]= useState([]);
+    const [bomName,setBomName]= useState(null);
+    const [partName,setPartName]= useState(null);
     const [unitList, setUnitList]= useState(null);
     const [unit,setUnit] = useState(null);
     const [newOrderList,setNewOrderList]= useState([]);
-
+    const [dropdownName,setDropdownName]= useState(null);
+    const [emptyList,setEmptyList]= useState([]);
+    const [part,setPart]= useState(null);
+    const [bom,setBom]= useState(null);
     
 
     useEffect(()=>{
@@ -48,7 +51,11 @@ const NewOrder=()=>{
       if(localStorage.getItem('token') != undefined){
         const token=localStorage.getItem('token');
         setToken(token)
-        fetchUnitList(token).then((res)=>setUnitList(res.data))
+        fetchUnitList(token).then((res)=>setUnitList(res.data));
+        fetchPartsList(token).then(
+          res=>{setPartsList(res.data);console.log(res.data)}).catch(err=>toast.error(err.message));
+          fetchBOMList(token).then(
+            res=>{setBOMList(res.data.data.output)}).catch(err=>toast.error(err.message))
     }else{
         router.push('/login');
       }
@@ -89,9 +96,11 @@ const NewOrder=()=>{
     const submitHandler = () =>{
       if(orderType=== null || orderType===''){
         toast.warning('Select Order Type!')
-    }else if(orderName=== null || orderName===''){
-        toast.warning('Select Order Name!')
-    }else if(quantity === ''){
+    }
+    // else if(orderName=== null || orderName===''){
+    //     toast.warning('Select Order Name!')
+    // }
+    else if(quantity === ''){
         toast.warning('Enter Qunatity!')
     }else if(orderType==='Part' && unit === ''){
         toast.warning('Select Unit!')
@@ -99,30 +108,39 @@ const NewOrder=()=>{
 
         const data={
             ItemType:orderType,
-            item_id:orderName,
+            item_id:bomName,
             quantity:quantity+" Nos",
+            item_desc:bom
         }
         const newList = [data,...newOrderList];
         setNewOrderList(newList);
         cancelHandler(); 
+    console.log(newList)
+
     }
     else{ 
 
         const data={
             ItemType:orderType,
-            item_id:orderName,
+            item_id:partName,
             quantity:quantity+" "+unit,
+            item_desc:part
         }
         const newList = [data,...newOrderList];
         setNewOrderList(newList);
         cancelHandler(); 
+    console.log(newList)
+
     }
+
     }
+
 
     const cancelHandler=() =>{
       setOrderType('');
         setQuantity(()=>'');
-        setOrderName('');
+        setPartName('');
+        setBomName('');
         setUnit('');
     }
 
@@ -130,18 +148,8 @@ const NewOrder=()=>{
     const fetchOrderName=(data)=>{
       setToken(localStorage.getItem('token'))
       if(data==="Part"){
-          setOrderValue('short_description')
-          fetchPartsList(token).then(
-              res=>{setOrderList(res.data)}).catch(err=>toast.error(err.message))
               
           setShowUnit(true);
-
-      }else{
-          setOrderValue('product_description')
-          fetchBOMList(token).then(
-              res=>{setOrderList(res.data.data.output)}).catch(err=>toast.error(err.message))
-          setShowUnit(false);
-          
 
       }
   }
@@ -168,7 +176,6 @@ const NewOrder=()=>{
         setNewOrderList(newList)
     }
 
-    const width=size.width>'600'?'25%':'100%';
 
     return(
         <div  className="layout">
@@ -198,8 +205,13 @@ const NewOrder=()=>{
                     
                     <div className="fields centered" >
                       {size.width>'600'?<label style={{marginBottom:"0.5rem"}}>Order Description:</label>:null}
-                    <Dropdown options={orderList} name={orderValue} width={size.width>'600'?"70%":"90%"} parentCallback={(data)=>setOrderName(data.id)} value={orderName}
-dropdownWidth={size.width>'600'?'13vw':'20vw'} searchWidth={size.width>'600'?'10vw':'12vw'} border={true} placeholder="Select Order"/></div>
+                   {orderType?<div>{orderType=='BOM'? <Dropdown options={bomList} name="product_description" width={size.width>'600'?"70%":"90%"} parentCallback={(data)=>{setBomName(data.id);setBom(data.product_description)}} value={bomName}
+dropdownWidth={size.width>'600'?'13vw':'20vw'} searchWidth={size.width>'600'?'10vw':'12vw'} border={true} placeholder="Select Order"/>:
+<Dropdown options={partsList} name="short_description" width={size.width>'600'?"70%":"90%"} parentCallback={(data)=>{setPartName(data.id);setPart(data.short_description)}} value={partName}
+dropdownWidth={size.width>'600'?'13vw':'20vw'} searchWidth={size.width>'600'?'10vw':'12vw'} border={true} placeholder="Select Order"/>}</div>
+:
+<Dropdown options={emptyList} width={size.width>'600'?"70%":"90%"} 
+dropdownWidth={size.width>'600'?'13vw':'20vw'} searchWidth={size.width>'600'?'10vw':'12vw'} border={true} placeholder="Select Order"/>}</div>
                     
                     <div className="fields centered" >
                       {size.width>'600'?<label style={{marginBottom:"0.5rem"}}>Required Quantity:</label>:null}
@@ -225,7 +237,7 @@ parentCallback={(data)=>setUnit(data.symbol)} value={unit} dropdownWidth={size.w
                     
                 </div>
 
-{newOrderList.map((l)=><PurchaseOrderList key={l.item_id} order_type={l.ItemType}  quantity={l.quantity} order_name={l.item_id}
+{newOrderList.map((l)=><PurchaseOrderList key={l.item_id} order_type={l.ItemType}  quantity={l.quantity} order_name={l.item_id} desc={l.item_desc}
             deleteOrder={(data)=>handleDeleteOrder(data)}/>)}
 
 <div className="stock_out_footer">

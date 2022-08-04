@@ -15,6 +15,7 @@ const StockOut=() =>{
     const [searchText,setSearchText] = useState(null);
     const [token,setToken]= useState(null);
     const [stockOutList,setStockOutList]= useState(null);
+    const [productionOrderId,setProductionOrderId]= useState(null);
 
     const columns = [
         { accessor1: 'item_name', label: 'Part ID' ,width:"33%", textalign:"center"},
@@ -25,7 +26,7 @@ const StockOut=() =>{
 
     useEffect(()=>{
       if(localStorage.getItem('token') != undefined){
-        const token=localStorage.getItem('token')
+        const token=localStorage.getItem('token');
         setToken(token)
         const list=JSON.parse(localStorage.getItem("stock_out_list") || "[]");
         console.log(list)
@@ -66,7 +67,10 @@ const StockOut=() =>{
     const size = useWindowSize();
     
     const submitHandler=()=>{
-      createProductionOrderTransaction(token,stockOutList).then(res=>console.log(res.data));
+      createProductionOrderTransaction(token,stockOutList).then(res=>{
+        localStorage.setItem('production_order_id',stockOutList[0].po_id);
+        Router.back();
+      });
     }
 
     return(

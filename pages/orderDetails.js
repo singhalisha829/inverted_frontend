@@ -6,7 +6,7 @@ import Head from "next/head";
 import Header from "../components/header";
 import Spinner from "../components/spinner";
 
-import { fetchProductionOrderDetails, fetchPartWiseList } from "../services/productionOrderService";
+import { fetchProductionOrderDetails, fetchPartWiseList ,fetchPastTransaction} from "../services/productionOrderService";
 
 import { toast, ToastContainer } from "react-toastify";
 import 'react-toastify/dist/ReactToastify.css';
@@ -15,7 +15,7 @@ const OrderDetails=()=>{
 
     const [orderItem,setOrderItem]= useState();
     const [partsInOrder,setPartsInOrder] = useState();
-    const [pastTransactions,setPastTransactions] = useState([{},{}])
+    const [pastTransactions,setPastTransactions] = useState(null);
     const [token,setToken]= useState(null);
     const [orderNumber,setOrderNumber]= useState(null);
     const [date,setDate]= useState(null);
@@ -37,15 +37,15 @@ const OrderDetails=()=>{
         { accessor1: 'part_id', label: 'Part ID' ,width:"10%", textalign:"center"},
         { accessor1: 'short_description', label: 'Part Description' ,width:"30%", textalign:"center"},
         { accessor1: 'quantity_value',accessor2:'quantity_symbol',label: 'Required Quantity' ,width:"20%", textalign:"center"},
-        { accessor1: 'quantity_value1',accessor2:'quantity_symbol', label: 'Released Quantity',width:"20%" , textalign:"center"}, 
-        { accessor1: 'available_stock', label: 'Available Stock',width:"20%" , textalign:"center"},  
+        // { accessor1: 'part_quantity_vaue',accessor2:'part_quantit_symbol', label: 'Released Quantity',width:"20%" , textalign:"center"}, 
+        { accessor1: 'part_quantity_value', label: 'part_quantity_symbol',width:"20%" , textalign:"center"},  
 
       ];
 
       const column2 = [
-        { accessor1: 'date', label: 'Date' ,width:"33%", textalign:"left"},
-        { accessor1: 'transaction_id',label: 'Transaction ID' ,width:"33%", textalign:"left"},
-        { accessor1: 'created_by', label: 'Created By',width:"33%" , textalign:"left"},   
+        { accessor1: 'date', label: 'Date' ,width:"33%", textalign:"center"},
+        { accessor1: 'transaction_no',label: 'Transaction ID' ,width:"33%", textalign:"center"},
+        { accessor1: 'created_by', label: 'Created By',width:"33%" , textalign:"center"},   
       ];
 
       useEffect(()=>{
@@ -61,6 +61,8 @@ const OrderDetails=()=>{
             setCreatedBy(res.data.data.output[0].created_by)
             setStatus(res.data.data.output[0].status)
           })
+
+          fetchPastTransaction(token,poId).then(res=>setPastTransactions(res.data.data.output))
 
           fetchPartWiseList(token,poId).then(res=>{
             console.log(res.data);
@@ -102,7 +104,7 @@ const OrderDetails=()=>{
       }
     const size = useWindowSize();
 
-    const handleQuantity=(value,id,item_name,symbol,item_description,item_id,items_type)=>{
+    const handleQuantity=(value,id,item_name,symbol,item_description,item_id,items_type,left_qty)=>{
       console.log(value,id)
       const date=new Date().toISOString().slice(0, 10);
       const index= list.findIndex(el=>el.id==id);
@@ -116,7 +118,8 @@ const OrderDetails=()=>{
           item_name:item_name,
           item_id:item_id,
           items_type:items_type,
-          item_description:item_description
+          item_description:item_description,
+          left_qty:left_qty+" "+symbol
         })
       }else{
           list[index].value=value;
@@ -162,17 +165,17 @@ const OrderDetails=()=>{
                     </div>  
                     <div className="order_detail_table">
                       {orderItem?<Table rows={orderItem} columns={columns} width="100%" outOf={true}
-                      handleQuantity={(value,id,item_name,symbol,item_description,item_id,items_type)=>handleQuantity(value,id,item_name,symbol,item_description,item_id,items_type)}/>:<Spinner />}</div>
+                      handleQuantity={(value,id,item_name,symbol,item_description,item_id,items_type,left_qty)=>handleQuantity(value,id,item_name,symbol,item_description,item_id,items_type,left_qty)}/>:<Spinner />}</div>
                 </div>
 
                 <div className="parts_in_order">
                     {partsInOrder?<Table columns={column1} rows={partsInOrder} width="100%" outOf={false}/>:<Spinner />}
                 </div>
 
-                <div className="past_transaction">
-                    <div className="transaction_header">Past Transactions</div>
-                    <div><Table columns={column2} rows={pastTransactions} width="100%" /></div>
-                </div>
+                {pastTransactions?<div >
+                   {pastTransactions.length !=0?<div className="past_transaction"> <div className="transaction_header">Past Transactions</div>
+                    <div><Table columns={column2} rows={pastTransactions} width="100%" /></div></div>:null}
+                </div>:null}
             </div>
         </div>
     )

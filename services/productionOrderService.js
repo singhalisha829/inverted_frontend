@@ -38,3 +38,9 @@ export const createProductionOrderTransaction=(token,data) =>{
                     "Authorization":"Token "+ token
                 }})
         }
+
+export const fetchPastTransaction=(token,poId) =>{
+            return axios.get(URL+MAIN.PRODUCTION_ORDER_TRANSACTION+"?production_order_id="+poId,{headers:{
+                "Authorization":"Token "+ token
+            }})
+        }
