@@ -26,6 +26,9 @@ const StockOut=() =>{
 
     useEffect(()=>{
       if(localStorage.getItem('token') != undefined){
+        const id=localStorage.getItem('production_order_id');
+        console.log(id)
+        setProductionOrderId(id);
         const token=localStorage.getItem('token');
         setToken(token)
         const list=JSON.parse(localStorage.getItem("stock_out_list") || "[]");
@@ -68,8 +71,8 @@ const StockOut=() =>{
     
     const submitHandler=()=>{
       createProductionOrderTransaction(token,stockOutList).then(res=>{
-        localStorage.setItem('production_order_id',stockOutList[0].po_id);
-        Router.back();
+        localStorage.setItem('production_order_id',productionOrderId);
+        Router.push('/orderDetails');
       });
     }
 
@@ -95,7 +98,7 @@ const StockOut=() =>{
 
                 <div className="stock_out_footer">
                     <div className="stock_out_button">
-                        <button className='cancel_button button2' onClick={()=>{Router.back();localStorage.setItem('production_order_id',stockOutList[0].po_id)}}>Cancel</button>
+                        <button className='cancel_button button2' onClick={()=>{Router.push('/orderDetails');localStorage.setItem('production_order_id',productionOrderId)}}>Cancel</button>
                         <button className='save_button button2' onClick={submitHandler}>Create Order</button>
                         </div>
                 </div>

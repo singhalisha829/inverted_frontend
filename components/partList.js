@@ -245,7 +245,7 @@ const deleteBranch=(id)=>{
             {branch.quantity} <div style={{marginLeft:'2vw'}}>{branch.unit}</div></div>))}</div>
            
            <div style={{width:'15%',display:'flex',flexDirection:'column',alignItems:'center'}} className="vendor_header">
-            {quantity.map((branch)=>(<div key={branch.id}  className="gap"><input type="number" style={{height:'3rem',width:'70%'}} onChange={(e)=>
+            {quantity.map((branch)=>(<div key={branch.id}  className="gap"><input type="number" style={{height:'3rem',width:'70%'}} placeholder="0.00" onChange={(e)=>
                 props.handleUnitPrice(props.id,e.target.value,branch.id,quantity,props.partName,props.partId)}/></div>))}</div>
 
         <div style={{width:'20%',display:'flex',flexDirection:'column',alignItems:'center'}} >

@@ -91,22 +91,22 @@ const VendorList = () =>{
 
     const lockVendor=(id)=>{
       console.log(id)
-      setLoading(true)
-      // confirmVendor(token,id).then(res=>{
-      //   toast.success('Vendor List Confirmed!');
-      //   fetchVendorWiseList(token,poId).then((res)=>{
-      //     setVendorList(res.data.data.output)
-      //     const newList=[];
-      //     const list=res.data.data.output;
-      //     for(let i=0;i<list.length;i++){
-      //       newList.push({
-      //         id:list[i].id,
-      //         status:list[i].status
-      //       })
-      //     }
-      //     setLockState(newList)
-      //   })
-      // }).catch(err=>toast.error(err.message));
+      // setLoading(true)
+      confirmVendor(token,id).then(res=>{
+        toast.success('Vendor List Confirmed!');
+        fetchVendorWiseList(token,poId).then((res)=>{
+          setVendorList(res.data.data.output)
+          const newList=[];
+          const list=res.data.data.output;
+          for(let i=0;i<list.length;i++){
+            newList.push({
+              id:list[i].id,
+              status:list[i].status
+            })
+          }
+          setLockState(newList)
+        })
+      }).catch(err=>toast.error(err.message));
      
     }
 

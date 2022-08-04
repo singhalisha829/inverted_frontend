@@ -44,7 +44,7 @@ const SelectVendor=() =>{
     useEffect(()=>{
         const token=localStorage.getItem('token');
         const poId=localStorage.getItem('poId')
-        // console.log(poId)
+        console.log(poId)
 
         setPurchaseOrderId(localStorage.getItem('poId'))
         fetchPurchaseOrderDetails(token,poId).then(res=>{setPoDetails(res.data.data.output[0].invoice_products)})

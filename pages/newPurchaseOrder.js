@@ -98,7 +98,7 @@ const NewPurchaseOrder =() =>{
 
             const data={
                 ItemType:orderType,
-                item_id:orderName,
+                item_id:bomName,
                 quantity:quantity+" Nos",
                 item_desc:bom
             }
@@ -111,7 +111,7 @@ const NewPurchaseOrder =() =>{
 
             const data={
                 ItemType:orderType,
-                item_id:orderName,
+                item_id:partName,
                 quantity:quantity+" "+unit,
                 item_desc:part
             }
@@ -141,7 +141,7 @@ const NewPurchaseOrder =() =>{
     }
 
     
-
+console.log(newPoList)
     const submitPurchaseOrder=()=>{
         console.log(newPoList.length)
         if(newPoList.length===0){

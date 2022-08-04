@@ -38,7 +38,7 @@ const OrderDetails=()=>{
         { accessor1: 'short_description', label: 'Part Description' ,width:"30%", textalign:"center"},
         { accessor1: 'quantity_value',accessor2:'quantity_symbol',label: 'Required Quantity' ,width:"20%", textalign:"center"},
         // { accessor1: 'part_quantity_vaue',accessor2:'part_quantit_symbol', label: 'Released Quantity',width:"20%" , textalign:"center"}, 
-        { accessor1: 'part_quantity_value', label: 'part_quantity_symbol',width:"20%" , textalign:"center"},  
+        { accessor1: 'part_quantity_value', label: 'part_quantity_symbol',label:'Available Quantity',width:"20%" , textalign:"center"},  
 
       ];
 
@@ -161,7 +161,7 @@ const OrderDetails=()=>{
 
                     <div className="order_details_subheader">
                         Your Orders
-                        <button onClick={()=> Router.push('/stockOut')}>Stock Out</button>
+                        <button onClick={()=>{localStorage.setItem('production_order_id',purchaseOrderId); Router.push('/stockOut')}}>Stock Out</button>
                     </div>  
                     <div className="order_detail_table">
                       {orderItem?<Table rows={orderItem} columns={columns} width="100%" outOf={true}

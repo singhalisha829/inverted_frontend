@@ -160,7 +160,7 @@ const NewOrder=()=>{
         toast.warning('Enter Form Details!')
     }else{
     createProductionOrder(newOrderList,token).then((res)=>{
-        console.log(res.data)
+        console.log(res.data.status.last_id)
         localStorage.setItem('production_order_id',res.data.status.last_id);
         Router.push('/orderDetails');
         cancelHandler();
