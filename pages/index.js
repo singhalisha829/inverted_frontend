@@ -222,11 +222,10 @@ else{
             searchWidth={size.width>'600'?'17vw':'48vw'}/> : <Spinner/>}
       
     
-                <input name="part_name" onChange={(e)=>setPartName(e.target.value)} value={partName} placeholder="Part Name" 
-                style={{width:"70%", borderRadius:'3px', marginBottom:'10px',marginTop:'10px'}}/>
-            <textarea name="part_desc" value={partDesc} placeholder="Description" onChange={(e)=>setPartDesc(e.target.value)}/>
+              <input name="part_name" onChange={(e)=>setPartName(e.target.value)} value={partName} placeholder="Part Name" className='modal_input'/>
+            <textarea name="part_desc" value={partDesc} className="modal_textarea" placeholder="Description" onChange={(e)=>setPartDesc(e.target.value)}/>
             
-            <hr style={{border:"#e5e5e5 solid 0.001em", width:"70%", marginTop:"20px"}}/>
+            <hr className='modal_hr'/>
           
             <div className="add_parts_button">
                 <button  className="cancel_button button2"

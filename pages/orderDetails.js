@@ -22,6 +22,7 @@ const OrderDetails=()=>{
     const [createdBy,setCreatedBy]= useState(null);
     const [status,setStatus]= useState(null);
     const [list,setList]= useState([]);
+    const [purchaseOrderId,setPurchaseOrderId]= useState(null);
 
 
     const columns = [
@@ -52,6 +53,7 @@ const OrderDetails=()=>{
           const token=localStorage.getItem('token')
           const poId=localStorage.getItem('production_order_id');
           console.log(poId);
+          setPurchaseOrderId(poId);
           fetchProductionOrderDetails(token,poId).then(res=>{
             setOrderItem(res.data.data.output[0].production_order_itemss)
             setOrderNumber(res.data.data.output[0].production_order_no)
@@ -100,22 +102,27 @@ const OrderDetails=()=>{
       }
     const size = useWindowSize();
 
-    const handleQuantity=(value,id,item_name,symbol,item_description)=>{
+    const handleQuantity=(value,id,item_name,symbol,item_description,item_id,items_type)=>{
       console.log(value,id)
+      const date=new Date().toISOString().slice(0, 10);
       const index= list.findIndex(el=>el.id==id);
       console.log(index)
       if(index== -1){
         list.push({
-          id:id,
-          quantity_value:value,
-          quantity_symbol:symbol,
+          production_order_items:id,
+          date:date,
+          production_order:purchaseOrderId,
+          quantity:value+" "+symbol,
           item_name:item_name,
+          item_id:item_id,
+          items_type:items_type,
           item_description:item_description
         })
       }else{
           list[index].value=value;
         
       }
+      console.log(list)
       localStorage.setItem('stock_out_list',JSON.stringify(list))
     }
 
@@ -155,7 +162,7 @@ const OrderDetails=()=>{
                     </div>  
                     <div className="order_detail_table">
                       {orderItem?<Table rows={orderItem} columns={columns} width="100%" outOf={true}
-                      handleQuantity={(value,id,item_name,symbol,item_description)=>handleQuantity(value,id,item_name,symbol,item_description)}/>:<Spinner />}</div>
+                      handleQuantity={(value,id,item_name,symbol,item_description,item_id,items_type)=>handleQuantity(value,id,item_name,symbol,item_description,item_id,items_type)}/>:<Spinner />}</div>
                 </div>
 
                 <div className="parts_in_order">

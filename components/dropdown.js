@@ -133,10 +133,9 @@ const Dropdown= (props) =>{
             parentCallback={(data)=>setPartType(data.id)}/> : null}
             
             
-                <input name="part_name" onChange={(e)=>setPartName(e.target.value)} value={partName} placeholder="Part Name" 
-                style={{height:"35px", borderRadius:'3px', marginBottom:'10px',marginTop:'10px',width:'70%'}}/>
-            <textarea name="part_desc" value={partDesc} placeholder="Description" onChange={(e)=>setPartDesc(e.target.value)}/>
-            <hr style={{border:"#e5e5e5 solid 0.001em", width:"70%", marginTop:"20px",marginBottom:'0'}}/>
+                <input name="part_name" onChange={(e)=>setPartName(e.target.value)} value={partName} placeholder="Part Name" className="modal_input"/>
+            <textarea name="part_desc" className="modal_textarea" value={partDesc} placeholder="Description" onChange={(e)=>setPartDesc(e.target.value)}/>
+            <hr className="modal_hr"/>
             <div className="add_parts_button">
                 <button style={{backgroundColor:"white", color:"#ACB3BF",border:"#ACB3BF solid 0.15em",
                 marginRight:'1rem'}} className="button2"

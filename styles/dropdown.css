@@ -9,6 +9,29 @@
 
   }
 
+  .modal_input{
+    width:70%;
+    border-radius:3px;
+    margin-bottom:10px;
+    margin-top:10px;
+    height:3.5rem;
+    position: fixed;
+    top:11rem;
+  }
+
+  .modal_textarea{
+    position: fixed;
+    top:16.5rem;
+  }
+
+  .modal_hr{
+    border:#e5e5e5 solid 0.001em;
+    width:70%;
+    margin-top:20px;
+    position: fixed;
+    top:24rem;
+  }
+
   .selected_value_without_outline {
     color:black ;
     font-size: 1.4rem;
@@ -46,7 +69,7 @@
     max-height: 170px;
     overflow-y: auto;
     position: relative;
-    z-index: 100 !important;
+    z-index: 300 !important;
     -webkit-overflow-scrolling: touch;
   }
 
@@ -113,6 +136,8 @@ position: fixed;
   margin-top: 2rem;
   display: flex;
   justify-content: end;
+  position: fixed;
+  top:27rem;
 }
 
 @media(max-width:600px){
