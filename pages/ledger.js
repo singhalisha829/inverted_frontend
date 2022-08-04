@@ -201,14 +201,14 @@ const Ledger =(props)=>{
     if(showForm){
         form=(<div className="ledger_form">
             <div className='ledger_form_row'>
-                <div className="field_width">Status:
+                <div className="field_width">{size.width>'600'?<div>Status:</div>:null}
                 <div >
                 <Dropdown placeholder='Select Status' options={status} name="name" parentCallback={(data)=>setSelectedStatus(data.value)} width={size.width>'600'?'70%':'100%'}
-                dropdownWidth={size.width>'600'?'16vw':'30vw'} searchWidth={size.width>'600'?'13vw':'22vw'} height="3rem" border={true}/></div>
+                dropdownWidth={size.width>'600'?'16vw':'70vw'} searchWidth={size.width>'600'?'13vw':'60vw'} height="3rem" border={true}/></div>
                 </div>
-                <div className="field_width"><label>Invoice Number:</label>
+                <div className="field_width">{size.width>'600'?<label>Invoice Number:</label>:null}
                     <input style={{marginTop:'0',height:'3rem',width:size.width>'600'?'70%':'100%'}} placeholder='Enter Invoice Number' onChange={(e)=>setInvoice(e.target.value)} className="ledger_input"/></div>
-                <div className="field_width"><label>Date:</label>
+                <div className="field_width">{size.width>'600'?<label>Date:</label>:null}
                             <DatePicker placeholderText='Enter Date' selected={selectedDate} onChange={(date) => setSelectedDate(date)} />
     
                         </div>
@@ -216,25 +216,27 @@ const Ledger =(props)=>{
             <div className='ledger_form_row'>
                 
                 <div className='field_width'>
-                    <label>Quantity:</label>
+                    {size.width>'600'?<label>Quantity:</label>:null}
                     <div style={{display:'flex'}} className="ledger_input">
                     <input type="number" style={{marginTop:'0', width:'30%', height:"3rem", marginRight:size.width>'600'?'1rem':'0.5rem'}}    
-                    onChange={(e)=>setQuantity(e.target.value)} />
-                    <Dropdown width="70%" placeholder='Unit' options={unitList} name="name" dropdownWidth={size.width>'600'?'11vw':'27vw'} searchWidth={size.width>'600'?'8vw':'19vw'} height="3rem"
+                    onChange={(e)=>setQuantity(e.target.value)} placeholder='0.00'/>
+                    <Dropdown width="70%" placeholder='Unit' options={unitList} name="name" dropdownWidth={size.width>'600'?'11vw':'55vw'} searchWidth={size.width>'600'?'8vw':'47vw'} height="3rem"
                     parentCallback={(data)=>setUnit(data.symbol)} border={true}/></div>
                 </div>
-                <div className='field_width'><label>Price:</label><input placeholder="Enter Price" style={{marginTop:'0', height:"3rem"}} type="number" className='ledger_input'
+                <div className='field_width'>{size.width>'600'?<label>Price:</label>:null}
+                <input placeholder="Enter Price" style={{marginTop:'0', height:"3rem"}} type="number" className='ledger_input'
                 onChange={(e)=>setPrice(e.target.value)}/></div>
 
 <div className="field_width">
-                Vendor:<Dropdown width={size.width>'600'?'70%':'100%'} placeholder='Select Vendor' name="name" options={vendorList} height="3rem"
-            parentCallback={(data)=>setVendor(data.id)} dropdownWidth={size.width>'600'?'16vw':'30vw'} searchWidth={size.width>'600'?'13vw':'20vw'} border={true}/></div>
+               {size.width>'600'?<div> Vendor:</div>:null}
+                <Dropdown width={size.width>'600'?'70%':'100%'} placeholder='Select Vendor' name="name" options={vendorList} height="3rem"
+            parentCallback={(data)=>setVendor(data.id)} dropdownWidth={size.width>'600'?'16vw':'70vw'} searchWidth={size.width>'600'?'13vw':'60vw'} border={true}/></div>
             </div>
-            <div style={{display:"flex",justifyContent:'flex-end'}}>
+            <div className='ledger_form_footer'>
 
-            <div className='ledger_button'><button className='cancel_button button2'
+            <div className='ledger_button'><button className='cancel_button button2 expand'
                        onClick={()=>{cancelPartHandler()}}>Cancel</button>
-                       <button className='save_button button2'
+                       <button className='save_button button2 expand'
                        onClick={submitPartHandler}>Save</button>
                        </div></div>
         </div>);
@@ -272,7 +274,7 @@ const Ledger =(props)=>{
                         className="ledger_search" 
                         onChange={(e) => {setSearchText(e.target.value);searchCard(e)}}/>
                         <FaSistrix size={17} className="ledger_search_icon"/>
-                <button onClick={() =>{setShowForm(true)}}><FaPlus size={size.width>'600'?'13':'10'}/> Add</button></div>
+                <button onClick={() =>{setShowForm(true)}}><FaPlus size={size.width>'600'?'13':'10'} style={{marginRight:'0.5rem'}}/><div style={{marginTop:'0.2rem'}}> Add</div></button></div>
 
                 <div className="ledger_table">
                     {form}

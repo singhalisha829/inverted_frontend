@@ -205,7 +205,7 @@ const StockIn=()=>{
 
             <div style={{width:size.width>'600'?'30%':'100%', display:'flex',justifyContent:'center',paddingBottom:padding}}>
               <div style={{display:'flex',width:size.width>'600'?'70%':'90%', border:"#e5e5e5 solid 0.1em",borderRadius:'5px'}}>
-            <input value={quantity} style={{width:"35%",height:"3rem",border:'none'}} className="quantity" type="number" onChange={(e)=>setQuantity(e.target.value)} placeholder={size.width<'600'?'Enter Quantity':null}/>
+            <input value={quantity} style={{width:"35%",height:"3rem",border:'none'}} className="quantity" type="number" onChange={(e)=>setQuantity(e.target.value)} placeholder="0.00"/>
             <div style={{borderLeft:"#e5e5e5 solid 0.1em"}}/>
             {unitList?<Dropdown options={unitList} placeholder="Unit" width="60%" name="name" minWidth="9rem" no_outline={true}
             parentCallback={(data)=>setUnit(data.symbol)} value={unit} dropdownWidth={size.width>'600'?"11vw":'40vw'} searchWidth={size.width>'600'?"8vw":'30vw'} height="3rem"/>:null}</div>
@@ -216,8 +216,8 @@ const StockIn=()=>{
             <FaCheckCircle onClick={submitHandler} size={30} className="check_icon"/>
             <FaTimesCircle size={30} onClick={cancelHandler} className="cross_icon"/>
             </div>:  <div className="stockin_buttons">
-                        <button className='cancel_button button2 plus'  onClick={cancelHandler}>Clear</button>
-                        <button className='save_button button2 plus' onClick={submitHandler}>Save</button>
+                        <button className='cancel_button button2 plus expand'  onClick={cancelHandler}>Clear</button>
+                        <button className='save_button button2 plus expand' onClick={submitHandler}>Save</button>
                         </div>}
                 </div>
                 
@@ -243,7 +243,7 @@ const StockIn=()=>{
                         <div style={{display:'flex',width:'100%',justifyContent:'space-between',alignItems:'center'}}>
          <div className='stockin_subtitle'>Your Stock in Items</div>
                             {/* <button style={{marginRight:'1rem'}} className="upload_button" onClick={()=> setShowModal(true)}><FaCloudUploadAlt size={15}/> Upload</button> */}
-                <button  className="add_button" onClick={submitPartsListHandler}><FaPlus />  Stock In</button>
+                <button  className="add_button" onClick={submitPartsListHandler}><FaPlus /><div style={{marginTop:'0.2rem',marginLeft:'0.5rem'}} > Stock In</div></button>
                 </div>
 
                 <div className='stockin_form'>

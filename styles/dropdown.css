@@ -6,6 +6,7 @@
     /* border:#e5e5e5 solid 0.1em; */
     display: flex;
     flex-direction: column;
+
   }
 
   .selected_value_without_outline {

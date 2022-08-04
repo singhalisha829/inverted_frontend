@@ -227,6 +227,15 @@ line-height: 1.5rem;
   width:33%;
 }
 
+.ledger_form_footer{
+  display:flex;
+  justify-content:flex-end;
+}
+
+.expand{
+  width:fit-content;
+}
+
 @media(max-width:600px){
   button{
     font-weight: 500;
@@ -242,8 +251,20 @@ line-height: 1.5rem;
     width:80%;
   }
 
+  .expand{
+    width:47%;
+    display: flex;
+    justify-content: center;
+  }
+
+  .ledger_form_footer{
+    width:100%;
+    justify-content: center;
+  }
+
   .field_width{
     width: 100%;
+    margin-bottom: 1rem;
   }
 
   .part_details{
@@ -324,7 +345,8 @@ line-height: 1.5rem;
 }
 
 .ledger_button{
-  width:17rem;
+  width:80%;
+  justify-content: space-between;
 }
 
 .ledger_input{
