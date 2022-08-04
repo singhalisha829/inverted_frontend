@@ -159,7 +159,7 @@ const OrderDetails=()=>{
                 </div>
 
                 <div className="parts_in_order">
-                    {partsInOrder?<Table columns={column1} rows={partsInOrder} width="100%"/>:<Spinner />}
+                    {partsInOrder?<Table columns={column1} rows={partsInOrder} width="100%" outOf={false}/>:<Spinner />}
                 </div>
 
                 <div className="past_transaction">

@@ -31,3 +31,18 @@ export const fetchPartWiseList=(token,poId) =>{
             "Authorization":"Token "+ token
         }})
     }
+
+export const createProductionOrderTransaction=(data,token) =>{
+        const date=new Date().toISOString().slice(0, 10);
+            return axios.post(URL+MAIN.PRODUCTION_ORDER_TRANSACTION,{
+                date:date,
+                production_order:data.po_id,
+                production_order_items:data.order_item_id,
+                qauntity:data.quantity,
+                items_type:data.item_type,
+                item_id:data.item_id
+            },{
+                headers:{
+                    "Authorization":"Token "+ token
+                }})
+        }

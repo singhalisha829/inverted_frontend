@@ -191,17 +191,17 @@ const NewOrder=()=>{
                 </div>
 
                 <div className="new_order_form">
-                    <div className="field_width centered" >
+                    <div className="fields centered" >
                       {size.width>'600'?<label style={{marginBottom:"0.5rem"}}>Order Type:</label>:null}
                     <Dropdown options={order_type} name="name" width={size.width>'600'?"70%":"90%"} parentCallback={(data)=>{setOrderType(data.value);fetchOrderName(data.value)}}
                     dropdownWidth={size.width>'600'?'13vw':'20vw'} searchWidth={size.width>'600'?'10vw':'12vw'} border={true} value={orderType} placeholder="Select Order Type"/></div>
                     
-                    <div className="field_width centered" >
+                    <div className="fields centered" >
                       {size.width>'600'?<label style={{marginBottom:"0.5rem"}}>Order Description:</label>:null}
                     <Dropdown options={orderList} name={orderValue} width={size.width>'600'?"70%":"90%"} parentCallback={(data)=>setOrderName(data.id)} value={orderName}
 dropdownWidth={size.width>'600'?'13vw':'20vw'} searchWidth={size.width>'600'?'10vw':'12vw'} border={true} placeholder="Select Order"/></div>
                     
-                    <div className="field_width centered" >
+                    <div className="fields centered" >
                       {size.width>'600'?<label style={{marginBottom:"0.5rem"}}>Required Quantity:</label>:null}
                     {showUnit? <div style={{display:'flex',width:size.width>'600'?'70%':'90%', border:"#e5e5e5 solid 0.1em",borderRadius:'5px'}}>
 <input value={quantity} style={{width:"35%",height:"3rem",border:'none'}} className="quantity" type="number" onChange={(e)=>setQuantity(e.target.value)} placeholder="0.00"/>

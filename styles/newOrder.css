@@ -101,11 +101,20 @@ margin-bottom:1rem;
     justify-content:center;
 }
 
+.fields{
+    width: 25%;
+}
+
 @media(max-width:600px){
     .new_order_subsection{
         width:90vw;
         height:5.5rem;
         padding-left: 1rem;
+    }
+
+    .fields{
+        width: 100%;
+    margin-bottom: 1rem;
     }
 
     .new_order_form_footer{

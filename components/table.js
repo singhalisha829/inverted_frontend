@@ -8,6 +8,9 @@ import Logo  from '../public/Logo_inverted.png';
 
 import { toast } from "react-toastify";
 import 'react-toastify/dist/ReactToastify.css';
+import Dropdown from "./dropdown";
+
+import { fetchUnitList } from "../services/ledgerService";
 
 
 
@@ -21,8 +24,11 @@ const Table = (props) => {
     const [arrow, setArrow] = useState(null);
     const [sortedColumn,setSortedColumn] = useState(null);
     const [border,setBorder]= useState('#e5e5e5 solid 0.1em');
+    const [unitList,setUnitList]= useState(null);
     
    useEffect(()=>{
+    const token=localStorage.getItem('token')
+    fetchUnitList(token).then(res=>setUnitList(res.data))
     //  search table based on dropdown filter and searchbar value
      if(props.search != undefined && props.filter !=undefined ){
       const searchTable = data.filter(o => Object.keys(o).some(
@@ -57,6 +63,35 @@ const Table = (props) => {
        setTableFilter([...data])
      }
    },[props.search,props.filter])
+
+
+     // calculate screen size
+     function useWindowSize() {
+      const [windowSize, setWindowSize] = useState({
+        width: undefined,
+        height: undefined,
+      });
+    
+      useEffect(() => {
+    
+        if (typeof window !== 'undefined') {
+          function handleResize() {
+            setWindowSize({
+              width: window.innerWidth,
+              height: window.innerHeight,
+            });
+          }
+      
+          window.addEventListener("resize", handleResize);
+         
+          handleResize();
+      
+          return () => window.removeEventListener("resize", handleResize);
+        }
+      }, []);
+      return windowSize;
+    }
+  const size = useWindowSize();
 
 
 
@@ -163,8 +198,17 @@ const Table = (props) => {
     ><div className="completed_status_style">Completed</div></td>
     }else if(column.accessor1==='stock_released'){
       return <td key={column.accessor1} width={column.width} style={{textAlign:column.textalign}}
-  ><div style={{marginLeft:"20%",display:'flex',alignItems:'center'}}><input type="number" className="quantity_field"
+  ><div className="stock_out_quantity">
+   {row.ItemType==='BOM'? <input type="number" className="quantity_field"
   onChange={(e)=>handleQuantity(e.target.value,row.available_qty,row.available_qty_symbol,row.id,row.product_code,row.product_description)}/>
+:
+<div style={{display:'flex',width:size.width>'600'?'70%':'90%', border:"#e5e5e5 solid 0.1em",borderRadius:'5px'}}>
+                <input style={{width:"35%",height:"3rem",border:'none'}} className="quantity" type="number" placeholder='1'
+                onChange={(e)=>handleQuantity(e.target.value,row.available_qty,row.available_qty_symbol,row.id,row.product_code,row.product_description)} placeholder="0.00"/>
+                <div style={{borderLeft:"#e5e5e5 solid 0.1em"}} />
+                {unitList?<Dropdown options={unitList} placeholder="Unit" width="10%" name="name" minWidth="9rem" no_outline={true}
+                parentCallback={(data)=>setUnit(data.symbol)} dropdownWidth={size.width>'600'?"11vw":'40vw'} searchWidth={size.width>'600'?"8vw":'30vw'} height="3rem"/>:null}</div>}
+
   <div className="available_quantity">*Only {row.available_qty} {row.available_qty_symbol} available</div></div></td>
     }else if(column.accessor1==='quantity_value'){
       return <td key={column.accessor1} width={column.width} style={{textAlign:column.textalign}}
@@ -223,8 +267,16 @@ const Table = (props) => {
                   }else if(column.accessor1==='stock_released'){
                     console.log(row.available_qty,row.available_qty_symbol)
                     return <td key={column.accessor1} width={column.width} style={{textAlign:column.textalign}}
-                ><div className="common"><input type="number" style={{border:border}} className="quantity_field" 
+                ><div className="stock_out_quantity">
+                  {row.ItemType==='BOM'?<input type="number" style={{border:border}} className="quantity_field" placeholder="1"
                 onChange={(e)=>handleQuantity(e.target.value,row.available_qty,row.available_qty_symbol,row.id,row.product_code,row.product_description)}/>
+                :
+                <div style={{display:'flex',width:size.width>'600'?'70%':'90%', border:"#e5e5e5 solid 0.1em",borderRadius:'5px'}}>
+                <input style={{width:"35%",height:"3rem",border:'none'}} className="quantity" type="number" 
+                onChange={(e)=>handleQuantity(e.target.value,row.available_qty,row.available_qty_symbol,row.id,row.product_code,row.product_description)} placeholder="0.00"/>
+                <div style={{borderLeft:"#e5e5e5 solid 0.1em"}} />
+                {unitList?<Dropdown options={unitList} placeholder="Unit" width="10%" name="name" minWidth="9rem" no_outline={true}
+                parentCallback={(data)=>setUnit(data.symbol)} dropdownWidth={size.width>'600'?"11vw":'40vw'} searchWidth={size.width>'600'?"8vw":'30vw'} height="3rem"/>:null}</div>}
                 <div className="available_quantity">*Only {row.available_qty} {row.available_qty_symbol} available</div></div></td>
                   }
                   else if(column.accessor1==='quantity_value' && props.outOf==false){

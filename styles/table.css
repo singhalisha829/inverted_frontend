@@ -178,6 +178,13 @@ td{
     height:3rem; 
 }
 
+.stock_out_quantity{
+    display: flex;
+    align-items: center;
+    justify-content: end;
+    /* margin-left: 0.5rem; */
+}
+
 @media(max-width:600px){
     thead th{
         padding: 1rem 0.5rem;
