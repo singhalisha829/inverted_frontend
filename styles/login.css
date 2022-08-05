@@ -66,6 +66,12 @@ input{
     border: #e5e5e5 solid 0.1em;
 }
 
+.login_fields{
+    width:100%;
+    background:#E8EDF8;
+    height:4rem;
+}
+
 
 .login_button {
     background: linear-gradient(180deg, #EB2129 0%, #C61E2B 100%);
@@ -89,7 +95,7 @@ line-height: 1.7rem;
   .login_icon{
       position: absolute;
       right: 1rem;
-      top:1rem;
+      top:1.2rem;
       color: #3F5575;
       }
 
@@ -127,6 +133,10 @@ line-height: 1.7rem;
 }    
 
 @media(max-width:600px){
+.login_fields{
+    height: 3.5rem;
+}
+
     .box{
         width: 70%;
         left:15%;
@@ -141,7 +151,7 @@ line-height: 1.7rem;
    }
 
    .login_icon{
-       top:0.6rem;
+       top:0.9rem;
    }
 
    .login_button{

@@ -211,12 +211,13 @@ const EditVendor=() =>{
             }
         }
         console.log(newList)
-            postPoVendor1(token,submitPartList).then(res=>{
-            toast.success("Successfully Submitted!")
-            console.log(res.data)
-            localStorage.setItem('poId',res.data.status.purchase_order_id);
+           
 
-            deleteAssignedParts(token,newList).then(res=>{console.log(res.data);            
+            deleteAssignedParts(token,newList).then(res=>{console.log(res.data);     
+                postPoVendor1(token,submitPartList).then(res=>{
+                    toast.success("Successfully Submitted!")
+                    console.log(res.data)
+                    localStorage.setItem('poId',res.data.status.purchase_order_id);       
                 Router.push('/vendorList');
             }
             )

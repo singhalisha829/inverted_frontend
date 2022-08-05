@@ -16,6 +16,8 @@ import "react-datepicker/dist/react-datepicker.css";
 
 import { ToastContainer, toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
+import ButtonLoader from '../components/buttonLoader';
+
 
 const Ledger =(props)=>{
     
@@ -43,6 +45,7 @@ const Ledger =(props)=>{
     const [partId, setPartId]= useState(null);
     const [ledgerPart, setLedgerPart] = useState(null);
     const [token,setToken] = useState(null);
+    const [loading,setLoading]= useState(false);
 
     const [showPage, setShowPage]= useState(false);
 
@@ -119,6 +122,7 @@ const Ledger =(props)=>{
     
     //   submit new ledger only if all values are entered
     const submitPartHandler = () =>{  
+        setLoading(true);
         const partName= localStorage.getItem("partId");
 
         console.log(selectedStatus,invoice,selectedDate,quantity,unit,price,vendor)
@@ -144,7 +148,6 @@ const Ledger =(props)=>{
             toast.warning("Enter Vendor!")
             return;
         }else{
-            setShowForm(false);
         const formData={
             date:selectedDate,
              quantity:quantity,
@@ -153,17 +156,21 @@ const Ledger =(props)=>{
         };
         console.log(formData)
         addNewLedger(formData,token).then(()=>{
-            setSelectedDate(()=>'')
+            setSelectedDate(()=>'');
+            setLoading(false)
+            setShowForm(false);
+
 
             // fetch list of ledgers again
             fetchLedgerByPartId(partName,token)
             .then(res=>
-                setLedger(res.data));
+                setLedger(res.data)).catch(err=>
+                    toast.error(err.message));
+
                 notifySuccessPost();
         }
-        ).catch(function (err){
-            console.log(err)
-        })
+        ).catch(err=>
+            {toast.error(err.message);setLoading(false)})
         
     }
 
@@ -236,8 +243,8 @@ const Ledger =(props)=>{
 
             <div className='ledger_button'><button className='cancel_button button2 expand'
                        onClick={()=>{cancelPartHandler()}}>Cancel</button>
-                       <button className='save_button button2 expand'
-                       onClick={submitPartHandler}>Save</button>
+                       <button className='save_button button2 expand' disabled={loading}
+                       onClick={submitPartHandler}>{loading?<div style={{marginRight:'5px'}}><ButtonLoader /></div>:null}Save</button>
                        </div></div>
         </div>);
         }
@@ -256,8 +263,8 @@ const Ledger =(props)=>{
             <ToastContainer />
         <div className="part_details">
     
-                {ledgerPart?<div className="part_id1">#{localStorage.getItem('partId')}</div>:null}
-                <div className="part_desc">
+                <div style={{width:'25%'}} className="common">{ledgerPart?<div className="part_id1">#{localStorage.getItem('partId')}</div>:null}</div>
+                <div className="part_desc" style={{width:'50%'}}>
                     <div className='desc_title'>
                 <div style={{display:'flex'}}><FaFileContract/>
                 {shortDescription?<div>{shortDescription?shortDescription:null}</div>:null} </div>
@@ -265,7 +272,7 @@ const Ledger =(props)=>{
                 <div className='ledger_longdesc'>{longDescription?longDescription:null}</div>
                 </div>
 
-                <div className='ledger_quantity' >{partQuantity? partQuantity:null}</div></div>
+                <div className='ledger_quantity common' style={{width:'25%'}} >{partQuantity? partQuantity:null}</div></div>
 
                 <div className='body'>
                 <div className="body_header">

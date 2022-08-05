@@ -335,7 +335,13 @@ button{
 
   }
 
- .save_button:hover{
+  .save_button:disabled{
+    background-color: #a5d8b0;
+    transition: none;
+    letter-spacing: 0;
+  }
+
+ .save_button:hover:enabled{
     background-color: #2b843e;
  }
 
