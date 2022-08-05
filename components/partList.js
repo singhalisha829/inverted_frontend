@@ -89,13 +89,14 @@ const PartsList = (props) =>{
                     console.log(res.data)
                     const factor=res.data.output[0].conversion_factor;
                     newVal=parseFloat((quantity[0].quantity-value*factor).toFixed(2)); 
-                    updateQuantity(newVal,length)
+                    updateQuantity(newVal);
                     setFactor(factor);
 
                 }
             })
         }else{
         newVal= quantity[0].quantity-value;
+        updateQuantity(newVal);
         }
 
         if(newVal<0){
@@ -119,6 +120,7 @@ const PartsList = (props) =>{
             setUnit(()=>'');
             setCurrentVal(value);
         }else{
+            console.log('update',quantity[0])
             quantity[0].quantity= value;
         props.handleQuantity(props.id,quantity[0])
     setCurrentVal(value)

@@ -58,6 +58,7 @@ const EditVendor=() =>{
         fetchUnassignedParts(token,poId).then(res=>{    
             setPartsList(res.data.data.output[0].temp_part);
             const list=res.data.data.output[0].temp_part;
+            console.log(list.length);
             const newList=[];
             for(let i=0;i<list.length;i++){
                 newList.push({
@@ -181,14 +182,22 @@ const EditVendor=() =>{
 
     const submitVendor=()=>{
         const newList=[];
-        console.log(finalList)
+        const tempList=[];
         const submitPartList=[];
+        console.log(finalList.length)
         for(let i=0;i<finalList.length;i++){
-            const count=finalList.filter(el=>el.part==finalList[i].part).length;
-            if(count >1){
-                submitPartList.push(finalList[i])
+            const part=finalList[i].part;
+                if(tempList.includes(part)){
+                    continue;
+                }else{
+            if(finalList[i].vendor != undefined){
+                tempList.push(part);
+                const some=finalList.filter(el=>el.part==finalList[i].part);
+                
+                    some.forEach(el=>submitPartList.push(el));
+                }
             }
-
+            
         }
         console.log(submitPartList)       
 
@@ -230,6 +239,7 @@ const EditVendor=() =>{
 
 
     const handleQuantity =(id,list)=>{
+        console.log(id,list)
         const index= vendorList.findIndex(el=>el.part===id && el.branch_id===list.id)
         if(index != -1){
             vendorList[index].quantity= list.quantity+" "+list.unit;

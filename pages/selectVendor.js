@@ -53,6 +53,7 @@ const SelectVendor=() =>{
             setOrderDetails(res.data.data.output);
             setPartsList(res.data.data.output.order_items);
             const list=res.data.data.output.order_items;
+            console.log(list.length)
             const newList=[];
             for(let i=0;i<list.length;i++){
                 newList.push({
