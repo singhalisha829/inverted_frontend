@@ -57,6 +57,7 @@
     border: none;
     width:100%;
   }
+
   
   
   .dropdown_options1{
@@ -69,7 +70,7 @@
     max-height: 170px;
     overflow-y: auto;
     position: relative;
-    z-index: 300 !important;
+    z-index: 600 !important;
     -webkit-overflow-scrolling: touch;
   }
 
@@ -120,13 +121,20 @@ display: flex;
 position: fixed;
   }
 
+  .some{
+    display: flex;
+    position: sticky;
+    top: 0px;
+ height: 5rem;
+ align-items: center;
+ background-color: white;
+
+  }
+
   .dropdown_input{
-    position: absolute;
-    margin-top: 1rem;
     margin-left: 0.5vw;
     width:18;
     display: flex;
-
   }
 
 

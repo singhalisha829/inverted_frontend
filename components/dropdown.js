@@ -19,7 +19,7 @@ const Dropdown= (props) =>{
     const [partDesc, setPartDesc]= useState(null);
     const [value, setValue] = useState(null);
     const [searchText, setSearchText] = useState(null);
-    const [listTopMargin,setListTopMargin] = useState('5rem');
+    const [listTopMargin,setListTopMargin] = useState('0');
 
     const [data,setData] = useState(props.options);
     const [dataFilter, setDataFilter] = useState([]);
@@ -27,7 +27,7 @@ const Dropdown= (props) =>{
     
     useEffect(()=>{
       if(props.isAddNewPart){
-        setListTopMargin('9rem')
+        setListTopMargin('4rem')
       }
     },[props.isAddNewPart])
 
@@ -102,10 +102,10 @@ const Dropdown= (props) =>{
         content=(
             <div className="dropdown_options1" style={{width:props.dropdownWidth}}>
             {add_part}
-            <div style={{display:'flex'}}>
+            <div className="some">
             <div className="dropdown_input"><input style={{height:"3rem",marginRight:'5px',width:props.searchWidth}} onChange={(e)=>setSearchText(e.target.value)} placeholder="Search.."/>  
             <div style={{marginTop:'0.5vw'}}><FaSistrix size={17} color="#3F5575"/></div></div></div>
-        <div className="dropdown_list" style={{marginTop:listTopMargin}}>
+        <div style={{marginTop:listTopMargin}}>
         {searchText !== null? dataFilter.map((option)=>(
                  <div className="option" key={option.id}    
                  onClick={()=>{ props.parentCallback(option); 
@@ -127,8 +127,9 @@ const Dropdown= (props) =>{
            
            {/* <div style={{position:'relative',right:'10px'}}><FaSistrix /></div> */}
            </div>
-           <div>
-               {content}</div>
+           <div style={{position:'relative'}}>
+               {content}
+               </div>
            <Modal show={showModal} modalClosed={()=> setShowModal(false)}>
             <div style={{color:"#6B6B6B", padding:'2rem',paddingBottom:'4rem',fontFamily: 'Inter',fontStyle: "normal",fontWeight: "600",
             fontSize: "16px",lineHeight: "19px"}}>Add Part</div>
