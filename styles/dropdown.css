@@ -2,7 +2,6 @@
     color: #333;
     cursor: default;
     top:100px;
-    border-radius: 5px;
     /* border:#e5e5e5 solid 0.1em; */
     display: flex;
     flex-direction: column;
@@ -49,6 +48,8 @@
      justify-content: space-between;
      outline:none;
      padding-bottom: 2px;
+    border-radius: 5px;
+
  }
 
  .selected_value{

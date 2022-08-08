@@ -170,17 +170,17 @@ console.log(newPoList)
     const form=( <div className="new_po_order_form">
         <div className="fields centered">{size.width>'600'?<label style={{marginBottom:"0.5rem"}}>Order Type:</label>:null}
         <Dropdown options={order_type} name="name" width={size.width>'600'?'70%':'90%'} parentCallback={(data)=>{setOrderType(data.value);fetchOrderName(data.value)}}
-        dropdownWidth={size.width>'600'?'13vw':'20vw'} searchWidth={size.width>'600'?'10vw':'12vw'} border={true} value={orderType}
+        dropdownWidth={size.width>'600'?'13vw':'20vw'} searchWidth={size.width>'600'?'10vw':'12vw'} border={true} value={orderType} height="3.3rem"
         placeholder="Select Order Type"/></div>
         
         <div className="fields centered">{size.width>'600'?<label style={{marginBottom:"0.5rem"}}>Order Description:</label>:null}
         {orderType?<div>{orderType=='BOM'? <Dropdown options={bomList} name="product_description" width={size.width>'600'?"70%":"90%"} parentCallback={(data)=>{setBomName(data.id);setBom(data.product_description)}} value={bomName}
-dropdownWidth={size.width>'600'?'13vw':'20vw'} searchWidth={size.width>'600'?'10vw':'12vw'} border={true} placeholder="Select Order"/>:
+dropdownWidth={size.width>'600'?'13vw':'20vw'} searchWidth={size.width>'600'?'10vw':'12vw'} border={true} placeholder="Select Order" height="3.3rem"/>:
 <Dropdown options={partsList} name="short_description" width={size.width>'600'?"70%":"90%"} parentCallback={(data)=>{setPartName(data.id);setPart(data.short_description)}} value={partName}
-dropdownWidth={size.width>'600'?'13vw':'20vw'} searchWidth={size.width>'600'?'10vw':'12vw'} border={true} placeholder="Select Order"/>}</div>
+dropdownWidth={size.width>'600'?'13vw':'20vw'} searchWidth={size.width>'600'?'10vw':'12vw'} border={true} placeholder="Select Order" height="3.3rem"/>}</div>
 :
 <Dropdown options={emptyList} width={size.width>'600'?"70%":"90%"} 
-dropdownWidth={size.width>'600'?'13vw':'20vw'} searchWidth={size.width>'600'?'10vw':'12vw'} border={true} placeholder="Select Order"/>}
+dropdownWidth={size.width>'600'?'13vw':'20vw'} searchWidth={size.width>'600'?'10vw':'12vw'} border={true} placeholder="Select Order" height="3.3rem"/>}
 </div>
         <div className="fields centered">{size.width>'600'?<label style={{marginBottom:"0.5rem"}}>Required Quantity:</label>:null}
         {showUnit? <div style={{display:'flex',width:size.width>'600'?'70%':'90%', border:"#e5e5e5 solid 0.1em",borderRadius:'5px'}}>
@@ -189,7 +189,7 @@ dropdownWidth={size.width>'600'?'13vw':'20vw'} searchWidth={size.width>'600'?'10
 {unitList?<Dropdown options={unitList} placeholder="Unit" width="60%" name="name" minWidth="9rem" no_outline={true}
 parentCallback={(data)=>setUnit(data.symbol)} value={unit} dropdownWidth={size.width>'600'?"11vw":'40vw'} searchWidth={size.width>'600'?"8vw":'30vw'} height="3rem"/>:null}</div>
 :
-<input type="number" value={quantity} style={{height:'3rem',width:size.width>'600'?'70%':'90%'}} onChange={(e)=>setQuantity(e.target.value)} placeholder="1"/>}
+<input type="number" value={quantity} style={{height:'3.3rem',width:size.width>'600'?'70%':'90%'}} onChange={(e)=>setQuantity(e.target.value)} placeholder="1"/>}
         </div>
         <div className="new_order_form_footer ">
         {size.width>'600'?<div className="form_icons">

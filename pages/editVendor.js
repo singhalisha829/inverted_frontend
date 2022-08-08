@@ -311,10 +311,10 @@ const EditVendor=() =>{
             <div className="title">Purchase Orders</div>
             <div className="sub_title">Select Vendors For Parts</div>
     </div> 
-    <div className="new_order_subsection" style={{height:'6rem',paddingLeft:'1.2rem'}}>
+    {/* <div className="new_order_subsection" style={{height:'6rem',paddingLeft:'1.2rem'}}>
             <input  style={{width:"70%",height:'3.5rem'}} placeholder="Search.." value={searchText} onChange={(e)=>{searchParts(e.target.value);}}/>
             <div className="new_order_search"><FaSistrix size={17} color="#3F5575"/></div>
-        </div>
+        </div> */}
 
         <div className="po_details">
             <div className="po_details_border">

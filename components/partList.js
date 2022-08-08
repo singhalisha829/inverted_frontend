@@ -276,7 +276,7 @@ const deleteBranch=(id)=>{
             <div className='split_row'>
                
                 <div style={{width:'30%',display:'flex',justifyContent:'end'}}><input type="number" style={{height:'3rem',width:'90%'}} onChange={(e)=>setValue(e.target.value)}
-             value={value}/></div>
+             value={value} placeholder="0.00"/></div>
                 <div style={{width:'30%',display:'flex',justifyContent:'end'}}>
                     <Dropdown width="90%" placeholder='Unit' options={unitList} name="name" dropdownWidth={size.width>'600'?'11vw':'27vw'} searchWidth={size.width>'600'?'8vw':'19vw'} height="3rem"
                     parentCallback={(data)=>{setUnit(data.symbol);handleUnit(data.symbol)}} border={true} value={unit}/>

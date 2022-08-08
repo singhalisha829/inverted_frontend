@@ -66,6 +66,10 @@ export default function Home() {
     }
   },[])
 
+  const reload=()=>{
+   
+  }
+
 
     // calculate screen size
     function useWindowSize() {
@@ -124,7 +128,13 @@ export default function Home() {
       return;
     }else{
     setShowModal(false)
-    addNewPart(partType,partName,partDesc,token).then(res=>notify())
+    addNewPart(partType,partName,partDesc,token).then(res=>{
+      notify();
+      fetchPartsList(token).then(
+        res=>{
+          console.log(res.data)
+          setPartsList(res.data)}).catch(err=>toast.error(err.message))
+        })
     setPartName(()=>"");
     setPartType(()=>"");
     setPartDesc(()=>"");
@@ -178,6 +188,10 @@ else{
                     </div> 
 
                     <div className="search_section">
+                    <div style={{marginRight:'2%'}}>{partTypeList?<Dropdown  options={partTypeList} placeholder='Select Part Type' name="name" width="100%" 
+            parentCallback={(data)=>setPartType(data.id)} value={partType} dropdownWidth={size.width>'600'?'13vw':'30vw'} border={true} height='4rem'
+            searchWidth={size.width>'600'?'10vw':'20vw'}/> : null}</div>
+
                      <input placeholder="Search for code or name" value={searchText} 
                      className="searchbar" onChange={(e) => {setSearchText(e.target.value);searchCard(e)}}/>
                      <div className='search_symbol'><FaSistrix size={17} style={{color:"#3F5575"}}/></div>
@@ -219,7 +233,7 @@ else{
           
               {partTypeList?<Dropdown  options={partTypeList} placeholder='Select Part Type' name="name" width="70%" 
             parentCallback={(data)=>setPartType(data.id)} value={partType} dropdownWidth={size.width>'600'?'21vw':'56vw'} border={true}
-            searchWidth={size.width>'600'?'17vw':'48vw'}/> : <Spinner/>}
+            searchWidth={size.width>'600'?'17vw':'48vw'} height="3.5rem"/> : null}
       
     
               <input name="part_name" onChange={(e)=>setPartName(e.target.value)} value={partName} placeholder="Part Name" className='modal_input'/>

@@ -32,7 +32,7 @@
 
 .search_section{
     width: 77vw;
-    height: 85px;
+    height: 8rem;
     margin-left: auto;
     margin-right: auto;
     background: white;
@@ -43,7 +43,7 @@
 }
 
 .search_symbol{
-    margin-top: 1.3rem;
+    margin-top: 0.9rem;
     margin-left: -2.8rem;
 }
 
@@ -102,7 +102,7 @@ margin-bottom:0.5rem;
 
 .searchbar{
     width: 75%;
-    height: 4.4rem;
+    height: 4rem;
     background: #F6F7FB;
     border: 1px solid #E5E5E5;
     box-sizing: border-box;

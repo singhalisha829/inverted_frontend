@@ -20,6 +20,8 @@ import Header from '../components/header';
 import { ToastContainer, toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
 
+import ButtonLoader from '../components/buttonLoader';
+
 
 const StockIn=()=>{
 
@@ -43,6 +45,8 @@ const StockIn=()=>{
     const [vendor, setVendor]= useState(null);
     const [unit, setUnit]= useState(null);
     const [price, setPrice]= useState('');
+    const [loading,setLoading]= useState(false);
+
     
     const notifySuccess = () => toast.success("New Parts Added Successfully");
 
@@ -172,6 +176,7 @@ const StockIn=()=>{
 
     // submit the whole list on the server
     const submitPartsListHandler =() =>{
+        setLoading(true);
         for(let i=0;i<newPartList.length;i++){
             console.log(newPartList[i])
             addNewLedger(newPartList[i],token).then(res=>{ 
@@ -183,10 +188,13 @@ const StockIn=()=>{
                 setUnit(()=>"");
                 setVendor(()=>'');
                 setInvoice(()=>'');
+                setLoading(false);
+                
 
                  })
-                //  .catch(err=> console.log(err))
+                 .catch(err=> toast.error(err.message))
         }
+        Router.push('/');
         // notifySuccess()
 
     }
@@ -243,7 +251,8 @@ const StockIn=()=>{
                         <div style={{display:'flex',width:'100%',justifyContent:'space-between',alignItems:'center'}}>
          <div className='stockin_subtitle'>Your Stock in Items</div>
                             {/* <button style={{marginRight:'1rem'}} className="upload_button" onClick={()=> setShowModal(true)}><FaCloudUploadAlt size={15}/> Upload</button> */}
-                <button  className="add_button" onClick={submitPartsListHandler}><FaPlus /><div style={{marginTop:'0.2rem',marginLeft:'0.5rem'}} > Stock In</div></button>
+                <button  className="add_button" onClick={submitPartsListHandler}><FaPlus /><div style={{marginTop:'0.2rem',marginLeft:'0.5rem'}} disabled={loading} >
+                {loading?<div style={{marginRight:'5px'}}><ButtonLoader /></div>:null} Stock In</div></button>
                 </div>
 
                 <div className='stockin_form'>

@@ -5,6 +5,7 @@ import { FaSistrix  } from 'react-icons/fa';
 import Modal from "./modal";
 
 import { addNewPart } from "../services/dashboardService";
+import { toast } from "react-toastify";
 
 
 const Dropdown= (props) =>{
@@ -77,7 +78,7 @@ const Dropdown= (props) =>{
     const submitPartHandler = () =>{  
         console.log(partType,partName,partDesc)
         setShowModal(false)
-        addNewPart(partType,partName,partDesc).then(res=>window.location.reload())
+        addNewPart(partType,partName,partDesc).then(res=>toast.success('New Part Successfully Added!'))
         setPartName(()=>"");
         setPartType(()=>"");
         setPartDesc(()=>"");
@@ -121,9 +122,9 @@ const Dropdown= (props) =>{
         );
     }
     return(
-        <div ref={wrapperRef} className="custom_dropdown" style={{width:props.width, height:props.height,minWidth:props.minWidth, border:props.border?"#e5e5e5 solid 0.1em":null}} >
+        <div ref={wrapperRef} className="custom_dropdown" style={{width:props.width, height:props.height,minWidth:props.minWidth}} >
            <div className="control" onClick={()=>setIsDropdownOpen(!isDropdownOpen)} >
-           <input className={props.no_outline?"selected_value_without_outline":"selected_value"} placeholder={props.placeholder} value={value} style={{margin:"0",height:'2.7rem'}}/>
+           <input className={props.no_outline?"selected_value_without_outline":"selected_value"} placeholder={props.placeholder} value={value} style={{margin:"0",height:props.height,border:props.border?"#e5e5e5 solid 0.1em":null}} />
            
            {/* <div style={{position:'relative',right:'10px'}}><FaSistrix /></div> */}
            </div>
@@ -135,7 +136,7 @@ const Dropdown= (props) =>{
             fontSize: "16px",lineHeight: "19px"}}>Add Part</div>
             <div className="add_part_form">
               {props.partTypeList?<Dropdown options={props.partTypeList} placeholder='Select Part Type' name="name" width="70%" border={true}
-            parentCallback={(data)=>setPartType(data.id)}/> : null}
+            parentCallback={(data)=>setPartType(data.id)} height="3.5rem"/> : null}
             
             
                 <input name="part_name" onChange={(e)=>setPartName(e.target.value)} value={partName} placeholder="Part Name" className="modal_input"/>
