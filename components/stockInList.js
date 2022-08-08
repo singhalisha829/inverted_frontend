@@ -8,16 +8,16 @@ const List = (props) =>{
 
     useEffect(()=>{
         const token= localStorage.getItem('token')
-        fetchPartById(props.partId,token).then((res)=>{setPartId(res.data.part_id);
-        setPartName(res.data.short_description)})
+        // fetchPartById(props.partId,token).then((res)=>{setPartId(res.data.part_id);
+        // setPartName(res.data.short_description)})
 
     },[])
     
     return(
         <div className="list">
-        <div style={{width:"15%"}}><div className="part_id" >#{partId}</div></div>
+        <div style={{width:"15%"}}><div className="part_id" >#{props.partId}</div></div>
            <div style={{width:"30%",textAlign:'center',display:'flex',flexDirection:'column'}}><div
-           style={{color:'#3F5575',fontSize:'1.5rem',fontWeight:'600',lineHeight:'1.9rem'}}>{partName}</div>
+           style={{color:'#3F5575',fontSize:'1.5rem',fontWeight:'600',lineHeight:'1.9rem'}}>{props.partDesc}</div>
            <div></div></div>
 
            <div className='list_content' style={{width:"10%", textAlign:"center"}}>{props.price}</div>

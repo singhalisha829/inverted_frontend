@@ -1,6 +1,6 @@
 import { useEffect, useState } from 'react';
 
-import { fetchVendorList,fetchUnitList } from '../services/ledgerService';
+import { fetchVendorList,fetchUnitList } from '../services/stockInService';
 import { unitConversion } from '../services/purchaseOrderService';
 import Dropdown from './dropdown';
 import { GoRepoForked} from 'react-icons/go';
@@ -22,15 +22,12 @@ const PartsList = (props) =>{
     const [unit,setUnit]= useState(null);
 
     const [token,setToken]= useState(null);
-    const [factor,setFactor]= useState(null);
+    const [factor,setFactor]= useState(1);
 
     const [lastBranch,setLastBranch]= useState(null);
     const [showForm,setShowForm]= useState(false);
 
    
-   
-
-
 
     useEffect(()=>{
         const token= localStorage.getItem('token')
@@ -155,6 +152,8 @@ const PartsList = (props) =>{
         setShowForm(false);
         setValue('');
         setUnit(()=>'')
+        setFactor('');
+        setUnit(()=>'');
 
     }
     }
@@ -229,6 +228,16 @@ const deleteBranch=(id)=>{
         
     }
 }
+
+const handleSplitValue=(val)=>{
+    setValue(val)
+    console.log(unit)
+    // if(unit == '' || unit == null){
+    // }else{
+    //     const newVal=parseFloat((quantity[0].quantity-val*factor).toFixed(2)); 
+    //     updateQuantity(newVal);
+    // }
+}
     
     return(
         <div>            
@@ -275,10 +284,10 @@ const deleteBranch=(id)=>{
             <div style={{width:'100%',display:'flex',justifyContent:'flex-end',paddingRight:'2rem'}}>
             <div className='split_row'>
                
-                <div style={{width:'30%',display:'flex',justifyContent:'end'}}><input type="number" style={{height:'3rem',width:'90%'}} onChange={(e)=>setValue(e.target.value)}
+                <div style={{width:'30%',display:'flex',justifyContent:'end'}}><input type="number" style={{height:'3rem',width:'90%'}} onChange={(e)=>handleSplitValue(e.target.value)}
              value={value} placeholder="0.00"/></div>
                 <div style={{width:'30%',display:'flex',justifyContent:'end'}}>
-                    <Dropdown width="90%" placeholder='Unit' options={unitList} name="name" dropdownWidth={size.width>'600'?'11vw':'27vw'} searchWidth={size.width>'600'?'8vw':'19vw'} height="3rem"
+                    <Dropdown width="90%" placeholder='Unit' options={unitList} name="name" dropdownWidth={size.width>'600'?'11vw':'27vw'} searchWidth={size.width>'600'?'8vw':'19vw'} height="3rem" 
                     parentCallback={(data)=>{setUnit(data.symbol);handleUnit(data.symbol)}} border={true} value={unit}/>
                 </div>
             

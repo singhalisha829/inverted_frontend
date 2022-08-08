@@ -5,7 +5,7 @@ import Header from "../components/header";
 import Router from 'next/router';
 
 import { fetchPartsList } from '../services/dashboardService';
-import { fetchUnitList } from '../services/ledgerService';
+import { fetchUnitList } from '../services/stockInService';
 import { createPurchaseOrder , fetchBOMList } from "../services/purchaseOrderService";
 
 import PurchaseOrderList from "../components/purchaseOrderList";

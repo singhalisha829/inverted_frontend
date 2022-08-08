@@ -9,7 +9,7 @@ import Dropdown from '../components/dropdown';
 import Modal from '../components/modal';
 import { fetchPartsList,fetchPartTypeList } from '../services/dashboardService';
 import List from '../components/stockInList';
-import { fetchUnitList, fetchVendorList, addNewLedger } from '../services/ledgerService';
+import { fetchUnitList, fetchVendorList, addNewLedger ,fetchPartById} from '../services/stockInService';
 import Spinner from '../components/spinner';
 import DatePicker from "react-datepicker";
 import "react-datepicker/dist/react-datepicker.css";
@@ -46,6 +46,7 @@ const StockIn=()=>{
     const [unit, setUnit]= useState(null);
     const [price, setPrice]= useState('');
     const [loading,setLoading]= useState(false);
+    const [partId,setPartId]= useState(null);
 
     
     const notifySuccess = () => toast.success("New Parts Added Successfully");
@@ -140,14 +141,16 @@ const StockIn=()=>{
            vendor:vendor,
            quantity:quantity+" "+unit,
            price:price,
-           transaction_type:'CREDIT'
+           transaction_type:'CREDIT',
+           partId:partId
        };
         const newList=[data,...newPartList]
         setNewPartList(newList)
         setPartName(()=>"")
         setPrice("")
         setQuantity("")
-        setUnit("")
+        setUnit("");
+        setPartId("");
         console.log(newList)
     }
     }
@@ -194,14 +197,19 @@ const StockIn=()=>{
 
     }
 
+    const fetchPartId=(id)=>{
+        fetchPartById(id,token).then((res)=>{setPartId(res.data.part_id);
+            setPartName(res.data.short_description)})
+    }
+
     const padding=size.width<'600'?'1rem':null;
 
     // stock in form
            const form=(<div className="form_content">
-            {size.width>'600'?<div style={{width:"15%", textAlign:"center"}}></div>:null}
+            {size.width>'600'?<div style={{width:"15%", textAlign:"center"}}>{partId}</div>:null}
             <div style={{width:size.width>'600'?'30%':'100%',display:'flex',justifyContent:'center',paddingBottom:padding}}>
             {partList?<Dropdown options={partList} placeholder="Select Part" width={size.width>'600'?'60%':'90%'} name="short_description" isAddNewPart partTypeList={partTypeList} border={true}
-            parentCallback={(data)=>setPartName(data.id)} value={partName} height="3rem" minWidth="12rem" dropdownWidth={size.width>'600'?'20vw':'70vw'} searchWidth={size.width>'600'?"17vw":'60vw'}/>:null}</div>
+            parentCallback={(data)=>{setPartName(data.id);fetchPartId(data.id)}} value={partName} height="3rem" minWidth="12rem" dropdownWidth={size.width>'600'?'20vw':'70vw'} searchWidth={size.width>'600'?"17vw":'60vw'}/>:null}</div>
 
             <div style={{width:size.width>'600'?'10%':'100%',display:'flex',justifyContent:'center',paddingBottom:padding}}><input style={{width:size.width>'600'?'80%':'90%',height:"3rem"}} type="number" placeholder={size.width<'600'?'Enter Unit Price':'0.00'}
             onChange={(e)=>setPrice(e.target.value)} value={price}/></div>
@@ -226,6 +234,8 @@ const StockIn=()=>{
                 
                 </div>
             );
+
+    
         
 
     return(
@@ -289,7 +299,7 @@ const StockIn=()=>{
             </div>
             </div>:null}
 
-                {newPartList.map((l)=><List key={l.part} partId={l.part} quantity={l.quantity} unit={l.unit} price={l.price}
+                {newPartList.map((l)=><List key={l.part} partDesc={l.part} partId={l.partId} quantity={l.quantity} unit={l.unit} price={l.price}
             deleteNote={(data)=>handleDeleteNote(data)}/>)}
             </div>
             

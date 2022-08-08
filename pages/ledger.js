@@ -7,7 +7,7 @@ import { FaFileContract, FaPlus, FaTrashAlt, FaSistrix } from 'react-icons/fa';
 import Table from '../components/table';
 import Dropdown from '../components/dropdown';
 import Header from '../components/header';
-import { fetchPartByPartId, fetchLedgerByPartId, fetchVendorList, fetchUnitList, addNewLedger } from '../services/ledgerService';
+import { fetchPartByPartId, fetchLedgerByPartId, fetchVendorList, fetchUnitList, addNewLedger } from '../services/stockInService';
 import LedgerCard from '../components/ledgerCard';
 
 import Spinner from '../components/spinner';

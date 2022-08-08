@@ -9,7 +9,7 @@ import Header from "../components/header";
 import StockOutList from '../components/stockOutList';
 import { fetchPartsList } from "../services/dashboardService";
 import { fetchBOMList } from "../services/purchaseOrderService";
-import { fetchUnitList } from "../services/ledgerService";
+import { fetchUnitList } from "../services/stockInService";
 import { createProductionOrder } from "../services/productionOrderService";
 
 import PurchaseOrderList from "../components/purchaseOrderList";

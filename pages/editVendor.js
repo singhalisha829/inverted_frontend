@@ -6,7 +6,7 @@ import Table from "../components/table";
 import Router from 'next/router';
 
 import { fetchPartWiseList, fetchPurchaseOrderDetails, deleteAssignedParts,postPoVendor1,fetchUnassignedParts } from "../services/purchaseOrderService";
-import { fetchVendorList } from "../services/ledgerService";
+import { fetchVendorList } from "../services/stockInService";
 
 import { FaSistrix, FaTimes} from 'react-icons/fa';
 import PartsList from "../components/partList";

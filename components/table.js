@@ -10,7 +10,7 @@ import { toast } from "react-toastify";
 import 'react-toastify/dist/ReactToastify.css';
 import Dropdown from "./dropdown";
 
-import { fetchUnitList } from "../services/ledgerService";
+import { fetchUnitList } from "../services/stockInService";
 import { unitConversion } from "../services/purchaseOrderService";
 
 
