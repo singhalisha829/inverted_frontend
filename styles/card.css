@@ -137,5 +137,12 @@ height: 2rem;
       margin-top: 0.5rem;
     }
 
+    .cards_list {
+      width:90vw;
+      padding-top: 0;
+      grid-gap: 1rem;
+      grid-template-columns: repeat(auto-fill, minmax(250px, 1fr));
+    }
+
     
   }

@@ -28,7 +28,7 @@ line-height: 1.5rem;
 
 .icons{
     display: flex;
-    
+    width:10%;
 }
 
 .submit_button{
@@ -49,4 +49,66 @@ font-weight: 500;
 font-size: 1.4rem;
 line-height: 1.7rem;
 color: #3F5575;
+}
+
+.stockin_trash{
+    color:#F16B6B;
+    font-size:1.5rem;
+}
+
+.part_id_width{
+    width:15%;
+}
+
+.part_desc_width{
+    width:30%;
+    text-align:center;
+    display:flex;
+    flex-direction:column;
+}
+
+.part_price_width{
+    width:10%;
+    text-align:center;
+}
+
+.quantity_width{
+    width:30%;
+    text-align:center;
+}
+
+@media(max-width:600px){
+    .list{
+        width:90vw;
+        margin-bottom: 0.5rem;
+    }
+
+    .part_id_width{
+        width:20%;
+    }
+
+    .quantity_width{
+        width:20%;
+    }
+
+    .part_price_width{
+        width: 20%;
+    }
+
+    .part_id{
+        font-weight: 400;
+font-size: 0.9rem;
+line-height: 1.3rem;
+width:7rem;
+    }
+
+    .list_content{
+        font-weight: 500;
+font-size: 1rem;
+line-height: 1.3rem;
+    }
+
+    .stockin_trash{
+        font-size: 1.2rem;
+    }
 }

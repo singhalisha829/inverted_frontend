@@ -56,7 +56,7 @@ const OrderList = (props) =>{
     }else if(props.status==="Completed"){
         status=(<div className="order_list_content" style={{marginLeft:'2rem',color:"#33B850",backgroundColor:'#e8fcec',borderRadius:'5px',width:'7rem',height:'2rem',display:'flex',alignItems:'center'}}>{props.status}</div>)   
     }else{
-        status=(<div className="order_list_content" style={{marginLeft:'2rem',color:"#F6C034",backgroundColor:'#f9f1e3',borderRadius:'5px',width:'6rem',height:'2rem',display:'flex',alignItems:'center'}}>{props.status}</div>)   
+        status=(<div className="order_list_content" style={{marginLeft:'2rem',color:"#F6C034",backgroundColor:'#f9f1e3',borderRadius:'5px',width:'6rem',height:'2rem',display:'flex',alignItems:'center'}}>Created</div>)   
 
     }
     
@@ -65,7 +65,7 @@ const OrderList = (props) =>{
             {props.search != undefined || props.filter != undefined? cardFilter.map(order=>(
         <div key={order.id} className="order_list" onClick={()=>{Router.push(props.path);localStorage.setItem('poId',order.id);
         localStorage.setItem('production_order_id',order.id)}}>
-        <div className="order_list_content">{order.production_order_no}</div>
+        <div className="order_list_content">{order.production_order_no?order.production_order_no:order.purchase_order_no}</div>
         <div className="order_list_content">{order.date}</div>
         <div className="order_list_content">{order.created_by}</div>
         {status}
@@ -74,7 +74,7 @@ const OrderList = (props) =>{
         data.map(order=>(
 <div key={order.id} className="order_list" onClick={()=>{Router.push(props.path);localStorage.setItem('poId',order.id);
         localStorage.setItem('production_order_id',order.id)}}>
-        <div className="order_list_content">{order.production_order_no}</div>
+        <div className="order_list_content">{order.production_order_no?order.production_order_no:order.purchase_order_no}</div>
         <div className="order_list_content">{order.date}</div>
         <div className="order_list_content">{order.created_by}</div>
         {status}

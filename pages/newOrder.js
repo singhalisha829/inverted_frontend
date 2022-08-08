@@ -201,18 +201,18 @@ const NewOrder=()=>{
                     <div className="fields centered" >
                       {size.width>'600'?<label style={{marginBottom:"0.5rem"}}>Order Type:</label>:null}
                     <Dropdown options={order_type} name="name" width={size.width>'600'?"70%":"90%"} parentCallback={(data)=>{setOrderType(data.value);fetchOrderName(data.value)}}
-                    dropdownWidth={size.width>'600'?'13vw':'20vw'} searchWidth={size.width>'600'?'10vw':'12vw'} border={true} value={orderType} placeholder="Select Order Type"
+                    dropdownWidth={size.width>'600'?'13vw':'71vw'} searchWidth={size.width>'600'?'10vw':'61vw'} border={true} value={orderType} placeholder="Select Order Type"
                     height="3.3rem"/></div>
                     
                     <div className="fields centered" >
                       {size.width>'600'?<label style={{marginBottom:"0.5rem"}}>Order Description:</label>:null}
                    {orderType?<div>{orderType=='BOM'? <Dropdown options={bomList} name="product_description" width={size.width>'600'?"70%":"90%"} parentCallback={(data)=>{setBomName(data.id);setBom(data.product_description)}} value={bomName}
-dropdownWidth={size.width>'600'?'13vw':'20vw'} searchWidth={size.width>'600'?'10vw':'12vw'} border={true} placeholder="Select Order" height="3.3rem"/>:
+dropdownWidth={size.width>'600'?'13vw':'71vw'} searchWidth={size.width>'600'?'10vw':'61vw'} border={true} placeholder="Select Order" height="3.3rem"/>:
 <Dropdown options={partsList} name="short_description" width={size.width>'600'?"70%":"90%"} parentCallback={(data)=>{setPartName(data.id);setPart(data.short_description)}} value={partName}
-dropdownWidth={size.width>'600'?'13vw':'20vw'} searchWidth={size.width>'600'?'10vw':'12vw'} border={true} placeholder="Select Order" height="3.3rem"/>}</div>
+dropdownWidth={size.width>'600'?'13vw':'71vw'} searchWidth={size.width>'600'?'10vw':'61vw'} border={true} placeholder="Select Order" height="3.3rem"/>}</div>
 :
 <Dropdown options={emptyList} width={size.width>'600'?"70%":"90%"} 
-dropdownWidth={size.width>'600'?'13vw':'20vw'} searchWidth={size.width>'600'?'10vw':'12vw'} border={true} placeholder="Select Order" height="3.3rem"/>}</div>
+dropdownWidth={size.width>'600'?'13vw':'71vw'} searchWidth={size.width>'600'?'10vw':'61vw'} border={true} placeholder="Select Order" height="3.3rem"/>}</div>
                     
                     <div className="fields centered" >
                       {size.width>'600'?<label style={{marginBottom:"0.5rem"}}>Required Quantity:</label>:null}

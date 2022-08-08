@@ -175,10 +175,10 @@ else{
 
                     <div className="search_section">
                     <div style={{marginRight:'2%'}}>{partTypeList?<Dropdown  options={partTypeList} placeholder='Select Part Type' name="name" width="100%" backGround="#F6F7FB"
-            parentCallback={(data)=>{setFilterOnPartType(data.name)}} value={partType} dropdownWidth={size.width>'600'?'13vw':'30vw'} border={true} height='4rem'
+            parentCallback={(data)=>{setFilterOnPartType(data.name)}} value={partType} dropdownWidth={size.width>'600'?'13vw':'30vw'} border={true} height={size.width>'600'?'4rem':'3rem'}
             searchWidth={size.width>'600'?'10vw':'20vw'}/> : null}</div>
 
-                     <input placeholder="Search for code or name" value={searchText} 
+                     <input placeholder="Search.." value={searchText} 
                      className="searchbar" onChange={(e) => {setSearchText(e.target.value)}}/>
                      <div className='search_symbol'><FaSistrix size={17} style={{color:"#3F5575"}}/></div>
                      

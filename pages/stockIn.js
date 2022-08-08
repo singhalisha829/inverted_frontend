@@ -226,7 +226,7 @@ const StockIn=()=>{
             {size.width>'600'?<div className="icons1">
             <FaCheckCircle onClick={submitHandler} size={30} className="check_icon"/>
             <FaTimesCircle size={30} onClick={cancelHandler} className="cross_icon"/>
-            </div>:  <div className="stockin_buttons">
+            </div>:  <div className="stockin_buttons" style={{marginTop:'2rem'}}>
                         <button className='cancel_button button2 plus expand'  onClick={cancelHandler}>Clear</button>
                         <button className='save_button button2 plus expand' onClick={submitHandler}>Save</button>
                         </div>}
@@ -291,11 +291,11 @@ const StockIn=()=>{
     
             {size.width<'600'?<div className='stockin_form2' style={{borderBottom:'#e5e5e5 solid 0.1em'}}>
                 <div className='stockin_list_header'>
-                <div style={{width:'15%',textAlign:'center'}}>Part ID</div>
+                <div style={{width:'20%',textAlign:'center'}}>Part ID</div>
                 <div style={{width:'30%',textAlign:'center'}}>Part Name</div>
-                <div style={{width:'10%',textAlign:'center'}}>Unit Price</div>
-                <div style={{width:'30%',textAlign:'center'}}>Quantity</div>
-                <div style={{width:'15%',textAlign:'center'}}></div>
+                <div style={{width:'20%',textAlign:'center'}}>Unit Price</div>
+                <div style={{width:'20%',textAlign:'center'}}>Quantity</div>
+                <div style={{width:'10%',textAlign:'center'}}></div>
             </div>
             </div>:null}
 

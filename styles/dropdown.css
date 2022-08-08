@@ -20,7 +20,7 @@
 
   .modal_textarea{
     position: fixed;
-    top:16.5rem;
+    top:16rem;
   }
 
   .modal_hr{
@@ -142,15 +142,31 @@ position: fixed;
  
 
 .add_parts_button{
-  margin-top: 2rem;
+  /* margin-top: 2rem; */
   display: flex;
   justify-content: end;
   position: fixed;
-  top:27rem;
+  top:29rem;
 }
 
 @media(max-width:600px){
   .add_part{
     width:65vw;
+  }
+
+  .modal_input{
+    top:9rem;
+  }
+
+  .modal_textarea{
+    top:14rem;
+  }
+
+  .modal_hr{
+    top:21.5rem;
+  }
+
+  .add_parts_button{
+    top:26rem;
   }
 }
