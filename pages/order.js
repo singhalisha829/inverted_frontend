@@ -50,38 +50,6 @@ const Order=()=>{
     },[])
     console.log(productionOrderList)
 
-    useEffect(()=>{
-      //  search table based on dropdown filter and searchbar value
-       if(searchText != undefined && filterOnStatus !=undefined ){
-        const searchList = productionOrderList.filter(o => Object.keys(o).some(
-          k => String(o[k]).toLowerCase().includes(searchText.toLowerCase()))
-        );
-  
-        const filterList= searchList.filter(o=> Object.keys(o).some(
-          k=> String(o[k]).toLowerCase().includes(filterOnStatus.toLowerCase())
-        ))
-  
-        setListFilter([...filterList])
-       }
-  
-      //  search table based on searchbar value
-       else if(searchText != undefined ){
-         const searchList = productionOrderList.filter(o => Object.keys(o).some(
-           k => String(o[k]).toLowerCase().includes(searchText.toLowerCase()))
-         );
-  
-         setListFilter([...searchList])
-       }
-  
-      //  search table based on dropdown filter
-       else if(filterOnStatus !=undefined){
-        const filterList= productionOrderList.filter(o=> Object.keys(o).some(
-          k=> String(o[k]).toLowerCase().includes(filterOnStatus.toLowerCase())
-        ))
-        setListFilter([...filterList])
-       }
-     },[searchText,filterOnStatus])
-
      // calculate screen size
      function useWindowSize() {
         const [windowSize, setWindowSize] = useState({
@@ -120,13 +88,9 @@ const Order=()=>{
     }
     else{
       content=(
-        productionOrderList?<div className="order_card_list">
-          {searchText != undefined || filterOnStatus != undefined?listFilter.map((l)=>(
-              <OrderList key={l.id} id={l.id} order_number={l.production_order_no} date={l.date} path="/orderDetails" created_by={l.created_by} status={l.status}/>))
-          :productionOrderList.map((l)=>(
-              <OrderList key={l.id} id={l.id} order_number={l.production_order_no} date={l.date} path="/orderDetails" created_by={l.created_by} status={l.status}/>
-          ))}
-      </div> : <Spinner />
+        productionOrderList?
+        <OrderList ordersList={productionOrderList} path="/orderDetails" search={searchText} filter={filterOnStatus}/>
+        : <Spinner />
       )
     }
 

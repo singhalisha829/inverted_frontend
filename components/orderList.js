@@ -3,11 +3,52 @@ import Router from 'next/router';
 
 
 const OrderList = (props) =>{
+    const [cardFilter, setCardFilter] = useState([]);
+    const [data,setData]= useState(props.ordersList);
 
     useEffect(()=>{
         const token= localStorage.getItem('token')
 
     },[])
+
+     // search feature in cards list
+   useEffect(() =>{
+    console.log(props.search)
+        //  search table based on dropdown filter and searchbar value
+        if(props.search != undefined && props.filter !=undefined ){
+         const searchCard = data.filter(o => Object.keys(o).some(
+           k => String(o[k]).toLowerCase().includes(props.search.toLowerCase()))
+         );
+   
+         const filterCard= searchCard.filter(o=> Object.keys(o).some(
+           k=> String(o[k]).toLowerCase().includes(props.filter.toLowerCase())
+         ))
+   
+         setCardFilter([...filterCard])
+        }
+   
+       //  search table based on searchbar value
+        else if(props.search != undefined ){
+          const searchCard = data.filter(o => Object.keys(o).some(
+            k => String(o[k]).toLowerCase().includes(props.search.toLowerCase()))
+          );
+   
+          setCardFilter([...searchCard])
+        }
+   
+       //  search table based on dropdown filter
+        else if(props.filter !=undefined){
+         const filterCard= data.filter(o=> Object.keys(o).some(
+           k=> String(o[k]).toLowerCase().includes(props.filter.toLowerCase())
+         ))
+         setCardFilter([...filterCard])
+        }
+        else{
+          setData([...data])
+          setCardFilter([...data])
+        }
+      },[props.search,props.filter])
+   
 
     let status= null;
     if(props.status==="Partially Processed"){
@@ -20,13 +61,25 @@ const OrderList = (props) =>{
     }
     
     return(
-        <div className="order_list" onClick={()=>{Router.push(props.path);localStorage.setItem('poId',props.id);
-        localStorage.setItem('production_order_id',props.id)}}>
-        <div className="order_list_content">{props.order_number}</div>
-        <div className="order_list_content">{props.date}</div>
-        <div className="order_list_content">{props.created_by}</div>
+        <div className='order_card_list'>
+            {props.search != undefined || props.filter != undefined? cardFilter.map(order=>(
+        <div key={order.id} className="order_list" onClick={()=>{Router.push(props.path);localStorage.setItem('poId',order.id);
+        localStorage.setItem('production_order_id',order.id)}}>
+        <div className="order_list_content">{order.production_order_no}</div>
+        <div className="order_list_content">{order.date}</div>
+        <div className="order_list_content">{order.created_by}</div>
         {status}
-
+        </div>))
+        :
+        data.map(order=>(
+<div key={order.id} className="order_list" onClick={()=>{Router.push(props.path);localStorage.setItem('poId',order.id);
+        localStorage.setItem('production_order_id',order.id)}}>
+        <div className="order_list_content">{order.production_order_no}</div>
+        <div className="order_list_content">{order.date}</div>
+        <div className="order_list_content">{order.created_by}</div>
+        {status}
+        </div>
+        ))}
         </div>
     )
 }

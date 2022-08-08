@@ -16,7 +16,7 @@ const Card = (props) =>{
 
    // search feature in cards list
    useEffect(() =>{
- console.log(props.search)
+
      //  search table based on dropdown filter and searchbar value
      if(props.search != undefined && props.filter !=undefined ){
       const searchCard = data.filter(o => Object.keys(o).some(

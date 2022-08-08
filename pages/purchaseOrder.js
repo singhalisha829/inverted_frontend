@@ -77,13 +77,9 @@ const PurchaseOrder =() =>{
       width={size.width>'600'?'77vw':'95vw'} path="/vendorList"/>:<Spinner />) 
     }else{
       content=(
-        purchaseOrderList?<div className="order_card_list">
-          {searchText != undefined ?listFilter.map((l)=>(
-              <OrderList key={l.id} id={l.id} order_number={l.purchase_order_no} date={l.date} path="/vendorList" created_by={l.created_by} status={l.status}/>))
-          :purchaseOrderList.map((l)=>(
-              <OrderList key={l.id} id={l.id} order_number={l.purchase_order_no} date={l.date} path="/vendorList" created_by={l.created_by} status={l.status}/>
-          ))}
-      </div> : <Spinner />
+        purchaseOrderList?              
+        <OrderList  path="/vendorList" ordersList={purchaseOrderList} search={searchText}/>
+        : <Spinner />
       )
     }
     return(
