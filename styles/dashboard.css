@@ -43,7 +43,7 @@
 }
 
 .search_symbol{
-    margin-top: 0.9rem;
+    margin-top: 1.2rem;
     margin-left: -2.8rem;
 }
 
@@ -114,17 +114,6 @@ margin-bottom:0.5rem;
     font-size: 14px;
     line-height: 18px;
 }
-
-.cards_list {
-    display: flex;
-    margin-top: 2rem;
-    width:77vw;
-    /* position: absolute; */
-    padding-top: 1rem;
-    flex-wrap: wrap;
-    grid-gap: 3rem;
-    grid-template-columns: repeat(auto-fill, minmax(250px, 1fr));
-  }
 
 
 

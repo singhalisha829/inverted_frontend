@@ -4,12 +4,54 @@ import { useState, useEffect } from 'react';
 
 
 const Card = (props) =>{
+  const [cardFilter, setCardFilter] = useState([]);
+  const [data,setData]= useState(props.partsList);
+
 
   const clickHandler=()=>{
     if(props.path){
     Router.push(props.path)}
   
   }
+
+   // search feature in cards list
+   useEffect(() =>{
+ console.log(props.search)
+     //  search table based on dropdown filter and searchbar value
+     if(props.search != undefined && props.filter !=undefined ){
+      const searchCard = data.filter(o => Object.keys(o).some(
+        k => String(o[k]).toLowerCase().includes(props.search.toLowerCase()))
+      );
+
+      const filterCard= searchCard.filter(o=> Object.keys(o).some(
+        k=> String(o[k]).toLowerCase().includes(props.filter.toLowerCase())
+      ))
+
+      setCardFilter([...filterCard])
+     }
+
+    //  search table based on searchbar value
+     else if(props.search != undefined ){
+       const searchCard = data.filter(o => Object.keys(o).some(
+         k => String(o[k]).toLowerCase().includes(props.search.toLowerCase()))
+       );
+
+       setCardFilter([...searchCard])
+     }
+
+    //  search table based on dropdown filter
+     else if(props.filter !=undefined){
+      const filterCard= data.filter(o=> Object.keys(o).some(
+        k=> String(o[k]).toLowerCase().includes(props.filter.toLowerCase())
+      ))
+      setCardFilter([...filterCard])
+     }
+     else{
+       setData([...data])
+       setCardFilter([...data])
+     }
+   },[props.search,props.filter])
+
 
       // calculate screen size
       function useWindowSize() {
@@ -40,20 +82,40 @@ const Card = (props) =>{
     const size = useWindowSize();
 
     return(
-        <div className="card" onClick={()=>{localStorage.setItem('partId',props.part_id);clickHandler()}} >
+      <div className='cards_list'>{props.search != undefined || props.filter != undefined?cardFilter.map((part)=>(
+        <div key={part.id} className="card" onClick={()=>{localStorage.setItem('partId',part.part_id);clickHandler()}} >
           <div className='card_column'>
-           <div className="card_part_id">#{props.part_id}</div>
+           <div className="card_part_id">#{part.part_id}</div>
            
-          <div className="card_title"><FaFileContract /> {props.title}</div>
-          <div className="card_desc">{props.desc}</div>
+          <div className="card_title"><FaFileContract /> {part.short_description}</div>
+          <div className="card_desc">{part.long_description}</div>
           
           {size.width>'600'?<div className="card_footer">
               <div className='footer_quantity'>Quantity: </div>
-              <div style={{fontWeight:"600",color:'#6B6B6B',marginLeft:'0.5rem'}} className="footer_quantity"> {props.quantity}</div>
+              <div style={{fontWeight:"600",color:'#6B6B6B',marginLeft:'0.5rem'}} className="footer_quantity"> {part.quantity}</div>
               
           </div>:null}
           </div>
-          {size.width<'600'?<div style={{color:'#6B6B6B'}} className="footer_quantity"> {props.quantity}</div>:null}
+          {size.width<'600'?<div style={{color:'#6B6B6B'}} className="footer_quantity"> {part.quantity}</div>:null}
+        </div>))
+        :
+        data.map((part)=>(
+          <div key={part.id} className="card" onClick={()=>{localStorage.setItem('partId',part.part_id);clickHandler()}} >
+          <div className='card_column'>
+           <div className="card_part_id">#{part.part_id}</div>
+           
+          <div className="card_title"><FaFileContract /> {part.short_description}</div>
+          <div className="card_desc">{part.long_description}</div>
+          
+          {size.width>'600'?<div className="card_footer">
+              <div className='footer_quantity'>Quantity: </div>
+              <div style={{fontWeight:"600",color:'#6B6B6B',marginLeft:'0.5rem'}} className="footer_quantity"> {part.quantity}</div>
+              
+          </div>:null}
+          </div>
+          {size.width<'600'?<div style={{color:'#6B6B6B'}} className="footer_quantity"> {part.quantity}</div>:null}
+        </div>
+        ))}
         </div>
     )
 }

@@ -144,8 +144,8 @@ const Order=()=>{
                     </div> 
                 <div className="order_section">
                     <Dropdown options={status} placeholder="Status" name="name" width="15vw" height="3.5rem" border={true}
-                    parentCallback={(data)=>setFilterOnStatus(data.id)} dropdownWidth={size.width>'600'?'15vw':'30vw'} searchWidth={size.width>'600'?'12vw':'22vw'}/>
-                    <input style={{height:'3.5rem',marginLeft:'2rem',width:'70%'}} value={searchText} onChange={(e)=>setSearchText(e.target.value)}/><div><FaSistrix className="search_order"/></div>
+                    parentCallback={(data)=>setFilterOnStatus(data.id)} dropdownWidth={size.width>'600'?'15vw':'30vw'} searchWidth={size.width>'600'?'12vw':'22vw'} backGround="#F6F7FB"/>
+                    <input style={{height:'3.5rem',marginLeft:'2rem',width:'70%',background:"#F6F7FB"}} value={searchText} onChange={(e)=>setSearchText(e.target.value)}/><div><FaSistrix className="search_order"/></div>
                 </div>
 
                 <div style={{marginTop:'2rem',justifyContent:'space-between'}} className="order_section">

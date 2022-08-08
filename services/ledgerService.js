@@ -32,20 +32,8 @@ export const fetchPartByPartId=(partId,token) =>{
 }
 
 
-export const addNewLedger=(formData,token) =>{
-    const d= formData.date.getDate();
-    const month= formData.date.getMonth()+1;
-    const year= formData.date.getFullYear();
-    const date=[d,month,year].join('-')
-    return axios.post(URL+MAIN.LEDGER,{
-        date:date,
-        quantity:formData.quantity+' '+formData.unit,
-        part:formData.part,
-        transaction_type:formData.transaction_type,
-        vendor:formData.vendor,
-        price:formData.price,
-        document_id:formData.invoice
-        },{
+export const addNewLedger=(stockInList,token) =>{
+    return axios.post(URL+MAIN.LEDGER,stockInList,{
             headers:{                "Authorization":"Token "+ token
         }
     }).then(res=>console.log(res))

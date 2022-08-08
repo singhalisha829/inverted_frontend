@@ -29,18 +29,25 @@ export default function Home() {
   const [isList, setIsList]= useState(true);
   const [partsList, setPartsList] = useState(null);
   const [partTypeList, setPartTypeList]= useState(null);
-  const [cardFilter, setCardFilter] = useState([]);
 
   const [showModal, setShowModal]= useState(false);
     const [partType, setPartType] = useState(null);
     const [partName, setPartName] = useState(null);
     const [partDesc, setPartDesc]= useState(null);
     const [token,setToken]= useState(null);
+    const [filterOnPartType,setFilterOnPartType]= useState(null);
 
 
   const columns = [
     { accessor1: 'part_id', label: 'Part ID' ,width:"20%", textalign:"center"},
     { accessor1: 'short_description', accessor2:'long_description' ,label: 'Name & Description' ,width:"60%", textalign:"left"},
+    { accessor1: 'quantity', label: 'Quantity',width:"20%" , textalign:"center"},  
+  ];
+  
+  const columns1 = [
+    { accessor1: 'part_id', label: 'Part ID' ,width:"20%", textalign:"center"},
+    { accessor1: 'short_description' ,label: 'Description' ,width:"60%", textalign:"left"},
+    { accessor1: 'long_description' ,label: 'Long Description' ,width:"60%", textalign:"left"},
     { accessor1: 'quantity', label: 'Quantity',width:"20%" , textalign:"center"},  
   ];
 
@@ -66,9 +73,6 @@ export default function Home() {
     }
   },[])
 
-  const reload=()=>{
-   
-  }
 
 
     // calculate screen size
@@ -99,20 +103,7 @@ export default function Home() {
     }
   const size = useWindowSize();
 
-  // search feature in cards list
-  const searchCard=(event) =>{
-    const search= event.target.value;
-    if(search !== undefined){
-        const filterTable = partsList.filter(o => Object.keys(o).some(
-          k => String(o[k]).toLowerCase().includes(search.toLowerCase()))
-        );
-        setCardFilter([...filterTable])
-      }else{
-        setPartsList([...partsList])
-        setCardFilter([...partsList])
-      }
-   }
-
+ 
 
   //  submit new part details
    const submitPartHandler = () =>{  
@@ -154,20 +145,15 @@ const modalCancelHandler = () =>{
 // display either table or card
   let content =null;
   if(isList && size.width>'600'){
-    content= (partsList?<Table key={partsList.length} id="partsTable" rows={partsList} columns={columns} search={searchText} path="/ledger" cursor="pointer"
-    width="77vw" />:<Spinner />)
+    content= (partsList?<Table key={partsList.length} rows={partsList} columns={columns} search={searchText} path="/ledger" cursor="pointer"
+    width="77vw" filter={filterOnPartType} />:<Spinner />)
 }
 else{
         
   content=(
       partsList?
-        <div className="cards_list">
-          {searchText != undefined?cardFilter.map((card)=>(
-              <Card key={card.part_id} part_id={card.part_id} title={card.short_description} quantity={card.quantity} desc={card.long_description} path="/ledger" />
-          )):partsList.map((card)=>(
-              <Card key={card.part_id} part_id={card.part_id} title={card.short_description} quantity={card.quantity} desc={card.long_description} path="/ledger" />
-          ))}
-      </div> : <Spinner />
+      <Card partsList={partsList} search={searchText} filter={filterOnPartType} path="/ledger" />
+      : <Spinner />
   );
 }
 
@@ -188,17 +174,18 @@ else{
                     </div> 
 
                     <div className="search_section">
-                    <div style={{marginRight:'2%'}}>{partTypeList?<Dropdown  options={partTypeList} placeholder='Select Part Type' name="name" width="100%" 
-            parentCallback={(data)=>setPartType(data.id)} value={partType} dropdownWidth={size.width>'600'?'13vw':'30vw'} border={true} height='4rem'
+                    <div style={{marginRight:'2%'}}>{partTypeList?<Dropdown  options={partTypeList} placeholder='Select Part Type' name="name" width="100%" backGround="#F6F7FB"
+            parentCallback={(data)=>{setFilterOnPartType(data.name)}} value={partType} dropdownWidth={size.width>'600'?'13vw':'30vw'} border={true} height='4rem'
             searchWidth={size.width>'600'?'10vw':'20vw'}/> : null}</div>
 
                      <input placeholder="Search for code or name" value={searchText} 
-                     className="searchbar" onChange={(e) => {setSearchText(e.target.value);searchCard(e)}}/>
+                     className="searchbar" onChange={(e) => {setSearchText(e.target.value)}}/>
                      <div className='search_symbol'><FaSistrix size={17} style={{color:"#3F5575"}}/></div>
                      
                      {/* export parts table */}
-                     <div style={{width:'10rem',marginLeft:'10vw',marginRight:'0.8rem'}}>
+                     <div style={{width:'10rem',marginLeft:'5vw',marginRight:'1.5rem'}}>
                      <ReactHtmlTableToExcel
+
          table="partsTable"
          filename="stock_report"
          sheet="stock_report"
@@ -248,6 +235,8 @@ else{
                 onClick={submitPartHandler}>Save</button></div>
             </div>
         </Modal>
+        <div style={{display:'none'}}>{partsList?<Table key={partsList.length} id="partsTable" rows={partsList} columns={columns1} search={searchText} path="/ledger" cursor="pointer"
+    width="77vw" filter={filterOnPartType} />:<Spinner />}</div>
              </div>
   )
 }

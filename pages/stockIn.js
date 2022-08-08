@@ -128,13 +128,17 @@ const StockIn=()=>{
         return;
        }
        else{
+        const d= selectedDate.getDate();
+    const month= selectedDate.getMonth()+1;
+    const year= selectedDate.getFullYear();
+    const date=[d,month,year].join('-')
+
        const data={
            part:partName,
-           invoice:invoice,
-           date:selectedDate,
+           document_id:invoice,
+           date:date,
            vendor:vendor,
-           quantity:quantity,
-           unit:unit,
+           quantity:quantity+" "+unit,
            price:price,
            transaction_type:'CREDIT'
        };
@@ -177,24 +181,15 @@ const StockIn=()=>{
     // submit the whole list on the server
     const submitPartsListHandler =() =>{
         setLoading(true);
-        for(let i=0;i<newPartList.length;i++){
-            console.log(newPartList[i])
-            addNewLedger(newPartList[i],token).then(res=>{ 
-                setNewPartList([]);
-                setSelectedDate(()=>'');
-                setPartName(()=>"");
-                setPrice(()=>"");
-                setQuantity(()=>"");
-                setUnit(()=>"");
-                setVendor(()=>'');
-                setInvoice(()=>'');
+        console.log(newPartList)
+            addNewLedger(newPartList,token).then(res=>{ 
                 setLoading(false);
+                Router.push('/');
                 
 
                  })
                  .catch(err=> toast.error(err.message))
-        }
-        Router.push('/');
+        
         // notifySuccess()
 
     }
@@ -257,14 +252,14 @@ const StockIn=()=>{
 
                 <div className='stockin_form'>
                 <div className='form_column'>
-                    {size.width>'600'?<label>Invoice Number:</label>:null}
+                    {size.width>'600'?<label style={{marginBottom:'0.5rem'}}>Invoice Number:</label>:null}
                     <input style={{width:size.width>'600'?'60%':'90%',minWidth:'12rem',height:'3rem'}} onChange={(e)=> setInvoice(e.target.value)} placeholder="Enter Invoice Number"/></div>
                 <div className='form_column'>
-                    {size.width>'600'?<label>Vendor: </label>:null}
+                    {size.width>'600'?<label style={{marginBottom:'0.5rem'}}>Vendor: </label>:null}
                     {vendorList?<Dropdown options={vendorList} placeholder="Select Vendor" width={size.width>'600'?'60%':'90%'} name="name" minWidth="12rem" border={true}
                 parentCallback={(data)=>setVendor(data.id)} dropdownWidth={size.width>'600'?"15vw":'70vw'} searchWidth={size.width>'600'?"12vw":'60vw'} height="3rem"/>:null}</div>
                 <div className='date_column'>
-                    {size.width>'600'?<label>Date:</label> : null}
+                    {size.width>'600'?<label style={{marginBottom:'0.5rem'}}>Date:</label> : null}
                             <DatePicker placeholderText='Enter Date' selected={selectedDate} onChange={(date) => setSelectedDate(date)} />
                         </div>
             </div>

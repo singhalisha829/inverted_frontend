@@ -103,7 +103,7 @@ const PurchaseOrder =() =>{
                     </div> 
 
       <div className="po_subsection">
-        <input placeholder="Search for code or name" style={{width:'50vw',marginLeft:'1.3rem',height:'3.5rem'}} onChange={(e)=>setSearchText(e.target.value)}/>
+        <input placeholder="Search for code or name" style={{width:'50vw',marginLeft:'1.3rem',height:'3.5rem',background:"#F6F7FB"}} onChange={(e)=>setSearchText(e.target.value)}/>
         <button style={{marginLeft:'2rem'}}>Search</button>
       </div>
 

@@ -11,6 +11,19 @@
     position: relative;
     cursor: pointer;
   }
+
+  
+.cards_list {
+  display: flex;
+  margin-top: 2rem;
+  width:77vw;
+  /* position: absolute; */
+  padding-top: 1rem;
+  flex-wrap: wrap;
+  grid-gap: 3rem;
+  grid-template-columns: repeat(auto-fill, minmax(250px, 1fr));
+}
+
   
   .card_part_id{
     color: #EB2129;
