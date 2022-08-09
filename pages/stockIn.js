@@ -48,6 +48,7 @@ const StockIn=()=>{
     const [price, setPrice]= useState('');
     const [loading,setLoading]= useState(false);
     const [partId,setPartId]= useState(null);
+    const [finalList,setFinalList]= useState([]);
 
     
     const notifySuccess = () => toast.success("New Parts Added Successfully");
@@ -102,6 +103,9 @@ const StockIn=()=>{
     const handleDeleteNote=(id)=>{
         const newList=newPartList.filter((note) => note.part !== id);
         setNewPartList(newList)
+
+        const newList1=finalList.filter((note)=>note.part !== id);
+        setFinalList(newList1)
     }
 
     // add new part in the list on clicking the check icon
@@ -133,7 +137,7 @@ const StockIn=()=>{
         const d= selectedDate.getDate();
     const month= selectedDate.getMonth()+1;
     const year= selectedDate.getFullYear();
-    const date=[d,month,year].join('-')
+    const date=[year,month,d].join('-')
 
        const data={
            part:id,
@@ -146,7 +150,19 @@ const StockIn=()=>{
            transaction_type:'CREDIT',
            partId:partId
        };
+
+       const data1={
+        part:id,
+           document_id:invoice,
+           date:date,
+           vendor:vendor,
+           quantity:quantity+" "+unit,
+           price:price,
+           transaction_type:'CREDIT',
+       }
         const newList=[data,...newPartList]
+        const newList1=[data1,...finalList]
+        setFinalList(newList1)
         setNewPartList(newList)
         setPartName(()=>"")
         setPrice("")
@@ -186,8 +202,8 @@ const StockIn=()=>{
     // submit the whole list on the server
     const submitPartsListHandler =() =>{
         setLoading(true);
-        console.log(newPartList)
-            addNewLedger(newPartList,token).then(res=>{ 
+        console.log(finalList)
+            addNewLedger(finalList,token).then(res=>{ 
                 setLoading(false);
                 Router.push('/');
                 

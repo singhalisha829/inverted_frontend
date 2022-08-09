@@ -1,17 +1,8 @@
 import { FaTrashAlt, FaPen } from 'react-icons/fa';
-import { useEffect, useState } from 'react';
-import { fetchPartById } from '../services/stockInService';
 
 const StockOutList = (props) =>{
-    const [partId, setPartId] = useState(null);
-    const [partName, setPartName] = useState(null);
-
-    useEffect(()=>{
-        const token= localStorage.getItem('token')
-
-    },[])
-    
-    return(
+        
+   return(
         <div className="stock_out_list">
         <div style={{width:"25%"}}>Order Type</div>
 

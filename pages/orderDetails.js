@@ -5,6 +5,7 @@ import Table from "../components/table";
 import Head from "next/head";
 import Header from "../components/header";
 import Spinner from "../components/spinner";
+import Transactions from "../components/transactions";
 
 import { fetchProductionOrderDetails, fetchPartWiseList ,fetchPastTransaction} from "../services/productionOrderService";
 
@@ -42,12 +43,7 @@ const OrderDetails=()=>{
 
       ];
 
-      const column2 = [
-        { accessor1: 'date', label: 'Date' ,width:"33%", textalign:"center"},
-        { accessor1: 'transaction_no',label: 'Transaction ID' ,width:"33%", textalign:"center"},
-        // { accessor1: 'quantity_value',accessor2:'quantity_unit_symbol',label: 'Qunatity' ,width:"33%", textalign:"center"},
-        { accessor1: 'created_by', label: 'Created By',width:"33%" , textalign:"center"},   
-      ];
+   
 
       useEffect(()=>{
         if(localStorage.getItem('token') != undefined){
@@ -175,7 +171,15 @@ const OrderDetails=()=>{
 
                 {pastTransactions?<div >
                    {pastTransactions.length !=0?<div className="past_transaction"> <div className="transaction_header">Past Transactions</div>
-                    <div><Table columns={column2} rows={pastTransactions} width="100%" /></div></div>:null}
+                   <div className="transaction_card common" style={{borderBottom:'#e5e5e5 solid 0.01em',color:'#6b6b6b',cursor:'default'}}>
+            <div className='common' style={{width:'30%'}}>DATE</div>
+            <div className='common' style={{width:'30%'}}>TRANSACTION ID</div>
+            <div className='common' style={{width:'30%'}}>CREATED BY</div>
+            <div className='common' style={{width:'10%'}}></div>
+        </div>
+                    {pastTransactions.map(transaction=>(
+                      <Transactions key={transaction.transaction_no} date={transaction.date} transaction_id={transaction.transaction_no} created_by={transaction.created_by} />
+                    ))}</div>:null}
                 </div>:null}
             </div>
         </div>

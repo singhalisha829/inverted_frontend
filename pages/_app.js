@@ -26,6 +26,7 @@ import '../styles/vendorList.css';
 import '../styles/partList.css';
 import '../styles/loader.css';
 import '../styles/buttonLoader.css';
+import '../styles/transactions.css';
 
 
 
