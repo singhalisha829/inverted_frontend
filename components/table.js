@@ -36,18 +36,21 @@ const Table = (props) => {
     fetchUnitList(token).then(res=>setUnitList(res.data))
     //  search table based on dropdown filter and searchbar value
      if(props.search != undefined && props.filter !=undefined ){
-      const searchTable = data.filter(o => Object.keys(o).some(
-        k => String(o[k]).toLowerCase().includes(props.search.toLowerCase()))
-      );
+      const filterTable=[];
 
-      
-      for(let i=0;i<searchTable.length;i++){
-        if(searchTable[i][props.filterIn]== props.filter){
+      for(let i=0;i<data.length;i++){
+        if(data[i][props.filterIn]== props.filter){
           filterTable.push(data[i])
         }
       }
 
-      setTableFilter([...filterTable])
+      const searchTable = filterTable.filter(o => Object.keys(o).some(
+        k => String(o[k]).toLowerCase().includes(props.search.toLowerCase()))
+      );
+
+      
+
+      setTableFilter([...searchTable])
      }
 
     //  search table based on searchbar value
