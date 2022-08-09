@@ -83,7 +83,7 @@ const Order=()=>{
     if(size.width>'600'){
       content=(<div className="order_table" >
                 {productionOrderList?<Table columns={columns} rows={productionOrderList} search={searchText} filter={filterOnStatus} path="/orderDetails" cursor="pointer"
-                width='77vw'/>:<Spinner />}
+                width='77vw' filterIn="status"/>:<Spinner />}
                 </div>);
     }
     else{

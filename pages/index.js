@@ -40,12 +40,14 @@ export default function Home() {
 
   const columns = [
     { accessor1: 'part_id', label: 'Part ID' ,width:"20%", textalign:"center"},
+    { accessor1: 'part_type_name', label: 'Part Type' ,width:"20%", textalign:"center"},
     { accessor1: 'short_description', accessor2:'long_description' ,label: 'Name & Description' ,width:"60%", textalign:"left"},
     { accessor1: 'quantity', label: 'Quantity',width:"20%" , textalign:"center"},  
   ];
   
   const columns1 = [
     { accessor1: 'part_id', label: 'Part ID' ,width:"20%", textalign:"center"},
+    { accessor1: 'part_type_name', label: 'Part Type' ,width:"20%", textalign:"center"},
     { accessor1: 'short_description' ,label: 'Description' ,width:"60%", textalign:"left"},
     { accessor1: 'long_description' ,label: 'Long Description' ,width:"60%", textalign:"left"},
     { accessor1: 'quantity', label: 'Quantity',width:"20%" , textalign:"center"},  
@@ -62,7 +64,6 @@ export default function Home() {
       setToken(token)
     fetchPartsList(token).then(
       res=>{
-        console.log(res.data)
         setPartsList(res.data)}).catch(err=>toast.error(err.message))
     fetchPartTypeList(token).then(
       res=>setPartTypeList(res.data)
@@ -107,7 +108,6 @@ export default function Home() {
 
   //  submit new part details
    const submitPartHandler = () =>{  
-    console.log(partType,partName,partDesc)
     if(partType === null){
       toast.warning('Enter Part Type!');
       return;
@@ -123,7 +123,6 @@ export default function Home() {
       notify();
       fetchPartsList(token).then(
         res=>{
-          console.log(res.data)
           setPartsList(res.data)}).catch(err=>toast.error(err.message))
         })
     setPartName(()=>"");
@@ -146,7 +145,7 @@ const modalCancelHandler = () =>{
   let content =null;
   if(isList && size.width>'600'){
     content= (partsList?<Table key={partsList.length} rows={partsList} columns={columns} search={searchText} path="/ledger" cursor="pointer"
-    width="77vw" filter={filterOnPartType} />:<Spinner />)
+    width="77vw" filter={filterOnPartType} filterIn="part_type_name"/>:<Spinner />)
 }
 else{
         
@@ -236,7 +235,7 @@ else{
             </div>
         </Modal>
         <div style={{display:'none'}}>{partsList?<Table key={partsList.length} id="partsTable" rows={partsList} columns={columns1} search={searchText} path="/ledger" cursor="pointer"
-    width="77vw" filter={filterOnPartType} />:<Spinner />}</div>
+    width="77vw" filter={filterOnPartType} filterIn="part_type_name" />:<Spinner />}</div>
              </div>
   )
 }

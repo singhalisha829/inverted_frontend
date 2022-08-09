@@ -40,9 +40,12 @@ const Table = (props) => {
         k => String(o[k]).toLowerCase().includes(props.search.toLowerCase()))
       );
 
-      const filterTable= searchTable.filter(o=> Object.keys(o).some(
-        k=> String(o[k]).toLowerCase().includes(props.filter.toLowerCase())
-      ))
+      
+      for(let i=0;i<searchTable.length;i++){
+        if(searchTable[i][props.filterIn]== props.filter){
+          filterTable.push(data[i])
+        }
+      }
 
       setTableFilter([...filterTable])
      }
@@ -58,9 +61,13 @@ const Table = (props) => {
 
     //  search table based on dropdown filter
      else if(props.filter !=undefined){
-      const filterTable= data.filter(o=> Object.keys(o).some(
-        k=> String(o[k]).toLowerCase().includes(props.filter.toLowerCase())
-      ))
+      const filterTable=[];
+      for(let i=0;i<data.length;i++){
+        if(data[i][props.filterIn]== props.filter){
+          filterTable.push(data[i])
+        }
+      }
+      
       setTableFilter([...filterTable])
      }
      else{
