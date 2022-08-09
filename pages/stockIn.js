@@ -33,6 +33,7 @@ const StockIn=()=>{
     const [newPartList, setNewPartList]= useState([]);
     const [partTypeList, setPartTypeList] = useState(null);
     const [token,setToken] = useState(null);
+    const [id,setId]= useState(null);
 
 
     const [partName, setPartName]= useState(null);
@@ -135,7 +136,8 @@ const StockIn=()=>{
     const date=[d,month,year].join('-')
 
        const data={
-           part:partName,
+           part:id,
+           partName:partName,
            document_id:invoice,
            date:date,
            vendor:vendor,
@@ -198,6 +200,7 @@ const StockIn=()=>{
     }
 
     const fetchPartId=(id)=>{
+        setId(id)
         fetchPartById(id,token).then((res)=>{setPartId(res.data.part_id);
             setPartName(res.data.short_description)})
     }
@@ -209,7 +212,7 @@ const StockIn=()=>{
             {size.width>'600'?<div style={{width:"15%", textAlign:"center"}}>{partId}</div>:null}
             <div style={{width:size.width>'600'?'30%':'100%',display:'flex',justifyContent:'center',paddingBottom:padding}}>
             {partList?<Dropdown options={partList} placeholder="Select Part" width={size.width>'600'?'60%':'90%'} name="short_description" isAddNewPart partTypeList={partTypeList} border={true}
-            parentCallback={(data)=>{setPartName(data.id);fetchPartId(data.id)}} value={partName} height="3rem" minWidth="12rem" dropdownWidth={size.width>'600'?'20vw':'70vw'} searchWidth={size.width>'600'?"17vw":'60vw'}/>:null}</div>
+            parentCallback={(data)=>{fetchPartId(data.id)}} value={partName} height="3rem" minWidth="12rem" dropdownWidth={size.width>'600'?'20vw':'70vw'} searchWidth={size.width>'600'?"17vw":'60vw'}/>:null}</div>
 
             <div style={{width:size.width>'600'?'10%':'100%',display:'flex',justifyContent:'center',paddingBottom:padding}}><input style={{width:size.width>'600'?'80%':'90%',height:"3rem"}} type="number" placeholder={size.width<'600'?'Enter Unit Price':'0.00'}
             onChange={(e)=>setPrice(e.target.value)} value={price}/></div>
@@ -299,7 +302,7 @@ const StockIn=()=>{
             </div>
             </div>:null}
 
-                {newPartList.map((l)=><List key={l.part} partDesc={l.part} partId={l.partId} quantity={l.quantity} unit={l.unit} price={l.price}
+                {newPartList.map((l)=><List key={l.part} partDesc={l.partName} partId={l.partId} quantity={l.quantity} unit={l.unit} price={l.price}
             deleteNote={(data)=>handleDeleteNote(data)}/>)}
             </div>
             

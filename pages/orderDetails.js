@@ -45,6 +45,7 @@ const OrderDetails=()=>{
       const column2 = [
         { accessor1: 'date', label: 'Date' ,width:"33%", textalign:"center"},
         { accessor1: 'transaction_no',label: 'Transaction ID' ,width:"33%", textalign:"center"},
+        // { accessor1: 'quantity_value',accessor2:'quantity_unit_symbol',label: 'Qunatity' ,width:"33%", textalign:"center"},
         { accessor1: 'created_by', label: 'Created By',width:"33%" , textalign:"center"},   
       ];
 

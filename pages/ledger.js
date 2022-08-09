@@ -54,7 +54,7 @@ const Ledger =(props)=>{
         {accessor1: 'status', label: 'Status' ,width:"15%", textalign:"center"},
         {accessor1: 'date' ,label: 'Date',width:"25%", textalign:"center" },
         {accessor1: 'quantity', label: 'Quantity',width:"25%" , textalign:"center"},
-        {accessor1:'vendor_name', label:'Vendor',width:"26%", textalign:"center"},
+        {accessor1:'vendor', label:'Vendor',width:"26%", textalign:"center"},
         {accessor1:'edit', width:"10%"}  
       ];
 
@@ -70,6 +70,7 @@ const Ledger =(props)=>{
     setLedgerPart(partName)
 
     fetchPartByPartId(partName,token).then(res=>{
+        console.log(res.data)
         setPartId(res.data[0].id)
         setShortDescription(res.data[0].short_description)
         setlongDescription(res.data[0].long_description)
@@ -80,8 +81,7 @@ const Ledger =(props)=>{
     fetchUnitList(token).then(res=>setUnitList(res.data))
     fetchLedgerByPartId(partName,token)
     .then(res=>
-        {setLedger(res.data);
-            console.log(res.data)
+        {setLedger(res.data.data.output);
         setShowLedger(true);
         setShowPage(true);
        })}else{
