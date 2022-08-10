@@ -50,6 +50,7 @@ const OrderDetails=()=>{
           const token=localStorage.getItem('token')
           const poId=localStorage.getItem('production_order_id');
           console.log(poId);
+          if(poId != undefined){
           setPurchaseOrderId(poId);
           fetchProductionOrderDetails(token,poId).then(res=>{
             setOrderItem(res.data.data.output[0].production_order_itemss)
@@ -66,6 +67,9 @@ const OrderDetails=()=>{
             setPartsInOrder(res.data.data.output.order_items)
           })
           setToken(token)
+        }else{
+          Router.push('/order')
+        }
         
       }else{
           Router.push('/login');
@@ -102,24 +106,29 @@ const OrderDetails=()=>{
     const size = useWindowSize();
 
     const handleQuantity=(value,id,item_name,symbol,item_description,item_id,items_type,left_qty)=>{
-      console.log(value,id)
-      const date=new Date().toISOString().slice(0, 10);
-      const index= list.findIndex(el=>el.id==id);
+      console.log(value,id,item_name,symbol,item_description,item_id,items_type,left_qty)
+      const today=new Date();
+      const date = today.getFullYear()+'-'+(today.getMonth()+1)+'-'+today.getDate();
+      const time = today.getHours() + ":" + today.getMinutes() + ":" + today.getSeconds();
+      const dateTime = date+' '+time;      
+      const index= list.findIndex(el=>el.item_id==item_id);
+      
       console.log(index)
       if(index== -1){
         list.push({
           production_order_items:id,
-          date:date,
+          timestamp:dateTime,
           production_order:purchaseOrderId,
           quantity:value+" "+symbol,
           item_name:item_name,
           item_id:item_id,
           items_type:items_type,
           item_description:item_description,
-          left_qty:left_qty+" "+symbol
+          left_qty:left_qty+" "+symbol,
+          date:date
         })
       }else{
-          list[index].value=value;
+          list[index].quantity=value+" "+symbol;
         
       }
       console.log(list)
