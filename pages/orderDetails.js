@@ -172,13 +172,13 @@ const OrderDetails=()=>{
                 {pastTransactions?<div >
                    {pastTransactions.length !=0?<div className="past_transaction"> <div className="transaction_header">Past Transactions</div>
                    <div className="transaction_card common" style={{borderBottom:'#e5e5e5 solid 0.01em',color:'#6b6b6b',cursor:'default'}}>
-            <div className='common' style={{width:'30%'}}>DATE</div>
-            <div className='common' style={{width:'30%'}}>TRANSACTION ID</div>
-            <div className='common' style={{width:'30%'}}>CREATED BY</div>
-            <div className='common' style={{width:'10%'}}></div>
+            <div className='common' style={{width:'33%'}}>DATE</div>
+            <div className='common' style={{width:'33%'}}>TRANSACTION ID</div>
+            <div className='common' style={{width:'33%'}}>CREATED BY</div>
+            {/* <div className='common' style={{width:'10%'}}></div> */}
         </div>
                     {pastTransactions.map(transaction=>(
-                      <Transactions key={transaction.transaction_no} date={transaction.date} transaction_id={transaction.transaction_no} created_by={transaction.created_by} />
+                      <Transactions key={transaction.transaction_no} date={transaction.date} transaction_id={transaction.transaction_no} created_by={transaction.created_by}/>
                     ))}</div>:null}
                 </div>:null}
             </div>
