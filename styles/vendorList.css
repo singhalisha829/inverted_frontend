@@ -68,6 +68,28 @@ justify-content: space-between;
     padding: 1rem;
     margin-bottom: 1rem;
 }
+
+.confirm_header{
+    font-size: 2rem;
+    line-height: 2.3rem;
+    font-weight: 500;
+    color:#29394A;
+    height: 10rem;
+    
+}
+
+.confirm_content{
+    font-size: 1.5rem;
+    line-height: 1.7rem;
+    width: 80%;
+    margin-left: auto;
+    margin-right:auto ;
+}
+
+.confirm_buttons{
+    height: 10rem;
+
+}
   
 
 @media(max-width:600px){

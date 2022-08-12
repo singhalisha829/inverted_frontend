@@ -213,7 +213,7 @@ else{
             </div>
       
       {/* modal for adding new parts */}
-             <Modal show={showModal} modalClosed={()=> setShowModal(false)}>
+             <Modal show={showModal} modalClosed={()=> setShowModal(false)} height="50vh">
             <div className='add_part_title'>Add Part</div>
             <div className='add_part_form'>
           

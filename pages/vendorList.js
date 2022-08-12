@@ -10,6 +10,8 @@ import ReactHtmlTableToExcel from "react-html-table-to-excel";
 import Loader from '../components/loader';
 import ButtonLoader from '../components/buttonLoader';
 
+import Modal from "../components/modal";
+
 
 
 import { toast, ToastContainer } from "react-toastify";
@@ -26,6 +28,7 @@ const VendorList = () =>{
     const [lockState,setLockState]= useState([]);
     const [poId,setPoId]= useState(null);
     const [loading,setLoading]= useState(false);
+    const [showModal,setShowModal]= useState(false);
 
     
 
@@ -90,8 +93,13 @@ const VendorList = () =>{
     }
 
     const lockVendor=(id)=>{
-      console.log(id)
-      // setLoading(true)
+     setShowModal(true);
+     localStorage.setItem('vendor_list_id',id)
+    console.log(id);
+    }
+
+   const confirmVendorList=()=>{
+    const id=localStorage.getItem('vendor_list_id')
       confirmVendor(token,id).then(res=>{
         toast.success('Vendor List Confirmed!');
         fetchVendorWiseList(token,poId).then((res)=>{
@@ -107,7 +115,6 @@ const VendorList = () =>{
           setLockState(newList)
         })
       }).catch(err=>toast.error(err.message));
-     
     }
 
     const editPart= (id)=>{
@@ -116,7 +123,6 @@ const VendorList = () =>{
     }
 
     const downloadPdf=(id)=>{
-      console.log(id)
      fetchPurchaseOrderPdf(token,id)
     }
     
@@ -220,6 +226,14 @@ const VendorList = () =>{
             ))}
         </div>:null}
     </div>
+    <Modal show={showModal} modalClosed={()=>setShowModal(false)} height="35vh">
+      <div className="confirm_header common">ARE YOU SURE?</div>
+      <div className="confirm_content">Are you sure you to confirm? You won&apos;t be able edit this vendor list anymore.</div>
+      <div className="confirm_buttons common">
+        <button className="cancel_button button2" onClick={confirmVendorList}>Continue</button>
+        <button className="save_button button2" onClick={()=>setShowModal(false)}>Cancel</button>
+      </div>
+    </Modal>
         </div>
     )
 }

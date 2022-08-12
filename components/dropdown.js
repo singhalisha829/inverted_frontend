@@ -7,6 +7,8 @@ import Modal from "./modal";
 import { addNewPart } from "../services/dashboardService";
 import { toast } from "react-toastify";
 
+import Spinner from "./spinner";
+
 
 const Dropdown= (props) =>{
 
@@ -35,11 +37,11 @@ const Dropdown= (props) =>{
     // search in dropdown list
     useEffect(()=>{
         if(searchText != undefined){
-          // console.log(searchText)
-          // console.log(data)
+          
             const filterData = data.filter(o => Object.keys(o).some(
               k => String(o[k]).toLowerCase().includes(searchText.toLowerCase()))
             );
+            console.log(filterData)
             setDataFilter([...filterData])
           }else{
             setData([...data])
@@ -130,9 +132,10 @@ const Dropdown= (props) =>{
            {/* <div style={{position:'relative',right:'10px'}}><FaSistrix /></div> */}
            </div>
            <div style={{position:'relative'}}>
+               {/* {content?content:<Spinner/>} */}
                {content}
                </div>
-           <Modal show={showModal} modalClosed={()=> setShowModal(false)}>
+           <Modal show={showModal} modalClosed={()=> setShowModal(false)} height="50vh">
             <div style={{color:"#6B6B6B", padding:'2rem',paddingBottom:'4rem',fontFamily: 'Inter',fontStyle: "normal",fontWeight: "600",
             fontSize: "16px",lineHeight: "19px"}}>Add Part</div>
             <div className="add_part_form">

@@ -33,6 +33,7 @@ const PartsList = (props) =>{
         const token= localStorage.getItem('token')
         setToken(token)
         fetchVendorList(token).then(res=>setvendorList(res.data))
+        fetchUnitList(token).then(res=>setUnitList(res.data))
     },[])
 
 
@@ -240,8 +241,8 @@ const handleSplitValue=(val)=>{
     //     updateQuantity(newVal);
     // }
 }
-    
-    return(
+
+return(
         <div>            
         {/* <ToastContainer/> */}
 
@@ -251,9 +252,8 @@ const handleSplitValue=(val)=>{
 
            <div  style={{width:"30%"}} className="vendor_header">{props.partName}</div>
            <div style={{width:'5%'}} className="split"><GoRepoForked size={20}  style = {{transform: 'rotate(90deg)'}} onClick={()=>{
-            setShowForm(true);
-        fetchUnitList(token).then(res=>setUnitList(res.data))
-    }}/></div>
+            setShowForm(true)}}
+    /></div>
            
            <div  style={{width:"15%",display:'flex',flexDirection:'column',alignItems:'center'}} className="vendor_header">
             {quantity.map((branch)=>(<div key={branch.id} style={{display:'flex'}} className="gap">
