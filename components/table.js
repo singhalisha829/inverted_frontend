@@ -152,30 +152,41 @@ const Table = (props) => {
     } 
 
     const handleQuantity=(value,available_quantity,available_qty_symbol,required_quantity,symbol,id,product_code,product_description,item_id,items_type)=>{
-      // console.log(value,available_quantity,available_qty_symbol,required_quantity,symbol,id,product_code,product_description,item_id,items_type)
-      // console.log(available_qty_symbol)
-      // if(value>available_quantity){
-      //   toast.warning('Entered Quantity exceeds the Required Qunatity! ');
-      //   setBorder("red solid 0.1em");
-      // }else{
-      //   const left_quantity=required_quantity-value;
-      // props.handleQuantity(value,id,product_code,symbol,product_description,item_id,items_type,left_quantity);
-      // setBorder('#e5e5e5 solid 0.1em');
-      // }
+      setQuantity(value,unit);
+      const factor=null;
+      if(unit != null || unit != ''){
+      unitConversion(token,available_qty_symbol,unit).then(res=>{console.log(res.data);
+        if(res.data.status.code== 404){
+          toast.error(res.data.status.description);
+        }else{
+      factor=res.data.output[0].conversion_factor;
+      if(available_quantity<value*factor){
+        toast.warning('Entered Quantity exceeds the Required Qunatity! ');
+        
+      }else{
+        const left_quantity=required_quantity-(value*factor);
+      props.handleQuantity(value,id,product_code,unit,product_description,item_id,items_type,left_quantity,symbol);
+      }
+      }})
+    }
     }
 
     const handleUnit=(unit,available_qty,required_quantity,required_symbol,available_symbol,id,product_code,product_description,item_id,items_type)=>{
-      console.log(unit,available_qty,required_quantity,required_symbol,available_symbol,id,product_code,product_description,item_id,items_type)
+      // console.log(unit,available_qty,required_quantity,required_symbol,available_symbol,id,product_code,product_description,item_id,items_type)
       const factor=null;
-      unitConversion(token,available_symbol,unit).then(res=>{console.log(res.data.output[0].conversion_factor);
+      unitConversion(token,available_symbol,unit).then(res=>{console.log(res.data);
+        if(res.data.status.code== 404){
+          toast.error(res.data.status.description);
+        }else{
       factor=res.data.output[0].conversion_factor;
       if(available_qty<quantity*factor){
         toast.warning('Entered Quantity exceeds the Required Qunatity! ');
+        
       }else{
         const left_quantity=required_quantity-(quantity*factor);
         console.log(left_quantity,factor,available_qty)
-      props.handleQuantity(quantity,id,product_code,unit,product_description,item_id,items_type,left_quantity);
-
+      props.handleQuantity(quantity,id,product_code,unit,product_description,item_id,items_type,left_quantity,required_symbol);
+      }
       }})
       
     }
@@ -240,7 +251,9 @@ const Table = (props) => {
 :
 <div style={{display:'flex',width:size.width>'600'?'70%':'90%', border:"#e5e5e5 solid 0.1em",borderRadius:'5px'}}>
                 <input style={{width:"35%",height:"3rem",border:'none'}} className="quantity" type="number" value={quantity}
-                onChange={(e)=>setQuantity(e.target.value)} placeholder="0.00"/>
+                onChange={(e)=>handleQuantity(e.target.value,row.available_qty,row.available_qty_symbol,
+                  row.released_quantity_value,row.released_quantity_unit_symbol,row.id,row.product_code,row.product_description,row.item_id,
+                  row.ItemType)} placeholder="0.00"/>
                 <div style={{borderLeft:"#e5e5e5 solid 0.1em"}} />
                 {unitList?<Dropdown options={unitList} placeholder="Unit" width="10%" name="name" minWidth="9rem" no_outline={true} value={unit}
                 parentCallback={(data)=>{setUnit(data.symbol);handleUnit(data.symbol,row.available_qty,row.released_quantity_value,row.released_quantity_unit_symbol,row.available_qty_symbol,row.id,row.product_code,row.product_description,row.item_id,row.ItemType,row.product_description)}} 
@@ -312,7 +325,9 @@ const Table = (props) => {
                 :
                 <div style={{display:'flex',width:size.width>'600'?'70%':'90%', border:"#e5e5e5 solid 0.1em",borderRadius:'5px'}}>
                 <input style={{width:"35%",height:"3rem",border:'none'}} className="quantity" type="number" 
-                onChange={(e)=>setQuantity(e.target.value)} placeholder="0.00"/>
+                onChange={(e)=>handleQuantity(e.target.value,row.available_qty,row.available_qty_symbol,
+                  row.released_quantity_value,row.released_quantity_unit_symbol,row.id,row.product_code,row.product_description,row.item_id,
+                  row.ItemType)} placeholder="0.00"/>
                 <div style={{borderLeft:"#e5e5e5 solid 0.1em"}} />
                 {unitList?<Dropdown options={unitList} placeholder="Unit" width="10%" name="name" minWidth="9rem" no_outline={true}
                 parentCallback={(data)=>{setUnit(data.symbol);handleUnit(data.symbol,row.available_qty,row.released_quantity_value,row.released_quantity_unit_symbol,row.available_qty_symbol,row.id,row.product_code,row.product_description,row.item_id,row.ItemType,row.product_description)}} 

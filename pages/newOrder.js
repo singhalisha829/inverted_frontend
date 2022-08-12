@@ -129,6 +129,7 @@ const NewOrder=()=>{
         const newList = [data,...newOrderList];
         setNewOrderList(newList);
         cancelHandler(); 
+        setShowUnit(false);
     console.log(newList)
 
     }

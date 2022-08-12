@@ -105,8 +105,8 @@ const OrderDetails=()=>{
       }
     const size = useWindowSize();
 
-    const handleQuantity=(value,id,item_name,symbol,item_description,item_id,items_type,left_qty)=>{
-      console.log(value,id,item_name,symbol,item_description,item_id,items_type,left_qty)
+    const handleQuantity=(value,id,item_name,symbol,item_description,item_id,items_type,left_qty,left_qty_symbol)=>{
+      console.log(value,id,item_name,symbol,item_description,item_id,items_type,left_qty,left_qty_symbol)
       const today=new Date();
       const date = today.getFullYear()+'-'+(today.getMonth()+1)+'-'+today.getDate();
       const time = today.getHours() + ":" + today.getMinutes() + ":" + today.getSeconds();
@@ -124,7 +124,7 @@ const OrderDetails=()=>{
           item_id:item_id,
           items_type:items_type,
           item_description:item_description,
-          left_qty:left_qty+" "+symbol,
+          left_qty:left_qty+" "+left_qty_symbol,
           date:date
         })
       }else{
@@ -171,7 +171,7 @@ const OrderDetails=()=>{
                     </div>  
                     <div className="order_detail_table">
                       {orderItem?<Table rows={orderItem} columns={columns} width="100%" outOf={true}
-                      handleQuantity={(value,id,item_name,symbol,item_description,item_id,items_type,left_qty)=>handleQuantity(value,id,item_name,symbol,item_description,item_id,items_type,left_qty)}/>:<Spinner />}</div>
+                      handleQuantity={(value,id,item_name,symbol,item_description,item_id,items_type,left_qty,left_qty_symbol)=>handleQuantity(value,id,item_name,symbol,item_description,item_id,items_type,left_qty,left_qty_symbol)}/>:<Spinner />}</div>
                 </div>
 
                 <div className="parts_in_order">

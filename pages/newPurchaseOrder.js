@@ -118,6 +118,7 @@ const NewPurchaseOrder =() =>{
             console.log(data)
             const newList = [data,...newPoList];
             setNewPoList(newList);
+        setShowUnit(false);
             cancelHandler(); 
         }
         
