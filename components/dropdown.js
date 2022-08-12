@@ -125,7 +125,7 @@ const Dropdown= (props) =>{
         <div ref={wrapperRef} className="custom_dropdown" style={{width:props.width, height:props.height,minWidth:props.minWidth}} >
            <div className="control" onClick={()=>setIsDropdownOpen(!isDropdownOpen)} >
            <input className={props.no_outline?"selected_value_without_outline":"selected_value"} placeholder={props.placeholder} value={value} style={{margin:"0",height:props.height,border:props.border?"#e5e5e5 solid 0.1em":null,
-          backgroundColor:props.backGround}} />
+          backgroundColor:props.backGround}} disabled={true} />
            
            {/* <div style={{position:'relative',right:'10px'}}><FaSistrix /></div> */}
            </div>

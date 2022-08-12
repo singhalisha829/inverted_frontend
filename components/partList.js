@@ -127,7 +127,7 @@ const PartsList = (props) =>{
 
 
 
-    const splitHandler=() =>{
+    const splitHandler=(id,partName,partId) =>{
         const newList1=null;
         if(value== null){
             toast.warning('Enter Quantity!');
@@ -142,6 +142,7 @@ const PartsList = (props) =>{
             new_quantity= parseInt(new_quantity)
         }
         
+        const branch_id=lastId+1;
         
         newList1=[...quantity,{id:lastId+1,quantity:new_quantity,unit:unit}]
         const length1=newList1.length;
@@ -154,6 +155,7 @@ const PartsList = (props) =>{
         setUnit(()=>'')
         setFactor('');
         setUnit(()=>'');
+        props.handlePartsList(id,branch_id,newList1,partName,partId)
 
     }
     }
@@ -291,7 +293,7 @@ const handleSplitValue=(val)=>{
                     parentCallback={(data)=>{setUnit(data.symbol);handleUnit(data.symbol)}} border={true} value={unit}/>
                 </div>
             
-            <div className='split_icon check'><FaCheckCircle size={17} onClick={()=>splitHandler()}/></div>
+            <div className='split_icon check'><FaCheckCircle size={17} onClick={()=>splitHandler(props.id,props.partName,props.partId)}/></div>
                 
             <div className='split_icon trash'><FaTrashAlt size={17} onClick={closeSplit}/></div>
             </div>

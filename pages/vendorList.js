@@ -15,7 +15,7 @@ import ButtonLoader from '../components/buttonLoader';
 import { toast, ToastContainer } from "react-toastify";
 import 'react-toastify/dist/ReactToastify.css';
 
-import { fetchVendorWiseList, fetchUnassignedParts,deleteParts,confirmVendor } from "../services/purchaseOrderService";
+import { fetchVendorWiseList, fetchUnassignedParts,deleteParts,confirmVendor ,fetchPurchaseOrderPdf} from "../services/purchaseOrderService";
 
 const VendorList = () =>{
 
@@ -114,6 +114,11 @@ const VendorList = () =>{
       deleteParts(token,id).then(res=>{console.log(res)
         Router.push('/editVendor')}).catch(err=>toast.error(err.message));
     }
+
+    const downloadPdf=(id)=>{
+      console.log(id)
+     fetchPurchaseOrderPdf(token,id)
+    }
     
 
     return(
@@ -160,7 +165,7 @@ const VendorList = () =>{
             <div key={vendor.id} className="single_vendor_card1">
                 <div className="vendor_name"><div># {vendor.vendor}</div>
                 {lockState[index]?
-                <div>{lockState[index].status =='Confirmed'?<button className="common"><div style={{marginRight:"0.5rem",marginTop:'0.3rem'}}>Download</div> <FaDownload size={13}/></button>:
+                <div>{lockState[index].status =='Confirmed'?<button className="common" onClick={()=>downloadPdf(vendor.id)}><div style={{marginRight:"0.5rem",marginTop:'0.3rem'}}>Download</div> <FaDownload size={13}/></button>:
                 <button onClick={()=>lockVendor(vendor.id)} disabled={loading}>
                   {loading?<div style={{marginRight:'5px'}}><ButtonLoader /></div>:null}Confirm</button>}</div>:null}
                 </div> 

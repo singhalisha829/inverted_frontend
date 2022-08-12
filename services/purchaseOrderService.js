@@ -99,3 +99,8 @@ export const confirmVendor=(token,id) =>{
     }})
 }
 
+export const fetchPurchaseOrderPdf=(token,poId) =>{
+    return window.open(URL+MAIN.PO_PDF+poId,{headers:{
+        "Authorization":"Token "+ token
+    }})
+}

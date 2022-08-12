@@ -34,13 +34,6 @@ const SelectVendor=() =>{
 
     const [displayList,setDisplayList]= useState([]);
 
-    const columns = [
-        { accessor1: 'ItemType', label: 'ORDER TYPE' ,width:"25%", textalign:"center"},
-        { accessor1: 'item_name',label: 'ORDER ID' ,width:"25%", textalign:"center"},
-        { accessor1: 'product_description', label: 'ORDER DESCRIPTION',width:"25%" , textalign:"center"},  
-        { accessor1: 'quantity', label: 'Quantity',width:"25%" , textalign:"center"},  
-      ];
-
     useEffect(()=>{
         const token=localStorage.getItem('token');
         const poId=localStorage.getItem('poId')
@@ -119,19 +112,7 @@ const SelectVendor=() =>{
 
         // const i= finalList.findIndex(el=>el.part===id);
         const e= finalList.findIndex(el=>el.part===id && el.branch_id=== branch_id);
-        
-        if(e == -1){
-            finalList.push({
-                purchase_order:parseInt(purchaseOrderId),
-                part:id,
-                quantity:quantity1+" "+unit,
-                vendor:null,
-                unit_price:value,
-                branch_id:branch_id
-            })
-        }else{
             finalList[e].unit_price=value;
-        }
             
 
     setUpdateUi(value);
@@ -159,19 +140,7 @@ const SelectVendor=() =>{
 
         // const i= finalList.findIndex(el=>el.part===id);
         const e= finalList.findIndex(el=>el.part===id && el.branch_id=== branch_id);
-        if(e == -1){
-            finalList.push({
-                purchase_order:purchaseOrderId,
-                part:id,
-                quantity:quantity1+" "+unit,
-                vendor:value,
-                unit_price:null,
-                branch_id:branch_id
-            })
-        }else{
-            finalList[e].vendor=value;
-        }
-        
+            finalList[e].vendor=value;        
         
         handleDisplayList(value);
         
@@ -183,17 +152,46 @@ const SelectVendor=() =>{
     const submitVendor=()=>{
         const ifVendorNull= vendorList.some(el=>el.vendor===null);
         const ifUnitPriceNull= vendorList.some(el=>el.unit_price===null);
-        // if(vendorList.length < partsList.length || ifVendorNull || ifUnitPriceNull){
-        //     toast.warning('Enter All Fields!')
-        //     return;
-        // }else{
             postPoVendor1(token,finalList).then(res=>{
                 toast.success("Successfully Submitted!")
             localStorage.setItem('poId',res.data.status.purchase_order_id);
             Router.push('/vendorList');
 
             })
-        // }
+        
+    }
+
+        
+    const handlePartsList=(id,branch_id,quantity,part_name,partId)=>{
+        const quantity1= quantity.filter(el=>el.id===branch_id)[0].quantity;
+        const unit= quantity.filter(el=>el.id===branch_id)[0].unit;
+        const index1=finalList.findIndex(el=>el.part== id && el.branch_id==1);
+        console.log(index1)
+            vendorList.push({
+                purchase_order:parseInt(purchaseOrderId),
+                part:id,
+                part_name:part_name,
+                quantity:quantity1+" "+unit,
+                vendor:null,
+                unit_price:null,
+                branch_id:branch_id,
+        })
+
+            finalList.push({
+                purchase_order:parseInt(purchaseOrderId),
+                part:id,
+                quantity:quantity1+" "+unit,
+                vendor:null,
+                unit_price:null,
+                branch_id:branch_id,
+                part_id:partId,
+            })
+        finalList[index1]['unit_price']=null;
+        finalList[index1]['vendor']=null;
+
+        console.log(finalList)
+            
+    setUpdateUi(quantity1);
     }
 
 
@@ -347,6 +345,7 @@ const SelectVendor=() =>{
             quantity={part.quantity_value} unit={part.quantity_symbol} handleUnitPrice={(id,value,branch_id,quantity,part_name,partId)=>handleUnitPrice(id,value,branch_id,quantity,part_name,partId)} 
             handleVendor={(id,value,branch_id,quantity,part_name,partId)=>handleVendor(id,value,branch_id,quantity,part_name,partId)} handleQuantity={
                 (id,list,unit)=>handleQuantity(id,list,unit)} deleteBranch={(id,part_id)=>deleteBranch(id,part_id)}
+                handlePartsList={(id,branch_id,quantity,part_name,partId)=>handlePartsList(id,branch_id,quantity,part_name,partId)}
             />)):
                 partsList.map((part)=>{
                 return(
@@ -354,6 +353,8 @@ const SelectVendor=() =>{
             quantity={part.quantity_value} unit={part.quantity_symbol} handleUnitPrice={(id,value,branch_id,quantity,part_name,partId)=>handleUnitPrice(id,value,branch_id,quantity,part_name,partId)} 
             handleVendor={(id,value,branch_id,quantity,part_name,partId)=>handleVendor(id,value,branch_id,quantity,part_name,partId)} handleQuantity={
                 (id,list,unit)=>handleQuantity(id,list,unit)} deleteBranch={(id,branch_id)=>deleteBranch(id,branch_id)}
+                handlePartsList={(id,branch_id,quantity,part_name,partId)=>handlePartsList(id,branch_id,quantity,part_name,partId)}
+
             />)})}</div>
         :null}</div>
         </div>
