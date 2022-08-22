@@ -25,7 +25,7 @@ const Ledger =(props)=>{
     const [ledger,setLedger]= useState(null);
     const [showLedger, setShowLedger] = useState(false);
 
-    const[selectedDate, setSelectedDate]= useState(null);
+    const[selectedDate, setSelectedDate]= useState(new Date());
     const [vendorList, setVendorList]= useState(null);
     const [unitList, setUnitList]= useState(null);
     const [searchText, setSearchText]= useState(null);

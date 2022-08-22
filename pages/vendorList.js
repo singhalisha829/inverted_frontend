@@ -125,6 +125,8 @@ const VendorList = () =>{
     const downloadPdf=(id)=>{
      fetchPurchaseOrderPdf(token,id)
     }
+
+    console.log(vendorList)
     
 
     return(

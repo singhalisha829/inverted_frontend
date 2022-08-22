@@ -28,7 +28,7 @@ const StockIn=()=>{
     const [partList, setPartList]= useState(null);
     const [unitList, setUnitList]= useState(null);
     const [vendorList, setVendorList]= useState(null);
-    const [selectedDate,setSelectedDate]= useState('');
+    const [selectedDate,setSelectedDate]= useState(new Date());
     const [showPage, setShowPage] = useState(false);
     const [newPartList, setNewPartList]= useState([]);
     const [partTypeList, setPartTypeList] = useState(null);
