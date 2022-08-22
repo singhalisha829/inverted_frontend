@@ -54,6 +54,7 @@ const StockIn=()=>{
     const notifySuccess = () => toast.success("New Parts Added Successfully");
 
 
+    console.log(new Date().toLocaleDateString('en-gb'))
     useEffect(()=>{
     // fetch data only if token is defined or redirect to login
     if(localStorage.getItem('token') != null){
@@ -169,7 +170,7 @@ const StockIn=()=>{
         setQuantity("")
         setUnit("");
         setPartId("");
-        console.log(newList)
+        console.log(newList1)
     }
     }
 
@@ -289,7 +290,7 @@ const StockIn=()=>{
                 parentCallback={(data)=>setVendor(data.id)} dropdownWidth={size.width>'600'?"15vw":'70vw'} searchWidth={size.width>'600'?"12vw":'60vw'} height="3rem"/>:null}</div>
                 <div className='date_column'>
                     {size.width>'600'?<label style={{marginBottom:'0.5rem'}}>Date:</label> : null}
-                            <DatePicker placeholderText='Enter Date' selected={selectedDate} onChange={(date) => setSelectedDate(date)} />
+                            <DatePicker placeholderText='Enter Date' dateFormat="dd/MM/yyyy" selected={selectedDate} onChange={(date) =>{ setSelectedDate(date);console.log(date)}} />
                         </div>
             </div>
             {size.width>'600'?<div style={{width:'100%'}}><div className='stockin_list_header'>

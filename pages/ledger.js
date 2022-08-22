@@ -216,7 +216,7 @@ const Ledger =(props)=>{
                 <div className="field_width">{size.width>'600'?<label>Invoice Number:</label>:null}
                     <input style={{marginTop:'0',height:'3rem',width:size.width>'600'?'70%':'100%'}} placeholder='Enter Invoice Number' onChange={(e)=>setInvoice(e.target.value)} className="ledger_input"/></div>
                 <div className="field_width">{size.width>'600'?<label>Date:</label>:null}
-                            <DatePicker placeholderText='Enter Date' selected={selectedDate} onChange={(date) => setSelectedDate(date)} />
+                            <DatePicker dateFormat="dd/MM/yyyy" placeholderText='Enter Date' selected={selectedDate} onChange={(date) => setSelectedDate(date)} />
     
                         </div>
                 </div>
