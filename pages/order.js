@@ -48,7 +48,6 @@ const Order=()=>{
       }
         
     },[])
-    console.log(productionOrderList)
 
      // calculate screen size
      function useWindowSize() {
