@@ -27,7 +27,7 @@ const Table = (props) => {
     const [border,setBorder]= useState('#e5e5e5 solid 0.1em');
     const [unitList,setUnitList]= useState(null);
     const [quantity,setQuantity]= useState(null);
-    const [unit,setUnit]= useState(null);
+    const [unit,setUnit]= useState([]);
     const [token,setToken]= useState(null);
     
    useEffect(()=>{
@@ -154,44 +154,70 @@ const Table = (props) => {
     const handleQuantity=(value,available_quantity,available_qty_symbol,required_quantity,symbol,id,product_code,product_description,item_id,items_type)=>{
       setQuantity(value,unit);
       const factor=null;
-      if(unit != null || unit != ''){
-      unitConversion(token,available_qty_symbol,unit).then(res=>{console.log(res.data);
+      const unitIndex=unit.findIndex(el=>el.id==id);
+      if(unitIndex != -1){
+      unitConversion(token,available_qty_symbol,unit[unitIndex].unit).then(res=>{console.log(res.data);
         if(res.data.status.code== 404){
           toast.error(res.data.status.description);
-        }else{
+        }else if(required_quantity<quantity*factor){
+          toast.warning('Entered Quantity exceeds the Available Quantity! ');
+        }
+        else{
       factor=res.data.output[0].conversion_factor;
       if(available_quantity<value*factor){
         toast.warning('Entered Quantity exceeds the Required Qunatity! ');
-        
       }else{
         const left_quantity=required_quantity-(value*factor);
-      props.handleQuantity(value,id,product_code,unit,product_description,item_id,items_type,left_quantity,symbol);
+      props.handleQuantity(value,id,product_code,unit[unitIndex].unit,product_description,item_id,items_type,left_quantity,symbol);
       }
       }})
     }
     }
 
-    const handleUnit=(unit,available_qty,required_quantity,required_symbol,available_symbol,id,product_code,product_description,item_id,items_type)=>{
+    const handleUnit=(unit_symbol,available_qty,required_quantity,required_symbol,available_symbol,id,product_code,product_description,item_id,items_type)=>{
       // console.log(unit,available_qty,required_quantity,required_symbol,available_symbol,id,product_code,product_description,item_id,items_type)
       const factor=null;
-      unitConversion(token,available_symbol,unit).then(res=>{console.log(res.data);
+      unitConversion(token,available_symbol,unit_symbol).then(res=>{console.log(res.data);
         if(res.data.status.code== 404){
           toast.error(res.data.status.description);
+        
         }else{
+          const unitIndex=unit.findIndex(el=>el.id==id);
+          if(unitIndex == -1){
+            const unitList=[...unit,{id:id,unit:unit_symbol}]
+            setUnit(unitList);
+          }else{
+            unit[unitIndex].unit=unit_symbol;
+          }
       factor=res.data.output[0].conversion_factor;
       if(available_qty<quantity*factor){
-        toast.warning('Entered Quantity exceeds the Required Qunatity! ');
+        toast.warning('Entered Quantity exceeds the Available Quantity! ');
         
-      }else{
+      }else if(required_quantity<quantity*factor){
+        toast.warning('Entered Quantity exceeds the Required Quantity! ');
+      }
+      else{
         const left_quantity=required_quantity-(quantity*factor);
         console.log(left_quantity,factor,available_qty)
-      props.handleQuantity(quantity,id,product_code,unit,product_description,item_id,items_type,left_quantity,required_symbol);
+      props.handleQuantity(quantity,id,product_code,unit_symbol,product_description,item_id,items_type,left_quantity,required_symbol);
       }
       }})
       
     }
+
+    const handleBOMQuantity=(value,available_quantity,required_quantity,id,product_code,product_description,item_id,items_type)=>{
+      if(value>available_quantity){
+        toast.warning('Entered Quantity is greater than Available Quantity');
+
+      }else if(value>required_quantity){
+        toast.warning('Entered Quantity is greater than Required Quantity');
+      }else{
+        const left_quantity=required_quantity-value;
+        console.log(left_quantity)
+      props.handleQuantity(value,id,product_code,"Nos",product_description,item_id,items_type,left_quantity,"Nos");
+      }
+    }
     
-    // console.log(data)
 
     let table_content=null;
     
@@ -245,8 +271,8 @@ const Table = (props) => {
       return <td key={column.accessor1} width={column.width} style={{textAlign:column.textalign}}
   ><div className="stock_out_quantity">
    {row.ItemType==='BOM'? <input type="number" className="quantity_field" placeholder="1"
-  onChange={(e)=>handleQuantity(e.target.value,row.available_qty,row.available_qty_symbol,
-    row.released_quantity_value,row.released_quantity_unit_symbol,row.id,row.product_code,row.product_description,row.item_id,
+  onChange={(e)=>handleBOMQuantity(e.target.value,row.available_qty,
+    row.released_quantity_value,row.id,row.product_code,row.product_description,row.item_id,
     row.ItemType)}/>
 :
 <div style={{display:'flex',width:size.width>'600'?'70%':'90%', border:"#e5e5e5 solid 0.1em",borderRadius:'5px'}}>
@@ -256,7 +282,7 @@ const Table = (props) => {
                   row.ItemType)} placeholder="0.00"/>
                 <div style={{borderLeft:"#e5e5e5 solid 0.1em"}} />
                 {unitList?<Dropdown options={unitList} placeholder="Unit" width="10%" name="name" minWidth="9rem" no_outline={true} value={unit}
-                parentCallback={(data)=>{setUnit(data.symbol);handleUnit(data.symbol,row.available_qty,row.released_quantity_value,row.released_quantity_unit_symbol,row.available_qty_symbol,row.id,row.product_code,row.product_description,row.item_id,row.ItemType,row.product_description)}} 
+                parentCallback={(data)=>{handleUnit(data.symbol,row.available_qty,row.released_quantity_value,row.released_quantity_unit_symbol,row.available_qty_symbol,row.id,row.product_code,row.product_description,row.item_id,row.ItemType,row.product_description)}} 
                 dropdownWidth={size.width>'600'?"11vw":'40vw'} searchWidth={size.width>'600'?"8vw":'30vw'} height="3rem"/>:null}</div>}
 
   <div className="available_quantity">*Only {row.available_qty} {row.available_qty_symbol} available</div></div></td>
@@ -318,9 +344,9 @@ const Table = (props) => {
                     return <td key={column.accessor1} width={column.width} style={{textAlign:column.textalign}}
                 ><div className="stock_out_quantity">
                   {row.ItemType==='BOM'?<input type="number" style={{border:border}} className="quantity_field" placeholder="1"
-                onChange={(e)=>handleQuantity(
-                  e.target.value,row.available_qty,row.available_qty_symbol,
-                  row.released_quantity_value,row.released_quantity_unit_symbol,row.id,row.product_code,row.product_description,row.item_id,
+                onChange={(e)=>handleBOMQuantity(
+                  e.target.value,row.available_qty,
+                  row.released_quantity_value,row.id,row.product_code,row.product_description,row.item_id,
                   row.ItemType)}/>
                 :
                 <div style={{display:'flex',width:size.width>'600'?'70%':'90%', border:"#e5e5e5 solid 0.1em",borderRadius:'5px'}}>
@@ -330,7 +356,7 @@ const Table = (props) => {
                   row.ItemType)} placeholder="0.00"/>
                 <div style={{borderLeft:"#e5e5e5 solid 0.1em"}} />
                 {unitList?<Dropdown options={unitList} placeholder="Unit" width="10%" name="name" minWidth="9rem" no_outline={true}
-                parentCallback={(data)=>{setUnit(data.symbol);handleUnit(data.symbol,row.available_qty,row.released_quantity_value,row.released_quantity_unit_symbol,row.available_qty_symbol,row.id,row.product_code,row.product_description,row.item_id,row.ItemType,row.product_description)}} 
+                parentCallback={(data)=>{handleUnit(data.symbol,row.available_qty,row.released_quantity_value,row.released_quantity_unit_symbol,row.available_qty_symbol,row.id,row.product_code,row.product_description,row.item_id,row.ItemType,row.product_description)}} 
                 dropdownWidth={size.width>'600'?"11vw":'40vw'} searchWidth={size.width>'600'?"8vw":'30vw'} height="3rem"/>:null}</div>}
                 <div className="available_quantity">*Only {row.available_qty} {row.available_qty_symbol} available</div></div></td>
                   }

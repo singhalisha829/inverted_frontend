@@ -47,6 +47,7 @@ const OrderDetails=()=>{
 
       useEffect(()=>{
         if(localStorage.getItem('token') != undefined){
+      localStorage.setItem('stock_out_list',null)
           const token=localStorage.getItem('token')
           const poId=localStorage.getItem('production_order_id');
           console.log(poId);
@@ -106,7 +107,6 @@ const OrderDetails=()=>{
     const size = useWindowSize();
 
     const handleQuantity=(value,id,item_name,symbol,item_description,item_id,items_type,left_qty,left_qty_symbol)=>{
-      console.log(value,id,item_name,symbol,item_description,item_id,items_type,left_qty,left_qty_symbol)
       const today=new Date();
       const date = today.getFullYear()+'-'+(today.getMonth()+1)+'-'+today.getDate();
       const time = today.getHours() + ":" + today.getMinutes() + ":" + today.getSeconds();
@@ -134,7 +134,17 @@ const OrderDetails=()=>{
       console.log(list)
       localStorage.setItem('stock_out_list',JSON.stringify(list))
     }
+   
+    console.log(list)
 
+    const stockOut=()=>{
+      if(list.length>0){
+      localStorage.setItem('production_order_id',purchaseOrderId); 
+      Router.push('/stockOut')
+      }else{
+
+      }
+    }
 
     return(
         <div className="layout">
@@ -167,7 +177,7 @@ const OrderDetails=()=>{
 
                     <div className="order_details_subheader">
                         Your Orders
-                        <button onClick={()=>{localStorage.setItem('production_order_id',purchaseOrderId); Router.push('/stockOut')}}>Stock Out</button>
+                        <button onClick={stockOut}>Stock Out</button>
                     </div>  
                     <div className="order_detail_table">
                       {orderItem?<Table rows={orderItem} columns={columns} width="100%" outOf={true}

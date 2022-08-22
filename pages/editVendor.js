@@ -168,9 +168,6 @@ const EditVendor=() =>{
                 branch_id:branch_id,
         })
 
-
-
-        
             finalList.push({
                 purchase_order:parseInt(purchaseOrderId),
                 part:id,
