@@ -83,7 +83,6 @@ const PartsList = (props) =>{
                     setValue(()=>'')
                     
                 }else{
-                    console.log(res.data)
                     const factor=res.data.output[0].conversion_factor;
                     newVal=parseFloat((quantity[0].quantity-value*factor).toFixed(2)); 
                     updateQuantity(newVal);
@@ -101,7 +100,6 @@ const PartsList = (props) =>{
             setUnit(()=>'');
             setCurrentVal(newVal);
         }else{
-            console.log(newVal)
             newVal= parseInt(newVal) != newVal?parseFloat(parseFloat(newVal).toFixed(2)):newVal;
             quantity[0].quantity= newVal;
         props.handleQuantity(props.id,quantity[length-1])
@@ -117,7 +115,6 @@ const PartsList = (props) =>{
             setUnit(()=>'');
             setCurrentVal(value);
         }else{
-            console.log('update',quantity[0])
             quantity[0].quantity= value;
         props.handleQuantity(props.id,quantity[0])
     setCurrentVal(value)
@@ -170,8 +167,13 @@ const closeSplit=()=>{
     else{
     const newList=quantity;
     const length=newList.length;
-    newList[length-1].quantity += parseInt(value);
+    unitConversion(token,newList[length-1].unit,unit).then(res=>{
+    const factor=res.data.output[0].conversion_factor;
+    const val=parseInt(value)==value?parseInt(value):parseFloat(value);
+    newList[0].quantity += val*factor;
     setquantity(newList);
+    setCurrentVal(newList[0].quantity)
+    })
     }
     setValue('')
 
