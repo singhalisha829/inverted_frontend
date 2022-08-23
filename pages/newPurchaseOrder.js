@@ -138,6 +138,8 @@ const NewPurchaseOrder =() =>{
         if(data==="Part"){
             setShowUnit(true);
  
+        }else{
+            setShowUnit(false);
         }
     }
 

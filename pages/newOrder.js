@@ -148,10 +148,10 @@ const NewOrder=()=>{
 
     const fetchOrderName=(data)=>{
       setToken(localStorage.getItem('token'))
-      if(data==="Part"){
-              
+      if(data==="Part"){         
           setShowUnit(true);
-
+      }else{
+        setShowUnit(false)
       }
   }
 
