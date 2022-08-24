@@ -7,7 +7,7 @@ import Head from "next/head";
 import Header from "../components/header";
 
 import StockOutList from '../components/stockOutList';
-import { fetchPartsList } from "../services/dashboardService";
+import { fetchPartsList , fetchPartTypeList} from "../services/dashboardService";
 import { fetchBOMList } from "../services/purchaseOrderService";
 import { fetchUnitList } from "../services/stockInService";
 import { createProductionOrder } from "../services/productionOrderService";
@@ -44,6 +44,8 @@ const NewOrder=()=>{
     const [emptyList,setEmptyList]= useState([]);
     const [part,setPart]= useState(null);
     const [bom,setBom]= useState(null);
+    const [partTypeList,setPartTypeList]=useState([]);
+
     
 
     useEffect(()=>{
@@ -52,10 +54,12 @@ const NewOrder=()=>{
         const token=localStorage.getItem('token');
         setToken(token)
         fetchUnitList(token).then((res)=>setUnitList(res.data));
-        fetchPartsList(token).then(
-          res=>{setPartsList(res.data);console.log(res.data)}).catch(err=>toast.error(err.message));
           fetchBOMList(token).then(
             res=>{setBOMList(res.data.data.output)}).catch(err=>toast.error(err.message))
+
+            fetchPartTypeList(token).then(
+              res=>setPartTypeList(res.data)
+            ).catch(err=>toast.error(err.message))
     }else{
         router.push('/login');
       }
@@ -177,6 +181,15 @@ const NewOrder=()=>{
         setNewOrderList(newList)
     }
 
+    const fetchParts=(id)=>{
+      fetchPartsList(token).then(
+          res=>{
+              const list=res.data.filter(el=>el.part_type==id);
+              setPartsList(list)
+
+          }).catch(err=>toast.error(err.message));    
+      }
+
 
     return(
         <div  className="layout">
@@ -204,6 +217,11 @@ const NewOrder=()=>{
                     <Dropdown options={order_type} name="name" width={size.width>'600'?"70%":"90%"} parentCallback={(data)=>{setOrderType(data.value);fetchOrderName(data.value)}}
                     dropdownWidth={size.width>'600'?'13vw':'71vw'} searchWidth={size.width>'600'?'10vw':'61vw'} border={true} value={orderType} placeholder="Select Order Type"
                     height="3.3rem"/></div>
+
+{showUnit?<div className="fields centered">{size.width>'600'?<label style={{marginBottom:"0.5rem"}}>Part Type:</label>:null}
+        <Dropdown options={partTypeList} name="name" width={size.width>'600'?'70%':'90%'} parentCallback={(data)=>{fetchParts(data.id)}}
+        dropdownWidth={size.width>'600'?'13vw':'20vw'} searchWidth={size.width>'600'?'10vw':'12vw'} border={true} value={orderType} height="3.3rem"
+        placeholder="Select Order Type"/></div>:null}
                     
                     <div className="fields centered" >
                       {size.width>'600'?<label style={{marginBottom:"0.5rem"}}>Order Description:</label>:null}

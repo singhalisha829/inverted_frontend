@@ -4,7 +4,7 @@ import Head from "next/head";
 import Header from "../components/header";
 import Router from 'next/router';
 
-import { fetchPartsList } from '../services/dashboardService';
+import { fetchPartsList, fetchPartTypeList } from '../services/dashboardService';
 import { fetchUnitList } from '../services/stockInService';
 import { createPurchaseOrder , fetchBOMList } from "../services/purchaseOrderService";
 
@@ -35,6 +35,7 @@ const NewPurchaseOrder =() =>{
     const [bom,setBom]= useState(null);
     const [bomName,setBomName]= useState(null);
     const [partName,setPartName]= useState(null);
+    const [partTypeList,setPartTypeList]=useState([]);
 
     const order_type=[{value:'BOM',name:'BOM'},{value:'Part',name:'PART'}]
 
@@ -44,10 +45,13 @@ const NewPurchaseOrder =() =>{
           const token=localStorage.getItem('token');
           setToken(token)
           fetchUnitList(token).then((res)=>setUnitList(res.data));
-          fetchPartsList(token).then(
-            res=>{setPartsList(res.data);console.log(res.data)}).catch(err=>toast.error(err.message));
+
             fetchBOMList(token).then(
               res=>{setBOMList(res.data.data.output)}).catch(err=>toast.error(err.message))
+
+              fetchPartTypeList(token).then(
+                res=>setPartTypeList(res.data)
+              ).catch(err=>toast.error(err.message))
       }else{
           router.push('/login');
         }
@@ -102,7 +106,6 @@ const NewPurchaseOrder =() =>{
                 quantity:quantity+" Nos",
                 item_desc:bom
             }
-            console.log(data)
             const newList = [data,...newPoList];
             setNewPoList(newList);
             cancelHandler(); 
@@ -115,7 +118,6 @@ const NewPurchaseOrder =() =>{
                 quantity:quantity+" "+unit,
                 item_desc:part
             }
-            console.log(data)
             const newList = [data,...newPoList];
             setNewPoList(newList);
         setShowUnit(false);
@@ -144,24 +146,19 @@ const NewPurchaseOrder =() =>{
     }
 
     
-console.log(newPoList)
     const submitPurchaseOrder=()=>{
-        console.log(newPoList.length)
         if(newPoList.length===0){
             toast.warning('Enter Form Details!')
         }else{
         createPurchaseOrder(newPoList,token).then((res)=>{
             localStorage.setItem('poId',res.data.status.purchase_order_id);
-            console.log(res.data.status.purchase_order_id);
             cancelHandler();
             Router.push('/selectVendor');
         }
         )
-        console.log(newPoList)
     }
     }
 
-    console.log(orderType)
 
     // remove the part from list on clicking the trash icon
     const handleDeleteOrder=(id)=>{
@@ -169,12 +166,26 @@ console.log(newPoList)
         setNewPoList(newList)
     }
 
+    const fetchParts=(id)=>{
+        fetchPartsList(token).then(
+            res=>{
+                const list=res.data.filter(el=>el.part_type==id);
+                setPartsList(list)
+
+            }).catch(err=>toast.error(err.message));    
+        }
+
 
     const form=( <div className="new_po_order_form">
         <div className="fields centered">{size.width>'600'?<label style={{marginBottom:"0.5rem"}}>Order Type:</label>:null}
         <Dropdown options={order_type} name="name" width={size.width>'600'?'70%':'90%'} parentCallback={(data)=>{setOrderType(data.value);fetchOrderName(data.value)}}
         dropdownWidth={size.width>'600'?'13vw':'20vw'} searchWidth={size.width>'600'?'10vw':'12vw'} border={true} value={orderType} height="3.3rem"
         placeholder="Select Order Type"/></div>
+
+        {showUnit?<div className="fields centered">{size.width>'600'?<label style={{marginBottom:"0.5rem"}}>Part Type:</label>:null}
+        <Dropdown options={partTypeList} name="name" width={size.width>'600'?'70%':'90%'} parentCallback={(data)=>{fetchParts(data.id)}}
+        dropdownWidth={size.width>'600'?'13vw':'20vw'} searchWidth={size.width>'600'?'10vw':'12vw'} border={true} value={orderType} height="3.3rem"
+        placeholder="Select Order Type"/></div>:null}
         
         <div className="fields centered">{size.width>'600'?<label style={{marginBottom:"0.5rem"}}>Order Description:</label>:null}
         {orderType?<div>{orderType=='BOM'? <Dropdown options={bomList} name="product_description" width={size.width>'600'?"70%":"90%"} parentCallback={(data)=>{setBomName(data.id);setBom(data.product_description)}} value={bomName}
