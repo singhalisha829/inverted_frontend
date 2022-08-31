@@ -27,7 +27,6 @@ const Dropdown= (props) =>{
     const [data,setData] = useState(props.options);
     const [dataFilter, setDataFilter] = useState([]);
 
-    
     useEffect(()=>{
       if(props.isAddNewPart){
         setListTopMargin('4rem')
@@ -37,14 +36,13 @@ const Dropdown= (props) =>{
     // search in dropdown list
     useEffect(()=>{
         if(searchText != undefined){
-          
-            const filterData = data.filter(o => Object.keys(o).some(
+            const filterData = props.options.filter(o => Object.keys(o).some(
               k => String(o[k]).toLowerCase().includes(searchText.toLowerCase()))
             );
             console.log(filterData)
             setDataFilter([...filterData])
           }else{
-            setData([...data])
+            setData([...props.options])
             setDataFilter([...data])
           }
           // console.log(dataFilter)
