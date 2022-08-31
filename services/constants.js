@@ -21,6 +21,8 @@ export const MAIN={
     DELETE_PART:'api/v1/purchase-order-items-vendor-delete/',
     PRODUCTION_ORDER_PART_WISE_LIST:'api/v1/production-order-part-wise/?production_order_id=',
     PRODUCTION_ORDER_TRANSACTION:'api/v1/production-order-transction/',
-    PO_PDF:'api/v1/vendor_purchase_order_pdf/?id='
+    PO_PDF:'api/v1/vendor_purchase_order_pdf/?id=',
+    DROPDOWN_PARTS:'api/v1/dropdown/parts/',
+    DROPDOWN_UNIT:'api/v1/dropdown/unit/?unit_type='
 
 }

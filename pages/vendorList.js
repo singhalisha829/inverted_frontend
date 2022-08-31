@@ -102,6 +102,7 @@ const VendorList = () =>{
     const id=localStorage.getItem('vendor_list_id')
       confirmVendor(token,id).then(res=>{
         toast.success('Vendor List Confirmed!');
+        setShowModal(false);
         fetchVendorWiseList(token,poId).then((res)=>{
           setVendorList(res.data.data.output)
           const newList=[];

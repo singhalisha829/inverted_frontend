@@ -7,9 +7,9 @@ import Head from "next/head";
 import Header from "../components/header";
 
 import StockOutList from '../components/stockOutList';
-import { fetchPartsList , fetchPartTypeList} from "../services/dashboardService";
+import {  fetchPartTypeList} from "../services/dashboardService";
+import { fetchDropdownPartList , fetchDropdownUnitList} from "../services/productionOrderService";
 import { fetchBOMList } from "../services/purchaseOrderService";
-import { fetchUnitList } from "../services/stockInService";
 import { createProductionOrder } from "../services/productionOrderService";
 
 import PurchaseOrderList from "../components/purchaseOrderList";
@@ -53,7 +53,6 @@ const NewOrder=()=>{
       if(localStorage.getItem('token') != undefined){
         const token=localStorage.getItem('token');
         setToken(token)
-        fetchUnitList(token).then((res)=>setUnitList(res.data));
           fetchBOMList(token).then(
             res=>{setBOMList(res.data.data.output)}).catch(err=>toast.error(err.message))
 
@@ -182,13 +181,21 @@ const NewOrder=()=>{
     }
 
     const fetchParts=(id)=>{
-      fetchPartsList(token).then(
-          res=>{
-              const list=res.data.filter(el=>el.part_type==id);
-              setPartsList(list)
-
-          }).catch(err=>toast.error(err.message));    
+     
+          fetchDropdownPartList(token).then(
+            res=>{
+                const list=res.data.data.output.filter(el=>el.part_type==id);
+                setPartsList(list)    
+            }).catch(err=>toast.error(err.message)); 
       }
+
+      const fetchUnit=(unitType)=>{
+        console.log(unitType)
+        fetchDropdownUnitList(token,unitType).then(res=>{
+            console.log(res.data);
+            setUnitList(res.data.data.output)
+        })
+    }
 
 
     return(
@@ -227,7 +234,7 @@ const NewOrder=()=>{
                       {size.width>'600'?<label style={{marginBottom:"0.5rem"}}>Order Description:</label>:null}
                    {orderType?<div>{orderType=='BOM'? <Dropdown options={bomList} name="product_description" width={size.width>'600'?"70%":"90%"} parentCallback={(data)=>{setBomName(data.id);setBom(data.product_description)}} value={bomName}
 dropdownWidth={size.width>'600'?'13vw':'71vw'} searchWidth={size.width>'600'?'10vw':'61vw'} border={true} placeholder="Select Order" height="3.3rem"/>:
-<Dropdown options={partsList} name="short_description" width={size.width>'600'?"70%":"90%"} parentCallback={(data)=>{setPartName(data.id);setPart(data.short_description)}} value={partName}
+<Dropdown options={partsList} name="short_description" width={size.width>'600'?"70%":"90%"} parentCallback={(data)=>{setPartName(data.id);setPart(data.short_description);fetchUnit(data.unit_type)}} value={partName}
 dropdownWidth={size.width>'600'?'13vw':'71vw'} searchWidth={size.width>'600'?'10vw':'61vw'} border={true} placeholder="Select Order" height="3.3rem"/>}</div>
 :
 <Dropdown options={emptyList} width={size.width>'600'?"70%":"90%"} 

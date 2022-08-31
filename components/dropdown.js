@@ -114,11 +114,12 @@ const Dropdown= (props) =>{
                  onClick={()=>{ props.parentCallback(option); 
                 setIsDropdownOpen(false); setValue(option[props.name])}}>{option[props.name]}</div>
              )):
-             props.options.map((option)=>(
+             <div>
+             {props.options?props.options.map((option)=>(
                 <div className="option" key={option.id}
                 onClick={()=>{ props.parentCallback(option);
                setIsDropdownOpen(false); setValue(option[props.name])}}>{option[props.name]}</div>
-            ))}</div>
+            )):<Spinner/>}</div>}</div>
         </div>
         
         );

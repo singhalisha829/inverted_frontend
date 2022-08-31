@@ -20,6 +20,24 @@ export const fetchProductionOrderList=(token) =>{
         }})
     }
 
+export const fetchDropdownPartList=(token) =>{
+        return axios.get(URL+MAIN.DROPDOWN_PARTS,{headers:{
+                "Authorization":"Token "+ token
+            }})
+    }
+
+export const fetchDropdownUnitList=(token,unitType) =>{
+    if(unitType==null){
+        return axios.get(URL+MAIN.DROPDOWN_UNIT,{headers:{
+            "Authorization":"Token "+ token
+        }}) 
+    }else{
+        return axios.get(URL+MAIN.DROPDOWN_UNIT+unitType,{headers:{
+                "Authorization":"Token "+ token
+            }})
+    }
+}
+
 export const fetchProductionOrderDetails=(token,id) =>{
         return axios.get(URL+MAIN.PRODUCTION_ORDER+"?id="+id,{headers:{
                 "Authorization":"Token "+ token
