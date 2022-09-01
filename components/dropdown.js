@@ -6,7 +6,7 @@ import Modal from "./modal";
 
 import { addNewPart } from "../services/dashboardService";
 import { toast } from "react-toastify";
-
+import { fetchUnitList } from "../services/stockInService";
 import Spinner from "./spinner";
 
 
@@ -21,6 +21,8 @@ const Dropdown= (props) =>{
     const [partName, setPartName] = useState(null);
     const [partDesc, setPartDesc]= useState(null);
     const [value, setValue] = useState(null);
+    const [unit,setUnit]= useState(null);
+    const [unitList,setUnitList]= useState(null);
     const [searchText, setSearchText] = useState(null);
     const [listTopMargin,setListTopMargin] = useState('0');
 
@@ -29,7 +31,9 @@ const Dropdown= (props) =>{
 
     useEffect(()=>{
       if(props.isAddNewPart){
+        const token=localStorage.getItem('token')
         setListTopMargin('4rem')
+        fetchUnitList(token).then(res=>{setUnitList(res.data)})
       }
     },[props.isAddNewPart])
 
@@ -58,6 +62,35 @@ const Dropdown= (props) =>{
 
     let content=null;
     let add_part=null;
+
+    // calculate screen size
+    function useWindowSize() {
+      const [windowSize, setWindowSize] = useState({
+        width: undefined,
+        height: undefined,
+      });
+    
+      useEffect(() => {
+    
+        if (typeof window !== 'undefined') {
+          function handleResize() {
+            setWindowSize({
+              width: window.innerWidth,
+              height: window.innerHeight,
+            });
+          }
+      
+          window.addEventListener("resize", handleResize);
+         
+          handleResize();
+      
+          return () => window.removeEventListener("resize", handleResize);
+        }
+      }, []);
+      return windowSize;
+    }
+  const size = useWindowSize();
+
     
 
     function useOutsideAlerter(ref) {
@@ -77,8 +110,9 @@ const Dropdown= (props) =>{
 
     const submitPartHandler = () =>{  
         console.log(partType,partName,partDesc)
+        const token=localStorage.getItem('token')
         setShowModal(false)
-        addNewPart(partType,partName,partDesc).then(res=>toast.success('New Part Successfully Added!'))
+        addNewPart(partType,partName,partDesc,unit,token).then(res=>toast.success('New Part Successfully Added!'))
         setPartName(()=>"");
         setPartType(()=>"");
         setPartDesc(()=>"");
@@ -139,10 +173,16 @@ const Dropdown= (props) =>{
             fontSize: "16px",lineHeight: "19px"}}>Add Part</div>
             <div className="add_part_form">
               {props.partTypeList?<Dropdown options={props.partTypeList} placeholder='Select Part Type' name="name" width="70%" border={true}
-            parentCallback={(data)=>setPartType(data.id)} height="3.5rem"/> : null}
+            parentCallback={(data)=>setPartType(data.id)} height="3.5rem" dropdownWidth={size.width>'600'?'21vw':'56vw'} 
+            searchWidth={size.width>'600'?'17vw':'48vw'}/> : null}
             
             
                 <input name="part_name" onChange={(e)=>setPartName(e.target.value)} value={partName} placeholder="Part Name" className="modal_input"/>
+
+                <div className='modal_unit'>{unitList?<Dropdown  options={unitList} placeholder='Select Unit' name="name" width="70%" 
+            parentCallback={(data)=>setUnit(data.symbol)} value={unit} dropdownWidth={size.width>'600'?'21vw':'56vw'} border={true}
+            searchWidth={size.width>'600'?'17vw':'48vw'} height="3.5rem"/> : null}</div>
+
             <textarea name="part_desc" className="modal_textarea" value={partDesc} placeholder="Description" onChange={(e)=>setPartDesc(e.target.value)}/>
             <hr className="modal_hr"/>
             <div className="add_parts_button">

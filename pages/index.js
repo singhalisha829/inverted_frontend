@@ -11,6 +11,7 @@ import Table from '../components/table';
 import Card from '../components/card';
 import Dropdown from '../components/dropdown';
 import { fetchPartsList, addNewPart ,fetchPartTypeList} from '../services/dashboardService';
+import { fetchUnitList } from '../services/stockInService';
 import Modal from '../components/modal';
 import Spinner from '../components/spinner';
 
@@ -35,6 +36,8 @@ export default function Home() {
     const [partName, setPartName] = useState(null);
     const [partDesc, setPartDesc]= useState(null);
     const [token,setToken]= useState(null);
+    const [unit,setUnit]= useState(null);
+    const [unitList,setUnitList]= useState(null);
     const [filterOnPartType,setFilterOnPartType]= useState(null);
 
 
@@ -62,6 +65,7 @@ export default function Home() {
       localStorage.setItem('selected_item','dashboard')
       const token=localStorage.getItem('token')
       setToken(token)
+      fetchUnitList(token).then(res=>{setUnitList(res.data);console.log(res.data)})
     fetchPartsList(token).then(
       res=>{
         setPartsList(res.data)}).catch(err=>toast.error(err.message))
@@ -119,7 +123,7 @@ export default function Home() {
       return;
     }else{
     setShowModal(false)
-    addNewPart(partType,partName,partDesc,token).then(res=>{
+    addNewPart(partType,partName,partDesc,unit,token).then(res=>{
       notify();
       fetchPartsList(token).then(
         res=>{
@@ -214,24 +218,32 @@ else{
       
       {/* modal for adding new parts */}
              <Modal show={showModal} modalClosed={()=> setShowModal(false)} height="50vh">
-            <div className='add_part_title'>Add Part</div>
+            <div className='add_part_title'>Add New Part</div>
             <div className='add_part_form'>
           
               {partTypeList?<Dropdown  options={partTypeList} placeholder='Select Part Type' name="name" width="70%" 
             parentCallback={(data)=>setPartType(data.id)} value={partType} dropdownWidth={size.width>'600'?'21vw':'56vw'} border={true}
             searchWidth={size.width>'600'?'17vw':'48vw'} height="3.5rem"/> : null}
       
+      
     
               <input name="part_name" onChange={(e)=>setPartName(e.target.value)} value={partName} placeholder="Part Name" className='modal_input'/>
+
+              <div className='modal_unit'>{unitList?<Dropdown  options={unitList} placeholder='Select Unit' name="name" width="70%" 
+            parentCallback={(data)=>setUnit(data.symbol)} value={unit} dropdownWidth={size.width>'600'?'21vw':'56vw'} border={true}
+            searchWidth={size.width>'600'?'17vw':'48vw'} height="3.5rem"/> : null}</div>
+
             <textarea name="part_desc" value={partDesc} className="modal_textarea" placeholder="Description" onChange={(e)=>setPartDesc(e.target.value)}/>
-            
+           
+
             <hr className='modal_hr'/>
           
             <div className="add_parts_button">
                 <button  className="cancel_button button2"
                 onClick={modalCancelHandler}>Cancel</button>
                 <button  className="save_button button2"
-                onClick={submitPartHandler}>Save</button></div>
+                onClick={submitPartHandler}>Save</button>
+                </div>
             </div>
         </Modal>
         <div style={{display:'none'}}>{partsList?<Table key={partsList.length} id="partsTable" rows={partsList} columns={columns1} search={searchText} path="/ledger" cursor="pointer"

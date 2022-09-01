@@ -9,11 +9,12 @@ export const fetchPartsList=(token) =>{
             }})
         }
 
- export const addNewPart=(partType,partName,partDesc,token) =>{
+ export const addNewPart=(partType,partName,partDesc,unit,token) =>{
     return axios.post(URL+MAIN.PARTS,{
         part_type:partType,
             short_description:partName,
-            long_description:partDesc
+            long_description:partDesc,
+            quantity:"0 "+ unit
         },{
             headers:{                "Authorization":"Token "+ token
             }

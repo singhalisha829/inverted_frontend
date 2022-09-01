@@ -20,15 +20,21 @@
 
   .modal_textarea{
     position: fixed;
+    top:20rem;
+  }
+
+  .modal_unit{
+    width: 90%;
+    position: fixed;
     top:16rem;
+    z-index: 300;
   }
 
   .modal_hr{
     border:#e5e5e5 solid 0.001em;
     width:70%;
-    margin-top:20px;
     position: fixed;
-    top:24rem;
+    top:28rem;
   }
 
   .selected_value_without_outline {
@@ -146,7 +152,7 @@ position: fixed;
   display: flex;
   justify-content: end;
   position: fixed;
-  top:29rem;
+  top:30rem;
 }
 
 @media(max-width:600px){
