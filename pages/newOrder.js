@@ -213,10 +213,10 @@ const NewOrder=()=>{
                      <div className="sub_title">Database for all Available Stocks</div>
                 </div>
 
-                <div className="new_order_subsection">
+                {/* <div className="new_order_subsection">
                     <input  style={{width:"70%",height:'3.5rem'}} placeholder="Search.."/>
                     <div className="new_order_search"><FaSistrix size={17} color="#3F5575"/></div>
-                </div>
+                </div> */}
 
                 <div className="new_order_form">
                     <div className="fields centered" >
