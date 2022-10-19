@@ -12,7 +12,7 @@ export const MAIN={
     PART_TYPE:'api/v1/part-type/',
     PURCHASE_ORDER:'api/v1/purchase-order/',
     BOM:'api/v1/bom',
-    PURCHASE_ORDER_PART_WISE_LIST:'api/v1/purchase-order-items-wise/?production_order_id=',
+    PURCHASE_ORDER_PART_WISE_LIST:'api/v1/purchase-order-items-wise/?purchase_order_id=',
     PO_VENDOR:'api/v1/purchase-order-items-vendor/',
     VENDOR_WISE_LIST:'api/v1/vendor-purchase-order/',
     PRODUCTION_ORDER:'api/v1/production-order/',
