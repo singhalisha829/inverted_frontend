@@ -232,8 +232,8 @@ const NewPurchaseOrder = () => {
             <div className="new_purchase_order_page">
                 <ToastContainer />
                 <div className="order_title">
-                    <div className="title">Purchase Orders</div>
-                    <div className="sub_title">Place New Orders</div>
+                    <div className="title">Purchase Order</div>
+                    <div className="sub_title">Place New Order</div>
                 </div>
                 {/* <div className="new_order_subsection">
                     <input style={{ width: "70%", height: '3.5rem' }} placeholder="Search.." />

@@ -209,8 +209,8 @@ const NewOrder=()=>{
             
               <ToastContainer />
                 <div className="new_order_title">
-                <div className="title">Orders</div>
-                     <div className="sub_title">Database for all Available Stocks</div>
+                <div className="title">Production Order</div>
+                     <div className="sub_title">Place New Order</div>
                 </div>
 
                 {/* <div className="new_order_subsection">
