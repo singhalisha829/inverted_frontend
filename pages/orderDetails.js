@@ -22,9 +22,9 @@ const OrderDetails=()=>{
     const [date,setDate]= useState(null);
     const [createdBy,setCreatedBy]= useState(null);
     const [status,setStatus]= useState(null);
-    const [list,setList]= useState([]);
-    const [purchaseOrderId,setPurchaseOrderId]= useState(null);
+    const [productionOrderId,setProductionOrderId]= useState(null);
 
+    var list={};
 
     const columns = [
         { accessor1: 'ItemType', label: 'Type' ,width:"20%", textalign:"center"},
@@ -42,6 +42,15 @@ const OrderDetails=()=>{
         { accessor1: 'part_quantity_value', label: 'part_quantity_symbol',label:'Available Quantity',width:"20%" , textalign:"center"},  
 
       ];
+      const today= new Date();
+      const todayDate = today.getFullYear()+'-'+(today.getMonth()+1)+'-'+today.getDate();
+
+
+      list={
+        production_order:productionOrderId,
+        date:todayDate,
+        production_order_item:[]
+      }
 
    
 
@@ -52,7 +61,8 @@ const OrderDetails=()=>{
           const poId=localStorage.getItem('production_order_id');
           console.log(poId);
           if(poId != undefined){
-          setPurchaseOrderId(poId);
+          setProductionOrderId(poId);
+
           fetchProductionOrderDetails(token,poId).then(res=>{
             setOrderItem(res.data.data.output[0].production_order_itemss)
             setOrderNumber(res.data.data.output[0].production_order_no)
@@ -61,13 +71,18 @@ const OrderDetails=()=>{
             setStatus(res.data.data.output[0].status)
           })
 
-          fetchPastTransaction(token,poId).then(res=>setPastTransactions(res.data.data.output))
+          fetchPastTransaction(token,poId).then(res=>{
+            if(res.data.data != undefined){
+              setPastTransactions(res.data.data.output)
+            }
+            })
 
           fetchPartWiseList(token,poId).then(res=>{
             console.log(res.data);
             setPartsInOrder(res.data.data.output.order_items)
           })
           setToken(token)
+          
         }else{
           Router.push('/order')
         }
@@ -107,25 +122,21 @@ const OrderDetails=()=>{
     const size = useWindowSize();
 
     const handleQuantity=(value,id,item_name,symbol,item_description,item_id,items_type,left_qty,left_qty_symbol)=>{
-      const today=new Date();
-      const date = today.getFullYear()+'-'+(today.getMonth()+1)+'-'+today.getDate();
-      const time = today.getHours() + ":" + today.getMinutes() + ":" + today.getSeconds();
-      const dateTime = date+' '+time;      
-      const index= list.findIndex(el=>el.item_id==item_id);
+      // const today=new Date();
+      // const date = today.getFullYear()+'-'+(today.getMonth()+1)+'-'+today.getDate();
+      // const time = today.getHours() + ":" + today.getMinutes() + ":" + today.getSeconds();
+      // const dateTime = date+' '+time;      
+      const index= list.production_order_item.findIndex(el=>el.item_id==item_id);
       
-      console.log(index)
       if(index== -1){
-        list.push({
+        list.production_order_item.push({
           production_order_items:id,
-          timestamp:dateTime,
-          production_order:purchaseOrderId,
           quantity:value+" "+symbol,
           item_name:item_name,
           item_id:item_id,
           items_type:items_type,
           item_description:item_description,
           left_qty:left_qty+" "+left_qty_symbol,
-          date:date
         })
       }else{
           list[index].quantity=value+" "+symbol;
@@ -138,8 +149,8 @@ const OrderDetails=()=>{
     console.log(list)
 
     const stockOut=()=>{
-      if(list.length>0){
-      localStorage.setItem('production_order_id',purchaseOrderId); 
+      if(list.production_order_item.length>0){
+      localStorage.setItem('production_order_id',productionOrderId); 
       Router.push('/stockOut')
       }else{
 

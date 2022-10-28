@@ -31,9 +31,10 @@ const StockOut=() =>{
         setProductionOrderId(id);
         const token=localStorage.getItem('token');
         setToken(token)
-        const list=JSON.parse(localStorage.getItem("stock_out_list") || "[]");
-        console.log(list)
+        const list=JSON.parse(localStorage.getItem("stock_out_list") || "{}");
         setStockOutList(list)
+        console.log(list)
+
       
     }else{
         Router.push('/login');
@@ -70,6 +71,7 @@ const StockOut=() =>{
     const size = useWindowSize();
     
     const submitHandler=()=>{
+
       createProductionOrderTransaction(token,stockOutList).then(res=>{
         localStorage.setItem('production_order_id',productionOrderId);
         Router.push('/orderDetails');
@@ -92,7 +94,7 @@ const StockOut=() =>{
 
                 <div className="parts_list">
                     <div className="stock_out">Stock Out</div>
-                    <div style={{marginTop:'1rem'}}>{stockOutList?<Table columns={columns} rows={stockOutList} width="100%" outOf={false}/>:<Spinner />}</div>
+                    <div style={{marginTop:'1rem'}}>{stockOutList?<Table columns={columns} rows={stockOutList.production_order_item} width="100%" outOf={false}/>:<Spinner />}</div>
                     {/* {stockOutList?stockOutList.map((el)=>{<div>{el.id}</div>}:null} */}
                 </div>
 

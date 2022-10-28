@@ -158,7 +158,7 @@ const Dropdown= (props) =>{
     }
     return(
         <div ref={wrapperRef} className="custom_dropdown" style={{width:props.width, height:props.height,minWidth:props.minWidth}} >
-           <div className="control" onClick={()=>setIsDropdownOpen(!isDropdownOpen)} >
+           <div className="control" onClick={()=>{setIsDropdownOpen(!isDropdownOpen);console.log('clicked')}} >
            <input className={props.no_outline?"selected_value_without_outline":"selected_value"} placeholder={props.placeholder} value={value} style={{margin:"0",height:props.height,border:props.border?"#e5e5e5 solid 0.1em":null,
           backgroundColor:props.backGround}} disabled={true} />
            
@@ -168,7 +168,7 @@ const Dropdown= (props) =>{
                {/* {content?content:<Spinner/>} */}
                {content}
                </div>
-           <Modal show={showModal} modalClosed={()=> setShowModal(false)} height="50vh">
+           <Modal show={showModal} modalClosed={()=> setShowModal(false)} height="36rem">
             <div style={{color:"#6B6B6B", padding:'2rem',paddingBottom:'4rem',fontFamily: 'Inter',fontStyle: "normal",fontWeight: "600",
             fontSize: "16px",lineHeight: "19px"}}>Add Part</div>
             <div className="add_part_form">
