@@ -208,7 +208,8 @@ const OrderDetails=()=>{
             {/* <div className='common' style={{width:'10%'}}></div> */}
         </div>
                     {pastTransactions.map(transaction=>(
-                      <Transactions key={transaction.transaction_no} date={transaction.date} transaction_id={transaction.transaction_no} created_by={transaction.created_by}/>
+                      <Transactions key={transaction.transaction_no} date={transaction.date} transaction_id={transaction.transaction_no} created_by={transaction.created_by} 
+                      part_details={transaction.part_details}/>
                     ))}</div>:null}
                 </div>:null}
             </div>

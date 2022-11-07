@@ -7,7 +7,7 @@ const Transactions=(props)=>{
 return(
     <div className='transaction'>
        
-        <div className="transaction_card common">
+        <div className="transaction_card common" onClick = {()=>setShowDetails(!showDetails)}>
             <div className='common' style={{width:'33%'}}>{props.date}</div>
             <div className='common' style={{width:'33%'}}>{props.transaction_id}</div>
             <div className='common' style={{width:'33%'}}>{props.created_by}</div>
@@ -20,6 +20,13 @@ return(
                             <div style={{width:'40%'}} className="common">ORDER DESCRIPTION</div>
                             <div style={{width:'20%'}} className="common">QUANTITY</div>
                         </div>
+                        {props.part_details.map((part)=>(<div className='transaction_order_column' key={part.id}>
+                            <div style={{width:'20%'}} className="common">{part.ItemType}</div>
+                            <div style={{width:'20%'}} className="common">{part.product_code}</div>
+                            <div style={{width:'40%'}} className="common">{part.product_description}</div>
+                            <div style={{width:'20%'}} className="common">{part.quantity}</div>
+                        </div>))
+}
         </div>:null}
         <hr className='transaction_hr'/>
     </div>
