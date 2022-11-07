@@ -261,7 +261,7 @@ const Table = (props) => {
       return <td key={column.accessor1} width={column.width} style={{textAlign:column.textalign}}
     ><div className="pending_status_style">Created</div></td>
     }
-    else if(column.accessor1==='status' && row.status==='Partially Processed' ){
+    else if(column.accessor1==='status' && row.status==='Partial Processed' ){
       return <td key={column.accessor1} width={column.width} 
     ><div className="partial_status_style">Partially Processed</div></td>
     }
@@ -332,7 +332,7 @@ const Table = (props) => {
                     return <td key={column.accessor1} width={column.width} 
                   ><div className="pending_status_style">Created</div></td>
                   }
-                  else if(column.accessor1==='status' && row.status==='Partially Processed' ){
+                  else if(column.accessor1==='status' && row.status==='Partial Processed' ){
                     return <td key={column.accessor1} width={column.width} 
                   ><div className="partial_status_style">Partially Processed</div></td>
                   }

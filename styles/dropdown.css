@@ -165,14 +165,18 @@ position: fixed;
   }
 
   .modal_textarea{
+    top:18rem;
+  }
+
+  .modal_unit{
     top:14rem;
   }
 
   .modal_hr{
-    top:21.5rem;
+    top:26rem;
   }
 
   .add_parts_button{
-    top:26rem;
+    top:29rem;
   }
 }

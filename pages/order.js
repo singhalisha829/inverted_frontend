@@ -26,7 +26,7 @@ const Order=()=>{
 
 
 
-    const status=[{name:'Completed',id:'Completed'},{name:'Partially Processed',id:'Partially Processed'},{name:'Created',id:'Created'}]
+    const status=[{name:'Completed',id:'Completed'},{name:'Partially Processed',id:'Partial Processed'},{name:'Created',id:'Created'}]
 
     const columns = [
         { accessor1: 'production_order_no', label: 'Order Number' ,width:"20%", textalign:"center"},
