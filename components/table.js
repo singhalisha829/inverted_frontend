@@ -14,9 +14,6 @@ import { fetchUnitList } from "../services/stockInService";
 import { unitConversion } from "../services/purchaseOrderService";
 
 
-
-
-
 const Table = (props) => {
 
     const [data, setData]= useState(props.rows);

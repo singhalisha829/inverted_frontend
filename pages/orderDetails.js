@@ -78,7 +78,6 @@ const OrderDetails=()=>{
             })
 
           fetchPartWiseList(token,poId).then(res=>{
-            console.log(res.data);
             setPartsInOrder(res.data.data.output.order_items)
           })
           setToken(token)
@@ -127,7 +126,8 @@ const OrderDetails=()=>{
       // const time = today.getHours() + ":" + today.getMinutes() + ":" + today.getSeconds();
       // const dateTime = date+' '+time;      
       const index= list.production_order_item.findIndex(el=>el.item_id==item_id);
-      
+      console.log(list,index)
+
       if(index== -1){
         list.production_order_item.push({
           production_order_items:id,
@@ -139,21 +139,19 @@ const OrderDetails=()=>{
           left_qty:left_qty+" "+left_qty_symbol,
         })
       }else{
-          list[index].quantity=value+" "+symbol;
+          list.production_order_item[index].quantity=value+" "+symbol;
         
       }
-      console.log(list)
       localStorage.setItem('stock_out_list',JSON.stringify(list))
     }
    
-    console.log(list)
 
     const stockOut=()=>{
       if(list.production_order_item.length>0){
       localStorage.setItem('production_order_id',productionOrderId); 
       Router.push('/stockOut')
       }else{
-
+        toast.warning('No Items are Added!')
       }
     }
 
