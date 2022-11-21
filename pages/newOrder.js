@@ -45,6 +45,7 @@ const NewOrder=()=>{
     const [part,setPart]= useState(null);
     const [bom,setBom]= useState(null);
     const [partTypeList,setPartTypeList]=useState([]);
+    const [isSubmit,setIsSumbit] = useState(true);
 
     
 
@@ -158,6 +159,14 @@ const NewOrder=()=>{
       }
   }
 
+  useEffect(()=>{
+    if(newOrderList.length>0){
+        setIsSumbit(false)
+    }else{
+        setIsSumbit(true);
+    }
+},[newOrderList.length])
+
   const submitOrder=()=>{
     console.log(newOrderList);
     if(newOrderList.length===0){
@@ -270,7 +279,7 @@ parentCallback={(data)=>setUnit(data.symbol)} value={unit} dropdownWidth={size.w
 <div className="stock_out_footer">
                     <div className="stock_out_button">
                         <button className="cancel_button button2" onClick={()=>{Router.back();}}>Cancel</button>
-                        <button className="save_button button2" onClick={submitOrder}>Create Order</button>
+                        <button className="save_button button2" onClick={submitOrder} disabled={isSubmit}>Create Order</button>
                         </div></div>
                 </div>
 

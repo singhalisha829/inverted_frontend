@@ -36,6 +36,8 @@ const NewPurchaseOrder = () => {
     const [bomName, setBomName] = useState(null);
     const [partName, setPartName] = useState(null);
     const [partTypeList, setPartTypeList] = useState([]);
+    const [isSubmit,setIsSumbit] = useState(true);
+
 
     const order_type = [{ value: 'BOM', name: 'BOM' }, { value: 'Part', name: 'PART' }]
 
@@ -143,6 +145,14 @@ const NewPurchaseOrder = () => {
         }
     }
 
+    useEffect(()=>{
+        if(newPoList.length>0){
+            setIsSumbit(false)
+        }else{
+            setIsSumbit(true);
+        }
+    },[newPoList.length])
+
 
     const submitPurchaseOrder = () => {
         if (newPoList.length === 0) {
@@ -217,7 +227,7 @@ const NewPurchaseOrder = () => {
                 <FaTimesCircle size={30} onClick={cancelHandler} className="cross_icon" />
             </div> : <div className="stockin_buttons">
                 <button className='cancel_button button2 plus expand' onClick={cancelHandler}>Clear</button>
-                <button className='save_button button2 plus expand' onClick={submitHandler}>Save</button>
+                <button className='save_button button2 plus expand' onClick={submitHandler} >Save</button>
             </div>}
         </div></div>);
 
@@ -249,7 +259,7 @@ const NewPurchaseOrder = () => {
                 <div className="stock_out_footer">
                     <div className="stock_out_button">
                         <button className="cancel_button button2" onClick={() => { Router.back(); }}>Cancel</button>
-                        <button className="save_button button2" onClick={submitPurchaseOrder}>Save</button>
+                        <button className="save_button button2" onClick={submitPurchaseOrder} disabled={isSubmit}>Save</button>
                     </div></div>
             </div>
         </div>
