@@ -12,7 +12,7 @@ const List = (props) =>{
            <div  className='quantity_width'>{props.quantity} {props.unit}</div>
            <div className="icons common">
                {/* <FaPen style={{color:"#c4c4c4"}} /> */}
-           <FaTrashAlt className='stockin_trash' onClick={()=>props.deleteNote(props.partId)} cursor="pointer"/></div>
+           <FaTrashAlt className='stockin_trash' onClick={()=>props.deleteNote(props.id)} cursor="pointer"/></div>
 
         </div>
     )

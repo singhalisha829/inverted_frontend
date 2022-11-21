@@ -21,6 +21,8 @@ const Login =()=>{
         onLogin(username,password).catch(err=>{console.log(err);toast.error(err.response.data.non_field_errors[0])})
         console.log(username,password)    
     }
+
+
     
         return(
 
@@ -33,14 +35,14 @@ const Login =()=>{
             <div className="box">
                 <div className="img"><Image src={logo} width={200} height={50} layout="fixed" alt=""/></div>
                 <div className="content">Enter your details with login and password</div>
-                <div className="input_area">
+                <form onSubmit={onSubmit} className="input_area" >
                 <div style={{display:'flex',width:'80%',position:'relative'}}>
                     <input style={{marginBottom:"10px"}} className="login_fields" type="text" value={username} placeholder="Username"
                     onChange={(e)=>setUsername(e.target.value)}/><div className="login_icon"><FaAt size={11}/></div></div>
                     <div style={{display:'flex',width:'80%',position:'relative'}}>
                         <input className="login_fields" type={viewPassword?'text':'password'} value={password} placeholder="Password"
                     onChange={(e)=>setPassword(e.target.value)}/><div className="login_icon"><FaStarOfLife cursor="pointer" size={11} onClick={()=>setViewPassword(!viewPassword)}/></div></div>
-                </div>
+                </form>
                 <div className="footer">
                 {/* <div><input type="checkbox"/>Remember me</div> */}
                 <div style={{position:"relative",right:"-80%"}}>
@@ -48,7 +50,7 @@ const Login =()=>{
                     </div>
                 </div>
                 <div style={{width:"100%",display:'flex',justifyContent:"center",marginTop:'1rem'}}><button className="login_button common" 
-                 style={{margin:"0"}} onClick={()=>{onSubmit()}} >Login</button></div>
+                 style={{margin:"0"}} onClick={()=>{onSubmit()}} type="submit">Login</button></div>
             </div>
             </div>
         )

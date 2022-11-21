@@ -13,7 +13,7 @@ import { fetchUnitList, fetchVendorList, addNewLedger ,fetchPartById} from '../s
 import Spinner from '../components/spinner';
 import DatePicker from "react-datepicker";
 import "react-datepicker/dist/react-datepicker.css";
-import { FaCloudUploadAlt,FaCheckCircle, FaTimesCircle, FaPlus } from 'react-icons/fa';
+import { FaCloudUploadAlt,FaCheckCircle, FaTimesCircle} from 'react-icons/fa';
 import * as xlsx from "xlsx";
 import Header from '../components/header';
 
@@ -34,6 +34,7 @@ const StockIn=()=>{
     const [partTypeList, setPartTypeList] = useState(null);
     const [token,setToken] = useState(null);
     const [id,setId]= useState(null);
+    const [showForm,setShowForm]= useState(false);
 
 
     const [partName, setPartName]= useState(null);
@@ -49,12 +50,12 @@ const StockIn=()=>{
     const [loading,setLoading]= useState(false);
     const [partId,setPartId]= useState(null);
     const [finalList,setFinalList]= useState([]);
+    const [isSubmit,setIsSumbit]=useState(true);
 
     
     const notifySuccess = () => toast.success("New Parts Added Successfully");
 
 
-    console.log(new Date().toLocaleDateString('en-gb'))
     useEffect(()=>{
     // fetch data only if token is defined or redirect to login
     if(localStorage.getItem('token') != null){
@@ -71,6 +72,23 @@ const StockIn=()=>{
         Router.push('/login')
     }
     },[])
+
+    useEffect(()=>{
+        if(finalList.length>0){
+            setIsSumbit(false);
+        }else{
+            setIsSumbit(true);
+        }
+    },[finalList.length])
+
+    useEffect(()=>{
+      if(invoice != '' && vendor !=null){
+        setShowForm(true);
+        console.log(invoice,vendor)
+      }else{
+        setShowForm(false);
+      }
+    },[invoice,vendor])
 
      // calculate screen size
      function useWindowSize() {
@@ -106,12 +124,12 @@ const StockIn=()=>{
         setNewPartList(newList)
 
         const newList1=finalList.filter((note)=>note.part !== id);
+        console.log(finalList,newList1,id);
         setFinalList(newList1)
     }
 
     // add new part in the list on clicking the check icon
     const submitHandler = () =>{
-       console.log(invoice,selectedDate,vendor,partName,quantity,unit,price)
        if(invoice=== null || invoice=== ''){
         toast.warning('Enter Invoice Number!');
         return;
@@ -170,7 +188,7 @@ const StockIn=()=>{
         setQuantity("")
         setUnit("");
         setPartId("");
-        console.log(newList1)
+       
     }
     }
 
@@ -193,7 +211,6 @@ const StockIn=()=>{
             const sheetName = workbook.SheetNames[0];
             const worksheet = workbook.Sheets[sheetName];
             const json = xlsx.utils.sheet_to_json(worksheet);
-            console.log(json);
 
         };
         reader.readAsArrayBuffer(e.target.files[0]);
@@ -203,7 +220,6 @@ const StockIn=()=>{
     // submit the whole list on the server
     const submitPartsListHandler =() =>{
         setLoading(true);
-        console.log(finalList)
             addNewLedger(finalList,token).then(res=>{ 
                 setLoading(false);
                 Router.push('/');
@@ -275,9 +291,6 @@ const StockIn=()=>{
                     <div className='stockin_subsection'>
                         <div style={{display:'flex',width:'100%',justifyContent:'space-between',alignItems:'center'}}>
          <div className='stockin_subtitle'>Your Stock in Items</div>
-                            {/* <button style={{marginRight:'1rem'}} className="upload_button" onClick={()=> setShowModal(true)}><FaCloudUploadAlt size={15}/> Upload</button> */}
-                <button  className="add_button" onClick={submitPartsListHandler}><FaPlus /><div style={{marginTop:'0.2rem',marginLeft:'0.5rem'}} disabled={loading} >
-                {loading?<div style={{marginRight:'5px'}}><ButtonLoader /></div>:null} Stock In</div></button>
                 </div>
 
                 <div className='stockin_form'>
@@ -290,27 +303,27 @@ const StockIn=()=>{
                 parentCallback={(data)=>setVendor(data.id)} dropdownWidth={size.width>'600'?"15vw":'70vw'} searchWidth={size.width>'600'?"12vw":'60vw'} height="3rem"/>:null}</div>
                 <div className='date_column'>
                     {size.width>'600'?<label style={{marginBottom:'0.5rem'}}>Date:</label> : null}
-                            <DatePicker placeholderText='Enter Date' dateFormat="dd/MM/yyyy" selected={selectedDate} onChange={(date) =>{ setSelectedDate(date);console.log(date)}} />
+                            <DatePicker placeholderText='Enter Date' dateFormat="dd/MM/yyyy" selected={selectedDate} onChange={(date) =>{ setSelectedDate(date)}} />
                         </div>
             </div>
-            {size.width>'600'?<div style={{width:'100%'}}><div className='stockin_list_header'>
+            {size.width>'600' && showForm?<div style={{width:'100%'}}><div className='stockin_list_header'>
                 <div style={{width:'15%',textAlign:'center'}}>Part ID</div>
                 <div style={{width:'30%',textAlign:'center'}}>Part Name</div>
                 <div style={{width:'10%',textAlign:'center'}}>Unit Price</div>
                 <div style={{width:'30%',textAlign:'center'}}>Quantity</div>
                 <div style={{width:'15%',textAlign:'center'}}></div>
             </div>
-            {form}</div>:null}
+            {showForm?form:null}</div>:null}
             
 </div>
 
-            {size.width<'600'?<div className='stockin_form2'>
+            {size.width<'600' && showForm?<div className='stockin_form2'>
             {form}
               </div>: null}
 
     
-            {size.width<'600'?<div className='stockin_form2' style={{borderBottom:'#e5e5e5 solid 0.1em'}}>
-                <div className='stockin_list_header'>
+            {size.width<'600' && showForm?<div className='stockin_form2' style={{borderBottom:'#e5e5e5 solid 0.1em'}}>
+               <div className='stockin_list_header'>
                 <div style={{width:'20%',textAlign:'center'}}>Part ID</div>
                 <div style={{width:'30%',textAlign:'center'}}>Part Name</div>
                 <div style={{width:'20%',textAlign:'center'}}>Unit Price</div>
@@ -319,9 +332,14 @@ const StockIn=()=>{
             </div>
             </div>:null}
 
-                {newPartList.map((l)=><List key={l.part} partDesc={l.partName} partId={l.partId} quantity={l.quantity} unit={l.unit} price={l.price}
+                {newPartList.map((l)=><List key={l.part} id={l.part} partDesc={l.partName} partId={l.partId} quantity={l.quantity} unit={l.unit} price={l.price}
             deleteNote={(data)=>handleDeleteNote(data)}/>)}
             </div>
+            <div className="stock_out_footer" style={{left:"16.6vw"}}>
+                    <div className="stock_out_button">
+                        <button className="cancel_button button2" onClick={() => { Router.back(); }}>Cancel</button>
+                        <button className="save_button button2" onClick={submitPartsListHandler} disabled={isSubmit}>Save</button>
+                    </div></div>
             
         <Modal show={showModal} modalClosed={()=>setShowModal(false)}>hiii
         <input type="file" name="file" onChange={(e)=>uploadFile(e)}/></Modal>

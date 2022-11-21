@@ -2,13 +2,12 @@ import { useState, useEffect } from "react";
 import Sidebar from "../components/sidebar";
 import Head from "next/head";
 import Header from "../components/header";
-import Table from "../components/table";
 import Router from 'next/router';
 
 import { fetchPartWiseList, fetchPurchaseOrderDetails, deleteAssignedParts,postPoVendor1,fetchUnassignedParts } from "../services/purchaseOrderService";
 import { fetchVendorList } from "../services/stockInService";
 
-import { FaSistrix, FaTimes} from 'react-icons/fa';
+import { FaTimes} from 'react-icons/fa';
 import PartsList from "../components/partList";
 import { toast, ToastContainer } from "react-toastify";
 import 'react-toastify/dist/ReactToastify.css';
@@ -37,15 +36,12 @@ const EditVendor=() =>{
     const [upadteUi,setUpdateUi]= useState(null);
     const [vendorLists,setVendorLists]= useState(null);
     const [finalList,setFinalList]= useState([]);
+    const [vendorDisplayList,setVendorDisplayList]= useState([]);
 
     const [displayList,setDisplayList]= useState([]);
     const [loading,setLoading]= useState(false);
-    const columns = [
-        { accessor1: 'ItemType', label: 'ORDER TYPE' ,width:"25%", textalign:"center"},
-        { accessor1: 'item_name',label: 'ORDER ID' ,width:"25%", textalign:"center"},
-        { accessor1: 'product_description', label: 'ORDER DESCRIPTION',width:"25%" , textalign:"center"},  
-        { accessor1: 'quantity', label: 'Quantity',width:"25%" , textalign:"center"},  
-      ];
+    const [isSubmit,setIsSumbit] = useState(true);
+  
 
     useEffect(()=>{
         const token=localStorage.getItem('token');
@@ -103,6 +99,20 @@ const EditVendor=() =>{
       }
     const size = useWindowSize();
 
+    useEffect(()=>{
+        if(vendorList.length>0){
+            setIsSumbit(false)
+            // vendorList.forEach(el=>{
+            //     if(el.unit_price == null){
+            //         setIsSumbit(true);
+            //     }
+            // })
+           
+        }else{
+            setIsSumbit(true);
+        }
+    },[vendorList.length])
+
     const handleUnitPrice=(id,value,branch_id,quantity,part_name,partId)=>{
         const quantity1= quantity.filter(el=>el.id===branch_id)[0].quantity;
         const unit= quantity.filter(el=>el.id===branch_id)[0].unit;
@@ -117,6 +127,7 @@ const EditVendor=() =>{
                 unit_price:value,
                 branch_id:branch_id,
             })
+
         }else{
             vendorList[index].unit_price=value;
         }
@@ -129,6 +140,7 @@ const EditVendor=() =>{
     }
 
     const handleVendor=(id,value,branch_id,quantity,part_name,partId)=>{
+       
         const quantity1= quantity.filter(el=>el.id===branch_id)[0].quantity;
         const unit= quantity.filter(el=>el.id===branch_id)[0].unit;
         const index= vendorList.findIndex(el=>el.part===id && el.branch_id===branch_id)
@@ -142,6 +154,7 @@ const EditVendor=() =>{
                 unit_price:null,
                 branch_id:branch_id
             });
+            
         }else{
             vendorList[index].vendor=value;
         }
@@ -413,7 +426,6 @@ const EditVendor=() =>{
                     </div>
                     <div style={{paddingTop:'0.5rem'}}>
                     {vendorList.map((part)=>{
-                        
                         if(part.vendor=== vendor.id){
                             return(
                                 <div style={{display:'flex',marginBottom:"0.5rem",fontWeight:"400"}}>
@@ -436,7 +448,7 @@ const EditVendor=() =>{
 <div className="stock_out_footer">
                     <div className="stock_out_button">
                         <button className="cancel_button button2" onClick={()=>{Router.back();}}>Cancel</button>
-                        <button className="save_button button2" onClick={submitVendor}>Save</button>
+                        <button className="save_button button2" disabled={isSubmit} onClick={submitVendor}>Save</button>
                         </div></div>
     </div>
 
