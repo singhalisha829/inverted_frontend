@@ -31,6 +31,8 @@ const SelectVendor=() =>{
     const [vendorLists,setVendorLists]= useState(null);
     const [finalList,setFinalList]= useState([]);
     const [deleteParts,setDeleteParts]= useState([]);
+    const [isSubmit,setIsSumbit] = useState(true);
+
 
     const [displayList,setDisplayList]= useState([]);
 
@@ -61,6 +63,14 @@ const SelectVendor=() =>{
         fetchVendorList(token).then(res=>setVendorLists(res.data))
 
     },[])
+
+    useEffect(()=>{
+        if(displayList.length>0){
+            setIsSumbit(false); 
+        }else{
+            setIsSumbit(true);
+        }
+    },[displayList.length])
 
     // console.log(finalList)
 
@@ -110,14 +120,24 @@ const SelectVendor=() =>{
             vendorList[index].unit_price=value;
         }
 
+
         // const i= finalList.findIndex(el=>el.part===id);
         const e= finalList.findIndex(el=>el.part===id && el.branch_id=== branch_id);
             finalList[e].unit_price=value;
             
-
+            if(value != '' && vendorList[index]?.vendor != null ){
+                handleDisplayList(vendorList[index].vendor);
+            }
+            if(value== ''){
+                removeFromDisplayList(index);
+            }
     setUpdateUi(value);
         // console.log(vendorList)
 
+    }
+
+    const removeFromDisplayList =(index)=>{
+        displayList.splice(index,1);
     }
 
     const handleVendor=(id,value,branch_id,quantity,part_name,partId)=>{
@@ -142,7 +162,9 @@ const SelectVendor=() =>{
         const e= finalList.findIndex(el=>el.part===id && el.branch_id=== branch_id);
             finalList[e].vendor=value;        
         
-        handleDisplayList(value);
+            if(vendorList[index]?.unit_price != null ){
+                handleDisplayList(value);
+            }
         
 
     }
@@ -399,7 +421,7 @@ const SelectVendor=() =>{
 <div className="stock_out_footer">
                     <div className="stock_out_button">
                         <button className="cancel_button button2" onClick={()=>{Router.push('/purchaseOrder');}}>Cancel</button>
-                        <button className="save_button button2" onClick={submitVendor}>Save</button>
+                        <button className="save_button button2" disabled={isSubmit} onClick={submitVendor}>Save</button>
                         </div></div>
     </div>
 

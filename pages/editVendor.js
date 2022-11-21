@@ -100,20 +100,16 @@ const EditVendor=() =>{
     const size = useWindowSize();
 
     useEffect(()=>{
-        if(vendorList.length>0){
-            setIsSumbit(false)
-            // vendorList.forEach(el=>{
-            //     if(el.unit_price == null){
-            //         setIsSumbit(true);
-            //     }
-            // })
+        if(displayList.length>0){
+            setIsSumbit(false);
            
         }else{
             setIsSumbit(true);
         }
-    },[vendorList.length])
+    },[displayList.length])
 
     const handleUnitPrice=(id,value,branch_id,quantity,part_name,partId)=>{
+        console.log("handleUnitPrice")
         const quantity1= quantity.filter(el=>el.id===branch_id)[0].quantity;
         const unit= quantity.filter(el=>el.id===branch_id)[0].unit;
         const index= vendorList.findIndex(el=>el.part===id && el.branch_id===branch_id)
@@ -132,15 +128,24 @@ const EditVendor=() =>{
             vendorList[index].unit_price=value;
         }
 
-        // const i= finalList.findIndex(el=>el.part===id);
         const e= finalList.findIndex(el=>el.part===id && el.branch_id=== branch_id);    
             finalList[e].unit_price=value;
             
+            if(value != '' && vendorList[index]?.vendor != null ){
+                handleDisplayList(vendorList[index].vendor);
+            }
+            if(value== ''){
+                removeFromDisplayList(index);
+            }
     setUpdateUi(value);
     }
 
+    const removeFromDisplayList =(index)=>{
+        displayList.splice(index,1);
+    }
+
     const handleVendor=(id,value,branch_id,quantity,part_name,partId)=>{
-       
+        console.log("handleVendor")
         const quantity1= quantity.filter(el=>el.id===branch_id)[0].quantity;
         const unit= quantity.filter(el=>el.id===branch_id)[0].unit;
         const index= vendorList.findIndex(el=>el.part===id && el.branch_id===branch_id)
@@ -162,11 +167,14 @@ const EditVendor=() =>{
         const e= finalList.findIndex(el=>el.part===id && el.branch_id=== branch_id);
             finalList[e].vendor=value;
         
-        handleDisplayList(value);
+        if(vendorList[index]?.unit_price != null ){
+            handleDisplayList(value);
+        }
     }
 
     const handlePartsList=(id,branch_id,quantity,part_name,partId)=>{
         console.log(vendorList,id,branch_id)
+        console.log("handlePartsList")
         const quantity1= quantity.filter(el=>el.id===branch_id)[0].quantity;
         const unit= quantity.filter(el=>el.id===branch_id)[0].unit;
         const index1=finalList.findIndex(el=>el.part== id && el.branch_id==1);
@@ -293,14 +301,14 @@ const EditVendor=() =>{
     
 
     const handleDisplayList=(id)=>{
-        const list=vendorLists.filter(el=>el.id===id);
-        const index= displayList.findIndex(el=>el.id===id);
+        const list=vendorLists.filter(el=>el.id==id);
+        const index= displayList.findIndex(el=>el.id==id);
         const newList= null;
         if(index== -1){
             newList=[{id:id,name:list[0].name},...displayList]
             setDisplayList(newList);
         }
-
+        console.log(id,displayList,list,vendorLists)
         setUpdateUi (id)
 
     }
