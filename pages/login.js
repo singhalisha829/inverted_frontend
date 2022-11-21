@@ -18,9 +18,20 @@ const Login =()=>{
 
     // on submiting login credentials
     const onSubmit=()=>{     
+        if(username == null || username == ''){
+            toast.warning("Please Enter Username!")
+        }else if(password == null || password == ''){
+            toast.warning("Please Enter Password!")
+        }else{
         onLogin(username,password).catch(err=>{console.log(err);toast.error(err.response.data.non_field_errors[0])})
-        console.log(username,password)    
+        }  
     }
+
+    const handleKeyPress = (event) => {
+        if(event.key === 'Enter'){
+          onSubmit();
+        }
+      }
 
 
     
@@ -35,7 +46,7 @@ const Login =()=>{
             <div className="box">
                 <div className="img"><Image src={logo} width={200} height={50} layout="fixed" alt=""/></div>
                 <div className="content">Enter your details with login and password</div>
-                <form onSubmit={onSubmit} className="input_area" >
+                <form onSubmit={onSubmit} className="input_area" onKeyPress={handleKeyPress} >
                 <div style={{display:'flex',width:'80%',position:'relative'}}>
                     <input style={{marginBottom:"10px"}} className="login_fields" type="text" value={username} placeholder="Username"
                     onChange={(e)=>setUsername(e.target.value)}/><div className="login_icon"><FaAt size={11}/></div></div>
@@ -50,7 +61,7 @@ const Login =()=>{
                     </div>
                 </div>
                 <div style={{width:"100%",display:'flex',justifyContent:"center",marginTop:'1rem'}}><button className="login_button common" 
-                 style={{margin:"0"}} onClick={()=>{onSubmit()}} type="submit">Login</button></div>
+                 style={{margin:"0"}} onClick={()=>{onSubmit()}} type="submit" >Login</button></div>
             </div>
             </div>
         )
