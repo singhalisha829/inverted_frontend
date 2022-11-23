@@ -7,6 +7,7 @@ import Pattern from '../public/artboard.png';
 import Sidebar from "../components/sidebar";
 import Dropdown from '../components/dropdown';
 import Modal from '../components/modal';
+import { fetchDropdownUnitList , fetchDropdownPartList} from "../services/productionOrderService";
 import { fetchPartsList,fetchPartTypeList } from '../services/dashboardService';
 import List from '../components/stockInList';
 import { fetchUnitList, fetchVendorList, addNewLedger ,fetchPartById} from '../services/stockInService';
@@ -63,7 +64,10 @@ const StockIn=()=>{
         setToken(token)
         fetchPartTypeList(token).then(res=>setPartTypeList(res.data))
 
-        fetchPartsList(token).then((res)=>setPartList(res.data))
+        fetchDropdownPartList(token).then(
+            res=>{
+                setPartList(res.data.data.output)    
+            }).catch(err=>toast.error(err.message)); 
         fetchUnitList(token).then((res)=>setUnitList(res.data))
         fetchVendorList(token).then((res)=>setVendorList(res.data))
         setShowPage(true);
@@ -238,6 +242,16 @@ const StockIn=()=>{
             setPartName(res.data.short_description)})
     }
 
+    
+
+    const fetchUnit=(unitType)=>{
+        console.log(unitType)
+        fetchDropdownUnitList(token,unitType).then(res=>{
+            console.log(res.data);
+            setUnitList(res.data.data.output)
+        })
+    }
+
     const padding=size.width<'600'?'1rem':null;
 
     // stock in form
@@ -245,7 +259,7 @@ const StockIn=()=>{
             {size.width>'600'?<div style={{width:"15%", textAlign:"center"}}>{partId}</div>:null}
             <div style={{width:size.width>'600'?'30%':'100%',display:'flex',justifyContent:'center',paddingBottom:padding}}>
             {partList?<Dropdown options={partList} placeholder="Select Part" width={size.width>'600'?'60%':'90%'} name="short_description" isAddNewPart partTypeList={partTypeList} border={true}
-            parentCallback={(data)=>{fetchPartId(data.id)}} value={partName} height="3rem" minWidth="12rem" dropdownWidth={size.width>'600'?'20vw':'70vw'} searchWidth={size.width>'600'?"17vw":'60vw'}/>:null}</div>
+            parentCallback={(data)=>{fetchPartId(data.id);fetchUnit(data.unit_type)}} value={partName} height="3rem" minWidth="12rem" dropdownWidth={size.width>'600'?'20vw':'70vw'} searchWidth={size.width>'600'?"17vw":'60vw'}/>:null}</div>
 
             <div style={{width:size.width>'600'?'10%':'100%',display:'flex',justifyContent:'center',paddingBottom:padding}}><input style={{width:size.width>'600'?'80%':'90%',height:"3rem"}} type="number" placeholder={size.width<'600'?'Enter Unit Price':'0.00'}
             onChange={(e)=>setPrice(e.target.value)} value={price}/></div>

@@ -31,6 +31,16 @@ const Table = (props) => {
     const token=localStorage.getItem('token')
     setToken(token)
     fetchUnitList(token).then(res=>setUnitList(res.data))
+    props.columns.forEach(el=>{
+      if(el.sort!= undefined){
+        if(el.sort=='ASC'){
+          sortAsc(el.accessor1);
+        }else if(el.sort=='DSC'){
+          sortDsc(el.accessor1);
+        }
+        setSortedColumn(el.accessor1)
+      }
+    })
     //  search table based on dropdown filter and searchbar value
      if(props.search != undefined && props.filter !=undefined ){
       const filterTable=[];
@@ -117,19 +127,11 @@ const Table = (props) => {
         setArrow(<BsArrowUp/>)
       }else{
         if(order === 'ASC'){
-            const sorted= [...props.rows].sort((a,b)=>
-            a[col]> b[col] ? 1: -1 );
-            setData(sorted);
-            setOrder('DSC');
-            setArrow(<BsArrowUp/>)
+            sortAsc(col);
         }
 
         if(order === 'DSC'){
-            const sorted= [...props.rows].sort((a,b)=>
-            a[col]< b[col] ? 1: -1 );
-            setData(sorted);
-            setOrder('NONE');
-            setArrow(<BsArrowDown/>)
+            sortDsc(col);
         }
 
         if(order === 'NONE'){
@@ -139,6 +141,24 @@ const Table = (props) => {
       }
         setSortedColumn(col)
       
+    }
+
+    const sortAsc=(col)=>{
+      const sorted= [...props.rows].sort((a,b)=>
+      a[col]> b[col] ? 1: -1 );
+      //setData(sorted);
+      data=sorted;
+      setOrder('DSC');
+      setArrow(<BsArrowUp/>)
+    }
+
+    const sortDsc=(col)=>{
+      const sorted= [...props.rows].sort((a,b)=>
+            a[col]< b[col] ? 1: -1 );
+            //setData(sorted);
+            data=sorted;
+            setOrder('NONE');
+            setArrow(<BsArrowDown/>)
     }
      
     // navigate to given page on clicking a row
