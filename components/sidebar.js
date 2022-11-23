@@ -74,14 +74,14 @@ const Sidebar = () =>{
                           <div title='Dashboard' className='nav_items' onClick={()=>{Router.push('/');
                           setDashboard()}}><div className='empty_strip'/><div className='center'><FaTh /><div style={{marginLeft:"1.3rem"}}>Dashboard</div></div></div>}
 
-                          {selectedDiv==='purchase_orders'?
+                          {/* {selectedDiv==='purchase_orders'?
                             <div title='Purchase Orders' className='selected_items' onClick={()=>{Router.push('/purchaseOrder')
                           setPurchaseOrders()}}><div className='strip'/><div className='center'><FaShoppingCart /><div style={{marginLeft:'1.3rem'}}>Purchase Orders
                           </div></div></div>
                           :
                           <div title='Purchase Orders' className='nav_items' onClick={()=>{Router.push('/purchaseOrder');
                           setPurchaseOrders()}}><div className='empty_strip'/><div className='center'><FaShoppingCart /><div style={{marginLeft:'1.3rem'}}>Purchase Orders
-                          </div></div></div>}
+                          </div></div></div>} */}
 
                           {selectedDiv==='production_orders'?
                             <div title='Production Orders' className='selected_items' onClick={()=>{Router.push('/order')
@@ -110,13 +110,13 @@ const Sidebar = () =>{
                         <div title='Dashboard' className='nav_items' onClick={()=>{Router.push('/');
                         setDashboard()}}><div className='empty_strip'/><div className='center1'><FaTh /></div></div>}
 
-                          {selectedDiv==='purchase_orders'?
+                          {/* {selectedDiv==='purchase_orders'?
                           <div title='Purchase Orders' className='selected_items' onClick={()=>{Router.push('/purchaseOrder');
                           setPurchaseOrders()}}><div className='strip'/><div className='center1'><FaShoppingCart /></div></div>
                         :
                         <div title='Purchase Orders' className='nav_items' onClick={()=>{Router.push('/purchaseOrder');
                           setPurchaseOrders()}}><div className='empty_strip'/><div className='center1'><FaShoppingCart />
-                          </div></div>}
+                          </div></div>} */}
 
                           {selectedDiv==='production_orders'?
                           <div title="Production Orders" className='selected_items' onClick={()=>{Router.push('/order');

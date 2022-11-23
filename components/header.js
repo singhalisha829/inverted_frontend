@@ -46,9 +46,9 @@ const Header = (props) =>{
     <div className='mobile_navbar' ref={wrapperRef}>
             <div className='navbar_items' style={{width:'11rem'}}
             onClick={()=>{Router.push('/');setOpenNavbar(false)}}><FaTh /><div style={{marginLeft:'1rem'}}> Dashboard </div></div>
-            <div className='navbar_items' 
+            {/* <div className='navbar_items' 
             onClick={()=>{Router.push('/purchaseOrder');setOpenNavbar(false)}}><FaShoppingCart /> <div style={{marginLeft:'1rem'}}>Purchase Orders</div>
-             </div>
+             </div> */}
 
              <div className='navbar_items' 
             onClick={()=>{Router.push('/order');setOpenNavbar(false)}}><IoConstruct /> <div style={{marginLeft:'1rem'}}>Production Orders</div>
