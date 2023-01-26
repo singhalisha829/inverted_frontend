@@ -123,6 +123,16 @@ td{
     margin-right: auto;
 }
 
+.status_style{
+    padding-top: 0.5rem;
+    height:2.5rem;
+    border-radius:5px;
+    align-self: center;
+    margin-left: auto;
+    margin-right: auto;
+    width:fit-content;
+}
+
 .completed_status_style{
     color:#33B850;
     background-color: #e8fcec;

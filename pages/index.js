@@ -42,7 +42,7 @@ export default function Home() {
 
 
   const columns = [
-    { accessor1: 'part_id', label: 'Part ID' ,width:"20%", textalign:"center"},
+    { accessor1: 'part_id', label: 'Part ID' ,prefix:'<div className="part_id_box">#',suffix:'</div>',width:"20%", textalign:"center"},
     { accessor1: 'part_type_name', label: 'Part Type' ,width:"20%", textalign:"center"},
     { accessor1: 'short_description', accessor2:'long_description' ,label: 'Name & Description' ,width:"40%", textalign:"left"},
     { accessor1: 'quantity', label: 'Quantity',width:"20%" , textalign:"center"},  

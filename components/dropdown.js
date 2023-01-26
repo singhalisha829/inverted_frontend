@@ -148,7 +148,7 @@ const Dropdown= (props) =>{
                  <div className="option" key={option.id}    
                  onClick={()=>{ props.parentCallback(option); 
                 setIsDropdownOpen(false); setValue(option[props.name])}}>
-                  {option[props.name]}
+                  <div style={{display:'flex'}}>{option[props.name]} {props.isUnitList?<div style={{fontSize:"1rem",marginLeft:'0.5rem'}}>({option.name})</div>:null}</div>
                   {props.isPartsList?<div className="dropdownPartId">({option.part_id})</div>:null}</div>
              )):
              <div>
@@ -156,7 +156,7 @@ const Dropdown= (props) =>{
                 <div className="option" key={option.id}
                 onClick={()=>{ props.parentCallback(option);
                setIsDropdownOpen(false); setValue(option[props.name])}}>
-                {option[props.name]}
+                                  <div style={{display:'flex'}}>{option[props.name]} {props.isUnitList?<div style={{fontSize:"1rem",marginLeft:'0.5rem'}}>({option.name})</div>:null}</div>
                 {props.isPartsList?<div className="dropdownPartId">({option.part_id})</div>:null}</div>
             )):<Spinner/>}</div>}</div>
         </div>

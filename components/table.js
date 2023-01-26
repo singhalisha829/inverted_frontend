@@ -13,6 +13,8 @@ import Dropdown from "./dropdown";
 import { fetchUnitList } from "../services/stockInService";
 import { unitConversion } from "../services/purchaseOrderService";
 
+import Parser from 'html-react-parser';
+
 
 const Table = (props) => {
 
@@ -247,12 +249,12 @@ const Table = (props) => {
             <tr key={row.part_id} onClick={()=>{
             clickHandler(row.part_id,row.id,row.order_id)}}>
               {props.columns.map(column => {
-                if(column.accessor1==='part_id'){
-                  return <td key={column.accessor1} width={column.width} style={{textAlign:column.textalign,color:'#EB2129'}}
-                ><div className="part_id_box">#{row[column.accessor1]}</div></td>
-                }
-
-                else if(column.accessor2==='long_description'){
+                       
+          var prefix=column.prefix?column.prefix:'';
+          var suffix=column.suffix?column.suffix:'';
+          var cellValue =prefix+row[column.accessor1]+suffix;
+              
+                 if(column.accessor2==='long_description'){
                   return <td key={column.accessor1} width={column.width} style={{textAlign:column.textalign, color:"#9E9E9E",
                   }}
                 ><div style={{display:'flex'}}>
@@ -299,7 +301,7 @@ const Table = (props) => {
                   row.released_quantity_value,row.released_quantity_unit_symbol,row.id,row.product_code,row.product_description,row.item_id,
                   row.ItemType)} placeholder="0.00"/>
                 <div style={{borderLeft:"#e5e5e5 solid 0.1em"}} />
-                {unitList?<Dropdown options={unitList} placeholder="Unit" width="10%" name="name" minWidth="9rem" no_outline={true} value={unit}
+                {unitList?<Dropdown options={unitList} isUnitList="true" placeholder="Unit" width="10%" name="symbol" minWidth="9rem" no_outline={true} value={unit}
                 parentCallback={(data)=>{handleUnit(data.symbol,row.available_qty,row.released_quantity_value,row.released_quantity_unit_symbol,row.available_qty_symbol,row.id,row.product_code,row.product_description,row.item_id,row.ItemType,row.product_description)}} 
                 dropdownWidth={size.width>'600'?"11vw":'40vw'} searchWidth={size.width>'600'?"8vw":'30vw'} height="3rem"/>:null}</div>}
 
@@ -310,22 +312,33 @@ const Table = (props) => {
     }
                 else{
                 return <td key={column.accessor1} width={column.width} style={{textAlign:column.textalign}}
-                ><div>{row[column.accessor1]=== null? '—':row[column.accessor1]}</div></td>
+                >{row[column.accessor1]=== null? '—':Parser(cellValue)}</td>
                 }
               })}
             </tr>
           )
         }):data
         .map(row => {
+
           return (
             <tr key={row.part_id} onClick={()=> { clickHandler(row.part_id,row.id,row.order_id)}}>
               {props.columns.map(column => {
-                if(column.accessor1==='part_id'){
-                  return <td key={column.accessor1} width={column.width} style={{ margin:'auto'}}
-                ><div className="part_id_box">#{row[column.accessor1]}</div></td>
-                }
+             
                 
-                else if(column.accessor2==='long_description'){
+          var prefix=column.prefix?column.prefix:'';
+          var suffix=column.suffix?column.suffix:'';
+          var cellValue =prefix+row[column.accessor1]+suffix;
+
+          var color=null;var backgroundColor=null;
+
+          if(column.accessor1 == 'status'){
+            color=row.status=="Created"?"#F6C034":row.status == "Partial Processed"?"#F68634":"#33B850";
+            backgroundColor=row.status=="Created"?"#f9f1e3":row.status == "Partial Processed"?"#f9ede5":"#e8fcec";
+          }
+
+          
+
+                if(column.accessor2==='long_description'){
                   return <td key={column.accessor1} width={column.width} style={{textAlign:column.textalign, color:'#9E9E9E'}}
                 ><div style={{display:'flex'}}>
                   <div className="parts_image">
@@ -356,7 +369,8 @@ const Table = (props) => {
                   else if(column.accessor1==='status' && row.status==='Completed' ){
                     return <td key={column.accessor1} width={column.width} 
                   ><div className="completed_status_style">Completed</div></td>
-                  }else if(column.accessor1==='stock_released'){
+                  }
+                  else if(column.accessor1==='stock_released'){
                     return <td key={column.accessor1} width={column.width} style={{textAlign:column.textalign}}
                 ><div className="stock_out_quantity">
                   {row.ItemType==='BOM'?<input type="number" style={{border:border}} className="quantity_field" placeholder="1"
@@ -371,7 +385,7 @@ const Table = (props) => {
                   row.released_quantity_value,row.released_quantity_unit_symbol,row.id,row.product_code,row.product_description,row.item_id,
                   row.ItemType)} placeholder="0.00"/>
                 <div style={{borderLeft:"#e5e5e5 solid 0.1em"}} />
-                {unitList?<Dropdown options={unitList} placeholder="Unit" width="10%" name="name" minWidth="9rem" no_outline={true}
+                {unitList?<Dropdown options={unitList} isUnitList="true" placeholder="Unit" width="10%" name="symbol" minWidth="9rem" no_outline={true}
                 parentCallback={(data)=>{handleUnit(data.symbol,row.available_qty,row.released_quantity_value,row.released_quantity_unit_symbol,row.available_qty_symbol,row.id,row.product_code,row.product_description,row.item_id,row.ItemType,row.product_description)}} 
                 dropdownWidth={size.width>'600'?"11vw":'40vw'} searchWidth={size.width>'600'?"8vw":'30vw'} height="3rem"/>:null}</div>}
                 <div className="available_quantity">*Only {row.available_qty} {row.available_qty_symbol} available</div></div></td>
@@ -386,7 +400,7 @@ const Table = (props) => {
                   }
                 else{
                 return <td key={column.accessor1} width={column.width} style={{textAlign:column.textalign}}
-                ><div>{row[column.accessor1]=== null? '—':row[column.accessor1]}</div></td>
+                >{row[column.accessor1]=== null? '—':Parser(cellValue)}</td>
                 }
               })}
             </tr>

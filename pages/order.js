@@ -32,7 +32,7 @@ const Order=()=>{
         { accessor1: 'production_order_no', label: 'Order Number' ,width:"20%", textalign:"center"},
         { accessor1: 'date' ,label: 'Date' ,width:"20%", textalign:"center",sort:'DSC'},
         { accessor1: 'created_by', label: 'Created By',width:"30%" , textalign:"center"}, 
-        { accessor1: 'status', label: 'Status',width:"30%" , textalign:"center"},  
+        { accessor1: 'status',prefix:'<div className="status_style">',suffix:'</div>', label: 'Status',width:"30%" , textalign:"center"},  
       ];
 
 
