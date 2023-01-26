@@ -122,8 +122,7 @@ const Table = (props) => {
   //  sort table rows based on selected column
     const sorting= (col) =>{
       if(col != sortedColumn){
-        const sorted= [...props.rows].sort((a,b)=>
-        a[col]> b[col] ? 1: -1 );
+        const sorted=props.rows.slice().sort((a, b) => (a[col] || '').localeCompare(b[col] || '', undefined, {numeric: true}))
         setData(sorted);
         setOrder('DSC');
         setArrow(<BsArrowUp/>)
@@ -141,12 +140,12 @@ const Table = (props) => {
           setOrder('ASC');
         }
       }
+      
         setSortedColumn(col)
     }
 
     const sortAsc=(col)=>{
-      const sorted= [...props.rows].sort((a,b)=>
-      a[col]> b[col] ? 1: -1 );
+      const sorted=props.rows.slice().sort((a, b) => (a[col] || '').localeCompare(b[col] || '', undefined, {numeric: true}))
       setData(sorted);
       // data=sorted;
       setOrder('DSC');
@@ -154,8 +153,7 @@ const Table = (props) => {
     }
 
     const sortDsc=(col)=>{
-      const sorted= [...props.rows].sort((a,b)=>
-            a[col]< b[col] ? 1: -1 );
+      const sorted=props.rows.slice().sort((a, b) => -(a[col] || '').localeCompare(b[col] || '', undefined, {numeric: true}))
             setData(sorted);
             // data=sorted;
             setOrder('NONE');
@@ -305,13 +303,10 @@ const Table = (props) => {
                 dropdownWidth={size.width>'600'?"11vw":'40vw'} searchWidth={size.width>'600'?"8vw":'30vw'} height="3rem"/>:null}</div>}
 
   <div className="available_quantity">*Only {row.available_qty} {row.available_qty_symbol} available</div></div></td>
-    }else if(column.accessor1==='quantity_value'){
-      return <td key={column.accessor1} width={column.width} style={{textAlign:column.textalign}}
-      ><div>{row[column.accessor1]} {row[column.accessor2]}</div></td>
     }
                 else{
                 return <td key={column.accessor1} width={column.width} style={{textAlign:column.textalign}}
-                >{row[column.accessor1]=== null? '—':Parser(cellValue)}</td>
+                >{row[column.accessor1]=== null? '—':<div>{Parser(cellValue)} {column.accessor2?row[column.accessor2]:null}</div>}</td>
                 }
               })}
             </tr>
@@ -394,17 +389,14 @@ const Table = (props) => {
                 dropdownWidth={size.width>'600'?"11vw":'40vw'} searchWidth={size.width>'600'?"8vw":'30vw'} height="3rem"/>:null}</div>}
                 <div className="available_quantity">*Only {row.available_qty} {row.available_qty_symbol} available</div></div></td>
                   }
-                  else if((column.accessor1==='quantity_value' && props.outOf==false) || column.accessor1=="part_quantity_value"){
-                    return <td key={column.accessor1} width={column.width} style={{textAlign:column.textalign}}
-                    ><div>{row[column.accessor1]} {row[column.accessor2]}</div></td>
-                  }
+                 
                   else if(column.accessor1==='quantity_value' && props.outOf==true ){
                     return <td key={column.accessor1} width={column.width} style={{textAlign:column.textalign}}
                     ><div>{row.released_quantity_value} {row.released_quantity_value==0?null:row.released_quantity_unit_symbol} / {row[column.accessor1]} {row[column.accessor2]}</div></td>
                   }
                 else{
                 return <td key={column.accessor1} width={column.width} style={{textAlign:column.textalign}}
-                >{row[column.accessor1]=== null? '-':Parser(cellValue)}</td>
+                >{row[column.accessor1]=== null? '-':<div>{Parser(cellValue)} {column.accessor2?row[column.accessor2]:null}</div>}</td>
                 }
               })}
             </tr>

@@ -38,8 +38,7 @@ const OrderDetails=()=>{
         { accessor1: 'part_id', label: 'Part ID' ,width:"10%", textalign:"center"},
         { accessor1: 'short_description', label: 'Part Description' ,width:"30%", textalign:"center"},
         { accessor1: 'quantity_value',accessor2:'quantity_symbol',label: 'Required Quantity' ,width:"20%", textalign:"center"},
-        // { accessor1: 'part_quantity_vaue',accessor2:'part_quantit_symbol', label: 'Released Quantity',width:"20%" , textalign:"center"}, 
-        { accessor1: 'part_quantity_value', label: 'part_quantity_symbol',label:'Available Quantity',width:"20%" , textalign:"center"},  
+        { accessor1: 'part_quantity_value', accessor2: 'part_quantity_symbol',label:'Available Quantity',width:"20%" , textalign:"center"},  
 
       ];
       const today= new Date();
