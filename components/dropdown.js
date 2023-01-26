@@ -186,7 +186,7 @@ const Dropdown= (props) =>{
             
                 <input name="part_name" onChange={(e)=>setPartName(e.target.value)} value={partName} placeholder="Part Name" className="modal_input"/>
 
-                <div className='modal_unit'>{unitList?<Dropdown  options={unitList} placeholder='Select Unit' name="name" width="70%" 
+                <div className='modal_unit'>{unitList?<Dropdown  options={unitList} isUnitList="true" placeholder='Select Unit' name="symbol" width="100%" 
             parentCallback={(data)=>setUnit(data.symbol)} value={unit} dropdownWidth={size.width>'600'?'21vw':'56vw'} border={true}
             searchWidth={size.width>'600'?'17vw':'48vw'} height="3.5rem"/> : null}</div>
 
