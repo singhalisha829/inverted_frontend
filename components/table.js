@@ -142,14 +142,13 @@ const Table = (props) => {
         }
       }
         setSortedColumn(col)
-      
     }
 
     const sortAsc=(col)=>{
       const sorted= [...props.rows].sort((a,b)=>
       a[col]> b[col] ? 1: -1 );
-      //setData(sorted);
-      data=sorted;
+      setData(sorted);
+      // data=sorted;
       setOrder('DSC');
       setArrow(<BsArrowUp/>)
     }
@@ -157,8 +156,8 @@ const Table = (props) => {
     const sortDsc=(col)=>{
       const sorted= [...props.rows].sort((a,b)=>
             a[col]< b[col] ? 1: -1 );
-            //setData(sorted);
-            data=sorted;
+            setData(sorted);
+            // data=sorted;
             setOrder('NONE');
             setArrow(<BsArrowDown/>)
     }
@@ -323,18 +322,23 @@ const Table = (props) => {
           return (
             <tr key={row.part_id} onClick={()=> { clickHandler(row.part_id,row.id,row.order_id)}}>
               {props.columns.map(column => {
-             
-                
+          
           var prefix=column.prefix?column.prefix:'';
           var suffix=column.suffix?column.suffix:'';
-          var cellValue =prefix+row[column.accessor1]+suffix;
+          
 
           var color=null;var backgroundColor=null;
 
           if(column.accessor1 == 'status'){
             color=row.status=="Created"?"#F6C034":row.status == "Partial Processed"?"#F68634":"#33B850";
             backgroundColor=row.status=="Created"?"#f9f1e3":row.status == "Partial Processed"?"#f9ede5":"#e8fcec";
-          }
+            prefix=prefix.substr(0,prefix.length-1)+'style={color:"'+color+'",backgroundColor:"'+backgroundColor+'"} >';
+          }   
+                
+          var cellValue =prefix+row[column.accessor1]+suffix;
+
+          
+          
 
           
 
@@ -400,7 +404,7 @@ const Table = (props) => {
                   }
                 else{
                 return <td key={column.accessor1} width={column.width} style={{textAlign:column.textalign}}
-                >{row[column.accessor1]=== null? '—':Parser(cellValue)}</td>
+                >{row[column.accessor1]=== null? '-':Parser(cellValue)}</td>
                 }
               })}
             </tr>
