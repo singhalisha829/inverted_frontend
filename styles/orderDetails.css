@@ -38,6 +38,18 @@ line-height: 1.7rem;
 text-align: center;
 }
 
+.po_detail_part_rows{
+        display: flex;
+        font-weight: 500;
+    font-size: 1.4rem;
+    line-height: 1.7rem;
+    text-align: center;
+    color:#6B6B6B;
+    padding-bottom:1.5rem;
+    border-bottom:#ececec 0.1em solid;
+    margin-bottom: 0.5rem;
+}
+
 .order_details_subheader{
     font-style: normal;
 font-weight: 600;

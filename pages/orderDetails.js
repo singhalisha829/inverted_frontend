@@ -11,6 +11,9 @@ import { fetchProductionOrderDetails, fetchPartWiseList ,fetchPastTransaction} f
 
 import { toast, ToastContainer } from "react-toastify";
 import 'react-toastify/dist/ReactToastify.css';
+import Dropdown from "../components/dropdown";
+import { fetchUnitList } from "../services/stockInService";
+
 
 const OrderDetails=()=>{
 
@@ -23,6 +26,7 @@ const OrderDetails=()=>{
     const [createdBy,setCreatedBy]= useState(null);
     const [status,setStatus]= useState(null);
     const [productionOrderId,setProductionOrderId]= useState(null);
+    const [unitList,setUnitList]= useState(null);
 
     var list={};
 
@@ -59,6 +63,7 @@ const OrderDetails=()=>{
           const token=localStorage.getItem('token')
           const poId=localStorage.getItem('production_order_id');
           console.log(poId);
+          fetchUnitList(token).then(res=>setUnitList(res.data))
           if(poId != undefined){
           setProductionOrderId(poId);
 
@@ -189,7 +194,46 @@ const OrderDetails=()=>{
                     </div>  
                     <div className="order_detail_table">
                       {orderItem?<Table rows={orderItem} columns={columns} width="100%" outOf={true}
-                      handleQuantity={(value,id,item_name,symbol,item_description,item_id,items_type,left_qty,left_qty_symbol)=>handleQuantity(value,id,item_name,symbol,item_description,item_id,items_type,left_qty,left_qty_symbol)}/>:<Spinner />}</div>
+                      handleQuantity={(value,id,item_name,symbol,item_description,item_id,items_type,left_qty,left_qty_symbol)=>handleQuantity(value,id,item_name,symbol,item_description,item_id,items_type,left_qty,left_qty_symbol)}/>:<Spinner />}
+                      {/* {orderItem?<div>
+                        <div className="po_detail_part_rows" >
+                            <div style={{width:'20%'}}>TYPE</div>
+                            <div style={{width:'20%'}}>ID</div>
+                            <div style={{width:'25%'}}>REQUIRED QUANTITY</div>
+                            <div style={{width:'35%'}}>STOCK RELEASED</div>
+                        </div>
+                        {orderItem.map((part,index)=>{
+                          return(
+                            <div key={index} className="rows" style={{color:'#3F5575'}}>
+                            <div style={{width:'20%'}}>{part.ItemType}</div>
+                            <div style={{width:'20%'}}>{part.product_code}</div>
+                            <div style={{width:'25%'}}>{part.released_quantity_value} {part.released_quantity_value==0?null:part.released_quantity_unit_symbol} / {part.quantity_value} {part.quantity_symbol}</div>
+                            <div style={{width:'35%'}} className="stock_out_quantity">
+                              {part.ItemType == 'BOM'?<input type="number" style={{border:border}} className="quantity_field" placeholder="1"
+                onChange={(e)=>handleBOMQuantity(
+                  e.target.value,row.available_qty,
+                  row.released_quantity_value,row.id,row.product_code,row.product_description,row.item_id,
+                  row.ItemType)}/>
+                  :
+                  <div style={{display:'flex',width:size.width>'600'?'70%':'90%', border:"#e5e5e5 solid 0.1em",borderRadius:'5px'}}>
+                    <input style={{width:"35%",height:"3rem",border:'none'}} className="quantity" type="number" 
+                onChange={(e)=>handleQuantity(e.target.value,row.available_qty,row.available_qty_symbol,
+                  row.released_quantity_value,row.released_quantity_unit_symbol,row.id,row.product_code,row.product_description,row.item_id,
+                  row.ItemType)} placeholder="0.00"/>
+                   <div style={{borderLeft:"#e5e5e5 solid 0.1em"}} />
+                   {unitList?<Dropdown options={unitList} isUnitList="true" placeholder="Unit" width="10%" name="symbol" minWidth="9rem" no_outline={true}
+                parentCallback={(data)=>{handleUnit(data.symbol,row.available_qty,row.released_quantity_value,row.released_quantity_unit_symbol,row.available_qty_symbol,row.id,row.product_code,row.product_description,row.item_id,row.ItemType,row.product_description)}} 
+                dropdownWidth={size.width>'600'?"11vw":'40vw'} searchWidth={size.width>'600'?"8vw":'30vw'} height="3rem"/>:null}</div>                    
+                  }
+                  <div className="available_quantity">*Only {part.available_qty} {part.available_qty_symbol} available</div>
+
+                            </div>
+                        </div>
+                          )
+                        })}
+                      </div>:<Spinner/>} */}
+                      </div>
+
                 </div>
 
                 <div className="parts_in_order">
