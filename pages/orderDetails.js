@@ -179,7 +179,7 @@ const OrderDetails=()=>{
                         <div style={{width:'25%'}}>{orderNumber?orderNumber:null}</div>
                             <div style={{width:'25%'}}>{date?date:null}</div>
                             <div style={{width:'25%'}}>{createdBy?createdBy:null}</div>
-                            <div style={{width:'25%'}}>{status==="Created"?"Pending":null}</div>
+                            <div style={{width:'25%'}}>{status}</div>
                         </div>
                     </div>
 

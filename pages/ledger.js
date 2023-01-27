@@ -53,9 +53,9 @@ const Ledger =(props)=>{
     const columns = [
         {accessor1: 'status', label: 'Status' ,width:"15%", textalign:"center"},
         {accessor1: 'date' ,label: 'Date',width:"25%", textalign:"center" },
-        {accessor1: 'quantity', label: 'Quantity',width:"25%" , textalign:"center"},
-        {accessor1:'vendor', label:'Vendor',width:"26%", textalign:"center"},
-        {accessor1:'edit', width:"10%"}  
+        {accessor1: 'quantity', label: 'Quantity',width:"10%" , textalign:"center"},
+        {accessor1:'vendor', label:'Vendor',width:"25%", textalign:"center"},
+        {accessor1:'document_id', label:'Document ID',width:"25%", textalign:"center"},
       ];
 
       const notifySuccessPost = () => toast.success("New Ledger Added Successfully");
@@ -70,7 +70,7 @@ const Ledger =(props)=>{
     setLedgerPart(partName)
 
     fetchPartByPartId(partName,token).then(res=>{
-        console.log(res.data)
+        console.log("res",res.data)
         setPartId(res.data[0].id)
         setShortDescription(res.data[0].short_description)
         setlongDescription(res.data[0].long_description)
@@ -294,14 +294,15 @@ const Ledger =(props)=>{
                 {size.width<'600'?<div className='ledger_cards_list'>
                     <div className='ledger_card_header'>
                         <div style={{width:'25%'}} className="card_items">Status</div>
-                        <div style={{width:'25%'}} className="card_items">Date</div>
-                        <div style={{width:'20%'}} className="card_items">Quantity</div>
-                        <div style={{width:'30%'}} className="card_items">Vendor</div>
+                        <div style={{width:'15%'}} className="card_items">Date</div>
+                        <div style={{width:'15%'}} className="card_items">Quantity</div>
+                        <div style={{width:'25%'}} className="card_items">Vendor</div>
+                        <div style={{width:'20%'}} className="card_items">Document ID</div>
                     </div>
                     {searchText != undefined?cardFilter.map((card)=>(<LedgerCard key={card.id} status={card.transaction_type} date={card.date}
                     quantity={card.quantity} vendor={card.vendor_name}/>)):
                     ledger.map((card)=>(<LedgerCard key={card.id} status={card.transaction_type} date={card.date}
-                        quantity={card.quantity} vendor={card.vendor_name}/>))}</div>
+                        quantity={card.quantity} vendor={card.vendor_name} documentId={card.document_id}/>))}</div>
                   :null}
                   </div>
                
