@@ -23,7 +23,6 @@ const Table = (props) => {
     const [tableFilter, setTableFilter] = useState([]);
     const [arrow, setArrow] = useState(null);
     const [sortedColumn,setSortedColumn] = useState(null);
-    const [border,setBorder]= useState('#e5e5e5 solid 0.1em');
     const [unitList,setUnitList]= useState(null);
     const [quantity,setQuantity]= useState(null);
     const [unit,setUnit]= useState([]);

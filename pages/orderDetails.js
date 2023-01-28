@@ -28,6 +28,8 @@ const OrderDetails=()=>{
     const [productionOrderId,setProductionOrderId]= useState(null);
     const [quantity,setQuantity]= useState(null);
     const [unit,setUnit]= useState([]);
+    const [border,setBorder]= useState('#e5e5e5 solid 0.1em');
+
 
     const today= new Date();
     const todayDate = today.getFullYear()+'-'+(today.getMonth()+1)+'-'+today.getDate();
