@@ -20,7 +20,7 @@ const Dropdown= (props) =>{
     const [partType, setPartType] = useState(null);
     const [partName, setPartName] = useState(null);
     const [partDesc, setPartDesc]= useState(null);
-    const [value, setValue] = useState(null);
+    const [value, setValue] = useState(props.defaultValue);
     const [unit,setUnit]= useState(null);
     const [unitList,setUnitList]= useState(null);
     const [searchText, setSearchText] = useState(null);
@@ -145,8 +145,8 @@ const Dropdown= (props) =>{
             <div style={{marginTop:'0.5vw'}}><FaSistrix size={17} color="#3F5575"/></div></div></div>
         <div style={{marginTop:listTopMargin}}>
           {props.allItems?<div className="option"  
-                 onClick={()=>{setIsDropdownOpen(false); setValue('');props.parentCallback({})}}>
-                  <div style={{display:'flex'}}>Select All</div>
+                 onClick={()=>{setIsDropdownOpen(false); setValue('All');props.parentCallback({})}}>
+                  <div style={{display:'flex'}}>All</div>
                   </div>:null}
         {searchText !== null? dataFilter.map((option)=>(
                  <div className="option" key={option.id}    

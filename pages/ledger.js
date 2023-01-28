@@ -3,7 +3,7 @@ import Head from 'next/head';
 import { useState, useEffect,useRef} from 'react';
 
 import Sidebar from '../components/sidebar';
-import { FaFileContract, FaPlus, FaTrashAlt, FaSistrix } from 'react-icons/fa';
+import { FaFileContract,  FaTimes } from 'react-icons/fa';
 import Table from '../components/table';
 import Dropdown from '../components/dropdown';
 import Header from '../components/header';
@@ -16,7 +16,6 @@ import "react-datepicker/dist/react-datepicker.css";
 
 import { ToastContainer, toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
-import ButtonLoader from '../components/buttonLoader';
 
 
 const Ledger =(props)=>{
@@ -138,15 +137,15 @@ const Ledger =(props)=>{
         }else if(unit === null){
             toast.warning("Enter Unit!")
             return;
-        }else if(price === null){
-            toast.warning("Enter Price!")
-            return;
+        // }else if(price === null){
+        //     toast.warning("Enter Price!")
+        //     return;
         }else if(quantity === null){
             toast.warning("Enter Quantity!")
             return;
-        }else if(vendor === null){
-            toast.warning("Enter Vendor!")
-            return;
+        // }else if(vendor === null){
+        //     toast.warning("Enter Vendor!")
+        //     return;
         }else{
         const formData={
             date:selectedDate,
@@ -201,7 +200,7 @@ const Ledger =(props)=>{
     }
 
 
-    const status=[{name:'Credit', value:'CREDIT'},{name:'Debit', value:'DEBIT'},{name:'Stock Loss', value:'LOSS'},{name:'Stock Reject', value:'REJECT'}]
+    const status=[{name:'Loss on Line', value:'LINE_LOSS'},{name:'Production Return', value:'PROD_RETURN'}]
     let form = null;
 
     // ledger form visible on clicking add button
@@ -228,21 +227,21 @@ const Ledger =(props)=>{
                     <Dropdown width="70%" placeholder='Unit' isUnitList="true" options={unitList} name="symbol" dropdownWidth={size.width>'600'?'11vw':'55vw'} searchWidth={size.width>'600'?'8vw':'47vw'} height="3rem"
                     parentCallback={(data)=>setUnit(data.symbol)} border={true}/></div>
                 </div>
-                {['DEBIT','CREDIT',null].includes(selectedStatus)?<div className='field_width'>{size.width>'600'?<label>Price:</label>:null}
+                {/* {['DEBIT','CREDIT',null].includes(selectedStatus)?<div className='field_width'>{size.width>'600'?<label>Price:</label>:null}
                 <input placeholder="Enter Price" style={{marginTop:'0', height:"3rem"}} type="number" className='ledger_input'
-                onChange={(e)=>setPrice(e.target.value)}/></div>:null}
+                onChange={(e)=>setPrice(e.target.value)}/></div>:null} */}
 
-                {selectedStatus != 'LOSS'?<div className="field_width">
+                {/* {selectedStatus != 'LOSS'?<div className="field_width">
                {size.width>'600'?<div> Vendor:</div>:null}
                 <Dropdown width={size.width>'600'?'70%':'100%'} placeholder='Select Vendor' name="name" options={vendorList} height="3rem"
-            parentCallback={(data)=>setVendor(data.id)} dropdownWidth={size.width>'600'?'16vw':'70vw'} searchWidth={size.width>'600'?'13vw':'60vw'} border={true}/></div>:null}
+            parentCallback={(data)=>setVendor(data.id)} dropdownWidth={size.width>'600'?'16vw':'70vw'} searchWidth={size.width>'600'?'13vw':'60vw'} border={true}/></div>:null} */}
             </div>
             <div className='ledger_form_footer'>
 
             <div className='ledger_button'><button className='cancel_button button2 expand'
                        onClick={()=>{cancelPartHandler()}}>Cancel</button>
                        <button className='save_button button2 expand' disabled={loading}
-                       onClick={submitPartHandler}>{loading?<div style={{marginRight:'5px'}}><ButtonLoader /></div>:null}Save</button>
+                       onClick={submitPartHandler}>Save</button>
                        </div></div>
         </div>);
         }
@@ -275,10 +274,10 @@ const Ledger =(props)=>{
                 <div className='body'>
                 <div className="body_header">
                 <div className='ledger_title'>Ledger</div>
-                <input placeholder="Search for code or name" value={searchText} 
+                <input placeholder="Search.." value={searchText} 
                         className="ledger_search" 
                         onChange={(e) => {setSearchText(e.target.value);searchCard(e)}}/>
-                        <FaSistrix size={17} className="ledger_search_icon"/>
+                        <FaTimes size={15} className="ledger_clear_icon" title="Clear" onClick={()=>setSearchText('')}/>
                 <button onClick={() =>{setShowForm(true)}} style={{position:'absolute',right:'4vw'}}>Manage</button>
                 </div>
 

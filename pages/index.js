@@ -15,7 +15,7 @@ import { fetchUnitList } from '../services/stockInService';
 import Modal from '../components/modal';
 import Spinner from '../components/spinner';
 
-import { FaTimes, FaExternalLinkAlt, FaList,FaTh,FaArrowRight } from 'react-icons/fa';
+import { FaTimes, FaExternalLinkAlt, FaList,FaTh } from 'react-icons/fa';
 import ReactHtmlTableToExcel from "react-html-table-to-excel";
 
 import { ToastContainer, toast } from 'react-toastify';
@@ -177,8 +177,8 @@ else{
                     </div> 
 
                     <div className="search_section">
-                    <div style={{marginRight:'2%'}}>{partTypeList?<Dropdown allItems="true"  options={partTypeList} placeholder='Select Part Type' name="name" width="100%" backGround="#F6F7FB"
-            parentCallback={(data)=>{setFilterOnPartType(data.name)}} value={partType} dropdownWidth={size.width>'600'?'13vw':'30vw'} border={true} height={size.width>'600'?'4rem':'3rem'}
+                    <div style={{marginRight:'2%'}}>{partTypeList?<Dropdown allItems="true"  options={partTypeList} placeholder='Select Part Type' name="name" width="100%" backGround="#F6F7FB" searchPlaceholder="Search Part Type"
+            parentCallback={(data)=>{setFilterOnPartType(data.name)}} value={partType} dropdownWidth={size.width>'600'?'13vw':'30vw'} border={true} height={size.width>'600'?'4rem':'3rem'} defaultValue="All"
             searchWidth={size.width>'600'?'10vw':'20vw'}/> : null}</div>
 
                      <input placeholder="Search.." value={searchText} 

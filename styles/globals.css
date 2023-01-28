@@ -36,3 +36,7 @@ input::-webkit-inner-spin-button {
 button:disabled{
   cursor: not-allowed;
 }
+
+.icon:hover{
+  cursor: pointer;
+}

@@ -190,7 +190,7 @@ justify-content: flex-start;
   background-color: #edebeb;
 }
 
-.ledger_search_icon{
+.ledger_clear_icon{
 color:#3F5575;
 right:21vw;
 position:absolute;
@@ -245,6 +245,10 @@ justify-content:flex-end;
 
 .expand{
 width:fit-content;
+}
+
+.ledger_clear_icon:hover{
+  cursor: pointer;
 }
 
 @media(max-width:600px){
@@ -345,7 +349,7 @@ border-radius: 3px;
 padding-left:0.5rem;
 }
 
-.ledger_search_icon{
+.ledger_clear_icon{
 right:11vw;
 }
 
