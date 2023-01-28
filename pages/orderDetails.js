@@ -34,7 +34,7 @@ const OrderDetails=()=>{
     const today= new Date();
     const todayDate = today.getFullYear()+'-'+(today.getMonth()+1)+'-'+today.getDate();
     const [list,setList]=useState({
-      production_order:productionOrderId,
+      production_order:null,
       date:todayDate,
       production_order_item:[]
     })
@@ -58,6 +58,7 @@ const OrderDetails=()=>{
           console.log(poId);
           if(poId != undefined){
           setProductionOrderId(poId);
+          setList({...list,production_order:poId});
 
           fetchProductionOrderDetails(token,poId).then(res=>{
             setOrderItem(res.data.data.output[0].production_order_itemss)
