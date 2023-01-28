@@ -187,11 +187,7 @@ const StockIn=()=>{
         const newList1=[data1,...finalList]
         setFinalList(newList1)
         setNewPartList(newList)
-        setPartName(()=>"")
-        setPrice("")
-        setQuantity("")
-        setUnit("");
-        setPartId("");
+        cancelHandler();
        
     }
     }
@@ -202,6 +198,7 @@ const StockIn=()=>{
         setPrice(()=>"");
         setQuantity(()=>"");
         setUnit(()=>"");
+        setPartId('');
     }
 
     // upload excel file
@@ -238,7 +235,7 @@ const StockIn=()=>{
 
     const fetchPartId=(id)=>{
         setId(id)
-        fetchPartById(id,token).then((res)=>{setPartId(res.data.part_id);
+        fetchPartById(id,token).then((res)=>{setUnit(res.data.quantity.split(' ')[1]);setPartId(res.data.part_id);
             setPartName(res.data.short_description)})
     }
 
