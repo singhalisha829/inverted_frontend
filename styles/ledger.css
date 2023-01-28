@@ -23,6 +23,8 @@
   align-items: center;
 }
 
+
+
 .part_id1{
    color: #EB2129;
    background-color: #f8c9cb;
@@ -226,8 +228,14 @@ display:flex;
 margin-bottom:15px;
 }
 
+.ledger_form_content{
+  flex-wrap: wrap;
+  grid-template-columns: repeat(auto-fill, minmax(250px, 1fr));
+}
+
 .field_width{
 width:33%;
+height: 6rem;
 }
 
 .ledger_form_footer{
@@ -268,6 +276,7 @@ button{
 .field_width{
   width: 100%;
   margin-bottom: 1rem;
+  height: auto;
 }
 
 .part_details{
@@ -330,7 +339,7 @@ line-height: 1.7rem;
 }
 
 .ledger_search{
-width: 70%;
+width: 50%;
 box-shadow: 0px 2px 1px rgba(225, 228, 237, 0.2);
 border-radius: 3px;
 padding-left:0.5rem;

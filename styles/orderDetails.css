@@ -38,16 +38,20 @@ line-height: 1.7rem;
 text-align: center;
 }
 
-.po_detail_part_rows{
-        display: flex;
-        font-weight: 500;
-    font-size: 1.4rem;
-    line-height: 1.7rem;
-    text-align: center;
+.po_detail_part_header{
     color:#6B6B6B;
-    padding-bottom:1.5rem;
     border-bottom:#ececec 0.1em solid;
     margin-bottom: 0.5rem;
+    height: 5rem;
+    align-items: center;
+}
+
+.po_detail_part_rows{
+    display: flex;
+    height: 6rem;
+    align-items: center;
+    text-align: center;
+    border-bottom:#ececec 0.1em solid;
 }
 
 .order_details_subheader{
