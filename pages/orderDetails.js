@@ -149,7 +149,7 @@ const OrderDetails=()=>{
           toast.error(res.data.status.description);
         
         }else{
-          const unitIndex=unit.findIndex(el=>el.id==id);
+          const unitIndex=unit.findIndex(el=>el.id==data.id);
           if(unitIndex == -1){
             const unitList=[...unit,{id:data.id,unit:unit_symbol}]
             setUnit(unitList);
