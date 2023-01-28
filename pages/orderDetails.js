@@ -77,7 +77,8 @@ const OrderDetails=()=>{
 
           fetchPastTransaction(token,poId).then(res=>{
             if(res.data.data != undefined){
-              setPastTransactions(res.data.data.output)
+              const sorted = [...res.data.data.output].reverse();
+              setPastTransactions(sorted)
             }
             })
 

@@ -1,6 +1,7 @@
 import Image from 'next/image';
 import Router from 'next/router';
 import { useEffect } from 'react';
+import Link from 'next/link';
 
 import Logo from '../public/logo.png';
 import Logo_inverted from '../public/Logo_inverted.png';
@@ -68,29 +69,28 @@ const Sidebar = () =>{
                   </div>
                   </div>
                         <div className='nav_list'>
-                            {selectedDiv==='dashboard'?<div title='Dashboard' className='selected_items' onClick={()=>{Router.push('/');
-                          setDashboard()}}><div className='strip'/><div className='center'><FaTh /><div style={{marginLeft:"1.3rem"}}>Dashboard</div></div></div>
+                            {selectedDiv==='dashboard'?<Link href="/"><a title='Dashboard' className='selected_items' onClick={()=>{
+                          setDashboard()}}><div className='strip'/><div className='center'><FaTh /><div style={{marginLeft:"1.3rem"}}>Dashboard</div></div></a></Link>
                           :
-                          <div title='Dashboard' className='nav_items' onClick={()=>{Router.push('/');
-                          setDashboard()}}><div className='empty_strip'/><div className='center'><FaTh /><div style={{marginLeft:"1.3rem"}}>Dashboard</div></div></div>}
+                          <Link href="/"><a title='Dashboard' className='nav_items' onClick={()=>{
+                          setDashboard()}}><div className='empty_strip'/><div className='center'><FaTh /><div style={{marginLeft:"1.3rem"}}>Dashboard</div></div></a></Link>}
 
                           {/* {selectedDiv==='purchase_orders'?
-                            <div title='Purchase Orders' className='selected_items' onClick={()=>{Router.push('/purchaseOrder')
-                          setPurchaseOrders()}}><div className='strip'/><div className='center'><FaShoppingCart /><div style={{marginLeft:'1.3rem'}}>Purchase Orders
-                          </div></div></div>
+                            <Link href="/purchaseOrder"><a title='Purchase Orders' className='selected_items' onClick={()=>{                          setPurchaseOrders()}}><div className='strip'/><div className='center'><FaShoppingCart /><div style={{marginLeft:'1.3rem'}}>Purchase Orders
+                          </div></div></a></Link>
                           :
-                          <div title='Purchase Orders' className='nav_items' onClick={()=>{Router.push('/purchaseOrder');
+                          <Link href="/purchaseOrder"><a title='Purchase Orders' className='nav_items' onClick={()=>{
                           setPurchaseOrders()}}><div className='empty_strip'/><div className='center'><FaShoppingCart /><div style={{marginLeft:'1.3rem'}}>Purchase Orders
-                          </div></div></div>} */}
+                          </div></div></a></Link>} */}
 
                           {selectedDiv==='production_orders'?
-                            <div title='Production Orders' className='selected_items' onClick={()=>{Router.push('/order')
+                            <Link href="/order"><a title='Production Orders' className='selected_items' onClick={()=>{
                           setPurchaseOrders()}}><div className='strip'/><div className='center'><IoConstruct /><div style={{marginLeft:'1.3rem'}}>Production Orders
-                          </div></div></div>
+                          </div></div></a></Link>
                           :
-                          <div title='Production Orders' className='nav_items' onClick={()=>{Router.push('/order');
+                          <Link href="/order"><a title='Production Orders' className='nav_items' onClick={()=>{;
                           setPurchaseOrders()}}><div className='empty_strip'/><div className='center'><IoConstruct /><div style={{marginLeft:'1.3rem'}}>Production Orders
-                          </div></div></div>}
+                          </div></div></a></Link>}
                           
                         </div>
                         <div>
@@ -104,27 +104,27 @@ const Sidebar = () =>{
                 <div style={{width:'16.66vw',display:'flex',justifyContent:'center'}}><div className='navbar_img1'><Image src={Logo_inverted} layout="fill" alt="" /></div></div>
                         <div className='nav_list'>
                           {selectedDiv === 'dashboard'?
-                            <div title='Dashboard' className='selected_items' onClick={()=>{Router.push('/');
-                          setDashboard()}}><div className='strip'/><div className='center1'><FaTh /></div></div>
+                            <Link href="/"><a title='Dashboard' className='selected_items' onClick={()=>{
+                          setDashboard()}}><div className='strip'/><div className='center1'><FaTh /></div></a></Link>
                         :
-                        <div title='Dashboard' className='nav_items' onClick={()=>{Router.push('/');
-                        setDashboard()}}><div className='empty_strip'/><div className='center1'><FaTh /></div></div>}
+                        <Link href="/"><a title='Dashboard' className='nav_items' onClick={()=>{
+                        setDashboard()}}><div className='empty_strip'/><div className='center1'><FaTh /></div></a></Link>}
 
                           {/* {selectedDiv==='purchase_orders'?
-                          <div title='Purchase Orders' className='selected_items' onClick={()=>{Router.push('/purchaseOrder');
-                          setPurchaseOrders()}}><div className='strip'/><div className='center1'><FaShoppingCart /></div></div>
+                          <Link href="/purchaseOrder"><a title='Purchase Orders' className='selected_items' onClick={()=>{
+                          setPurchaseOrders()}}><div className='strip'/><div className='center1'><FaShoppingCart /></div></a></Link>
                         :
-                        <div title='Purchase Orders' className='nav_items' onClick={()=>{Router.push('/purchaseOrder');
+                        <Link href="/purchaseOrder"><a title='Purchase Orders' className='nav_items' onClick={()=>{
                           setPurchaseOrders()}}><div className='empty_strip'/><div className='center1'><FaShoppingCart />
-                          </div></div>} */}
+                          </div></a></Link>} */}
 
                           {selectedDiv==='production_orders'?
-                          <div title="Production Orders" className='selected_items' onClick={()=>{Router.push('/order');
-                          setProductionOrders()}}><div className='strip'/><div className='center1'><IoConstruct /></div></div>
+                          <Link href="/order"><a title="Production Orders" className='selected_items' onClick={()=>{;
+                          setProductionOrders()}}><div className='strip'/><div className='center1'><IoConstruct /></div></a></Link>
                         :
-                        <div title="Production Orders" className='nav_items' onClick={()=>{Router.push('/order')
+                        <Link href="/order"><a title="Production Orders" className='nav_items' onClick={()=>{
                           setProductionOrders()}}><div className='empty_strip'/><div className='center1'><IoConstruct />
-                          </div></div>}
+                          </div></a></Link>}
                           
                         </div>
                         <div>

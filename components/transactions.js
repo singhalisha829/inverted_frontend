@@ -15,9 +15,9 @@ return(
         </div>
         {showDetails?<div className='transaction_details'>
         <div className="transaction_order_detail_header">
-                            <div style={{width:'20%'}} className="common">ORDER TYPE</div>
-                            <div style={{width:'20%'}} className="common">ORDER ID</div>
-                            <div style={{width:'40%'}} className="common">ORDER DESCRIPTION</div>
+                            <div style={{width:'20%'}} className="common">TYPE</div>
+                            <div style={{width:'20%'}} className="common">ID</div>
+                            <div style={{width:'40%'}} className="common">DESCRIPTION</div>
                             <div style={{width:'20%'}} className="common">QUANTITY</div>
                         </div>
                         {props.part_details.map((part)=>(<div className='transaction_order_column' key={part.id}>
