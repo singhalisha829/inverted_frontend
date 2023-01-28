@@ -151,7 +151,7 @@ const Ledger =(props)=>{
             date:selectedDate,
              quantity:quantity,
             transaction_type:selectedStatus,vendor:vendor,price:price,
-            invoice:invoice,unit:unit,part:partId
+            document_id:invoice,unit:unit,part:partId
         };
         console.log(formData)
         addNewLedger(formData,token).then(()=>{
@@ -212,8 +212,8 @@ const Ledger =(props)=>{
                 <Dropdown placeholder='Select Status' options={status} name="name" parentCallback={(data)=>setSelectedStatus(data.value)} width={size.width>'600'?'70%':'100%'}
                 dropdownWidth={size.width>'600'?'16vw':'70vw'} searchWidth={size.width>'600'?'13vw':'60vw'} height="3rem" border={true}/></div>
                 </div>
-                {selectedStatus != 'LOSS'?<div className="field_width">{size.width>'600'?<label>Invoice Number:</label>:null}
-                    <input style={{marginTop:'0',height:'3rem',width:size.width>'600'?'70%':'100%'}} placeholder='Enter Invoice Number' onChange={(e)=>setInvoice(e.target.value)} className="ledger_input"/></div>:null}
+                {selectedStatus != 'LOSS'?<div className="field_width">{size.width>'600'?<label>Document ID:</label>:null}
+                    <input style={{marginTop:'0',height:'3rem',width:size.width>'600'?'70%':'100%'}} placeholder='Enter Document ID' onChange={(e)=>setInvoice(e.target.value)} className="ledger_input"/></div>:null}
                 <div className="field_width">{size.width>'600'?<label>Date:</label>:null}
                             <DatePicker dateFormat="dd/MM/yyyy" placeholderText='Enter Date' selected={selectedDate} onChange={(date) => setSelectedDate(date)} />
     

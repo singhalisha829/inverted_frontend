@@ -138,21 +138,24 @@ const OrderDetails=()=>{
           toast.error(res.data.status.description);
         }else if(data.released_quantity_value<quantity*factor){
           toast.warning('Entered Quantity exceeds the Available Quantity! ');
+          setFormData({...formData,[data.id]:{quantity:'',unit:''}});removeProductionOrderItem(data.id);
         }
         else{
       factor=res.data.output[0].conversion_factor;
       if(data.available_qty<value*factor){
         toast.warning('Entered Quantity exceeds the Required Qunatity! ');
+        setFormData({...formData,[data.id]:{quantity:'',unit:''}});removeProductionOrderItem(data.id);
       }else{
         const left_quantity=data.released_quantity_value-(value*factor);
+        setFormData({...formData,[data.id]:{quantity:value,unit:unit[unitIndex].unit}})
       handleProductionOrder(value,data.id,data.product_code,unit[unitIndex].unit,data.product_description,data.item_id,data.ItemType,left_quantity,data.released_quantity_unit_symbol);
       }
       }})
     }
+    console.log('unit',unit)
     }
 
     const handleUnit=(unit_symbol,data)=>{
-      // console.log(unit,available_qty,released_quantity_value,released_quantity_unit_symbol,available_qty_symbol,id,product_code,product_description,item_id,ItemType)
       const factor=null;
       unitConversion(token,data.available_qty_symbol,unit_symbol).then(res=>{console.log(res.data);
         if(res.data.status.code== 404){
@@ -169,27 +172,33 @@ const OrderDetails=()=>{
       factor=res.data.output[0].conversion_factor;
       if(data.available_qty<quantity*factor){
         toast.warning('Entered Quantity exceeds the Available Quantity! ');
+        setFormData({...formData,[data.id]:{quantity:'',unit:''}});removeProductionOrderItem(data.id);
         
       }else if(data.released_quantity_value<quantity*factor){
         toast.warning('Entered Quantity exceeds the Required Quantity! ');
+        setFormData({...formData,[data.id]:{quantity:'',unit:''}});removeProductionOrderItem(data.id);
       }
       else{
         const left_quantity=data.released_quantity_value-(quantity*factor);
-        console.log(left_quantity,factor,data.available_qty)
+        setFormData({...formData,[data.id]:{quantity:quantity,unit:unit_symbol}})
       handleProductionOrder(quantity,data.id,data.product_code,unit_symbol,data.product_description,data.item_id,data.ItemType,left_quantity,data.released_quantity_unit_symbol);
       }
       }})
+      console.log('unit',unit)
       
     }
 
     const handleBOMQuantity=(value,data)=>{
       if(value>data.available_qty){
         toast.warning('Entered Quantity is greater than Available Quantity');
+        setFormData({...formData,[data.id]:{quantity:'',unit:''}});removeProductionOrderItem(data.id);
       }else if(value>data.released_quantity_value){
         toast.warning('Entered Quantity is greater than Required Quantity');
+        setFormData({...formData,[data.id]:{quantity:'',unit:''}});removeProductionOrderItem(data.id);
       }else{
         const left_quantity=data.released_quantity_value-value;
         console.log(left_quantity)
+        setFormData({...formData,[data.id]:{quantity:value,unit:"Nos"}})
       handleProductionOrder(value,data.id,data.product_code,"Nos",data.product_description,data.item_id,data.ItemType,left_quantity,"Nos");
       }
     }
@@ -211,9 +220,15 @@ const OrderDetails=()=>{
       }else{
           productList[index].quantity=value+" "+symbol;     
       } 
-      setFormData({...formData,[id]:{quantity:value,unit:symbol}})
+      console.log("product",productList)
       setProductionOrderList({...productionOrderList,production_order_item:productList})
-      localStorage.setItem('stock_out_list',JSON.stringify(productionOrderList))
+      localStorage.setItem('stock_out_list',JSON.stringify({...productionOrderList,production_order_item:productList}))
+    }
+
+    const removeProductionOrderItem=(id)=>{
+      const list=productionOrderList.production_order_item.filter(el=>el.production_order_items != id);
+      
+      setProductionOrderList({...productionOrderList,production_order_item:list})
     }
    
 
@@ -293,7 +308,7 @@ const OrderDetails=()=>{
                   <span className="available_quantity" style={{textAlign:'left'}}>*Only {part.available_qty} {part.available_qty_symbol} available</span></div>:null}
 
                             </div>
-                            <div style={{width:'5%'}}><FaTimes title="Clear" className="icon" onClick={()=>setFormData({...formData,[part.id]:{quantity:'',unit:''}})}/></div>
+                            <div style={{width:'5%'}}><FaTimes title="Clear" className="icon" onClick={()=>{setFormData({...formData,[part.id]:{quantity:'',unit:''}});removeProductionOrderItem(part.id)}}/></div>
                         </div>
                           )
                         })}
