@@ -73,7 +73,10 @@ const Ledger =(props)=>{
         setPartId(res.data[0].id)
         setShortDescription(res.data[0].short_description)
         setlongDescription(res.data[0].long_description)
-        setPartQuantity(res.data[0].quantity)})
+        setPartQuantity(res.data[0].quantity)
+        setUnit(res.data[0].quantity.split(' ')[1])
+    })
+       
         
     fetchVendorList(token).then(res=>{   
         setVendorList(res.data)})
@@ -122,9 +125,6 @@ const Ledger =(props)=>{
     //   submit new ledger only if all values are entered
     const submitPartHandler = () =>{  
         setLoading(true);
-        const partName= localStorage.getItem("partId");
-
-        console.log(selectedStatus,invoice,selectedDate,quantity,unit,price,vendor)
         if(selectedStatus === null){
             toast.warning("Enter Status!")
             return;
@@ -147,11 +147,13 @@ const Ledger =(props)=>{
         //     toast.warning("Enter Vendor!")
         //     return;
         }else{
+            const date = selectedDate.getFullYear()+'-'+(selectedDate.getMonth()+1)+'-'+selectedDate.getDate();
+
         const formData={
-            date:selectedDate,
-             quantity:quantity,
+            date:date,
+             quantity:quantity+" "+unit,
             transaction_type:selectedStatus,vendor:vendor,price:price,
-            document_id:invoice,unit:unit,part:partId
+            document_id:invoice,part:partId
         };
         console.log(formData)
         addNewLedger(formData,token).then(()=>{
@@ -197,6 +199,7 @@ const Ledger =(props)=>{
     const cancelPartHandler = () =>{
         setShowForm(false);
         setSelectedDate(()=>'')
+        setUnit(partQuantity.split(' ')[1])
     }
 
 
@@ -225,7 +228,7 @@ const Ledger =(props)=>{
                     <input type="number" style={{marginTop:'0', width:'30%', height:"3rem", marginRight:size.width>'600'?'1rem':'0.5rem'}}    
                     onChange={(e)=>setQuantity(e.target.value)} placeholder='0.00'/>
                     <Dropdown width="70%" placeholder='Unit' isUnitList="true" options={unitList} name="symbol" dropdownWidth={size.width>'600'?'11vw':'55vw'} searchWidth={size.width>'600'?'8vw':'47vw'} height="3rem"
-                    parentCallback={(data)=>setUnit(data.symbol)} border={true}/></div>
+                    parentCallback={(data)=>setUnit(data.symbol)} border={true} value={unit}/></div>
                 </div>
                 {/* {['DEBIT','CREDIT',null].includes(selectedStatus)?<div className='field_width'>{size.width>'600'?<label>Price:</label>:null}
                 <input placeholder="Enter Price" style={{marginTop:'0', height:"3rem"}} type="number" className='ledger_input'
@@ -240,7 +243,7 @@ const Ledger =(props)=>{
 
             <div className='ledger_button'><button className='cancel_button button2 expand'
                        onClick={()=>{cancelPartHandler()}}>Cancel</button>
-                       <button className='save_button button2 expand' disabled={loading}
+                       <button className='save_button button2 expand' 
                        onClick={submitPartHandler}>Save</button>
                        </div></div>
         </div>);
