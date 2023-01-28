@@ -32,7 +32,7 @@ export default function Home() {
   const [partTypeList, setPartTypeList]= useState(null);
 
   const [showModal, setShowModal]= useState(false);
-    const [partType, setPartType] = useState(null);
+    const [partType, setPartType] = useState('All');
     const [partName, setPartName] = useState(null);
     const [partDesc, setPartDesc]= useState(null);
     const [token,setToken]= useState(null);
@@ -178,7 +178,7 @@ else{
 
                     <div className="search_section">
                     <div style={{marginRight:'2%'}}>{partTypeList?<Dropdown allItems="true"  options={partTypeList} placeholder='Select Part Type' name="name" width="100%" backGround="#F6F7FB" searchPlaceholder="Search Part Type"
-            parentCallback={(data)=>{setFilterOnPartType(data.name)}} value={partType} dropdownWidth={size.width>'600'?'13vw':'30vw'} border={true} height={size.width>'600'?'4rem':'3rem'} defaultValue="All"
+            parentCallback={(data)=>{setFilterOnPartType(data.name)}} value={partType} dropdownWidth={size.width>'600'?'13vw':'30vw'} border={true} height={size.width>'600'?'4rem':'3rem'} 
             searchWidth={size.width>'600'?'10vw':'20vw'}/> : null}</div>
 
                      <input placeholder="Search.." value={searchText} 

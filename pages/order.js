@@ -20,8 +20,7 @@ const Order=()=>{
     const [searchText,setSearchText]= useState(null);
     const [filterOnStatus,setFilterOnStatus]= useState(null);
     const [token,setToken]= useState(null);
-    const [cardFilter, setCardFilter] = useState([]);
-    const [listFilter, setListFilter] = useState([]);
+    const [orderType,setOrderType]= useState('All');
     const [productionOrderList,setProductionOrderList]= useState(null);
 
 
@@ -106,8 +105,8 @@ const Order=()=>{
                      <div className="sub_title">Database for all Orders</div>
                     </div> 
                 <div className="order_section">
-                    <Dropdown options={status} allItems="true" defaultValue="All" placeholder="Select Status" name="name" width="15vw" height="3.5rem" border={true}
-                    parentCallback={(data)=>setFilterOnStatus(data.id)} dropdownWidth={size.width>'600'?'15vw':'30vw'} searchWidth={size.width>'600'?'12vw':'22vw'} backGround="#F6F7FB"/>
+                    <Dropdown options={status} allItems="true"  placeholder="Select Status" name="name" width="15vw" height="3.5rem" border={true}
+                    parentCallback={(data)=>{setFilterOnStatus(data.id);setOrderType(data.name)}} dropdownWidth={size.width>'600'?'15vw':'30vw'} searchWidth={size.width>'600'?'12vw':'22vw'} backGround="#F6F7FB" value={orderType}/>
                     <input placeholder="Search.." style={{height:'3.5rem',marginLeft:'2rem',width:'70%',background:"#F6F7FB"}} value={searchText} onChange={(e)=>setSearchText(e.target.value)}/><div><FaTimes className="clear_icon" title="Clear" onClick={()=>setSearchText('')}/></div>
                 </div>
 

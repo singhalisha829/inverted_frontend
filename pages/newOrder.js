@@ -24,11 +24,9 @@ import 'react-toastify/dist/ReactToastify.css';
 
 
 const NewOrder=()=>{
-    const status=[{name:'paid',id:1},{name:'in progress',id:2},{name:'unpaid',id:3}]
-
     const order_type=[{value:'BOM',name:'BOM'},{value:'Part',name:'PART'}]
 
-    const [orderType,setOrderType]= useState(null);
+    const [orderType,setOrderType]= useState('Part');
     const [name,setName]= useState('');
     const [token,setToken]= useState(null);
     const [quantity,setQuantity]= useState('');
@@ -106,9 +104,6 @@ const NewOrder=()=>{
       if(orderType=== null || orderType===''){
         toast.warning('Select Order Type!')
     }
-    // else if(orderName=== null || orderName===''){
-    //     toast.warning('Select Order Name!')
-    // }
     else if(quantity === ''){
         toast.warning('Enter Qunatity!')
     }else if(orderType==='Part' && unit === ''){
@@ -147,7 +142,7 @@ const NewOrder=()=>{
 
 
     const cancelHandler=() =>{
-      setOrderType('');
+      // setOrderType('');
         setQuantity(()=>'');
         setPartName('');
         setBomName('');
@@ -249,14 +244,15 @@ const NewOrder=()=>{
                     dropdownWidth={size.width>'600'?'13vw':'71vw'} searchWidth={size.width>'600'?'10vw':'61vw'} border={true} value={orderType} placeholder="Select Order Type"
                     height="3.3rem"/></div>
 
-{showUnit?<div className="fields centered">{size.width>'600'?<label style={{marginBottom:"0.5rem"}}>Part Type:</label>:null}
-        <Dropdown options={partTypeList} selected={partType} name="name" width={size.width>'600'?'70%':'90%'} parentCallback={(data)=>{fetchParts(data.id);setPartType(data.name)}}
+{orderType=='Part'?<div className="fields centered">{size.width>'600'?<label style={{marginBottom:"0.5rem"}}>Part Type:</label>:null}
+        <Dropdown options={partTypeList} name="name" width={size.width>'600'?'70%':'90%'} parentCallback={(data)=>{fetchParts(data.id);setPartType(data.name)}}
         dropdownWidth={size.width>'600'?'13vw':'20vw'} searchWidth={size.width>'600'?'10vw':'12vw'} border={true} value={partType} height="3.3rem"
         placeholder="Select Order Type"/></div>:null}
                     
                     <div className="fields centered" >
                       {size.width>'600'?<label style={{marginBottom:"0.5rem"}}>Order Description:</label>:null}
-                   {orderType?<div>{orderType=='BOM'? <Dropdown options={bomList} name="product_description" width={size.width>'600'?"70%":"90%"} parentCallback={(data)=>{setBomName(data.id);setBom(data.product_description)}} value={bomName}
+                   {orderType?
+                   <div>{orderType=='BOM'? <Dropdown options={bomList} name="product_description" width={size.width>'600'?"70%":"90%"} parentCallback={(data)=>{setBomName(data.id);setBom(data.product_description)}} value={bomName}
 dropdownWidth={size.width>'600'?'13vw':'71vw'} searchWidth={size.width>'600'?'10vw':'61vw'} border={true} placeholder="Select Order" height="3.3rem"/>:
 <Dropdown options={partsList} name="short_description" width={size.width>'600'?"70%":"90%"} parentCallback={(data)=>handlePartDescription(data)} value={partName}
 dropdownWidth={size.width>'600'?'13vw':'71vw'} searchWidth={size.width>'600'?'10vw':'61vw'} border={true} placeholder="Select Order" height="3.3rem" searchPlaceholder="Enter Part ID/Name" isPartsList="true"/>}</div>
@@ -266,7 +262,7 @@ dropdownWidth={size.width>'600'?'13vw':'71vw'} searchWidth={size.width>'600'?'10
                     
                     <div className="fields centered" >
                       {size.width>'600'?<label style={{marginBottom:"0.5rem"}}>Required Quantity:</label>:null}
-                    {showUnit? <div style={{display:'flex',width:size.width>'600'?'70%':'90%', border:"#e5e5e5 solid 0.1em",borderRadius:'5px'}}>
+                    {orderType =='Part'? <div style={{display:'flex',width:size.width>'600'?'70%':'90%', border:"#e5e5e5 solid 0.1em",borderRadius:'5px'}}>
 <input value={quantity} style={{width:"35%",height:"3rem",border:'none'}} className="quantity" type="number" onChange={(e)=>setQuantity(e.target.value)} placeholder="0.00"/>
 <div style={{borderLeft:"#e5e5e5 solid 0.1em"}} />
 <Dropdown options={unitList} isUnitList="true" placeholder="Unit" width="60%" name="symbol" minWidth="9rem" no_outline={true}
@@ -277,8 +273,8 @@ parentCallback={(data)=>setUnit(data.symbol)} value={unit} dropdownWidth={size.w
                     <div className="new_order_form_footer">
                   {size.width>'600'?  <div className="form_icons">
                    
-            <FaCheckCircle onClick={submitHandler} size={30} className="check_icon"/>
-            <FaTimesCircle size={30}  onClick={cancelHandler} className="cross_icon" />
+            <FaCheckCircle onClick={()=>{submitHandler();setOrderType('Part')}} size={30} className="check_icon"/>
+            <FaTimesCircle size={30}  onClick={()=>{cancelHandler();setOrderType('')}} className="cross_icon" />
             </div>:<div className="stockin_buttons">
                         <button className='cancel_button button2 plus expand'  onClick={cancelHandler}>Clear</button>
                         <button className='save_button button2 plus expand' onClick={submitHandler}>Save</button>

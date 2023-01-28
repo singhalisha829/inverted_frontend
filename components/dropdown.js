@@ -20,7 +20,7 @@ const Dropdown= (props) =>{
     const [partType, setPartType] = useState(null);
     const [partName, setPartName] = useState(null);
     const [partDesc, setPartDesc]= useState(null);
-    const [value, setValue] = useState(props.defaultValue);
+    const [value, setValue] = useState(props.value);
     const [unit,setUnit]= useState(null);
     const [unitList,setUnitList]= useState(null);
     const [searchText, setSearchText] = useState(null);
@@ -56,10 +56,10 @@ const Dropdown= (props) =>{
        console.log("drop",props.value)
         if(props.value==='' ){
             setValue(()=>"")
+        }else{
+          setValue(props.value)
         }
-        if(props.selected){
-          setValue(props.selected)
-        }
+        
     },[props.value])
 
 
