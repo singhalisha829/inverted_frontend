@@ -7,7 +7,7 @@ import Header from "../components/header";
 import OrderList from "../components/orderList";
 
 import Table from '../components/table';
-import {FaSistrix} from 'react-icons/fa';
+import {FaTimes} from 'react-icons/fa';
 import { useState, useEffect } from "react";
 
 import { fetchProductionOrderList } from "../services/productionOrderService";
@@ -106,9 +106,9 @@ const Order=()=>{
                      <div className="sub_title">Database for all Orders</div>
                     </div> 
                 <div className="order_section">
-                    <Dropdown options={status} placeholder="Status" name="name" width="15vw" height="3.5rem" border={true}
+                    <Dropdown options={status} allItems="true" placeholder="Select Status" name="name" width="15vw" height="3.5rem" border={true}
                     parentCallback={(data)=>setFilterOnStatus(data.id)} dropdownWidth={size.width>'600'?'15vw':'30vw'} searchWidth={size.width>'600'?'12vw':'22vw'} backGround="#F6F7FB"/>
-                    <input style={{height:'3.5rem',marginLeft:'2rem',width:'70%',background:"#F6F7FB"}} value={searchText} onChange={(e)=>setSearchText(e.target.value)}/><div><FaSistrix className="search_order"/></div>
+                    <input placeholder="Search.." style={{height:'3.5rem',marginLeft:'2rem',width:'70%',background:"#F6F7FB"}} value={searchText} onChange={(e)=>setSearchText(e.target.value)}/><div><FaTimes className="clear_icon" title="Clear" onClick={()=>setSearchText('')}/></div>
                 </div>
 
                 <div style={{marginTop:'2rem',justifyContent:'space-between'}} className="order_section">

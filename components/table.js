@@ -8,10 +8,6 @@ import Logo  from '../public/Logo_inverted.png';
 
 import { toast } from "react-toastify";
 import 'react-toastify/dist/ReactToastify.css';
-import Dropdown from "./dropdown";
-
-import { fetchUnitList } from "../services/stockInService";
-import { unitConversion } from "../services/purchaseOrderService";
 
 import Parser from 'html-react-parser';
 
@@ -23,15 +19,11 @@ const Table = (props) => {
     const [tableFilter, setTableFilter] = useState([]);
     const [arrow, setArrow] = useState(null);
     const [sortedColumn,setSortedColumn] = useState(null);
-    const [unitList,setUnitList]= useState(null);
-    const [quantity,setQuantity]= useState(null);
-    const [unit,setUnit]= useState([]);
     const [token,setToken]= useState(null);
     
    useEffect(()=>{
     const token=localStorage.getItem('token')
     setToken(token)
-    fetchUnitList(token).then(res=>setUnitList(res.data))
     props.columns.forEach(el=>{
       if(el.sort!= undefined){
         if(el.sort=='ASC'){

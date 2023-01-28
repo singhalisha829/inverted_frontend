@@ -29,6 +29,7 @@ const OrderDetails=()=>{
     const [quantity,setQuantity]= useState(null);
     const [unit,setUnit]= useState([]);
     const [border,setBorder]= useState('#e5e5e5 solid 0.1em');
+    
 
 
     const today= new Date();
@@ -135,7 +136,7 @@ const OrderDetails=()=>{
         toast.warning('Entered Quantity exceeds the Required Qunatity! ');
       }else{
         const left_quantity=data.released_quantity_value-(value*factor);
-      handleQuantitys(value,data.id,data.product_code,unit[unitIndex].unit,data.product_description,data.item_id,data.ItemType,left_quantity,data.released_quantity_unit_symbol);
+      handleProductionOrder(value,data.id,data.product_code,unit[unitIndex].unit,data.product_description,data.item_id,data.ItemType,left_quantity,data.released_quantity_unit_symbol);
       }
       }})
     }
@@ -166,7 +167,7 @@ const OrderDetails=()=>{
       else{
         const left_quantity=data.released_quantity_value-(quantity*factor);
         console.log(left_quantity,factor,data.available_qty)
-      handleQuantitys(quantity,data.id,data.product_code,unit_symbol,data.product_description,data.item_id,data.ItemType,left_quantity,data.released_quantity_unit_symbol);
+      handleProductionOrder(quantity,data.id,data.product_code,unit_symbol,data.product_description,data.item_id,data.ItemType,left_quantity,data.released_quantity_unit_symbol);
       }
       }})
       
@@ -181,11 +182,11 @@ const OrderDetails=()=>{
       }else{
         const left_quantity=data.released_quantity_value-value;
         console.log(left_quantity)
-      handleQuantitys(value,data.id,data.product_code,"Nos",data.product_description,data.item_id,data.ItemType,left_quantity,"Nos");
+      handleProductionOrder(value,data.id,data.product_code,"Nos",data.product_description,data.item_id,data.ItemType,left_quantity,"Nos");
       }
     }
 
-    const handleQuantitys=(value,id,item_name,symbol,item_description,item_id,items_type,left_qty,left_qty_symbol)=>{
+    const handleProductionOrder=(value,id,item_name,symbol,item_description,item_id,items_type,left_qty,left_qty_symbol)=>{
       var productList=list.production_order_item;
       const index= productList.findIndex(el=>el.item_id==item_id);
       
@@ -268,7 +269,7 @@ const OrderDetails=()=>{
                             <div style={{width:'15%'}}>{part.product_code}</div>
                             <div style={{width:'25%'}}>{part.product_description}</div>
                             <div style={{width:'15%'}}>{part.released_quantity_value} {part.released_quantity_value==0?null:part.released_quantity_unit_symbol} / {part.quantity_value} {part.quantity_symbol}</div>
-                            <div style={{width:'30%'}}>
+                            <div style={{width:'30%',paddingLeft:'5%'}}>
                               {part.released_quantity_value != 0?<div style={{display:'flex'}}>{part.ItemType == 'BOM'?
                               <input type="number" style={{border:border}} className="quantity_field" placeholder="1"
                 onChange={(e)=>handleBOMQuantity(

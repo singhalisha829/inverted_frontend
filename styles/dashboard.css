@@ -42,7 +42,7 @@
     display: flex;
 }
 
-.search_symbol{
+.cancel_symbol{
     margin-top: 1.2rem;
     margin-left: -2.8rem;
 }
@@ -347,6 +347,10 @@ button{
     color: #48586c ;
  }
 
+ .cancel_symbol:hover{
+    cursor: pointer;
+ }
+
 
 
 
@@ -425,7 +429,7 @@ button{
       
       
 
-      .search_symbol{
+      .cancel_symbol{
         margin-top: 0.8rem;
         margin-left: -2.8rem;
     }

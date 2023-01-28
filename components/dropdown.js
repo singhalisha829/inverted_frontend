@@ -144,6 +144,10 @@ const Dropdown= (props) =>{
             <div className="dropdown_input"><input style={{height:"3rem",marginRight:'5px',width:props.searchWidth}} onChange={(e)=>setSearchText(e.target.value)} placeholder={props.searchPlaceholder?props.searchPlaceholder:"Search..."}/>  
             <div style={{marginTop:'0.5vw'}}><FaSistrix size={17} color="#3F5575"/></div></div></div>
         <div style={{marginTop:listTopMargin}}>
+          {props.allItems?<div className="option"  
+                 onClick={()=>{setIsDropdownOpen(false); setValue('');props.parentCallback({})}}>
+                  <div style={{display:'flex'}}>Select All</div>
+                  </div>:null}
         {searchText !== null? dataFilter.map((option)=>(
                  <div className="option" key={option.id}    
                  onClick={()=>{ props.parentCallback(option); 

@@ -15,7 +15,7 @@ import { fetchUnitList } from '../services/stockInService';
 import Modal from '../components/modal';
 import Spinner from '../components/spinner';
 
-import { FaSistrix, FaExternalLinkAlt, FaList,FaTh,FaArrowRight } from 'react-icons/fa';
+import { FaTimes, FaExternalLinkAlt, FaList,FaTh,FaArrowRight } from 'react-icons/fa';
 import ReactHtmlTableToExcel from "react-html-table-to-excel";
 
 import { ToastContainer, toast } from 'react-toastify';
@@ -177,13 +177,13 @@ else{
                     </div> 
 
                     <div className="search_section">
-                    <div style={{marginRight:'2%'}}>{partTypeList?<Dropdown  options={partTypeList} placeholder='Select Part Type' name="name" width="100%" backGround="#F6F7FB"
+                    <div style={{marginRight:'2%'}}>{partTypeList?<Dropdown allItems="true"  options={partTypeList} placeholder='Select Part Type' name="name" width="100%" backGround="#F6F7FB"
             parentCallback={(data)=>{setFilterOnPartType(data.name)}} value={partType} dropdownWidth={size.width>'600'?'13vw':'30vw'} border={true} height={size.width>'600'?'4rem':'3rem'}
             searchWidth={size.width>'600'?'10vw':'20vw'}/> : null}</div>
 
                      <input placeholder="Search.." value={searchText} 
                      className="searchbar" onChange={(e) => {setSearchText(e.target.value)}}/>
-                     <div className='search_symbol'><FaSistrix size={17} style={{color:"#3F5575"}}/></div>
+                     <div className='cancel_symbol'><FaTimes size={15} style={{color:"#3F5575"}} title="Clear" onClick={()=>setSearchText('')}/></div>
                      
                      {/* export parts table */}
                      <div style={{width:'10rem',marginLeft:'5vw',marginRight:'1.5rem'}}>
