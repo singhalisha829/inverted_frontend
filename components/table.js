@@ -189,13 +189,13 @@ const Table = (props) => {
                 </div></td>
                 }
                 
-                else if(row.transaction_type==='CREDIT' && column.accessor1==="status"){
+                else if((row.transaction_type==='CREDIT' || row.transaction_type==='PROD_RETURN')  && column.accessor1==="status"){
                   return <td key={column.accessor1} width={column.width} style={{textAlign:column.textalign}}
-  ><div className="stock_in_style"><BsBoxArrowInDown /> Stock In</div></td>
+  ><div className="stock_in_style"><BsBoxArrowInDown /> {row.transaction_type == 'PROD_RETURN'?<div>Production Return</div>:<div>Stock In</div>}</div></td>
   }
- else if(row.transaction_type==='DEBIT' && column.accessor1==="status"){
+ else if((row.transaction_type==='DEBIT' || row.transaction_type==='LINE_LOSS') && column.accessor1==="status"){
     return <td key={column.accessor1} width={column.width} style={{textAlign:column.textalign}}
-    ><div className="stock_out_style"><BsBoxArrowUp />Stock Out</div></td>
+    ><div className="stock_out_style"><BsBoxArrowUp />{row.transaction_type==='LINE_LOSS'?<div>Loss On Line</div>:<div>Stock Out</div>}</div></td>
     }
     else if(column.accessor1==='status' && row.status==="Created"){
       return <td key={column.accessor1} width={column.width} style={{textAlign:column.textalign}}
@@ -254,14 +254,14 @@ const Table = (props) => {
                   </div></td>
                 }
                 
-                else if(row.transaction_type==='CREDIT' && column.accessor1==="status"){
-                                return <td key={column.accessor1} width={column.width} style={{textAlign:column.textalign}}
-                ><div className="stock_in_style"><BsBoxArrowInDown /> Stock In</div></td>
-                }
-               else if(row.transaction_type==='DEBIT' && column.accessor1==="status"){
+                else if((row.transaction_type==='CREDIT' || row.transaction_type==='PROD_RETURN')  && column.accessor1==="status"){
                   return <td key={column.accessor1} width={column.width} style={{textAlign:column.textalign}}
-                  ><div className="stock_out_style"><BsBoxArrowUp />Stock Out</div></td>
-                  }
+  ><div className="stock_in_style"><BsBoxArrowInDown /> {row.transaction_type == 'PROD_RETURN'?<div>Production Return</div>:<div>Stock In</div>}</div></td>
+  }
+ else if((row.transaction_type==='DEBIT' || row.transaction_type==='LINE_LOSS') && column.accessor1==="status"){
+    return <td key={column.accessor1} width={column.width} style={{textAlign:column.textalign}}
+    ><div className="stock_out_style"><BsBoxArrowUp />{row.transaction_type==='LINE_LOSS'?<div>Loss On Line</div>:<div>Stock Out</div>}</div></td>
+    }
                   else if(column.accessor1==='status' && row.status==='Created' ){
                     return <td key={column.accessor1} width={column.width} 
                   ><div className="pending_status_style">Created</div></td>

@@ -18,7 +18,7 @@ import { ToastContainer, toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
 
 
-const Ledger =(props)=>{
+const Ledger =()=>{
     
     const [showForm, setShowForm]= useState(false);
     const [ledger,setLedger]= useState(null);
@@ -50,8 +50,8 @@ const Ledger =(props)=>{
 
     
     const columns = [
-        {accessor1: 'status', label: 'Status' ,width:"15%", textalign:"center"},
-        {accessor1: 'date' ,label: 'Date',width:"25%", textalign:"center" },
+        {accessor1: 'status', label: 'Status' ,width:"20%", textalign:"center"},
+        {accessor1: 'date' ,label: 'Date',width:"20%", textalign:"center" },
         {accessor1: 'quantity', label: 'Quantity',width:"10%" , textalign:"center"},
         {accessor1:'vendor', label:'Vendor',width:"25%", textalign:"center"},
         {accessor1:'document_id', label:'Document ID',width:"25%", textalign:"center"},
@@ -152,7 +152,7 @@ const Ledger =(props)=>{
         const formData={
             date:date,
              quantity:quantity+" "+unit,
-            transaction_type:selectedStatus,vendor:vendor,price:price,
+            transaction_type:selectedStatus,vendor:vendor,
             document_id:invoice,part:partId
         };
         console.log(formData)
@@ -215,18 +215,17 @@ const Ledger =(props)=>{
                 <Dropdown placeholder='Select Status' options={status} name="name" parentCallback={(data)=>setSelectedStatus(data.value)} width={size.width>'600'?'70%':'100%'}
                 dropdownWidth={size.width>'600'?'16vw':'70vw'} searchWidth={size.width>'600'?'13vw':'60vw'} height="3rem" border={true}/></div>
                 </div>
-                {selectedStatus != 'LOSS'?<div className="field_width">{size.width>'600'?<label>Document ID:</label>:null}
-                    <input style={{marginTop:'0',height:'3rem',width:size.width>'600'?'70%':'100%'}} placeholder='Enter Document ID' onChange={(e)=>setInvoice(e.target.value)} className="ledger_input"/></div>:null}
+                <div className="field_width">{size.width>'600'?<label>Document ID:</label>:null}
+                    <input style={{marginTop:'0',height:'3rem',width:size.width>'600'?'70%':'100%'}} placeholder='Enter Document ID' onChange={(e)=>setInvoice(e.target.value)} className="ledger_input"/></div>
                 <div className="field_width">{size.width>'600'?<label>Date:</label>:null}
                             <DatePicker dateFormat="dd/MM/yyyy" placeholderText='Enter Date' selected={selectedDate} onChange={(date) => setSelectedDate(date)} />
-    
                         </div>               
                 
                 <div className='field_width'>
                     {size.width>'600'?<label>Quantity:</label>:null}
                     <div style={{display:'flex'}} className="ledger_input">
                     <input type="number" style={{marginTop:'0', width:'30%', height:"3rem", marginRight:size.width>'600'?'1rem':'0.5rem'}}    
-                    onChange={(e)=>setQuantity(e.target.value)} placeholder='0.00'/>
+                    onChange={(e)=>{e.target.value<0?setQuantity(''):setQuantity(e.target.value)}} placeholder='0.00' value={quantity}/>
                     <Dropdown width="70%" placeholder='Unit' isUnitList="true" options={unitList} name="symbol" dropdownWidth={size.width>'600'?'11vw':'55vw'} searchWidth={size.width>'600'?'8vw':'47vw'} height="3rem"
                     parentCallback={(data)=>setUnit(data.symbol)} border={true} value={unit}/></div>
                 </div>
