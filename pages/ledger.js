@@ -269,7 +269,7 @@ const Ledger =()=>{
                 <div className="part_desc" style={{width:'50%'}}>
                     <div className='desc_title'>
                 <div style={{display:'flex'}}><FaFileContract/>
-                {shortDescription?<div>{shortDescription?shortDescription:null}</div>:null} </div>
+                {shortDescription?shortDescription:null} </div>
                 </div>
                 <div className='ledger_longdesc'>{longDescription?longDescription:null}</div>
                 </div>

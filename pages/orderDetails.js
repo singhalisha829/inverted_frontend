@@ -287,7 +287,7 @@ const OrderDetails=()=>{
                         {orderItem.map((part,index)=>{
                           return(
                             <div key={index} className="po_detail_part_rows" style={{color:'#3F5575'}}>
-                            <div style={{width:'10%'}}>{part.ItemType}{part.id}</div>
+                            <div style={{width:'10%'}}>{part.ItemType}</div>
                             <div style={{width:'15%'}}>{part.product_code}</div>
                             <div style={{width:'25%'}}>{part.product_description}</div>
                             <div style={{width:'15%'}}>{part.released_quantity_value} {part.released_quantity_value==0?null:part.released_quantity_unit_symbol} / {part.quantity_value} {part.quantity_symbol}</div>

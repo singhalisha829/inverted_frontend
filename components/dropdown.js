@@ -142,7 +142,7 @@ const Dropdown= (props) =>{
     if(isDropdownOpen){
       // console.log(props.name)
         content=(
-            <div className="dropdown_options1" style={{width:props.dropdownWidth}}>
+            <div className="dropdown_options1" style={{width:props.dropdownWidth,height:props.dropdownHeight?props.dropdownHeight:'17rem'}}>
             {add_part}
             <div className="some">
             <div className="dropdown_input"><input style={{height:"3rem",marginRight:'5px',width:props.searchWidth}} onChange={(e)=>setSearchText(e.target.value)} placeholder={props.searchPlaceholder?props.searchPlaceholder:"Search..."}/>  
