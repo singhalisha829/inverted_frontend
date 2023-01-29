@@ -47,6 +47,7 @@ const Ledger =()=>{
     const [ledgerPart, setLedgerPart] = useState(null);
     const [token,setToken] = useState(null);
     const [loading,setLoading]= useState(false);
+    const [searchStatus,setSearchStatus]= useState(null);
 
     const [showPage, setShowPage]= useState(false);
 
@@ -158,7 +159,6 @@ const Ledger =()=>{
             transaction_type:selectedStatus,vendor:vendor,
             document_id:invoice,part:partId
         }];
-        console.log(formData)
         addNewLedger(formData,token).then(()=>{
             setSelectedDate(()=>'');
             setLoading(false)
@@ -166,9 +166,10 @@ const Ledger =()=>{
 
 
             // fetch list of ledgers again
-            fetchLedgerByPartId(partName,token)
+            
+            fetchLedgerByPartId(ledgerPart,token)
             .then(res=>
-                setLedger(res.data)).catch(err=>
+                setLedger(res.data.data.output)).catch(err=>
                     toast.error(err.message));
 
                 notifySuccessPost();
@@ -177,9 +178,6 @@ const Ledger =()=>{
             {toast.error(err.message);setLoading(false)})
         
     }
-
-    console.log('end')
-
     }
 
       // search feature in cards list
@@ -207,6 +205,8 @@ const Ledger =()=>{
 
 
     const status=[{name:'Loss on Line', value:'LINE_LOSS'},{name:'Production Return', value:'PROD_RETURN'}]
+    const searchStatusList=[{name:'Loss on Line', value:'LINE_LOSS'},{name:'Production Return', value:'PROD_RETURN'},{name:'Stock In', value:'CREDIT'},{name:'Stock Out', value:'DEBIT'}]
+    console.log("status",searchStatus)
     let form = null;
 
     // ledger form visible on clicking add button
@@ -227,9 +227,9 @@ const Ledger =()=>{
                 <div className='field_width'>
                     {size.width>'600'?<label>Quantity:</label>:null}
                     <div style={{display:'flex'}} className="ledger_input">
-                    <input type="number" style={{marginTop:'0', width:'30%', height:"3rem", marginRight:size.width>'600'?'1rem':'0.5rem'}}    
+                    <input type="number" style={{marginTop:'0', width:'50%', height:"3rem", marginRight:size.width>'600'?'1rem':'0.5rem'}}    
                     onChange={(e)=>{e.target.value<0?setQuantity(''):setQuantity(e.target.value)}} placeholder='0.00' value={quantity}/>
-                    <Dropdown width="70%" placeholder='Unit' isUnitList="true" options={unitList} name="symbol" dropdownWidth={size.width>'600'?'11vw':'55vw'} searchWidth={size.width>'600'?'8vw':'47vw'} height="3rem"
+                    <Dropdown width="50%" placeholder='Unit' isUnitList="true" options={unitList} name="symbol" dropdownWidth={size.width>'600'?'11vw':'55vw'} searchWidth={size.width>'600'?'8vw':'47vw'} height="3rem"
                     parentCallback={(data)=>setUnit(data.symbol)} border={true} value={unit}/></div>
                 </div>
                 {/* {['DEBIT','CREDIT',null].includes(selectedStatus)?<div className='field_width'>{size.width>'600'?<label>Price:</label>:null}
@@ -279,17 +279,19 @@ const Ledger =()=>{
                 <div className='body'>
                 <div className="body_header">
                 <div className='ledger_title'>Ledger</div>
-                <input placeholder="Search.." value={searchText} 
+                {/* <input placeholder="Search.." value={searchText} 
                         className="ledger_search" 
                         onChange={(e) => {setSearchText(e.target.value);searchCard(e)}}/>
-                        <FaTimes size={15} className="ledger_clear_icon" title="Clear" onClick={()=>setSearchText('')}/>
-                <button onClick={() =>{setShowForm(true)}} style={{position:'absolute',right:'4vw'}}>Manage</button>
+                        <FaTimes size={15} className="ledger_clear_icon" title="Clear" onClick={()=>setSearchText('')}/> */}
+                <Dropdown allItems="true" placeholder='Select Status' searchPlaceholder="Search Status" options={searchStatusList} name="name" parentCallback={(data)=>setSearchStatus(data.value)} width={size.width>'600'?'20%':'60%'}
+                dropdownWidth={size.width>'600'?'16vw':'70vw'} searchWidth={size.width>'600'?'13vw':'60vw'} height="3rem" border={true} defaultValue="All"  />
+                <button onClick={() =>{setShowForm(true)}} style={{position:'absolute',right:'4vw'}}>Add</button>
                 </div>
 
                 <div className="ledger_table">
                     {form}
                     
-                    {size.width>'600'?<div><Table key={ledger.length} rows={ledger} columns={columns} search={searchText} width="77vw"/></div>:null}</div>
+                    {size.width>'600'?<div>{ledger?<Table key={ledger.length} rows={ledger} columns={columns} search={searchText} width="77vw" filter={searchStatus} filterIn="transaction_type"/>:null}</div>:null}</div>
                    
 
                 </div>

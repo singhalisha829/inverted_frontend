@@ -61,7 +61,7 @@ const Table = (props) => {
 
        setTableFilter([...searchTable])
      }
-
+     
     //  search table based on dropdown filter
      else if(props.filter !=undefined){
       const filterTable=[];
@@ -77,6 +77,7 @@ const Table = (props) => {
        setData([...data])
        setTableFilter([...data])
      }
+     console.log("filter",props.filter)
    },[props.search,props.filter])
 
 

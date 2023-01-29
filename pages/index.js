@@ -206,7 +206,7 @@ else{
                          {isList? <FaList className='list_type_icon'/>: <FaTh className='list_type_icon'/>} 
                      </div>:null }
                      <Link href="/stockIn" ><div  className='stockin_button'>Stock In</div></Link>
-                     <Link href="" ><div onClick={()=>setShowModal(true)}  className='dashboard_button'>Add New Part</div></Link>
+                     {/* <Link href="" ><div onClick={()=>setShowModal(true)}  className='dashboard_button'>Add New Part</div></Link> */}
 
                  </div></div>
                 

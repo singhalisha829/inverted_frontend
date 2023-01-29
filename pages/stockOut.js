@@ -73,8 +73,7 @@ const StockOut=() =>{
     const submitHandler=()=>{
 
       createProductionOrderTransaction(token,stockOutList).then(res=>{
-        localStorage.setItem('production_order_id',productionOrderId);
-        Router.push('/orderDetails');
+        Router.push({pathname:'/orderDetails',query:{id:productionOrderId}});
       });
     }
 
