@@ -2,6 +2,8 @@ import { useState, useEffect } from "react";
 import Router from 'next/router';
 import Sidebar from "../components/sidebar";
 import Table from "../components/table";
+import { useRouter } from 'next/router';
+
 import Head from "next/head";
 import Header from "../components/header";
 import Spinner from "../components/spinner";
@@ -17,6 +19,7 @@ import { FaTimes } from 'react-icons/fa';
 
 
 const OrderDetails=()=>{
+  const router = useRouter();
 
     const [orderItem,setOrderItem]= useState();
     const [partsInOrder,setPartsInOrder] = useState();
@@ -60,9 +63,8 @@ const OrderDetails=()=>{
         if(localStorage.getItem('token') != undefined){
       localStorage.setItem('stock_out_list',null)
           const token=localStorage.getItem('token')
-          const poId=localStorage.getItem('production_order_id');
-          console.log(poId);
-          if(poId != undefined){
+          const poId=router.query.id;
+          if(poId != undefined || poId !=null){
           setProductionOrderId(poId);
           setProductionOrderList({...productionOrderList,production_order:poId});
 
@@ -90,15 +92,13 @@ const OrderDetails=()=>{
           })
           setToken(token)
           
-        }else{
-          Router.push('/order')
         }
         
       }else{
           Router.push('/login');
         }
           
-      },[])
+      },[router.query.id])
 
           // calculate screen size
     function useWindowSize() {

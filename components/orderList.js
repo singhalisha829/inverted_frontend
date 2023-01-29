@@ -6,10 +6,6 @@ const OrderList = (props) =>{
     const [cardFilter, setCardFilter] = useState([]);
     const [data,setData]= useState(props.ordersList);
 
-    useEffect(()=>{
-        const token= localStorage.getItem('token')
-
-    },[])
 
      // search feature in cards list
    useEffect(() =>{
@@ -63,8 +59,7 @@ const OrderList = (props) =>{
     return(
         <div className='order_card_list'>
             {props.search != undefined || props.filter != undefined? cardFilter.map(order=>(
-        <div key={order.id} className="order_list" onClick={()=>{Router.push(props.path);localStorage.setItem('poId',order.id);
-        localStorage.setItem('production_order_id',order.id)}}>
+        <div key={order.id} className="order_list" onClick={()=>Router.push({pathname:props.path,query:{id:order.id}})}>
         <div className="order_list_content">{order.production_order_no?order.production_order_no:order.purchase_order_no}</div>
         <div className="order_list_content">{order.date}</div>
         <div className="order_list_content">{order.created_by}</div>
@@ -72,8 +67,7 @@ const OrderList = (props) =>{
         </div>))
         :
         data.map(order=>(
-<div key={order.id} className="order_list" onClick={()=>{Router.push(props.path);localStorage.setItem('poId',order.id);
-        localStorage.setItem('production_order_id',order.id)}}>
+<div key={order.id} className="order_list" onClick={()=>Router.push({pathname:props.path,query:{id:order.id}})}>
         <div className="order_list_content">{order.production_order_no?order.production_order_no:order.purchase_order_no}</div>
         <div className="order_list_content">{order.date}</div>
         <div className="order_list_content">{order.created_by}</div>

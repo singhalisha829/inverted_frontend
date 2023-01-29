@@ -8,12 +8,6 @@ const Card = (props) =>{
   const [data,setData]= useState(props.partsList);
 
 
-  const clickHandler=()=>{
-    if(props.path){
-    Router.push(props.path)}
-  
-  }
-
    // search feature in cards list
    useEffect(() =>{
 
@@ -83,7 +77,7 @@ const Card = (props) =>{
 
     return(
       <div className='cards_list'>{props.search != undefined || props.filter != undefined?cardFilter.map((part)=>(
-        <div key={part.id} className="card" onClick={()=>{localStorage.setItem('partId',part.part_id);clickHandler()}} >
+        <div key={part.id} className="card" onClick={()=>{Router.push({pathname:props.path,query:{id:part.part_id}})}} >
           <div className='card_column'>
            <div className="card_part_id">#{part.part_id}</div>
            
@@ -100,7 +94,7 @@ const Card = (props) =>{
         </div>))
         :
         data.map((part)=>(
-          <div key={part.id} className="card" onClick={()=>{localStorage.setItem('partId',part.part_id);clickHandler()}} >
+          <div key={part.id} className="card" onClick={()=>{Router.push({pathname:props.path,query:{id:part.part_id}})}} >
           <div className='card_column'>
            <div className="card_part_id">#{part.part_id}</div>
            

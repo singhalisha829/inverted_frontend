@@ -3,6 +3,8 @@ import Sidebar from "../components/sidebar";
 import Head from "next/head";
 import Header from "../components/header";
 import Router from 'next/router';
+import { useRouter } from 'next/router';
+
 
 import { FaSistrix,FaExternalLinkAlt,FaDownload,FaTimes} from 'react-icons/fa';
 
@@ -20,6 +22,7 @@ import 'react-toastify/dist/ReactToastify.css';
 import { fetchVendorWiseList, fetchUnassignedParts,deleteParts,confirmVendor ,fetchPurchaseOrderPdf} from "../services/purchaseOrderService";
 
 const VendorList = () =>{
+  const router = useRouter();
 
     const [vendorList, setVendorList] = useState([]);
     const [token,setToken]= useState(null);
@@ -34,7 +37,7 @@ const VendorList = () =>{
 
     useEffect(()=>{
         const token=localStorage.getItem('token');
-        const poId=localStorage.getItem('poId')
+        const poId=router.query.id;
         setPoId(poId);
         fetchUnassignedParts(token,poId).then((res)=>{
           if(res.data.data.output[0].purchase_order.length ===0){
@@ -58,7 +61,7 @@ const VendorList = () =>{
           }).catch(err=>toast.error(err.message));
 
           
-    },[])
+    },[router.query.id])
     
     // calculate screen size
     function useWindowSize() {

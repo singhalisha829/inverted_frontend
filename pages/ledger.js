@@ -1,6 +1,7 @@
 import Router from 'next/router';
 import Head from 'next/head';
 import { useState, useEffect,useRef} from 'react';
+import { useRouter } from 'next/router';
 
 import Sidebar from '../components/sidebar';
 import { FaFileContract,  FaTimes } from 'react-icons/fa';
@@ -19,7 +20,8 @@ import 'react-toastify/dist/ReactToastify.css';
 
 
 const Ledger =()=>{
-    
+    const router = useRouter();
+
     const [showForm, setShowForm]= useState(false);
     const [ledger,setLedger]= useState(null);
     const [showLedger, setShowLedger] = useState(false);
@@ -65,9 +67,9 @@ const Ledger =()=>{
     if(localStorage.getItem('token') != null){
     const token = localStorage.getItem('token')
     setToken(token)
-    const partName= localStorage.getItem("partId");
+    const partName= router.query.id;
+    if(partName != null || partName != undefined){
     setLedgerPart(partName)
-
     fetchPartByPartId(partName,token).then(res=>{
         console.log("res",res.data)
         setPartId(res.data[0].id)
@@ -86,12 +88,13 @@ const Ledger =()=>{
         {setLedger(res.data.data.output);
         setShowLedger(true);
         setShowPage(true);
-       })}else{
+       })}}
+       else{
            Router.push('/login')
        }
+    
 
-
-    },[])
+    },[router.query.id])
 
     // calculate screen size
     function useWindowSize() {
