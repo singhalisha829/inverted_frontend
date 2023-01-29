@@ -63,6 +63,7 @@ const Dropdown= (props) =>{
         if(props.defaultValue){
           setValue(()=>'');
         }
+        console.log('props',props.value)
         
     },[props.value])
 

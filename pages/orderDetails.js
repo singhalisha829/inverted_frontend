@@ -33,8 +33,9 @@ const OrderDetails = () => {
   const [createdBy, setCreatedBy] = useState(null);
   const [status, setStatus] = useState(null);
   const [productionOrderId, setProductionOrderId] = useState(null);
-  const [border, setBorder] = useState("#e5e5e5 solid 0.1em");
+  const border = useState("#e5e5e5 solid 0.1em");
   const [formData, setFormData] = useState({});
+  const [defaultUnitList,setDefaultUnitList]=useState({});
 
   const today = new Date();
   const todayDate =
@@ -68,7 +69,9 @@ const OrderDetails = () => {
     
   ]);
 
-  useEffect(() => {}, [formData]);
+  useEffect(() => {
+    console.log("form",formData)
+  }, [formData]);
 
   useEffect(() => {
     if (localStorage.getItem("token") != undefined) {
@@ -101,8 +104,10 @@ const OrderDetails = () => {
           }
           res.data.data.output[0].production_order_itemss.map((part) => {
             formData[part.id] = { quantity: null, unit: part.released_quantity_unit_symbol };
+            defaultUnitList[part.id]=part.released_quantity_unit_symbol
           });
           setFormData(formData);
+          setDefaultUnitList(defaultUnitList)
         });
 
         fetchPastTransaction(token, poId).then((res) => {
@@ -152,6 +157,13 @@ const OrderDetails = () => {
   const handleQuantity = (value, data) => {
     const factorToRequired = null;
     const factorToAvailable=null;
+    console.log("inside handle quantity")
+
+    if(data.available_qty==null || data.available_qty ==undefined){
+      toast.warning("Entered Quantity exceeds the Available Qunatity! ");
+      setFormData({ ...formData, [data.id]: { quantity: "", unit: data.released_quantity_unit_symbol } });
+      removeProductionOrderItem(data.id);
+    }else{
   
       unitConversion(
         token,
@@ -203,9 +215,9 @@ const OrderDetails = () => {
           })
          
         }}
-        console.log("unit",res.data,data.quantity_symbol,formData[data.id].unit,data.released_quantity_value,value,factorToRequired.factorToAvailable);
 
       });
+    }
 
     
   };
@@ -213,6 +225,13 @@ const OrderDetails = () => {
   const handleUnit = (unit_symbol, data) => {
     const factorToRequired = null;
     const factorToAvailable=null;
+    console.log("inside handle unit")
+  
+    if(data.available_qty==null || data.available_qty ==undefined){
+      toast.warning("Entered Quantity exceeds the Available Qunatity! ");
+      setFormData({ ...formData, [data.id]: { quantity: "", unit: data.released_quantity_unit_symbol } });
+      removeProductionOrderItem(data.id);
+    }else{
   
     unitConversion(token, data.released_quantity_unit_symbol, unit_symbol).then(
       (res) => {
@@ -222,7 +241,8 @@ const OrderDetails = () => {
           factorToRequired = res.data.output[0].conversion_factor;
           if (data.released_quantity_value < formData[data.id].quantity * factorToRequired) {
             toast.warning("Entered Quantity exceeds the Required Quantity! ");
-            setFormData({ ...formData, [data.id]: { quantity: "", unit: data.released_quantity_unit_symbol } });
+            setFormData({ ...formData, [data.id]: { quantity: "", unit: "" }});
+            // setFormData({ ...formData, [data.id]: { quantity: "", unit: data.released_quantity_unit_symbol } });
             removeProductionOrderItem(data.id);
           } else {
             unitConversion(token, data.available_qty_symbol, unit_symbol).then(res=>{
@@ -253,13 +273,14 @@ const OrderDetails = () => {
                   left_quantity,
                   data.released_quantity_unit_symbol
                 );
-              }}
+              }
+            }
             })
 
       
         }}
       }
-    );
+    );}
   };
 
   const handleBOMQuantity = (value, data) => {
@@ -403,6 +424,7 @@ const OrderDetails = () => {
                     <div style={{ width: "5%" }}></div>
                   </div>
                   {orderItem.map((part, index) => {
+                    // console.log("loop",formData)
                     return (
                       <div
                         key={index}
@@ -491,7 +513,7 @@ const OrderDetails = () => {
                                 className="available_quantity"
                                 style={{ textAlign: "left",width:'30%' }}
                               >
-                                *Only {part.available_qty}{" "}
+                                *Only {(part.available_qty==null || part.available_qty == undefined)?0:part.available_qty}{" "}
                                 {part.available_qty_symbol} available
                               </span>
                             </div>
