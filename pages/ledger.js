@@ -152,12 +152,12 @@ const Ledger =()=>{
         }else{
             const date = selectedDate.getFullYear()+'-'+(selectedDate.getMonth()+1)+'-'+selectedDate.getDate();
 
-        const formData={
+        const formData=[{
             date:date,
              quantity:quantity+" "+unit,
             transaction_type:selectedStatus,vendor:vendor,
             document_id:invoice,part:partId
-        };
+        }];
         console.log(formData)
         addNewLedger(formData,token).then(()=>{
             setSelectedDate(()=>'');
