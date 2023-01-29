@@ -99,7 +99,7 @@ const StockOut=() =>{
 
                 <div className="stock_out_footer">
                     <div className="stock_out_button">
-                        <button className='cancel_button button2' onClick={()=>{Router.push('/orderDetails');localStorage.setItem('production_order_id',productionOrderId)}}>Cancel</button>
+                        <button className='cancel_button button2' onClick={()=>{Router.push({pathname:'/orderDetails',query:{id:productionOrderId}})}}>Cancel</button>
                         <button className='save_button button2' onClick={submitHandler}>Confirm</button>
                         </div>
                 </div>
