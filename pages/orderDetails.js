@@ -157,11 +157,11 @@ const OrderDetails = () => {
   const handleQuantity = (value, data) => {
     const factorToRequired = null;
     const factorToAvailable=null;
-    console.log("inside handle quantity")
+    // console.log("inside handle quantity")
 
     if(data.available_qty==null || data.available_qty ==undefined){
       toast.warning("Entered Quantity exceeds the Available Qunatity! ");
-      setFormData({ ...formData, [data.id]: { quantity: "", unit: data.released_quantity_unit_symbol } });
+      setFormData({ ...formData, [data.id]: { quantity: "", unit: formData[data.id].unit } });
       removeProductionOrderItem(data.id);
     }else{
   
@@ -177,7 +177,7 @@ const OrderDetails = () => {
 
          if (data.released_quantity_value < value * factorToRequired) {
           toast.warning("Entered Quantity exceeds the Required Quantity! ");
-          setFormData({ ...formData, [data.id]: { quantity: "", unit:data.released_quantity_unit_symbol } });
+          setFormData({ ...formData, [data.id]: { quantity: "", unit: formData[data.id].unit } });
           removeProductionOrderItem(data.id);
         }
          else {
@@ -189,7 +189,7 @@ const OrderDetails = () => {
 
               if (data.available_qty < value * factorToAvailable) {
                 toast.warning("Entered Quantity exceeds the Available Qunatity! ");
-                setFormData({ ...formData, [data.id]: { quantity: "", unit: data.released_quantity_unit_symbol } });
+                setFormData({ ...formData, [data.id]: { quantity: "", unit: formData[data.id].unit } });
                 removeProductionOrderItem(data.id);
               } else {
                 
@@ -225,11 +225,11 @@ const OrderDetails = () => {
   const handleUnit = (unit_symbol, data) => {
     const factorToRequired = null;
     const factorToAvailable=null;
-    console.log("inside handle unit")
+    // console.log("inside handle unit")
   
     if(data.available_qty==null || data.available_qty ==undefined){
       toast.warning("Entered Quantity exceeds the Available Qunatity! ");
-      setFormData({ ...formData, [data.id]: { quantity: "", unit: data.released_quantity_unit_symbol } });
+      setFormData({ ...formData, [data.id]: { quantity: "", unit: unit_symbol } });
       removeProductionOrderItem(data.id);
     }else{
   
@@ -241,8 +241,7 @@ const OrderDetails = () => {
           factorToRequired = res.data.output[0].conversion_factor;
           if (data.released_quantity_value < formData[data.id].quantity * factorToRequired) {
             toast.warning("Entered Quantity exceeds the Required Quantity! ");
-            setFormData({ ...formData, [data.id]: { quantity: "", unit: "" }});
-            // setFormData({ ...formData, [data.id]: { quantity: "", unit: data.released_quantity_unit_symbol } });
+            setFormData({ ...formData, [data.id]: { quantity: "", unit: unit_symbol } });
             removeProductionOrderItem(data.id);
           } else {
             unitConversion(token, data.available_qty_symbol, unit_symbol).then(res=>{
@@ -253,7 +252,7 @@ const OrderDetails = () => {
   
               if (data.available_qty < formData[data.id].quantity * factorToAvailable) {
                 toast.warning("Entered Quantity exceeds the Available Quantity! ");
-                setFormData({ ...formData, [data.id]: { quantity: "", unit: data.released_quantity_unit_symbol } });
+                setFormData({ ...formData, [data.id]: { quantity: "", unit: unit_symbol } });
                 removeProductionOrderItem(data.id);
               } else {
                 const left_quantity =
@@ -294,7 +293,7 @@ const OrderDetails = () => {
       removeProductionOrderItem(data.id);
     } else {
       const left_quantity = data.released_quantity_value - value;
-      console.log(left_quantity);
+      // console.log(left_quantity);
       setFormData({ ...formData, [data.id]: { quantity: value, unit: "Nos" } });
       handleProductionOrder(
         value,
