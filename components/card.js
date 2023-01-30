@@ -76,8 +76,8 @@ const Card = (props) =>{
     const size = useWindowSize();
 
     return(
-      <div className='cards_list'>{props.search != undefined || props.filter != undefined?cardFilter.map((part)=>(
-        <div key={part.id} className="card" onClick={()=>{Router.push({pathname:props.path,query:{id:part.part_id}})}} >
+      <div className='cards_list'>{props.search != undefined || props.filter != undefined?cardFilter.map((part,index)=>(
+        <div key={index} className="card" onClick={()=>{Router.push({pathname:props.path,query:{id:part.part_id}})}} >
           <div className='card_column'>
            <div className="card_part_id">#{part.part_id}</div>
            
@@ -93,8 +93,8 @@ const Card = (props) =>{
           {size.width<'600'?<div style={{color:'#6B6B6B'}} className="footer_quantity"> {part.quantity}</div>:null}
         </div>))
         :
-        data.map((part)=>(
-          <div key={part.id} className="card" onClick={()=>{Router.push({pathname:props.path,query:{id:part.part_id}})}} >
+        data.map((part,index)=>(
+          <div key={index} className="card" onClick={()=>{Router.push({pathname:props.path,query:{id:part.part_id}})}} >
           <div className='card_column'>
            <div className="card_part_id">#{part.part_id}</div>
            

@@ -1,9 +1,7 @@
-import Image from 'next/image';
 import { useState, useEffect } from 'react';
 import Router from 'next/router';
 import Head from 'next/head';
 
-import Pattern from '../public/artboard.png';
 import Sidebar from "../components/sidebar";
 import Dropdown from '../components/dropdown';
 import Modal from '../components/modal';
@@ -11,18 +9,14 @@ import { fetchDropdownUnitList , fetchDropdownPartList} from "../services/produc
 import { fetchPartsList,fetchPartTypeList } from '../services/dashboardService';
 import List from '../components/stockInList';
 import { fetchUnitList, fetchVendorList, addNewLedger ,fetchPartById} from '../services/stockInService';
-import Spinner from '../components/spinner';
 import DatePicker from "react-datepicker";
 import "react-datepicker/dist/react-datepicker.css";
-import { FaCloudUploadAlt,FaCheckCircle, FaTimesCircle} from 'react-icons/fa';
+import { FaCheckCircle, FaTimesCircle} from 'react-icons/fa';
 import * as xlsx from "xlsx";
 import Header from '../components/header';
 
 import { ToastContainer, toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
-
-import ButtonLoader from '../components/buttonLoader';
-
 
 const StockIn=()=>{
 
@@ -347,7 +341,7 @@ const StockIn=()=>{
             </div>
             </div>:null}
 
-                {newPartList.map((l)=><List key={l.part} id={l.part} partDesc={l.partName} partId={l.partId} quantity={l.quantity} unit={l.unit} price={l.price}
+                {newPartList.map((l,index)=><List key={index} id={l.part} partDesc={l.partName} partId={l.partId} quantity={l.quantity} unit={l.unit} price={l.price}
             deleteNote={(data)=>handleDeleteNote(data)}/>)}
             </div>
             <div className="stock_out_footer" style={{left:"16.6vw"}}>

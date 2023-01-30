@@ -252,7 +252,7 @@ const NewPurchaseOrder = () => {
 
                 {form}
 
-                {newPoList.map((l,index) => <PurchaseOrderList key={l.item_id} order_type={l.ItemType} quantity={l.quantity} order_name={l.item_id} desc={l.item_desc}
+                {newPoList.map((l,index) => <PurchaseOrderList key={index} order_type={l.ItemType} quantity={l.quantity} order_name={l.item_id} desc={l.item_desc}
                     deleteOrder={() => handleDeleteOrder(index)} />)}
 
 

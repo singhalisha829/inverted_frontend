@@ -456,18 +456,18 @@ const Ledger = () => {
                 </div>
               </div>
               {searchText != undefined
-                ? cardFilter.map((card) => (
+                ? cardFilter.map((card,index) => (
                     <LedgerCard
-                      key={card.id}
+                      key={index}
                       status={card.transaction_type}
                       date={card.date}
                       quantity={card.quantity}
                       vendor={card.vendor_name}
                     />
                   ))
-                : ledger.map((card) => (
+                : ledger.map((card,index) => (
                     <LedgerCard
-                      key={card.id}
+                      key={index}
                       status={card.transaction_type}
                       date={card.date}
                       quantity={card.quantity}

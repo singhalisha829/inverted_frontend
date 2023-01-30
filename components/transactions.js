@@ -20,7 +20,7 @@ return(
                             <div style={{width:'40%'}} className="common">DESCRIPTION</div>
                             <div style={{width:'20%'}} className="common">QUANTITY</div>
                         </div>
-                        {props.part_details.map((part)=>(<div className='transaction_order_column' key={part.id}>
+                        {props.part_details.map((part,index)=>(<div className='transaction_order_column' key={index}>
                             <div style={{width:'20%'}} className="common">{part.ItemType}</div>
                             <div style={{width:'20%'}} className="common">{part.product_code}</div>
                             <div style={{width:'40%'}} className="common">{part.product_description}</div>

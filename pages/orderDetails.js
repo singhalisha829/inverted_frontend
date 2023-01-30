@@ -231,7 +231,7 @@ const OrderDetails = () => {
   };
 
   const compareQuantity=(data,factorToRequired,factorToAvailable,value,unit)=>{
-    console.log("comp",value,unit,factorToRequired,factorToAvailable)
+    // console.log("comp",value,unit,factorToRequired,factorToAvailable)
     if (data.released_quantity_value < value * factorToRequired) {
       quantityGreaterThanRequired(data.id,unit)
     } else if (data.available_qty < value * factorToAvailable) {
@@ -239,7 +239,7 @@ const OrderDetails = () => {
         } else {
           const left_quantity =
             data.released_quantity_value - value * factorToRequired;
-            console.log("left",left_quantity,factorToRequired)
+            // console.log("left",left_quantity,factorToRequired)
 
           setFormData({
             ...formData,

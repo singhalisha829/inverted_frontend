@@ -303,9 +303,9 @@ const Table = (props) => {
       <table  id={props.id} style={{width:props.width,cursor:props.cursor}}>
         <thead >
         <tr>
-          {props.columns.map(column => {
+          {props.columns.map((column,columnIndex) => {
            if(column.accessor1 === sortedColumn){
-            return <th style={{textAlign:column.textalign}} key={column.accessor1}
+            return <th style={{textAlign:column.textalign}} key={columnIndex}
             onClick={()=> sorting(column.accessor1)}>
               <div className="header_fields">
                 <div className="header_title">
@@ -316,7 +316,7 @@ const Table = (props) => {
                 <div className="arrow"><BsArrowDownUp className="arrow_icon"/></div>
                 </div></th>
            }else{
-                 return <th style={{textAlign:column.textalign}} key={column.accessor1}
+                 return <th style={{textAlign:column.textalign}} key={columnIndex}
             onClick={()=> sorting(column.accessor1)}>
               <div className="header_fields">
                 <div className="header_title">

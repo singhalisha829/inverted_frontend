@@ -152,16 +152,16 @@ const Dropdown= (props) =>{
                  onClick={()=>{setIsDropdownOpen(false); setValue('All');props.parentCallback({})}}>
                   <div style={{display:'flex'}}>All</div>
                   </div>:null}
-        {searchText !== null? dataFilter.map((option)=>(
-                 <div className="option" key={option.id}    
+        {searchText !== null? dataFilter.map((option,index)=>(
+                 <div className="option" key={index}    
                  onClick={()=>{ props.parentCallback(option); 
                 setIsDropdownOpen(false); setValue(option[props.name])}}>
                   <div style={{display:'flex'}}>{option[props.name]} {props.isUnitList?<div style={{fontSize:"1rem",marginLeft:'0.5rem'}}>({option.name})</div>:null}</div>
                   {props.isPartsList?<div className="dropdownPartId">({option.part_id})</div>:null}</div>
              )):
              <div>
-             {props.options?props.options.map((option)=>(
-                <div className="option" key={option.id}
+             {props.options?props.options.map((option,index)=>(
+                <div className="option" key={index}
                 onClick={()=>{ props.parentCallback(option);
                setIsDropdownOpen(false); setValue(option[props.name])}}>
                                   <div style={{display:'flex'}}>{option[props.name]} {props.isUnitList?<div style={{fontSize:"1rem",marginLeft:'0.5rem'}}>({option.name})</div>:null}</div>
