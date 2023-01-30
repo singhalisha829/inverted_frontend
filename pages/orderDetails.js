@@ -70,7 +70,7 @@ const OrderDetails = () => {
   ]);
 
   useEffect(() => {
-    console.log("form",formData)
+    // console.log("form",formData)
   }, [formData]);
 
   useEffect(() => {
@@ -158,6 +158,9 @@ const OrderDetails = () => {
     const factorToRequired = 1;
     const factorToAvailable = 1;
 
+    // console.log("handle quantity")
+
+
     if(data.available_qty==null || data.available_qty ==undefined){
       quantityGreaterThanAvailable(data.id,formData[data.id].unit)
     }else if(data.released_quantity_unit_symbol != formData[data.id].unit || data.available_qty_symbol != formData[data.id].unit){
@@ -170,96 +173,91 @@ const OrderDetails = () => {
           toast.error(res.data.status.description);
         } else{
           factorToRequired=res.data.output[0].conversion_factor;
+          unitConversion(token,data.available_qty_symbol,formData[data.id].unit).then(res=>{
+            if (res.data.status.code == 404) {
+              toast.error(res.data.status.description);
+            } else{
+              factorToAvailable=res.data.output[0].conversion_factor;
+              compareQuantity(data,factorToRequired,factorToAvailable,value,formData[data.id].unit);
+            }})
         }})
 
-        unitConversion(token,data.available_qty_symbol,formData[data.id].unit).then(res=>{
-          if (res.data.status.code == 404) {
-            toast.error(res.data.status.description);
-          } else{
-            factorToAvailable=res.data.output[0].conversion_factor;
-          }})
+       
+    }else{
+      compareQuantity(data,factorToRequired,factorToAvailable,value,formData[data.id].unit);
     }
-    
+    // console.log("factor",factorToAvailable,factorToRequired,data.released_quantity_unit_symbol,data.available_qty_symbol,formData[data.id].unit)
+
     // compare quantity and calculate left quantity
-         if (data.released_quantity_value < value * factorToRequired) {
-          quantityGreaterThanRequired(data.id,formData[data.id].unit)
-        }
-         else if (data.available_qty < value * factorToAvailable) {
-               quantityGreaterThanAvailable(data.id,formData[data.id].unit)
-              } else {
-                
-                const left_quantity = data.released_quantity_value - value * factorToRequired;
-                console.log("left",left_quantity,factorToRequired)
-                setFormData({
-                  ...formData,
-                  [data.id]: { quantity: value, unit: formData[data.id].unit },
-                });
-                
-                handleProductionOrder(
-                  value,
-                  data.id,
-                  data.product_code,
-                  formData[data.id].unit,
-                  data.product_description,
-                  data.item_id,
-                  data.ItemType,
-                  left_quantity,
-                  data.released_quantity_unit_symbol
-                );
-              }
+   
   
   };
 
   const handleUnit = (unit_symbol, data) => {
     const factorToRequired = 1;
     const factorToAvailable=1;
+    // console.log("handle unit")
   
     if(data.available_qty==null || data.available_qty ==undefined){
       quantityGreaterThanAvailable(data.id,unit_symbol)
-    }else if(data.released_quantity_unit_symbol != unit_symbol || data.available_qty_symbol != unit_symbol){
+    }else if(formData[data.id].quantity == null || formData[data.id].quantity == undefined || formData[data.id].quantity ==''){
+      setFormData({
+        ...formData,
+        [data.id]: { quantity: formData[data.id].quantity , unit: unit_symbol },
+      });
+    }
+    else if(data.released_quantity_unit_symbol != unit_symbol || data.available_qty_symbol != unit_symbol){
       unitConversion(token, data.released_quantity_unit_symbol, unit_symbol).then(
         (res) => {
           if (res.data.status.code == 404) {
             toast.error(res.data.status.description);
           } else {
             factorToRequired = res.data.output[0].conversion_factor;
+            unitConversion(token, data.available_qty_symbol, unit_symbol).then(res=>{
+              if (res.data.status.code == 404) {
+                toast.error(res.data.status.description);
+              } else{
+                factorToAvailable=res.data.output[0].conversion_factor;
+                compareQuantity(data,factorToRequired,factorToAvailable,formData[data.id].quantity,unit_symbol)
+              }})
           }})
 
-          unitConversion(token, data.available_qty_symbol, unit_symbol).then(res=>{
-            if (res.data.status.code == 404) {
-              toast.error(res.data.status.description);
-            } else{
-              factorToAvailable=res.data.output[0].conversion_factor;
-            }})
+          
+    }else{
+      compareQuantity(data,factorToRequired,factorToAvailable,formData[data.id].quantity,unit_symbol);
     }
-  
+    // console.log("factor",factorToAvailable,factorToRequired,data.released_quantity_unit_symbol,data.available_qty_symbol,formData[data.id].unit)
     // compare quantity and calculate left quantity
-          if (data.released_quantity_value < formData[data.id].quantity * factorToRequired) {
-            quantityGreaterThanRequired(data.id,unit_symbol)
-          } else if (data.available_qty < formData[data.id].quantity * factorToAvailable) {
-               quantityGreaterThanAvailable(data.id,unit_symbol)
-              } else {
-                const left_quantity =
-                  data.released_quantity_value - formData[data.id].quantity * factorToRequired;
-                  console.log("left",left_quantity,factorToRequired)
-
-                setFormData({
-                  ...formData,
-                  [data.id]: { quantity: formData[data.id].quantity , unit: unit_symbol },
-                });
-                handleProductionOrder(
-                  formData[data.id].quantity ,
-                  data.id,
-                  data.product_code,
-                  unit_symbol,
-                  data.product_description,
-                  data.item_id,
-                  data.ItemType,
-                  left_quantity,
-                  data.released_quantity_unit_symbol
-                );
-              }            
   };
+
+  const compareQuantity=(data,factorToRequired,factorToAvailable,value,unit)=>{
+    console.log("comp",value,unit,factorToRequired,factorToAvailable)
+    if (data.released_quantity_value < value * factorToRequired) {
+      quantityGreaterThanRequired(data.id,unit)
+    } else if (data.available_qty < value * factorToAvailable) {
+         quantityGreaterThanAvailable(data.id,unit)
+        } else {
+          const left_quantity =
+            data.released_quantity_value - value * factorToRequired;
+            console.log("left",left_quantity,factorToRequired)
+
+          setFormData({
+            ...formData,
+            [data.id]: { quantity: value , unit: unit },
+          });
+          handleProductionOrder(
+            value ,
+            data.id,
+            data.product_code,
+            unit,
+            data.product_description,
+            data.item_id,
+            data.ItemType,
+            left_quantity,
+            data.released_quantity_unit_symbol
+          );
+        }   
+  }
 
   const quantityGreaterThanAvailable=(id,unit)=>{
     toast.warning("Entered Quantity exceeds the Available Quantity! ");
@@ -324,7 +322,7 @@ const OrderDetails = () => {
       productList[index].quantity = value + " " + symbol;
       productList[index].left_qty= left_qty + " " + left_qty_symbol;
     }
-    console.log("product", productList);
+    // console.log("product", productList);
     setProductionOrderList({
       ...productionOrderList,
       production_order_item: productList,

@@ -115,7 +115,6 @@ const NewOrder = () => {
       };
       setNewOrderList([data, ...newOrderList]);
       cancelHandler();
-      console.log("in",data)
     } else {
       const data = {
         ItemType: orderType,
@@ -126,7 +125,6 @@ const NewOrder = () => {
       setNewOrderList([data, ...newOrderList]);
       cancelHandler();
       setShowUnit(false);
-      console.log("in",data)
     }
   };
 

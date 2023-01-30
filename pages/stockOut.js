@@ -27,13 +27,13 @@ const StockOut=() =>{
     useEffect(()=>{
       if(localStorage.getItem('token') != undefined){
         const id=localStorage.getItem('production_order_id');
-        console.log(id)
+        // console.log(id)
         setProductionOrderId(id);
         const token=localStorage.getItem('token');
         setToken(token)
         const list=JSON.parse(localStorage.getItem("stock_out_list") || "{}");
         setStockOutList(list)
-        console.log(list)
+        // console.log(list)
 
       
     }else{
