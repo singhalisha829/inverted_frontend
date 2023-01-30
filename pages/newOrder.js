@@ -113,10 +113,9 @@ const NewOrder = () => {
         quantity: quantity + " Nos",
         item_desc: bom,
       };
-      const newList = [data, ...newOrderList];
-      setNewOrderList(newList);
+      setNewOrderList([data, ...newOrderList]);
       cancelHandler();
-      console.log(newList);
+      console.log("in",data)
     } else {
       const data = {
         ItemType: orderType,
@@ -124,11 +123,10 @@ const NewOrder = () => {
         quantity: quantity + " " + unit,
         item_desc: part,
       };
-      const newList = [data, ...newOrderList];
-      setNewOrderList(newList);
+      setNewOrderList([data, ...newOrderList]);
       cancelHandler();
       setShowUnit(false);
-      console.log(newList);
+      console.log("in",data)
     }
   };
 
@@ -160,7 +158,6 @@ const NewOrder = () => {
   }, [newOrderList.length]);
 
   const submitOrder = () => {
-    console.log(newOrderList);
     if (newOrderList.length === 0) {
       toast.warning("Enter Form Details!");
     } else {
@@ -171,9 +168,9 @@ const NewOrder = () => {
     }
   };
 
-  const handleDeleteOrder = (data) => {
-    const newList = newOrderList.filter((list) => list.item_id !== data);
-    setNewOrderList(newList);
+  const handleDeleteOrder = (index) => {
+    newOrderList.splice(index,1);
+    setNewOrderList([...newOrderList]);
   };
 
   const fetchParts = (id) => {
@@ -186,9 +183,7 @@ const NewOrder = () => {
   };
 
   const fetchUnit = (unitType) => {
-    console.log(unitType);
     fetchDropdownUnitList(token, unitType).then((res) => {
-      console.log(res.data);
       setUnitList(res.data.data.output);
     });
   };
@@ -417,16 +412,16 @@ const NewOrder = () => {
           </div>
         </div>
 
-        {newOrderList.map((l) => (
+        <div style={{marginBottom:'10rem'}}>{newOrderList.map((l,index) => (
           <PurchaseOrderList
-            key={l.item_id}
+            key={index}
             order_type={l.ItemType}
             quantity={l.quantity}
             order_name={l.item_id}
             desc={l.item_desc}
-            deleteOrder={(data) => handleDeleteOrder(data)}
+            deleteOrder={() => handleDeleteOrder(index)}
           />
-        ))}
+        ))}</div>
 
         <div className="stock_out_footer">
           <div className="stock_out_button">

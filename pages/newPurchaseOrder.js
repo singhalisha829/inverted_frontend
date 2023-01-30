@@ -169,9 +169,9 @@ const NewPurchaseOrder = () => {
 
 
     // remove the part from list on clicking the trash icon
-    const handleDeleteOrder = (id) => {
-        const newList = newPoList.filter((list) => list.item_id !== id);
-        setNewPoList(newList)
+    const handleDeleteOrder = (index) => {
+        newPoList.splice(index,1);
+        setNewPoList([...newPoList])
     }
 
     const fetchParts = (id) => {
@@ -252,8 +252,8 @@ const NewPurchaseOrder = () => {
 
                 {form}
 
-                {newPoList.map((l) => <PurchaseOrderList key={l.item_id} order_type={l.ItemType} quantity={l.quantity} order_name={l.item_id} desc={l.item_desc}
-                    deleteOrder={(data) => handleDeleteOrder(data)} />)}
+                {newPoList.map((l,index) => <PurchaseOrderList key={l.item_id} order_type={l.ItemType} quantity={l.quantity} order_name={l.item_id} desc={l.item_desc}
+                    deleteOrder={() => handleDeleteOrder(index)} />)}
 
 
                 <div className="stock_out_footer">
