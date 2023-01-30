@@ -177,18 +177,18 @@ const Table = (props) => {
     
       table_content=(<tbody>
         {props.search != undefined || props.filter != undefined?tableFilter
-        .map(row => {
+        .map((row,index) => {
           return (
-            <tr key={row.part_id} onClick={()=>{
+            <tr key={index} onClick={()=>{
             clickHandler(row.part_id,row.id,row.order_id)}}>
-              {props.columns.map(column => {
+              {props.columns.map((column,columnIndex)=> {
                        
           var prefix=column.prefix?column.prefix:'';
           var suffix=column.suffix?column.suffix:'';
           var cellValue =prefix+row[column.accessor1]+suffix;
               
                  if(column.accessor2==='long_description'){
-                  return <td key={column.accessor1} width={column.width} style={{textAlign:column.textalign, color:"#9E9E9E",
+                  return <td key={columnIndex} width={column.width} style={{textAlign:column.textalign, color:"#9E9E9E",
                   }}
                 ><div style={{display:'flex'}}>
                 <div className="parts_image">
@@ -202,38 +202,38 @@ const Table = (props) => {
                 }
                 
                 else if((row.transaction_type==='CREDIT' || row.transaction_type==='PROD_RETURN')  && column.accessor1==="status"){
-                  return <td key={column.accessor1} width={column.width} style={{textAlign:column.textalign}}
+                  return <td key={columnIndex} width={column.width} style={{textAlign:column.textalign}}
   ><div className="stock_in_style"><BsBoxArrowInDown /> {row.transaction_type == 'PROD_RETURN'?<div>Production Return</div>:<div>Stock In</div>}</div></td>
   }
  else if((row.transaction_type==='DEBIT' || row.transaction_type==='LINE_LOSS') && column.accessor1==="status"){
-    return <td key={column.accessor1} width={column.width} style={{textAlign:column.textalign}}
+    return <td key={columnIndex} width={column.width} style={{textAlign:column.textalign}}
     ><div className="stock_out_style"><BsBoxArrowUp />{row.transaction_type==='LINE_LOSS'?<div>Loss On Line</div>:<div>Stock Out</div>}</div></td>
     }
     else if(column.accessor1==='status' && row.status==="Created"){
-      return <td key={column.accessor1} width={column.width} style={{textAlign:column.textalign}}
+      return <td key={columnIndex} width={column.width} style={{textAlign:column.textalign}}
     ><div className="pending_status_style">Created</div></td>
     }
     else if(column.accessor1==='status' && row.status==='Partial Processed' ){
-      return <td key={column.accessor1} width={column.width} 
+      return <td key={columnIndex} width={column.width} 
     ><div className="partial_status_style">Partially Processed</div></td>
     }
     else if(column.accessor1==='status' && row.status==='Completed' ){
-      return <td key={column.accessor1} width={column.width} 
+      return <td key={columnIndex} width={column.width} 
     ><div className="completed_status_style">Completed</div></td>
     }
                 else{
-                return <td key={column.accessor1} width={column.width} style={{textAlign:column.textalign}}
+                return <td key={columnIndex} width={column.width} style={{textAlign:column.textalign}}
                 >{row[column.accessor1]=== null? '—':<div>{Parser(cellValue)} {column.accessor2?row[column.accessor2]:null}</div>}</td>
                 }
               })}
             </tr>
           )
         }):data
-        .map(row => {
+        .map((row,index) => {
 
           return (
-            <tr key={row.part_id} onClick={()=> { clickHandler(row.part_id,row.id,row.order_id)}}>
-              {props.columns.map(column => {
+            <tr key={index} onClick={()=> { clickHandler(row.part_id,row.id,row.order_id)}}>
+              {props.columns.map((column,columnIndex) => {
           
           var prefix=column.prefix?column.prefix:'';
           var suffix=column.suffix?column.suffix:'';
@@ -251,7 +251,7 @@ const Table = (props) => {
 
 
                 if(column.accessor2==='long_description'){
-                  return <td key={column.accessor1} width={column.width} style={{textAlign:column.textalign, color:'#9E9E9E'}}
+                  return <td key={columnIndex} width={column.width} style={{textAlign:column.textalign, color:'#9E9E9E'}}
                 ><div style={{display:'flex'}}>
                   <div className="parts_image">
               
@@ -263,32 +263,32 @@ const Table = (props) => {
                 }
                 
                 else if((row.transaction_type==='CREDIT' || row.transaction_type==='PROD_RETURN')  && column.accessor1==="status"){
-                  return <td key={column.accessor1} width={column.width} style={{textAlign:column.textalign}}
+                  return <td key={columnIndex} width={column.width} style={{textAlign:column.textalign}}
   ><div className="stock_in_style"><BsBoxArrowInDown /> <div style={{marginLeft:"0.4rem"}}>{row.transaction_type == 'PROD_RETURN'?<span>Production Return</span>:<span>Stock In</span>}</div></div></td>
   }
  else if((row.transaction_type==='DEBIT' || row.transaction_type==='LINE_LOSS') && column.accessor1==="status"){
-    return <td key={column.accessor1} width={column.width} style={{textAlign:column.textalign}}
+    return <td key={columnIndex} width={column.width} style={{textAlign:column.textalign}}
     ><div className="stock_out_style"><BsBoxArrowUp /> <div style={{marginLeft:"0.4rem"}}>{row.transaction_type==='LINE_LOSS'?<span>Loss On Line</span>:<span>Stock Out</span>}</div></div></td>
     }
                   else if(column.accessor1==='status' && row.status==='Created' ){
-                    return <td key={column.accessor1} width={column.width} 
+                    return <td key={columnIndex} width={column.width} 
                   ><div className="pending_status_style">Created</div></td>
                   }
                   else if(column.accessor1==='status' && row.status==='Partial Processed' ){
-                    return <td key={column.accessor1} width={column.width} 
+                    return <td key={columnIndex} width={column.width} 
                   ><div className="partial_status_style">Partially Processed</div></td>
                   }
                   else if(column.accessor1==='status' && row.status==='Completed' ){
-                    return <td key={column.accessor1} width={column.width} 
+                    return <td key={columnIndex} width={column.width} 
                   ><div className="completed_status_style">Completed</div></td>
                   }
                  
                   else if(column.accessor1==='quantity_value' && props.outOf==true ){
-                    return <td key={column.accessor1} width={column.width} style={{textAlign:column.textalign}}
+                    return <td key={columnIndex} width={column.width} style={{textAlign:column.textalign}}
                     ><div>{row.released_quantity_value} {row.released_quantity_value==0?null:row.released_quantity_unit_symbol} / {row[column.accessor1]} {row[column.accessor2]}</div></td>
                   }
                 else{
-                return <td key={column.accessor1} width={column.width} style={{textAlign:column.textalign}}
+                return <td key={columnIndex} width={column.width} style={{textAlign:column.textalign}}
                 >{row[column.accessor1]=== null? '-':<div>{Parser(cellValue)} {column.accessor2?row[column.accessor2]:null}</div>}</td>
                 }
               })}
