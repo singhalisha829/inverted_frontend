@@ -29,7 +29,6 @@ const NewOrder = () => {
   ];
 
   const [orderType, setOrderType] = useState("Part");
-  const [name, setName] = useState("");
   const [token, setToken] = useState(null);
   const [quantity, setQuantity] = useState("");
   const [showUnit, setShowUnit] = useState(false);
@@ -38,6 +37,7 @@ const NewOrder = () => {
   const [bomName, setBomName] = useState(null);
   const [partName, setPartName] = useState(null);
   const [unitList, setUnitList] = useState([]);
+  const [itemName,setItemName] = useState(null);
   const [unit, setUnit] = useState(null);
   const [newOrderList, setNewOrderList] = useState([]);
   const [partType, setPartType] = useState(null);
@@ -111,21 +111,28 @@ const NewOrder = () => {
         ItemType: orderType,
         item_id: bomName,
         quantity: quantity + " Nos",
+        item_name:itemName,
         item_desc: bom,
       };
       setNewOrderList([data, ...newOrderList]);
       cancelHandler();
+      console.log("list",[data, ...newOrderList])
+
     } else {
       const data = {
         ItemType: orderType,
         item_id: partName,
         quantity: quantity + " " + unit,
+        item_name:itemName,
         item_desc: part,
       };
       setNewOrderList([data, ...newOrderList]);
       cancelHandler();
       setShowUnit(false);
+      console.log("list",[data, ...newOrderList])
+
     }
+
   };
 
   const cancelHandler = () => {
@@ -156,12 +163,18 @@ const NewOrder = () => {
   }, [newOrderList.length]);
 
   const submitOrder = () => {
+    setIsSumbit(true)
     if (newOrderList.length === 0) {
       toast.warning("Enter Form Details!");
     } else {
       createProductionOrder(newOrderList, token).then((res) => {
+        setIsSumbit(false);
+        if (res.data.status.code == 404) {
+          toast.error(res.data.status.description);
+        } else {
         Router.push({pathname:"/orderDetails",query:{id:res.data.status.last_id}});
         cancelHandler();
+        }
       });
     }
   };
@@ -281,6 +294,7 @@ const NewOrder = () => {
                     parentCallback={(data) => {
                       setBomName(data.id);
                       setBom(data.product_description);
+                      setItemName(data.product_code)
                     }}
                     dropdownWidth={size.width > "600" ? "13vw" : "71vw"}
                     searchWidth={size.width > "600" ? "10vw" : "61vw"}
@@ -293,7 +307,9 @@ const NewOrder = () => {
                     options={partsList}
                     name="short_description"
                     width={size.width > "600" ? "70%" : "90%"}
-                    parentCallback={(data) => handlePartDescription(data)}
+                    parentCallback={(data) => {handlePartDescription(data);                      
+                      setItemName(data.part_id)}
+                    }
                     value={part}
                     dropdownWidth={size.width > "600" ? "15vw" : "71vw"}
                     searchWidth={size.width > "600" ? "12vw" : "61vw"}
@@ -415,7 +431,7 @@ const NewOrder = () => {
             key={index}
             order_type={l.ItemType}
             quantity={l.quantity}
-            order_name={l.item_id}
+            order_name={l.item_name}
             desc={l.item_desc}
             deleteOrder={() => handleDeleteOrder(index)}
           />

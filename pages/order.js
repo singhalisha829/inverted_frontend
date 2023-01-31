@@ -29,7 +29,7 @@ const Order=()=>{
 
     const columns = [
         { accessor1: 'production_order_no', label: 'Order Number' ,width:"20%", textalign:"center"},
-        { accessor1: 'date' ,label: 'Date' ,width:"20%", textalign:"center",sort:'DSC'},
+        { accessor1: 'date' ,label: 'Date' ,width:"20%", textalign:"center"},
         { accessor1: 'created_by', label: 'Created By',width:"30%" , textalign:"center"}, 
         { accessor1: 'status',prefix:'<div className="status_style" >',suffix:'</div>', label: 'Status',width:"30%" , textalign:"center"},  
       ];
@@ -40,7 +40,11 @@ const Order=()=>{
         localStorage.setItem('selected_item','production_orders')
         const token=localStorage.getItem('token')
         setToken(token)
-        fetchProductionOrderList(token).then(res=>setProductionOrderList(res.data.data.output))
+        fetchProductionOrderList(token).then(res=>
+          {
+            const sorted=res.data.data.output.slice().sort((a, b) => -(a.date || '').localeCompare(b.date || '', undefined, {numeric: true}))
+            setProductionOrderList(sorted)
+          })
       
     }else{
         Router.push('/login');

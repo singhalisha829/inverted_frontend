@@ -179,9 +179,7 @@ const Ledger = () => {
       ];
       addNewLedger(formData, token)
         .then(() => {
-          setSelectedDate(() => "");
           setLoading(false);
-          setShowForm(false);
 
           // fetch list of ledgers again
 
@@ -191,8 +189,17 @@ const Ledger = () => {
                 setLedger(sorted);
             })
             .catch((err) => toast.error(err.message));
+            fetchPartByPartId(ledgerPart, token).then((res) => {
+                setPartId(res.data[0].id);
+                setShortDescription(res.data[0].short_description);
+                setlongDescription(res.data[0].long_description);
+                setPartQuantity(res.data[0].quantity);
+                setUnit(res.data[0].quantity.split(" ")[1]);
+              });
 
           notifySuccessPost();
+          cancelPartHandler()
+
         })
         .catch((err) => {
           toast.error(err.message);
@@ -221,8 +228,10 @@ const Ledger = () => {
   // cancel button of ledger form
   const cancelPartHandler = () => {
     setShowForm(false);
-    setSelectedDate(() => "");
+    setSelectedDate(new Date());
     setUnit(partQuantity.split(" ")[1]);
+    setQuantity('');
+    setInvoice('');
   };
 
   const status = [

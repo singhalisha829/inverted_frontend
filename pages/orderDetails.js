@@ -386,7 +386,7 @@ const OrderDetails = () => {
               </div>
               <div style={{ width: "25%" }}>{date ? date : null}</div>
               <div style={{ width: "25%" }}>{createdBy ? createdBy : null}</div>
-              <div style={{ width: "25%" }}>{status}</div>
+              <div style={{ width: "25%" }}>{status=='Created'?<div className="pending_status_style">Created</div>:<div>{status=='Partial Processed'?<div className="partial_status_style">Partially Processed</div>:<div className="completed_status_style">Completed</div>}</div>}</div>
             </div>
           </div>
 

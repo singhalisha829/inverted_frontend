@@ -42,7 +42,6 @@ const StockIn=()=>{
     const [vendor, setVendor]= useState(null);
     const [unit, setUnit]= useState(null);
     const [price, setPrice]= useState('');
-    const [loading,setLoading]= useState(false);
     const [partId,setPartId]= useState(null);
     const [finalList,setFinalList]= useState([]);
     const [isSubmit,setIsSumbit]=useState(true);
@@ -214,11 +213,15 @@ const StockIn=()=>{
 
     // submit the whole list on the server
     const submitPartsListHandler =() =>{
-        setLoading(true);
+        setIsSumbit(true);
             addNewLedger(finalList,token).then(res=>{ 
-                setLoading(false);
+                console.log(res)
+                setIsSumbit(false)
+                if (res.status.code == 404) {
+                    toast.error(res.data.status.description);
+                  } else {
                 Router.push('/');
-                
+                  }
 
                  })
                  .catch(err=> toast.error(err.message))

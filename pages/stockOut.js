@@ -16,9 +16,10 @@ const StockOut=() =>{
     const [token,setToken]= useState(null);
     const [stockOutList,setStockOutList]= useState(null);
     const [productionOrderId,setProductionOrderId]= useState(null);
+    const [disableButton,setDisableButton] = useState(false);
 
     const columns = [
-        { accessor1: 'item_name', label: 'Part ID' ,width:"33%", textalign:"center"},
+        { accessor1: 'item_name', label: 'ID' ,width:"33%", textalign:"center"},
         { accessor1: 'item_description' ,label: 'Name' ,width:"33%", textalign:"center"},
         { accessor1: 'quantity',label: 'Quantity',width:"33%" , textalign:"center"},  
       ];
@@ -71,9 +72,14 @@ const StockOut=() =>{
     const size = useWindowSize();
     
     const submitHandler=()=>{
-
+      setDisableButton(true);
       createProductionOrderTransaction(token,stockOutList).then(res=>{
-        Router.push({pathname:'/orderDetails',query:{id:productionOrderId}});
+        setDisableButton(false);
+        if (res.data.status.code == 404) {
+          toast.error(res.data.status.description);
+        } else {
+        Router.push({pathname:'/orderDetails',query:{id:productionOrderId}})
+        };
       });
     }
 
@@ -100,7 +106,7 @@ const StockOut=() =>{
                 <div className="stock_out_footer">
                     <div className="stock_out_button">
                         <button className='cancel_button button2' onClick={()=>{Router.push({pathname:'/orderDetails',query:{id:productionOrderId}})}}>Cancel</button>
-                        <button className='save_button button2' onClick={submitHandler}>Confirm</button>
+                        <button className='save_button button2' disabled={disableButton} onClick={submitHandler}>Confirm</button>
                         </div>
                 </div>
             </div>  
