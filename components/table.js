@@ -6,7 +6,6 @@ import {BsBoxArrowUp, BsBoxArrowInDown, BsArrowDownUp,BsArrowUp,BsArrowDown} fro
 
 import Logo  from '../public/Logo_inverted.png';
 
-import { toast } from "react-toastify";
 import 'react-toastify/dist/ReactToastify.css';
 
 import Parser from 'html-react-parser';
@@ -114,7 +113,16 @@ const Table = (props) => {
   //  sort table rows based on selected column
     const sorting= (col) =>{
       if(col != sortedColumn){
-        const sorted=props.rows.slice().sort((a, b) => (a[col] || '').localeCompare(b[col] || '', undefined, {numeric: true}))
+        console.log("sort",col)
+        const sorted=props.rows.slice().sort(
+          (a, b) =>{
+            if (typeof a[col] === 'string' && typeof b[col] === 'string') {
+              return (a[col] || '').localeCompare(b[col] || '', undefined, { numeric: true });
+            } else {
+              return (a[col] || 0) - (b[col] || 0);
+            }
+          }
+          )
         setData(sorted);
         setOrder('DSC');
         setArrow(<BsArrowUp/>)
@@ -137,7 +145,14 @@ const Table = (props) => {
     }
 
     const sortAsc=(col)=>{
-      const sorted=props.rows.slice().sort((a, b) => (a[col] || '').localeCompare(b[col] || '', undefined, {numeric: true}))
+      const sorted=props.rows.slice().sort((a, b) => 
+      {
+        if (typeof a[col] === 'string' && typeof b[col] === 'string') {
+          return (a[col] || '').localeCompare(b[col] || '', undefined, { numeric: true });
+        } else {
+          return (a[col] || 0) - (b[col] || 0);
+        }
+      })
       setData(sorted);
       // data=sorted;
       setOrder('DSC');
@@ -145,7 +160,15 @@ const Table = (props) => {
     }
 
     const sortDsc=(col)=>{
-      const sorted=props.rows.slice().sort((a, b) => -(a[col] || '').localeCompare(b[col] || '', undefined, {numeric: true}))
+      const sorted=props.rows.slice().sort((a, b) => 
+      {
+        if (typeof a[col] === 'string' && typeof b[col] === 'string') {
+          return -(a[col] || '').localeCompare(b[col] || '', undefined, { numeric: true });
+        } else {
+          return (b[col] || 0) - (a[col] || 0);
+        }
+      }
+      )
             setData(sorted);
             // data=sorted;
             setOrder('NONE');

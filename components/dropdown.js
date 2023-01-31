@@ -155,7 +155,7 @@ const Dropdown= (props) =>{
         {searchText !== null? dataFilter.map((option,index)=>(
                  <div className="option" key={index}    
                  onClick={()=>{ props.parentCallback(option); 
-                setIsDropdownOpen(false); setValue(option[props.name])}}>
+                setIsDropdownOpen(false); setValue(option[props.name]);setSearchText('')}}>
                   <div style={{display:'flex'}}>{option[props.name]} {props.isUnitList?<div style={{fontSize:"1rem",marginLeft:'0.5rem'}}>({option.name})</div>:null}</div>
                   {props.isPartsList?<div className="dropdownPartId">({option.part_id})</div>:null}</div>
              )):

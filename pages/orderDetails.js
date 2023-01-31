@@ -75,12 +75,11 @@ const OrderDetails = () => {
   
 
   useEffect(() => {
-    const poId = router.query.id;
-
       async function fetch(){
         if (localStorage.getItem("token") != undefined) {
         localStorage.setItem("stock_out_list", null);
         const token = localStorage.getItem("token");
+        const poId = router.query.id;
         if (poId != undefined || poId != null) {
           setProductionOrderId(poId);
           setProductionOrderList({
@@ -116,8 +115,8 @@ const OrderDetails = () => {
               if(part.available_qty == null || part.available_qty == undefined){
                 greater=false;
               }else{
-                if (part.released_quantity_unit_symbol != part.available_qty_symbol){
-                  unitConversion(part.released_quantity_unit_symbol,part.available_qty_symbol,token).then(res=>{
+                if (part.released_quantity_value>0 && part.released_quantity_unit_symbol != part.available_qty_symbol){
+                  unitConversion(token,part.released_quantity_unit_symbol,part.available_qty_symbol).then(res=>{
                     if (res.data.status.code == 404) {
                       toast.error(res.data.status.description);
                     } else{const factor=res.data.output[0].conversion_factor;
