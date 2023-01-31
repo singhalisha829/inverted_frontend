@@ -39,16 +39,18 @@ export const fetchDropdownUnitList=(token,unitType) =>{
     }
 }
 
-export const fetchProductionOrderDetails=(token,id) =>{
-        return axios.get(URL+MAIN.PRODUCTION_ORDER+"?id="+id,{headers:{
+export const fetchProductionOrderDetails=async (token,id) =>{
+        const res=await axios.get(URL+MAIN.PRODUCTION_ORDER+"?id="+id,{headers:{
                 "Authorization":"Token "+ token
             }})
+        return res;
     }
 
-export const fetchPartWiseList=(token,poId) =>{
-        return axios.get(URL+MAIN.PRODUCTION_ORDER_PART_WISE_LIST+poId,{headers:{
+export const fetchProdOrderPartWiseList= async (token,poId) =>{
+        const res= await axios.get(URL+MAIN.PRODUCTION_ORDER_PART_WISE_LIST+poId,{headers:{
             "Authorization":"Token "+ token
         }})
+        return res;
     }
 
 export const createProductionOrderTransaction= async (token,data) =>{
@@ -60,8 +62,9 @@ export const createProductionOrderTransaction= async (token,data) =>{
             return res;
         }
 
-export const fetchPastTransaction=(token,poId) =>{
-            return axios.get(URL+MAIN.PRODUCTION_ORDER_TRANSACTION+"?production_order_id="+poId,{headers:{
+export const fetchPastTransaction= async(token,poId) =>{
+            const res = await axios.get(URL+MAIN.PRODUCTION_ORDER_TRANSACTION+"?production_order_id="+poId,{headers:{
                 "Authorization":"Token "+ token
             }})
+            return res;
         }

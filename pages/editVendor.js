@@ -4,7 +4,7 @@ import Head from "next/head";
 import Header from "../components/header";
 import Router from 'next/router';
 
-import { fetchPartWiseList, fetchPurchaseOrderDetails, deleteAssignedParts,postPoVendor1,fetchUnassignedParts } from "../services/purchaseOrderService";
+import { fetchPurOrderPartWiseList, fetchPurchaseOrderDetails, deleteAssignedParts,postPoVendor1,fetchUnassignedParts } from "../services/purchaseOrderService";
 import { fetchVendorList } from "../services/stockInService";
 
 import { FaTimes} from 'react-icons/fa';
@@ -50,7 +50,7 @@ const EditVendor=() =>{
         setPurchaseOrderId(localStorage.getItem('poId'))
         fetchPurchaseOrderDetails(token,poId).then(res=>{setPoDetails(res.data.data.output[0].invoice_products)})
         setToken(token)
-        fetchPartWiseList(token,poId).then(res=>setOrderDetails(res.data.data.output))
+        fetchPurOrderPartWiseList(token,poId).then(res=>setOrderDetails(res.data.data.output))
         fetchUnassignedParts(token,poId).then(res=>{    
             setPartsList(res.data.data.output[0].temp_part);
             const list=res.data.data.output[0].temp_part;

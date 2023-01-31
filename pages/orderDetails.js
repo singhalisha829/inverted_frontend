@@ -11,7 +11,7 @@ import Transactions from "../components/transactions";
 
 import {
   fetchProductionOrderDetails,
-  fetchPartWiseList,
+  fetchProdOrderPartWiseList,
   fetchPastTransaction,
 } from "../services/productionOrderService";
 import { unitConversion } from "../services/purchaseOrderService";
@@ -35,7 +35,7 @@ const OrderDetails = () => {
   const [productionOrderId, setProductionOrderId] = useState(null);
   const border = useState("#e5e5e5 solid 0.1em");
   const [formData, setFormData] = useState({});
-  const [defaultUnitList,setDefaultUnitList]=useState({});
+  const [showDetails,setShowDetails] = useState(true);
 
   const today = new Date();
   const todayDate =
@@ -72,59 +72,97 @@ const OrderDetails = () => {
   useEffect(() => {
     // console.log("form",formData)
   }, [formData]);
+  
 
   useEffect(() => {
-    if (localStorage.getItem("token") != undefined) {
-      localStorage.setItem("stock_out_list", null);
-      const token = localStorage.getItem("token");
-      const poId = router.query.id;
-      if (poId != undefined || poId != null) {
-        setProductionOrderId(poId);
-        setProductionOrderList({
-          ...productionOrderList,
-          production_order: poId,
-        });
+    const poId = router.query.id;
 
-        fetchProductionOrderDetails(token, poId).then((res) => {
-          setOrderItem(res.data.data.output[0].production_order_itemss);
-          setOrderNumber(res.data.data.output[0].production_order_no);
-          setDate(res.data.data.output[0].date);
-          setCreatedBy(res.data.data.output[0].created_by);
-          setStatus(res.data.data.output[0].status);
-
-          if(res.data.data.output[0].status !='Completed'){
-            column1.push({
-                accessor1: "part_quantity_value",
-                accessor2: "part_quantity_symbol",
-                label: "Available Quantity",
-                width: "20%",
-                textalign: "center",
-            })
-            setColumn1([...column1])
-          }
-          res.data.data.output[0].production_order_itemss.map((part) => {
-            formData[part.id] = { quantity: null, unit: part.released_quantity_unit_symbol };
-            defaultUnitList[part.id]=part.released_quantity_unit_symbol
+      async function fetch(){
+        if (localStorage.getItem("token") != undefined) {
+        localStorage.setItem("stock_out_list", null);
+        const token = localStorage.getItem("token");
+        if (poId != undefined || poId != null) {
+          setProductionOrderId(poId);
+          setProductionOrderList({
+            ...productionOrderList,
+            production_order: poId,
           });
-          setFormData(formData);
-          setDefaultUnitList(defaultUnitList)
-        });
+  
+          // fetch order details
+          const prodOrderRes = await fetchProductionOrderDetails(token, poId);
+            setOrderItem(prodOrderRes.data.data.output[0].production_order_itemss);
+            if(prodOrderRes.data.data.output[0].production_order_itemss.length > 0){
+              setShowDetails(true);
+            }else{
+              setShowDetails(false);
+            }
+            setOrderNumber(prodOrderRes.data.data.output[0].production_order_no);
+            setDate(prodOrderRes.data.data.output[0].date);
+            setCreatedBy(prodOrderRes.data.data.output[0].created_by);
+            setStatus(prodOrderRes.data.data.output[0].status);
+  
+            if(prodOrderRes.data.data.output[0].status !='Completed'){
+              const col = {
+                  accessor1: "part_quantity_value",
+                  accessor2: "part_quantity_symbol",
+                  label: "Available Quantity",
+                  width: "20%",
+                  textalign: "center",
+              }
+              setColumn1([...column1,col])
+            }
+            prodOrderRes.data.data.output[0].production_order_itemss.map((part) => {
+              var greater = true;
+              if(part.available_qty == null || part.available_qty == undefined){
+                greater=false;
+              }else{
+                if (part.released_quantity_unit_symbol != part.available_qty_symbol){
+                  unitConversion(part.released_quantity_unit_symbol,part.available_qty_symbol,token).then(res=>{
+                    if (res.data.status.code == 404) {
+                      toast.error(res.data.status.description);
+                    } else{const factor=res.data.output[0].conversion_factor;
+                      if(part.available_qty * factor < part.released_quantity_value){
+                        greater=false;
+                      }
+                    }
+                  })
+                }else{
+                  if(part.available_qty<part.released_quantity_value){
+                    greater=false;
+                  }
+                }
+              }
+            
+              formData[part.id] = { quantity: null, unit: part.released_quantity_unit_symbol,isGreater:greater };
+            });
+            setFormData(formData);
 
-        fetchPastTransaction(token, poId).then((res) => {
-          if (res.data.data != undefined) {
-            const sorted = [...res.data.data.output].reverse();
-            setPastTransactions(sorted);
-          }
-        });
-
-        fetchPartWiseList(token, poId).then((res) => {
-          setPartsInOrder(res.data.data.output.order_items);
-        });
-        setToken(token);
+            
+          // fetch past transaction details
+          const pastTransactionRes = await fetchPastTransaction(token, poId)
+            if (pastTransactionRes.data.data != undefined) {
+              const sorted = [...pastTransactionRes.data.data.output].reverse();
+              setPastTransactions(sorted);
+            }
+  
+            // fetch part wise list of production order
+          const partWiseListRes = await fetchProdOrderPartWiseList(token, poId);    
+          if(!partWiseListRes.data.success){
+              toast.error(partWiseListRes.data.status.description);
+            }else{
+              setPartsInOrder(partWiseListRes.data.data.output.order_items);
+            }
+          setToken(token);
+        }
+      } else {
+        Router.push("/login");
       }
-    } else {
-      Router.push("/login");
-    }
+      }
+     
+        fetch();
+      
+
+   
   }, [router.query.id]);
 
   // calculate screen size
@@ -390,144 +428,142 @@ const OrderDetails = () => {
             </div>
           </div>
 
-          {status != "Completed" ? (
+          {(status == "Completed" || !showDetails)? null : (
             <div className="order_details_subheader">
               Your Orders
               <button onClick={stockOut}>Stock Out</button>
             </div>
-          ) : null}
-          {status != "Completed" ? (
-            <div className="order_detail_table">
-              {orderItem ? (
-                <div>
-                  <div className="po_detail_part_header rows">
-                    <div style={{ width: "10%" }}>TYPE</div>
-                    <div style={{ width: "15%" }}>ID</div>
-                    <div style={{ width: "25%" }}>DESCRIPTION</div>
-                    <div style={{ width: "15%" }}>REQUIRED QUANTITY</div>
-                    <div style={{ width: "30%" }}>STOCK RELEASED</div>
-                    <div style={{ width: "5%" }}></div>
-                  </div>
-                  {orderItem.map((part, index) => {
-                    return (
-                      <div
-                        key={index}
-                        className="po_detail_part_rows"
-                        style={{ color: "#3F5575" }}
-                      >
-                        <div style={{ width: "10%" }}>{part.ItemType}</div>
-                        <div style={{ width: "15%" }}>{part.product_code}</div>
-                        <div style={{ width: "25%" }}>
-                          {part.product_description}
-                        </div>
-                        <div style={{ width: "15%" }}>
-                          {part.released_quantity_value}{" "}
-                          {part.released_quantity_value == 0
-                            ? null
-                            : part.released_quantity_unit_symbol}{" "}
-                          / {part.quantity_value} {part.quantity_symbol}
-                        </div>
-                        <div style={{ width: "30%", paddingLeft: "5%" }}>
-                          {part.released_quantity_value > 0 ? (
-                            <div style={{ display: "flex" }}>
-                              {part.ItemType == "BOM" ? (
-                                <input
-                                  type="number"
-                                  style={{ border: border }}
-                                  className="quantity_field"
-                                  placeholder="Enter Quantity"
-                                  value={formData[part.id].quantity}
-                                  onChange={(e) => {
-                                    handleBOMQuantity(e.target.value, part);
+          )}
+          {(status == "Completed" || !showDetails)? (<div>{showDetails?null:<div className="no_item">No Items Found</div>}</div>) : (<div className="order_detail_table">
+          {orderItem ? (
+            <div>
+              <div className="po_detail_part_header rows">
+                <div style={{ width: "10%" }}>TYPE</div>
+                <div style={{ width: "15%" }}>ID</div>
+                <div style={{ width: "25%" }}>DESCRIPTION</div>
+                <div style={{ width: "15%" }}>REQUIRED QUANTITY</div>
+                <div style={{ width: "30%" }}>STOCK RELEASED</div>
+                <div style={{ width: "5%" }}></div>
+              </div>
+              {orderItem.map((part, index) => {
+                return (
+                  <div
+                    key={index}
+                    className="po_detail_part_rows"
+                    style={{ color: "#3F5575" }}
+                  >
+                    <div style={{ width: "10%" }}>{part.ItemType}</div>
+                    <div style={{ width: "15%" }}>{part.product_code}</div>
+                    <div style={{ width: "25%" }}>
+                      {part.product_description}
+                    </div>
+                    <div style={{ width: "15%" }}>
+                      {part.released_quantity_value}{" "}
+                      {part.released_quantity_value == 0
+                        ? null
+                        : part.released_quantity_unit_symbol}{" "}
+                      / {part.quantity_value} {part.quantity_symbol}
+                    </div>
+                    <div style={{ width: "30%", paddingLeft: "5%" }}>
+                      {part.released_quantity_value > 0 ? (
+                        <div style={{ display: "flex" }}>
+                          {part.ItemType == "BOM" ? (
+                            <input
+                              type="number"
+                              style={{ border: border }}
+                              className="quantity_field"
+                              placeholder="Enter Quantity"
+                              value={formData[part.id].quantity}
+                              onChange={(e) => {
+                                handleBOMQuantity(e.target.value, part);
+                              }}
+                            />
+                          ) : (
+                            <div
+                              style={{
+                                display: "flex",
+                                width: size.width > "600" ? "70%" : "90%",
+                                border: "#e5e5e5 solid 0.1em",
+                                borderRadius: "5px",
+                              }}
+                            >
+                              <input
+                                style={{
+                                  width: "70%",
+                                  height: "3rem",
+                                  border: "none",
+                                }}
+                                className="quantity"
+                                type="number"
+                                value={formData[part.id].quantity}
+                                onChange={(e) =>
+                                  handleQuantity(e.target.value, part)
+                                }
+                                placeholder="0.00"
+                              />
+                              <div
+                                style={{
+                                  borderLeft: "#e5e5e5 solid 0.1em",
+                                }}
+                              />
+                              {part.unit_name_list ? (
+                                <Dropdown
+                                  options={part.unit_name_list}
+                                  isUnitList="true"
+                                  placeholder="Unit"
+                                  width="30%"
+                                  name="symbol"
+                                  minWidth="9rem"
+                                  no_outline={true}
+                                  parentCallback={(data) => {
+                                    handleUnit(data.symbol, part);
                                   }}
+                                  value={formData[part.id].unit}
+                                  dropdownWidth={
+                                    size.width > "600" ? "11vw" : "40vw"
+                                  }
+                                  searchWidth={
+                                    size.width > "600" ? "8vw" : "30vw"
+                                  }
+                                  height="3rem"
                                 />
-                              ) : (
-                                <div
-                                  style={{
-                                    display: "flex",
-                                    width: size.width > "600" ? "70%" : "90%",
-                                    border: "#e5e5e5 solid 0.1em",
-                                    borderRadius: "5px",
-                                  }}
-                                >
-                                  <input
-                                    style={{
-                                      width: "70%",
-                                      height: "3rem",
-                                      border: "none",
-                                    }}
-                                    className="quantity"
-                                    type="number"
-                                    value={formData[part.id].quantity}
-                                    onChange={(e) =>
-                                      handleQuantity(e.target.value, part)
-                                    }
-                                    placeholder="0.00"
-                                  />
-                                  <div
-                                    style={{
-                                      borderLeft: "#e5e5e5 solid 0.1em",
-                                    }}
-                                  />
-                                  {part.unit_name_list ? (
-                                    <Dropdown
-                                      options={part.unit_name_list}
-                                      isUnitList="true"
-                                      placeholder="Unit"
-                                      width="30%"
-                                      name="symbol"
-                                      minWidth="9rem"
-                                      no_outline={true}
-                                      parentCallback={(data) => {
-                                        handleUnit(data.symbol, part);
-                                      }}
-                                      value={formData[part.id].unit}
-                                      dropdownWidth={
-                                        size.width > "600" ? "11vw" : "40vw"
-                                      }
-                                      searchWidth={
-                                        size.width > "600" ? "8vw" : "30vw"
-                                      }
-                                      height="3rem"
-                                    />
-                                  ) : null}
-                                </div>
-                              )}
-                              <span
-                                className="available_quantity"
-                                style={{ textAlign: "left",width:'30%' }}
-                              >
-                                *Only {(part.available_qty==null || part.available_qty == undefined)?0:part.available_qty}{" "}
-                                {part.available_qty_symbol} available
-                              </span>
+                              ) : null}
                             </div>
-                          ) : null}
+                          )}
+                          <span
+                            className="available_quantity"
+                            style={{ textAlign: "left",width:'30%',color:formData[part.id].isGreater?"#33B850":"#EB2129" }}
+                          >
+                            *{formData[part.id].isGreater?null:<span>Only</span>} {(part.available_qty==null || part.available_qty == undefined)?0:part.available_qty}{" "}
+                            {part.available_qty_symbol} available
+                          </span>
                         </div>
-                        <div style={{ width: "5%" }}>
-                        {part.released_quantity_value > 0 ?<FaTimes
-                            title="Clear"
-                            className="icon"
-                            onClick={() => {
-                              setFormData({
-                                ...formData,
-                                [part.id]: { quantity: "", unit: "" },
-                              });
-                              removeProductionOrderItem(part.id);
-                            }}
-                          />:null}
-                        </div>
-                      </div>
-                    );
-                  })}
-                </div>
-              ) : (
-                <Spinner />
-              )}
+                      ) : null}
+                    </div>
+                    <div style={{ width: "5%" }}>
+                    {part.released_quantity_value > 0 ?<FaTimes
+                        title="Clear"
+                        className="icon"
+                        onClick={() => {
+                          setFormData({
+                            ...formData,
+                            [part.id]: { quantity: "", unit: "" },
+                          });
+                          removeProductionOrderItem(part.id);
+                        }}
+                      />:null}
+                    </div>
+                  </div>
+                );
+              })}
             </div>
-          ) : null}
+          ) : (
+            <Spinner />
+          )}
+        </div>)}
         </div>
 
-        <div className="parts_in_order">
+        {showDetails?<div className="parts_in_order">
           {partsInOrder ? (
             <Table
               columns={column1}
@@ -538,7 +574,7 @@ const OrderDetails = () => {
           ) : (
             <Spinner />
           )}
-        </div>
+        </div>:null}
 
         {pastTransactions ? (
           <div>
