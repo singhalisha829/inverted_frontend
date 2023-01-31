@@ -2,9 +2,9 @@ import axios from "axios";
 
 import { MAIN ,URL} from "./constants";
 
-export const createProductionOrder=(poItems,token) =>{
+export const createProductionOrder= async (poItems,token) =>{
     const date=new Date().toISOString().slice(0, 10);
-        return axios.post(URL+MAIN.PRODUCTION_ORDER,{
+        const res = await axios.post(URL+MAIN.PRODUCTION_ORDER,{
             date:date,
             remark:'remark',
             production_order_items:poItems
@@ -12,6 +12,7 @@ export const createProductionOrder=(poItems,token) =>{
             headers:{
                 "Authorization":"Token "+ token
             }})
+        return res;
     }
 
 export const fetchProductionOrderList=(token) =>{
@@ -50,11 +51,13 @@ export const fetchPartWiseList=(token,poId) =>{
         }})
     }
 
-export const createProductionOrderTransaction=(token,data) =>{
-            return axios.post(URL+MAIN.PRODUCTION_ORDER_TRANSACTION,data,{
+export const createProductionOrderTransaction= async (token,data) =>{
+            const res= await axios.post(URL+MAIN.PRODUCTION_ORDER_TRANSACTION,data,{
                 headers:{
                     "Authorization":"Token "+ token
                 }})
+
+            return res;
         }
 
 export const fetchPastTransaction=(token,poId) =>{

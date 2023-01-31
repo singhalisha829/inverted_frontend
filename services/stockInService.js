@@ -1,5 +1,4 @@
 import axios from "axios";
-import { useEffect } from "react";
 
 import {URL, MAIN } from "./constants";
 
@@ -40,10 +39,11 @@ export const fetchPartByPartId=(partId,token) =>{
 }
         
         
- export const addNewLedger=(stockInList,token) =>{
-    return axios.post(URL+MAIN.LEDGER,stockInList,{
-            headers:{                
-                "Authorization":"Token "+ token
-        }
-        }).then(res=>console.log(res))
+ export const addNewLedger=async (stockInList,token) =>{
+    const res = await axios.post(URL + MAIN.LEDGER, stockInList, {
+         headers: {
+             "Authorization": "Token " + token
+         }
+     });
+     return res;
 }

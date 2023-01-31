@@ -81,7 +81,6 @@ const StockIn=()=>{
     useEffect(()=>{
       if(invoice != '' && vendor !=null){
         setShowForm(true);
-        console.log(invoice,vendor)
       }else{
         setShowForm(false);
       }
@@ -121,7 +120,6 @@ const StockIn=()=>{
         setNewPartList(newList)
 
         const newList1=finalList.filter((note)=>note.part !== id);
-        console.log(finalList,newList1,id);
         setFinalList(newList1)
     }
 
@@ -212,20 +210,20 @@ const StockIn=()=>{
     }
 
     // submit the whole list on the server
-    const submitPartsListHandler =() =>{
+    const submitPartsListHandler = async () =>{
         setIsSumbit(true);
-            addNewLedger(finalList,token).then(res=>{ 
-                console.log(res)
-                setIsSumbit(false)
-                if (res.status.code == 404) {
-                    toast.error(res.data.status.description);
+            const res = await addNewLedger(finalList,token);
+                // console.log("trial",res)
+                
+                if (res.status == 200) {
+                    Router.push('/');
+                    setIsSumbit(false)
                   } else {
-                Router.push('/');
+                toast.error(res.data.status.description);
+                setIsSumbit(false)
                   }
 
-                 })
-                 .catch(err=> toast.error(err.message))
-        
+                 
         // notifySuccess()
 
     }
@@ -243,9 +241,9 @@ const StockIn=()=>{
     
 
     const fetchUnit=(unitType)=>{
-        console.log(unitType)
+        // console.log(unitType)
         fetchDropdownUnitList(token,unitType).then(res=>{
-            console.log(res.data);
+            // console.log(res.data);
             setUnitList(res.data.data.output)
         })
     }

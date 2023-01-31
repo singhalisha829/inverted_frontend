@@ -71,16 +71,18 @@ const StockOut=() =>{
       }
     const size = useWindowSize();
     
-    const submitHandler=()=>{
+    const submitHandler = async () =>{
       setDisableButton(true);
-      createProductionOrderTransaction(token,stockOutList).then(res=>{
-        setDisableButton(false);
+      const res = await createProductionOrderTransaction(token,stockOutList)
+
         if (res.data.status.code == 404) {
           toast.error(res.data.status.description);
+          setDisableButton(false)
         } else {
+          setDisableButton(false)
         Router.push({pathname:'/orderDetails',query:{id:productionOrderId}})
-        };
-      });
+        }
+   
     }
 
     return(

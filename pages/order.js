@@ -42,7 +42,7 @@ const Order=()=>{
         setToken(token)
         fetchProductionOrderList(token).then(res=>
           {
-            const sorted=res.data.data.output.slice().sort((a, b) => -(a.date || '').localeCompare(b.date || '', undefined, {numeric: true}))
+            const sorted=res.data.data.output.slice().sort((a, b) => -(a.production_order_no || '').localeCompare(b.production_order_no || '', undefined, {numeric: true}))
             setProductionOrderList(sorted)
           })
       

@@ -116,7 +116,6 @@ const NewOrder = () => {
       };
       setNewOrderList([data, ...newOrderList]);
       cancelHandler();
-      console.log("list",[data, ...newOrderList])
 
     } else {
       const data = {
@@ -129,7 +128,6 @@ const NewOrder = () => {
       setNewOrderList([data, ...newOrderList]);
       cancelHandler();
       setShowUnit(false);
-      console.log("list",[data, ...newOrderList])
 
     }
 
@@ -162,20 +160,22 @@ const NewOrder = () => {
     }
   }, [newOrderList.length]);
 
-  const submitOrder = () => {
+  const submitOrder = async () => {
     setIsSumbit(true)
     if (newOrderList.length === 0) {
       toast.warning("Enter Form Details!");
     } else {
-      createProductionOrder(newOrderList, token).then((res) => {
-        setIsSumbit(false);
+      const res = await createProductionOrder(newOrderList, token);
+
+        
         if (res.data.status.code == 404) {
+          setIsSumbit(false);
           toast.error(res.data.status.description);
         } else {
         Router.push({pathname:"/orderDetails",query:{id:res.data.status.last_id}});
+        setIsSumbit(false);
         cancelHandler();
         }
-      });
     }
   };
 

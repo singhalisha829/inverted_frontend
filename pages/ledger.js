@@ -51,6 +51,7 @@ const Ledger = () => {
   const [token, setToken] = useState(null);
   const [loading, setLoading] = useState(false);
   const [searchStatus, setSearchStatus] = useState(null);
+  const [isButtonDisabled,setIsButtonDisabled] = useState(false);
 
   const [showPage, setShowPage] = useState(false);
 
@@ -84,7 +85,7 @@ const Ledger = () => {
       if (partName != null || partName != undefined) {
         setLedgerPart(partName);
         fetchPartByPartId(partName, token).then((res) => {
-          console.log("res", res.data);
+        //   console.log("res", res.data);
           setPartId(res.data[0].id);
           setShortDescription(res.data[0].short_description);
           setlongDescription(res.data[0].long_description);
@@ -136,7 +137,7 @@ const Ledger = () => {
   const size = useWindowSize();
 
   //   submit new ledger only if all values are entered
-  const submitPartHandler = () => {
+  const submitPartHandler = async () => {
     setLoading(true);
     if (selectedStatus === null) {
       toast.warning("Enter Status!");
@@ -160,6 +161,7 @@ const Ledger = () => {
       //     toast.warning("Enter Vendor!")
       //     return;
     } else {
+        setIsButtonDisabled(true);
       const date =
         selectedDate.getFullYear() +
         "-" +
@@ -177,41 +179,42 @@ const Ledger = () => {
           part: partId,
         },
       ];
-      addNewLedger(formData, token)
-        .then(() => {
-          setLoading(false);
-
+      const res = await addNewLedger(formData, token)
+    //   console.log("res",res);
+        
           // fetch list of ledgers again
+if(res.status == 200){
+    fetchLedgerByPartId(ledgerPart, token)
+    .then((res) => {
+        const sorted = [...res.data.data.output].reverse();
+        setLedger(sorted);
+    })
+    .catch((err) => toast.error(err.message));
+    fetchPartByPartId(ledgerPart, token).then((res) => {
+        setPartId(res.data[0].id);
+        setShortDescription(res.data[0].short_description);
+        setlongDescription(res.data[0].long_description);
+        setPartQuantity(res.data[0].quantity);
+        setUnit(res.data[0].quantity.split(" ")[1]);
+      });
+      setIsButtonDisabled(false);
+  notifySuccessPost();
+  cancelPartHandler()
+}else{
+    setIsButtonDisabled(false);
+    toast.error(res.data.status.description);
 
-          fetchLedgerByPartId(ledgerPart, token)
-            .then((res) => {
-                const sorted = [...res.data.data.output].reverse();
-                setLedger(sorted);
-            })
-            .catch((err) => toast.error(err.message));
-            fetchPartByPartId(ledgerPart, token).then((res) => {
-                setPartId(res.data[0].id);
-                setShortDescription(res.data[0].short_description);
-                setlongDescription(res.data[0].long_description);
-                setPartQuantity(res.data[0].quantity);
-                setUnit(res.data[0].quantity.split(" ")[1]);
-              });
+}
+        
 
-          notifySuccessPost();
-          cancelPartHandler()
-
-        })
-        .catch((err) => {
-          toast.error(err.message);
-          setLoading(false);
-        });
+        
     }
   };
 
   // search feature in cards list
   const searchCard = (event) => {
     const search = event.target.value;
-    console.log(search);
+    // console.log(search);
     if (search !== undefined) {
       const filterTable = ledger.filter((o) =>
         Object.keys(o).some((k) =>
@@ -244,7 +247,7 @@ const Ledger = () => {
     { name: "Stock In", value: "CREDIT" },
     { name: "Stock Out", value: "DEBIT" },
   ];
-  console.log("status", searchStatus);
+//   console.log("status", searchStatus);
   let form = null;
 
   // ledger form visible on clicking add button
@@ -345,6 +348,7 @@ const Ledger = () => {
               Cancel
             </button>
             <button
+            disabled={isButtonDisabled}
               className="save_button button2 expand"
               onClick={submitPartHandler}
             >
