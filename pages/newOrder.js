@@ -41,7 +41,6 @@ const NewOrder = () => {
   const [unit, setUnit] = useState(null);
   const [newOrderList, setNewOrderList] = useState([]);
   const [partType, setPartType] = useState(null);
-  const [emptyList, setEmptyList] = useState([]);
   const [part, setPart] = useState(null);
   const [bom, setBom] = useState(null);
   const [partTypeList, setPartTypeList] = useState([]);
@@ -284,8 +283,7 @@ const NewOrder = () => {
                 Order Description:
               </label>
             ) : null}
-            {orderType ? (
-              <div>
+            
                 {orderType == "BOM" ? (
                   <Dropdown
                     options={bomList}
@@ -321,18 +319,7 @@ const NewOrder = () => {
                   />
                 )}
               </div>
-            ) : (
-              <Dropdown
-                options={emptyList}
-                width={size.width > "600" ? "70%" : "90%"}
-                dropdownWidth={size.width > "600" ? "13vw" : "71vw"}
-                searchWidth={size.width > "600" ? "10vw" : "61vw"}
-                border={true}
-                searchPlaceholder="Search Order"
-                height="3.3rem"
-              />
-            )}
-          </div>
+            
 
           <div className="fields centered">
             {size.width > "600" ? (
@@ -395,14 +382,16 @@ const NewOrder = () => {
                     setOrderType("Part");
                   }}
                   size={30}
+                  title="Add"
                   className="check_icon"
                 />
                 <FaTimesCircle
                   size={30}
                   onClick={() => {
                     cancelHandler();
-                    setOrderType("");
+                    setOrderType("Part");
                   }}
+                  title="Clear"
                   className="cross_icon"
                 />
               </div>
