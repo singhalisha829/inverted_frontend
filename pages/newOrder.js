@@ -41,7 +41,6 @@ const NewOrder = () => {
   const [unit, setUnit] = useState(null);
   const [newOrderList, setNewOrderList] = useState([]);
   const [partType, setPartType] = useState(null);
-  const [emptyList, setEmptyList] = useState([]);
   const [part, setPart] = useState(null);
   const [bom, setBom] = useState(null);
   const [partTypeList, setPartTypeList] = useState([]);
@@ -250,7 +249,7 @@ const NewOrder = () => {
               searchWidth={size.width > "600" ? "10vw" : "61vw"}
               border={true}
               value={orderType}
-              placeholder="Select Order Type"
+              searchPlaceholder="Search Order Type"
               height="3.3rem"
             />
           </div>
@@ -273,7 +272,7 @@ const NewOrder = () => {
                 border={true}
                 value={partType}
                 height="3.3rem"
-                placeholder="Select Order Type"
+                searchPlaceholder="Search Part Type"
               />
             </div>
           ) : null}
@@ -284,8 +283,7 @@ const NewOrder = () => {
                 Order Description:
               </label>
             ) : null}
-            {orderType ? (
-              <div>
+            
                 {orderType == "BOM" ? (
                   <Dropdown
                     options={bomList}
@@ -299,7 +297,7 @@ const NewOrder = () => {
                     dropdownWidth={size.width > "600" ? "13vw" : "71vw"}
                     searchWidth={size.width > "600" ? "10vw" : "61vw"}
                     border={true}
-                    placeholder="Select Order"
+                    searchPlaceholder="Search BOM ID/Name"
                     height="3.3rem"
                   />
                 ) : (
@@ -314,26 +312,14 @@ const NewOrder = () => {
                     dropdownWidth={size.width > "600" ? "15vw" : "71vw"}
                     searchWidth={size.width > "600" ? "12vw" : "61vw"}
                     border={true}
-                    placeholder="Select Order"
                     height="3.3rem"
-                    searchPlaceholder="Enter Part ID/Name"
+                    searchPlaceholder="Search Part ID/Name"
                     dropdownHeight="25rem"
                     isPartsList="true"
                   />
                 )}
               </div>
-            ) : (
-              <Dropdown
-                options={emptyList}
-                width={size.width > "600" ? "70%" : "90%"}
-                dropdownWidth={size.width > "600" ? "13vw" : "71vw"}
-                searchWidth={size.width > "600" ? "10vw" : "61vw"}
-                border={true}
-                placeholder="Select Order"
-                height="3.3rem"
-              />
-            )}
-          </div>
+            
 
           <div className="fields centered">
             {size.width > "600" ? (
@@ -362,7 +348,7 @@ const NewOrder = () => {
                 <Dropdown
                   options={unitList}
                   isUnitList="true"
-                  placeholder="Unit"
+                  searchPlaceholder="Search Unit"
                   width="50%"
                   name="symbol"
                   minWidth="9rem"
@@ -396,14 +382,16 @@ const NewOrder = () => {
                     setOrderType("Part");
                   }}
                   size={30}
+                  title="Add"
                   className="check_icon"
                 />
                 <FaTimesCircle
                   size={30}
                   onClick={() => {
                     cancelHandler();
-                    setOrderType("");
+                    setOrderType("Part");
                   }}
+                  title="Clear"
                   className="cross_icon"
                 />
               </div>
