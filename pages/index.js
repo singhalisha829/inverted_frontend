@@ -16,7 +16,7 @@ import Modal from '../components/modal';
 import Spinner from '../components/spinner';
 
 import { FaTimes, FaExternalLinkAlt, FaList,FaTh } from 'react-icons/fa';
-import ReactHtmlTableToExcel from "react-html-table-to-excel";
+// import ReactHtmlTableToExcel from "react-html-table-to-excel";
 
 import { ToastContainer, toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
@@ -187,13 +187,14 @@ else{
                      
                      {/* export parts table */}
                      <div style={{width:'10rem',marginLeft:'5vw',marginRight:'1.5rem'}}>
-                     <ReactHtmlTableToExcel
+                     {/* <ReactHtmlTableToExcel
 
          table="partsTable"
          filename="stock_report"
          sheet="stock_report"
          buttonText="Export" 
-         className="export_button" /></div>
+         className="export_button" /> */}
+         </div>
 
                      <div className='export_symbol'><FaExternalLinkAlt size={15} style={{color:"#3F5575"}} /></div>
              </div>
