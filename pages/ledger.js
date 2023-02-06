@@ -259,7 +259,7 @@ if(res.status == 200){
             {size.width > "600" ? <div>Status:</div> : null}
             <div>
               <Dropdown
-                placeholder="Select Status"
+                searchPlaceholder="Search Status"
                 options={status}
                 name="name"
                 parentCallback={(data) => setSelectedStatus(data.value)}
@@ -315,7 +315,7 @@ if(res.status == 200){
               />
               <Dropdown
                 width="50%"
-                placeholder="Unit"
+                searchPlaceholder="Search Unit"
                 isUnitList="true"
                 options={unitList}
                 name="symbol"

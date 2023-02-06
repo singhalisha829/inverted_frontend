@@ -250,7 +250,7 @@ const NewOrder = () => {
               searchWidth={size.width > "600" ? "10vw" : "61vw"}
               border={true}
               value={orderType}
-              placeholder="Select Order Type"
+              searchPlaceholder="Search Order Type"
               height="3.3rem"
             />
           </div>
@@ -273,7 +273,7 @@ const NewOrder = () => {
                 border={true}
                 value={partType}
                 height="3.3rem"
-                placeholder="Select Order Type"
+                searchPlaceholder="Search Part Type"
               />
             </div>
           ) : null}
@@ -299,7 +299,7 @@ const NewOrder = () => {
                     dropdownWidth={size.width > "600" ? "13vw" : "71vw"}
                     searchWidth={size.width > "600" ? "10vw" : "61vw"}
                     border={true}
-                    placeholder="Select Order"
+                    searchPlaceholder="Search BOM ID/Name"
                     height="3.3rem"
                   />
                 ) : (
@@ -314,9 +314,8 @@ const NewOrder = () => {
                     dropdownWidth={size.width > "600" ? "15vw" : "71vw"}
                     searchWidth={size.width > "600" ? "12vw" : "61vw"}
                     border={true}
-                    placeholder="Select Order"
                     height="3.3rem"
-                    searchPlaceholder="Enter Part ID/Name"
+                    searchPlaceholder="Search Part ID/Name"
                     dropdownHeight="25rem"
                     isPartsList="true"
                   />
@@ -329,7 +328,7 @@ const NewOrder = () => {
                 dropdownWidth={size.width > "600" ? "13vw" : "71vw"}
                 searchWidth={size.width > "600" ? "10vw" : "61vw"}
                 border={true}
-                placeholder="Select Order"
+                searchPlaceholder="Search Order"
                 height="3.3rem"
               />
             )}
@@ -362,7 +361,7 @@ const NewOrder = () => {
                 <Dropdown
                   options={unitList}
                   isUnitList="true"
-                  placeholder="Unit"
+                  searchPlaceholder="Search Unit"
                   width="50%"
                   name="symbol"
                   minWidth="9rem"
