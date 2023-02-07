@@ -99,22 +99,27 @@ const NewOrder = () => {
   const size = useWindowSize();
 
   const submitHandler = () => {
-    if (orderType === null || orderType === "") {
+    if (orderType === null || orderType === "" ) {
       toast.warning("Select Order Type!");
     } else if (quantity === "") {
       toast.warning("Enter Qunatity!");
     } else if (orderType === "Part" && unit === "") {
       toast.warning("Select Unit!");
+    } else if (orderType === "BOM" && (bomName === null || bomName == '')) {
+      toast.warning("Select BOM!");
+    } else if (orderType === "Part" && (partName === null || partName == '')) {
+      toast.warning("Select Part!");
     } else if (orderType === "BOM") {
-      const data = {
-        ItemType: orderType,
-        item_id: bomName,
-        quantity: quantity + " Nos",
-        item_name:itemName,
-        item_desc: bom,
-      };
-      setNewOrderList([data, ...newOrderList]);
-      cancelHandler();
+        const data = {
+          ItemType: orderType,
+          item_id: bomName,
+          quantity: quantity + " Nos",
+          item_name:itemName,
+          item_desc: bom,
+        };
+        setNewOrderList([data, ...newOrderList]);
+        cancelHandler();
+        setOrderType("Part");
 
     } else {
       const data = {
@@ -127,6 +132,7 @@ const NewOrder = () => {
       setNewOrderList([data, ...newOrderList]);
       cancelHandler();
       setShowUnit(false);
+      setOrderType("Part");
 
     }
 
@@ -379,7 +385,7 @@ const NewOrder = () => {
                 <FaCheckCircle
                   onClick={() => {
                     submitHandler();
-                    setOrderType("Part");
+                    
                   }}
                   size={30}
                   title="Add"
@@ -389,7 +395,6 @@ const NewOrder = () => {
                   size={30}
                   onClick={() => {
                     cancelHandler();
-                    setOrderType("Part");
                   }}
                   title="Clear"
                   className="cross_icon"
