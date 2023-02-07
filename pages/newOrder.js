@@ -31,7 +31,6 @@ const NewOrder = () => {
   const [orderType, setOrderType] = useState("Part");
   const [token, setToken] = useState(null);
   const [quantity, setQuantity] = useState("");
-  const [showUnit, setShowUnit] = useState(false);
   const [partsList, setPartsList] = useState([]);
   const [bomList, setBOMList] = useState([]);
   const [bomName, setBomName] = useState(null);
@@ -131,7 +130,6 @@ const NewOrder = () => {
       };
       setNewOrderList([data, ...newOrderList]);
       cancelHandler();
-      setShowUnit(false);
       setOrderType("Part");
 
     }
@@ -146,16 +144,9 @@ const NewOrder = () => {
     setBomName("");
     setUnit("");
     setPartType("");
+    setBom("")
   };
 
-  const fetchOrderName = (data) => {
-    setToken(localStorage.getItem("token"));
-    if (data === "Part") {
-      setShowUnit(true);
-    } else {
-      setShowUnit(false);
-    }
-  };
 
   useEffect(() => {
     if (newOrderList.length > 0) {
@@ -249,7 +240,6 @@ const NewOrder = () => {
               width={size.width > "600" ? "70%" : "90%"}
               parentCallback={(data) => {
                 setOrderType(data.value);
-                fetchOrderName(data.value);
               }}
               dropdownWidth={size.width > "600" ? "13vw" : "71vw"}
               searchWidth={size.width > "600" ? "10vw" : "61vw"}
@@ -305,6 +295,7 @@ const NewOrder = () => {
                     border={true}
                     searchPlaceholder="Search BOM ID/Name"
                     height="3.3rem"
+                    value={bom}
                   />
                 ) : (
                   <Dropdown
