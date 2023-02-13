@@ -69,11 +69,11 @@ const Sidebar = () =>{
                   </div>
                   </div>
                         <div className='nav_list'>
-                            {selectedDiv==='dashboard'?<Link href="/"><div title='Dashboard' className='selected_items' onClick={()=>{
-                          setDashboard()}}><div className='strip'/><div className='center'><FaTh /><div style={{marginLeft:"1.3rem"}}>Dashboard</div></div></div></Link>
+                            {selectedDiv==='dashboard'?<Link href="/" title='Dashboard' className='selected_items' onClick={()=>{setDashboard()}}>
+                              <div className='strip'/><div className='center'><FaTh /><div style={{marginLeft:"1.3rem"}}>Dashboard</div></div></Link>
                           :
-                          <Link href="/"><div title='Dashboard' className='nav_items' onClick={()=>{
-                          setDashboard()}}><div className='empty_strip'/><div className='center'><FaTh /><div style={{marginLeft:"1.3rem"}}>Dashboard</div></div></div></Link>}
+                          <Link href="/" title='Dashboard' className='nav_items' onClick={()=>{setDashboard()}}>
+                            <div className='empty_strip'/><div className='center'><FaTh /><div style={{marginLeft:"1.3rem"}}>Dashboard</div></div></Link>}
 
                           {/* {selectedDiv==='purchase_orders'?
                             <Link href="/purchaseOrder"><a title='Purchase Orders' className='selected_items' onClick={()=>{                          setPurchaseOrders()}}><div className='strip'/><div className='center'><FaShoppingCart /><div style={{marginLeft:'1.3rem'}}>Purchase Orders
@@ -84,13 +84,13 @@ const Sidebar = () =>{
                           </div></div></a></Link>} */}
 
                           {selectedDiv==='production_orders'?
-                            <Link href="/order"><div title='Production Orders' className='selected_items' onClick={()=>{
-                          setPurchaseOrders()}}><div className='strip'/><div className='center'><IoConstruct /><div style={{marginLeft:'1.3rem'}}>Production Orders
-                          </div></div></div></Link>
+                            <Link href="/order" title='Production Orders' className='selected_items' onClick={()=>{setPurchaseOrders()}}>
+                              <div className='strip'/><div className='center'><IoConstruct /><div style={{marginLeft:'1.3rem'}}>Production Orders
+                          </div></div></Link>
                           :
-                          <Link href="/order"><div title='Production Orders' className='nav_items' onClick={()=>{;
-                          setPurchaseOrders()}}><div className='empty_strip'/><div className='center'><IoConstruct /><div style={{marginLeft:'1.3rem'}}>Production Orders
-                          </div></div></div></Link>}
+                          <Link href="/order" title='Production Orders' className='nav_items' onClick={()=>{setPurchaseOrders()}}>
+                            <div className='empty_strip'/><div className='center'><IoConstruct /><div style={{marginLeft:'1.3rem'}}>Production Orders
+                          </div></div></Link>}
                           
                         </div>
                         <div>
@@ -104,11 +104,11 @@ const Sidebar = () =>{
                 <div style={{width:'16.66vw',display:'flex',justifyContent:'center'}}><div className='navbar_img1'><Image src={Logo_inverted} layout="fill" alt="" /></div></div>
                         <div className='nav_list'>
                           {selectedDiv === 'dashboard'?
-                            <Link href="/"><div title='Dashboard' className='selected_items' onClick={()=>{
-                          setDashboard()}}><div className='strip'/><div className='center1'><FaTh /></div></div></Link>
+                            <Link href="/" title='Dashboard' className='selected_items' onClick={()=>{setDashboard()}}>
+                              <div className='strip'/><div className='center1'><FaTh /></div></Link>
                         :
-                        <Link href="/"><div title='Dashboard' className='nav_items' onClick={()=>{
-                        setDashboard()}}><div className='empty_strip'/><div className='center1'><FaTh /></div></div></Link>}
+                        <Link href="/" title='Dashboard' className='nav_items' onClick={()=>{setDashboard()}}>
+                          <div className='empty_strip'/><div className='center1'><FaTh /></div></Link>}
 
                           {/* {selectedDiv==='purchase_orders'?
                           <Link href="/purchaseOrder"><a title='Purchase Orders' className='selected_items' onClick={()=>{
@@ -119,12 +119,12 @@ const Sidebar = () =>{
                           </div></a></Link>} */}
 
                           {selectedDiv==='production_orders'?
-                          <Link href="/order"><div title="Production Orders" className='selected_items' onClick={()=>{;
-                          setProductionOrders()}}><div className='strip'/><div className='center1'><IoConstruct /></div></div></Link>
+                          <Link href="/order" title="Production Orders" className='selected_items' onClick={()=>{setProductionOrders()}}>
+                            <div className='strip'/><div className='center1'><IoConstruct /></div></Link>
                         :
-                        <Link href="/order"><div title="Production Orders" className='nav_items' onClick={()=>{
-                          setProductionOrders()}}><div className='empty_strip'/><div className='center1'><IoConstruct />
-                          </div></div></Link>}
+                        <Link href="/order" title="Production Orders" className='nav_items' onClick={()=>{setProductionOrders()}}>
+                          <div className='empty_strip'/><div className='center1'><IoConstruct />
+                          </div></Link>}
                           
                         </div>
                         <div>
