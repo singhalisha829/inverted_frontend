@@ -8,7 +8,7 @@ import { useRouter } from 'next/router';
 
 import { FaSistrix,FaExternalLinkAlt,FaDownload,FaTimes} from 'react-icons/fa';
 
-import ReactHtmlTableToExcel from "react-html-table-to-excel"; 
+// import ReactHtmlTableToExcel from "react-html-table-to-excel"; 
 import Loader from '../components/loader';
 import ButtonLoader from '../components/buttonLoader';
 
