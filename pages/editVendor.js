@@ -12,12 +12,6 @@ import PartsList from "../components/partList";
 import { toast, ToastContainer } from "react-toastify";
 import 'react-toastify/dist/ReactToastify.css';
 
-import GifLoader from 'react-gif-loader';
-import LoadingOverlay from 'react-loading-overlay';
-import DarkBackground from "../components/darkBackground";
-// import DarkBackground from "../components/darkBackground";
-
-import Image from "next/image";
 
 
 
@@ -325,12 +319,11 @@ const EditVendor=() =>{
 
 
     return(
-        <div className="layout">
+        <div>
              <Head>
       <title>Inverted</title>
       <link rel="icon" href="/logo icon 2-01.png" />
     </Head>
-    {size.width>'600'?<Sidebar /> : <Header />}
     <div className="vendor_page">
         <ToastContainer />
     <div className="order_title">

@@ -1,12 +1,9 @@
-import Image from 'next/image';
 import Head from 'next/head';
 import { useState, useEffect } from 'react';
-import styles from '../styles/Home.module.css';
 import Link from 'next/link'; 
 import { useRouter } from 'next/router';
 
-import Pattern from '../public/artboard.png';
-import Sidebar from '../components/sidebar';
+
 import Table from '../components/table';
 import Card from '../components/card';
 import Dropdown from '../components/dropdown';
@@ -20,7 +17,6 @@ import { FaTimes, FaExternalLinkAlt, FaList,FaTh } from 'react-icons/fa';
 
 import { ToastContainer, toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
-import Header from '../components/header';
 
 
 export default function Home() {
@@ -163,12 +159,11 @@ else{
 
   return (
     
-    <div className='layout' >
+    <div >
     <Head>
       <title>Inverted</title>
       <link rel="icon" href="/logo icon 2-01.png" />
     </Head>
-   {size.width>'600'?<Sidebar />:<Header />}
  <div className="dashboard_page" >
  <div className="dashboard_title" >
 

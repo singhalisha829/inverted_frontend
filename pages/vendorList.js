@@ -134,12 +134,12 @@ const VendorList = () =>{
     
 
     return(
-        <div className="layout">
+        <div>
             <Head>
       <title>Inverted</title>
       <link rel="icon" href="/logo icon 2-01.png" />
     </Head>
-    {size.width>'600'?<Sidebar /> : <Header show={true} path='/purchaseOrder'/>}
+    {/* {size.width>'600'?<Sidebar /> : <Header show={true} path='/purchaseOrder'/>} */}
     <div className="vendor_list_page">
       <ToastContainer />
     <div className="order_title">
