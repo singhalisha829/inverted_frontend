@@ -36,6 +36,9 @@ const Dropdown= (props) =>{
     //   }
     // },[props.isAddNewPart])
 
+    useEffect(()=>{
+      setDropdownList([...props.options])
+    },[props.options])
     
 
     useEffect(()=>{
