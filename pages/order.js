@@ -97,12 +97,12 @@ const Order=()=>{
     }
 
     return(
-        <div  className="layout">
+        <div>
              <Head>
       <title>Inverted</title>
       <link rel="icon" href="/logo icon 2-01.png" />
     </Head>
-            {size.width>'600'?<Sidebar /> : <Header />}
+            {/* {size.width>'600'?<Sidebar /> : <Header />} */}
             <div className="order_page">
                 <div className="order_title">
                 <div className="title">Production Orders</div>

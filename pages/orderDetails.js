@@ -394,12 +394,12 @@ const OrderDetails = () => {
   };
 
   return (
-    <div className="layout">
+    <div>
       <Head>
         <title>Inverted</title>
         <link rel="icon" href="/logo icon 2-01.png" />
       </Head>
-      {size.width > "600" ? <Sidebar /> : <Header show={true} />}
+      {/* {size.width > "600" ? <Sidebar /> : <Header show={true} />} */}
       <div className="order_details_page">
         <ToastContainer />
         <div className="order_title">

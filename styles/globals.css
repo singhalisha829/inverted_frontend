@@ -40,3 +40,13 @@ button:disabled{
 .icon:hover{
   cursor: pointer;
 }
+
+ul{
+  padding:0;
+}
+
+.layout{
+  display: grid;
+  grid-template-columns: 1fr 5fr;
+  min-height: 100vh !important;
+}

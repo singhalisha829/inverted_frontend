@@ -388,12 +388,12 @@ const StockIn = () => {
   );
 
   return (
-    <div className="layout">
+    <div>
       <Head>
         <title>Inverted</title>
         <link rel="icon" href="/logo icon 2-01.png" />
       </Head>
-      {size.width > "600" ? <Sidebar /> : <Header show={true} />}
+      {/* {size.width > "600" ? <Sidebar /> : <Header show={true} />} */}
       <div className="stockin_page">
         <ToastContainer />
         <div className="stockin_title">
