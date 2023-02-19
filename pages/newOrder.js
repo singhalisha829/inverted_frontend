@@ -5,7 +5,6 @@ import { useState, useEffect } from "react";
 import Head from "next/head";
 import Header from "../components/header";
 
-import StockOutList from "../components/stockOutList";
 import { fetchPartTypeList } from "../services/dashboardService";
 import {
   fetchDropdownPartList,
@@ -17,7 +16,7 @@ import {fetchPartById} from '../services/stockInService';
 
 import PurchaseOrderList from "../components/purchaseOrderList";
 
-import { FaSistrix, FaCheckCircle, FaTimesCircle } from "react-icons/fa";
+import { FaCheckCircle, FaTimesCircle } from "react-icons/fa";
 
 import { toast, ToastContainer } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
@@ -44,6 +43,9 @@ const NewOrder = () => {
   const [bom, setBom] = useState(null);
   const [partTypeList, setPartTypeList] = useState([]);
   const [isSubmit, setIsSumbit] = useState(true);
+  const [originalPartsList,setOriginalPartsList] = useState([]);
+  const [originalBOMList,setOriginalBOMList] = useState([]);
+
 
   useEffect(() => {
     // fetch data only if token is defined or redirect to login
@@ -53,6 +55,7 @@ const NewOrder = () => {
       fetchBOMList(token)
         .then((res) => {
           setBOMList(res.data.data.output);
+          setOriginalBOMList(res.data.data.output);
         })
         .catch((err) => toast.error(err.message));
 
@@ -63,6 +66,7 @@ const NewOrder = () => {
       fetchDropdownPartList(token)
         .then((res) => {
           setPartsList(res.data.data.output);
+          setOriginalPartsList(res.data.data.output)
         })
         .catch((err) => toast.error(err.message));
     } else {
@@ -120,6 +124,8 @@ const NewOrder = () => {
         cancelHandler();
         setOrderType("Part");
 
+        const updatedBOMList = bomList.filter(el=>el.id !=bomName);
+        setBOMList([...updatedBOMList])
     } else {
       const data = {
         ItemType: orderType,
@@ -132,12 +138,14 @@ const NewOrder = () => {
       cancelHandler();
       setOrderType("Part");
 
+      const updatedPartsList = partsList.filter(el=>el.id !=partName);
+      setPartsList([...updatedPartsList])
+
     }
 
   };
 
   const cancelHandler = () => {
-    // setOrderType('');
     setQuantity(() => "");
     setPartName("");
     setPart('');
@@ -176,8 +184,18 @@ const NewOrder = () => {
   };
 
   const handleDeleteOrder = (index) => {
+    const itemDetails=newOrderList[index];
     newOrderList.splice(index,1);
     setNewOrderList([...newOrderList]);
+
+    if(itemDetails.ItemType == 'Part'){
+      const newItem = originalPartsList.filter(el=>el.id== itemDetails.item_id);
+      setPartsList([newItem[0],...partsList])
+    }else{
+      const newItem = originalBOMList.filter(el=>el.id== itemDetails.item_id);
+      setBOMList([newItem[0],...bomList])
+    }
+    cancelHandler();
   };
 
   const fetchParts = (id) => {
@@ -223,11 +241,6 @@ const NewOrder = () => {
           <div className="title">Production Order</div>
           <div className="sub_title">Place New Order</div>
         </div>
-
-        {/* <div className="new_order_subsection">
-                    <input  style={{width:"70%",height:'3.5rem'}} placeholder="Search.."/>
-                    <div className="new_order_search"><FaSistrix size={17} color="#3F5575"/></div>
-                </div> */}
 
         <div className="new_order_form">
           <div className="fields centered">

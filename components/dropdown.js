@@ -1,7 +1,6 @@
 import {useState, useEffect, useRef} from "react";
 
 import {BsPlusCircle } from 'react-icons/bs';
-import { FaSistrix  } from 'react-icons/fa';
 import Modal from "./modal";
 
 import { addNewPart } from "../services/dashboardService";
@@ -28,13 +27,13 @@ const Dropdown= (props) =>{
 
     const [dataFilter, setDataFilter] = useState([]);
 
-    useEffect(()=>{
-      if(props.isAddNewPart){
-        const token=localStorage.getItem('token')
-        setListTopMargin('4rem')
-        fetchUnitList(token).then(res=>{setUnitList(res.data)})
-      }
-    },[props.isAddNewPart])
+    // useEffect(()=>{
+    //   if(props.isAddNewPart){
+    //     const token=localStorage.getItem('token')
+    //     setListTopMargin('4rem')
+    //     fetchUnitList(token).then(res=>{setUnitList(res.data)})
+    //   }
+    // },[props.isAddNewPart])
 
     
 
@@ -51,6 +50,9 @@ const Dropdown= (props) =>{
         }
         
     },[props.value])
+
+    useEffect(()=>{
+    },[props.options])
 
 
     let content=null;
