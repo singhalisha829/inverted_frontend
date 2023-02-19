@@ -31,7 +31,6 @@ const NewOrder = () => {
   const [orderType, setOrderType] = useState("Part");
   const [token, setToken] = useState(null);
   const [quantity, setQuantity] = useState("");
-  const [showUnit, setShowUnit] = useState(false);
   const [partsList, setPartsList] = useState([]);
   const [bomList, setBOMList] = useState([]);
   const [bomName, setBomName] = useState(null);
@@ -41,7 +40,6 @@ const NewOrder = () => {
   const [unit, setUnit] = useState(null);
   const [newOrderList, setNewOrderList] = useState([]);
   const [partType, setPartType] = useState(null);
-  const [emptyList, setEmptyList] = useState([]);
   const [part, setPart] = useState(null);
   const [bom, setBom] = useState(null);
   const [partTypeList, setPartTypeList] = useState([]);
@@ -100,22 +98,27 @@ const NewOrder = () => {
   const size = useWindowSize();
 
   const submitHandler = () => {
-    if (orderType === null || orderType === "") {
+    if (orderType === null || orderType === "" ) {
       toast.warning("Select Order Type!");
     } else if (quantity === "") {
       toast.warning("Enter Qunatity!");
     } else if (orderType === "Part" && unit === "") {
       toast.warning("Select Unit!");
+    } else if (orderType === "BOM" && (bomName === null || bomName == '')) {
+      toast.warning("Select BOM!");
+    } else if (orderType === "Part" && (partName === null || partName == '')) {
+      toast.warning("Select Part!");
     } else if (orderType === "BOM") {
-      const data = {
-        ItemType: orderType,
-        item_id: bomName,
-        quantity: quantity + " Nos",
-        item_name:itemName,
-        item_desc: bom,
-      };
-      setNewOrderList([data, ...newOrderList]);
-      cancelHandler();
+        const data = {
+          ItemType: orderType,
+          item_id: bomName,
+          quantity: quantity + " Nos",
+          item_name:itemName,
+          item_desc: bom,
+        };
+        setNewOrderList([data, ...newOrderList]);
+        cancelHandler();
+        setOrderType("Part");
 
     } else {
       const data = {
@@ -127,7 +130,7 @@ const NewOrder = () => {
       };
       setNewOrderList([data, ...newOrderList]);
       cancelHandler();
-      setShowUnit(false);
+      setOrderType("Part");
 
     }
 
@@ -141,16 +144,9 @@ const NewOrder = () => {
     setBomName("");
     setUnit("");
     setPartType("");
+    setBom("")
   };
 
-  const fetchOrderName = (data) => {
-    setToken(localStorage.getItem("token"));
-    if (data === "Part") {
-      setShowUnit(true);
-    } else {
-      setShowUnit(false);
-    }
-  };
 
   useEffect(() => {
     if (newOrderList.length > 0) {
@@ -244,13 +240,12 @@ const NewOrder = () => {
               width={size.width > "600" ? "70%" : "90%"}
               parentCallback={(data) => {
                 setOrderType(data.value);
-                fetchOrderName(data.value);
               }}
               dropdownWidth={size.width > "600" ? "13vw" : "71vw"}
               searchWidth={size.width > "600" ? "10vw" : "61vw"}
               border={true}
               value={orderType}
-              placeholder="Select Order Type"
+              searchPlaceholder="Search Order Type"
               height="3.3rem"
             />
           </div>
@@ -273,7 +268,7 @@ const NewOrder = () => {
                 border={true}
                 value={partType}
                 height="3.3rem"
-                placeholder="Select Order Type"
+                searchPlaceholder="Search Part Type"
               />
             </div>
           ) : null}
@@ -284,8 +279,7 @@ const NewOrder = () => {
                 Order Description:
               </label>
             ) : null}
-            {orderType ? (
-              <div>
+            
                 {orderType == "BOM" ? (
                   <Dropdown
                     options={bomList}
@@ -299,8 +293,9 @@ const NewOrder = () => {
                     dropdownWidth={size.width > "600" ? "13vw" : "71vw"}
                     searchWidth={size.width > "600" ? "10vw" : "61vw"}
                     border={true}
-                    placeholder="Select Order"
+                    searchPlaceholder="Search BOM ID/Name"
                     height="3.3rem"
+                    value={bom}
                   />
                 ) : (
                   <Dropdown
@@ -314,26 +309,14 @@ const NewOrder = () => {
                     dropdownWidth={size.width > "600" ? "15vw" : "71vw"}
                     searchWidth={size.width > "600" ? "12vw" : "61vw"}
                     border={true}
-                    placeholder="Select Order"
                     height="3.3rem"
-                    searchPlaceholder="Enter Part ID/Name"
+                    searchPlaceholder="Search Part ID/Name"
                     dropdownHeight="25rem"
                     isPartsList="true"
                   />
                 )}
               </div>
-            ) : (
-              <Dropdown
-                options={emptyList}
-                width={size.width > "600" ? "70%" : "90%"}
-                dropdownWidth={size.width > "600" ? "13vw" : "71vw"}
-                searchWidth={size.width > "600" ? "10vw" : "61vw"}
-                border={true}
-                placeholder="Select Order"
-                height="3.3rem"
-              />
-            )}
-          </div>
+            
 
           <div className="fields centered">
             {size.width > "600" ? (
@@ -362,7 +345,7 @@ const NewOrder = () => {
                 <Dropdown
                   options={unitList}
                   isUnitList="true"
-                  placeholder="Unit"
+                  searchPlaceholder="Search Unit"
                   width="50%"
                   name="symbol"
                   minWidth="9rem"
@@ -393,17 +376,18 @@ const NewOrder = () => {
                 <FaCheckCircle
                   onClick={() => {
                     submitHandler();
-                    setOrderType("Part");
+                    
                   }}
                   size={30}
+                  title="Add"
                   className="check_icon"
                 />
                 <FaTimesCircle
                   size={30}
                   onClick={() => {
                     cancelHandler();
-                    setOrderType("");
                   }}
+                  title="Clear"
                   className="cross_icon"
                 />
               </div>

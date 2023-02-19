@@ -26,7 +26,6 @@ const Dropdown= (props) =>{
     const [searchText, setSearchText] = useState(null);
     const [listTopMargin,setListTopMargin] = useState('0');
 
-    const [data,setData] = useState(props.options);
     const [dataFilter, setDataFilter] = useState([]);
 
     useEffect(()=>{
@@ -37,20 +36,7 @@ const Dropdown= (props) =>{
       }
     },[props.isAddNewPart])
 
-    // search in dropdown list
-    useEffect(()=>{
-        if(searchText != undefined){
-            const filterData = props.options.filter(o => Object.keys(o).some(
-              k => String(o[k]).toLowerCase().includes(searchText.toLowerCase()))
-            );
-            // console.log(filterData)
-            setDataFilter([...filterData])
-          }else{
-            setData([...props.options])
-            setDataFilter([...data])
-          }
-          // console.log(dataFilter)
-    },[searchText])
+    
 
     useEffect(()=>{
       //  console.log("drop",props.value)
@@ -131,6 +117,23 @@ const Dropdown= (props) =>{
         setPartType(()=>"");
         setPartDesc(()=>"");
     }
+
+    
+    // search in dropdown list
+    const handleValue=(event)=>{
+      setSearchText(event.target.value);
+        const filterData = props.options.filter(o => Object.keys(o).some(
+          k => String(o[k]).toLowerCase().includes(event.target.value.toLowerCase()))
+        );
+        
+      if((filterData.length) == 0){
+        event.preventDefault();
+
+      }else{
+        setValue(event.target.value);
+        setDataFilter([...filterData])
+      }
+    }
     if(props.isAddNewPart){
       // setListTopMargin('8rem')
         add_part=(<div className="add_part"
@@ -144,18 +147,15 @@ const Dropdown= (props) =>{
         content=(
             <div className="dropdown_options1" style={{width:props.dropdownWidth,height:props.dropdownHeight?props.dropdownHeight:'17rem'}}>
             {add_part}
-            <div className="some">
-            <div className="dropdown_input"><input style={{height:"3rem",marginRight:'5px',width:props.searchWidth}} onChange={(e)=>setSearchText(e.target.value)} placeholder={props.searchPlaceholder?props.searchPlaceholder:"Search..."}/>  
-            <div style={{marginTop:'0.5vw'}}><FaSistrix size={17} color="#3F5575"/></div></div></div>
         <div style={{marginTop:listTopMargin}}>
           {props.allItems?<div className="option"  
-                 onClick={()=>{setIsDropdownOpen(false); setValue('All');props.parentCallback({})}}>
+                 onClick={()=>{setIsDropdownOpen(false); setValue('All');props.parentCallback({});setDataFilter([...props.options]) }}>
                   <div style={{display:'flex'}}>All</div>
                   </div>:null}
         {searchText !== null? dataFilter.map((option,index)=>(
                  <div className="option" key={index}    
                  onClick={()=>{ props.parentCallback(option); 
-                setIsDropdownOpen(false); setValue(option[props.name]);setSearchText('')}}>
+                setIsDropdownOpen(false); setValue(option[props.name]);setDataFilter([...props.options])}}>
                   <div style={{display:'flex'}}>{option[props.name]} {props.isUnitList?<div style={{fontSize:"1rem",marginLeft:'0.5rem'}}>({option.name})</div>:null}</div>
                   {props.isPartsList?<div className="dropdownPartId">({option.part_id})</div>:null}</div>
              )):
@@ -163,7 +163,7 @@ const Dropdown= (props) =>{
              {props.options?props.options.map((option,index)=>(
                 <div className="option" key={index}
                 onClick={()=>{ props.parentCallback(option);
-               setIsDropdownOpen(false); setValue(option[props.name])}}>
+               setIsDropdownOpen(false); setValue(option[props.name]);setDataFilter([...props.options])}}>
                                   <div style={{display:'flex'}}>{option[props.name]} {props.isUnitList?<div style={{fontSize:"1rem",marginLeft:'0.5rem'}}>({option.name})</div>:null}</div>
                 {props.isPartsList?<div className="dropdownPartId">({option.part_id})</div>:null}</div>
             )):<Spinner/>}</div>}</div>
@@ -174,8 +174,8 @@ const Dropdown= (props) =>{
     return(
         <div ref={wrapperRef} className="custom_dropdown" style={{width:props.width, height:props.height,minWidth:props.minWidth}} >
            <div className="control" onClick={()=>{setIsDropdownOpen(!isDropdownOpen)}} >
-           <input className={props.no_outline?"selected_value_without_outline":"selected_value"} placeholder={props.placeholder} value={value} style={{margin:"0",height:props.height,border:props.border?"#e5e5e5 solid 0.1em":null,
-          backgroundColor:props.backGround}} disabled={true} />
+           <input className={props.no_outline?"selected_value_without_outline":"selected_value"} placeholder={props.searchPlaceholder?props.searchPlaceholder:"Search..."} value={value} style={{margin:"0",height:props.height,border:props.border?"#e5e5e5 solid 0.1em":null,
+          backgroundColor:props.backGround}} onInput={(e)=>handleValue(e)} />
            
            {/* <div style={{position:'relative',right:'10px'}}><FaSistrix /></div> */}
            </div>
