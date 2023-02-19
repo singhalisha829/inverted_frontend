@@ -5,7 +5,7 @@ import Modal from "./modal";
 
 import { addNewPart } from "../services/dashboardService";
 import { toast } from "react-toastify";
-import { fetchUnitList } from "../services/stockInService";
+// import { fetchUnitList } from "../services/stockInService";
 import Spinner from "./spinner";
 
 
@@ -14,7 +14,8 @@ const Dropdown= (props) =>{
     
     const wrapperRef = useRef();
   useOutsideAlerter(wrapperRef);
-    const [isDropdownOpen, setIsDropdownOpen]= useState(false)
+    const [isDropdownOpen, setIsDropdownOpen]= useState(false);
+    const [dropdownList,setDropdownList]= useState(props.options);
     const [showModal, setShowModal]= useState(false);
     const [partType, setPartType] = useState(null);
     const [partName, setPartName] = useState(null);
@@ -51,8 +52,6 @@ const Dropdown= (props) =>{
         
     },[props.value])
 
-    useEffect(()=>{
-    },[props.options])
 
 
     let content=null;
@@ -124,7 +123,7 @@ const Dropdown= (props) =>{
     // search in dropdown list
     const handleValue=(event)=>{
       setSearchText(event.target.value);
-        const filterData = props.options.filter(o => Object.keys(o).some(
+        const filterData = dropdownList.filter(o => Object.keys(o).some(
           k => String(o[k]).toLowerCase().includes(event.target.value.toLowerCase()))
         );
         
@@ -137,7 +136,7 @@ const Dropdown= (props) =>{
       }
     }
     if(props.isAddNewPart){
-      // setListTopMargin('8rem')
+      // setListTopMargin('8rem')s
         add_part=(<div className="add_part"
         onClick={()=> {setShowModal(true);
         setIsDropdownOpen(false)}}><BsPlusCircle fontWeight={900} size={17}/> <div style={{marginLeft:'0.5rem'}}> Add Part</div></div>)
@@ -151,21 +150,21 @@ const Dropdown= (props) =>{
             {add_part}
         <div style={{marginTop:listTopMargin}}>
           {props.allItems?<div className="option"  
-                 onClick={()=>{setIsDropdownOpen(false); setValue('All');props.parentCallback({});setDataFilter([...props.options]) }}>
+                 onClick={()=>{setIsDropdownOpen(false); setValue('All');props.parentCallback({});setDataFilter([...dropdownList]) }}>
                   <div style={{display:'flex'}}>All</div>
                   </div>:null}
         {searchText !== null? dataFilter.map((option,index)=>(
                  <div className="option" key={index}    
                  onClick={()=>{ props.parentCallback(option); 
-                setIsDropdownOpen(false); setValue(option[props.name]);setDataFilter([...props.options])}}>
+                setIsDropdownOpen(false); setValue(option[props.name]);setDataFilter([...dropdownList])}}>
                   <div style={{display:'flex'}}>{option[props.name]} {props.isUnitList?<div style={{fontSize:"1rem",marginLeft:'0.5rem'}}>({option.name})</div>:null}</div>
                   {props.isPartsList?<div className="dropdownPartId">({option.part_id})</div>:null}</div>
              )):
              <div>
-             {props.options?props.options.map((option,index)=>(
+             {dropdownList?dropdownList.map((option,index)=>(
                 <div className="option" key={index}
                 onClick={()=>{ props.parentCallback(option);
-               setIsDropdownOpen(false); setValue(option[props.name]);setDataFilter([...props.options])}}>
+               setIsDropdownOpen(false); setValue(option[props.name]);setDataFilter([...dropdownList])}}>
                                   <div style={{display:'flex'}}>{option[props.name]} {props.isUnitList?<div style={{fontSize:"1rem",marginLeft:'0.5rem'}}>({option.name})</div>:null}</div>
                 {props.isPartsList?<div className="dropdownPartId">({option.part_id})</div>:null}</div>
             )):<Spinner/>}</div>}</div>
