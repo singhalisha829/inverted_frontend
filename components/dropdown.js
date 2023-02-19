@@ -136,7 +136,7 @@ const Dropdown= (props) =>{
       }
     }
     if(props.isAddNewPart){
-      // setListTopMargin('8rem')s
+      // setListTopMargin('8rem')
         add_part=(<div className="add_part"
         onClick={()=> {setShowModal(true);
         setIsDropdownOpen(false)}}><BsPlusCircle fontWeight={900} size={17}/> <div style={{marginLeft:'0.5rem'}}> Add Part</div></div>)
