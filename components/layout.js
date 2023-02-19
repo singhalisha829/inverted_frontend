@@ -2,12 +2,16 @@ import React from 'react';
 import Sidebar from '../components/sidebar';
 import { useState, useEffect } from 'react';
 import Header from '../components/header';
+import { useRouter } from 'next/router';
 
 
 
 
 const Layout = ({ children }) => {
+    const router = useRouter();
+  const currentUrl = router.asPath;
 
+  console.log("C",currentUrl)
     // calculate screen size
     function useWindowSize() {
         const [windowSize, setWindowSize] = useState({
@@ -37,10 +41,10 @@ const Layout = ({ children }) => {
     const size = useWindowSize();
 
   return (
-    <div className="layout">
+    <div>{currentUrl != '/login'?<div className="layout">
            {size.width>'600'?<Sidebar />:<Header />}
         {children}
-    </div>
+    </div>:<div>{children}</div>}</div>
   );
 };
 
