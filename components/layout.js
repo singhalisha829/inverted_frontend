@@ -38,7 +38,7 @@ const Layout = ({ children }) => {
 
   return (
     <div className="layout">
-        {size.width>'600'?<Sidebar />:<Header />}
+           {size.width>'600'?<Sidebar />:<Header />}
         {children}
     </div>
   );
