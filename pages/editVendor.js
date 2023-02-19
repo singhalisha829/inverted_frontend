@@ -12,12 +12,6 @@ import PartsList from "../components/partList";
 import { toast, ToastContainer } from "react-toastify";
 import 'react-toastify/dist/ReactToastify.css';
 
-import GifLoader from 'react-gif-loader';
-import LoadingOverlay from 'react-loading-overlay';
-import DarkBackground from "../components/darkBackground";
-// import DarkBackground from "../components/darkBackground";
-
-import Image from "next/image";
 
 
 
