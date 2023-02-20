@@ -180,7 +180,7 @@ else{
                      className="searchbar" onChange={(e) => {setSearchText(e.target.value)}}/>
                      <div className='cancel_symbol'><FaTimes size={15} style={{color:"#3F5575"}} title="Clear" onClick={()=>setSearchText('')}/></div>
                      
-                     {/* export parts tabless */}
+                     {/* export parts table */}
                      <div style={{width:'10rem',marginLeft:'5vw',marginRight:'1.5rem'}}>
                      <ReactHtmlTableToExcel
 
