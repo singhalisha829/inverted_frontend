@@ -195,7 +195,7 @@ else{
              </div>
 
              <div className="subsection">
-                 <div className="subheading">Your Available Stock Report </div>
+                 <div className="subheading">Your Available Stocks Report </div>
                  <ToastContainer/>
                  <div className='buttons1'>
                      {size.width>'600'?<div className="icon_box" onClick={()=>setIsList(!isList)}>

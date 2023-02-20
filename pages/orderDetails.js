@@ -1,11 +1,9 @@
 import { useState, useEffect } from "react";
 import Router from "next/router";
-import Sidebar from "../components/sidebar";
 import Table from "../components/table";
 import { useRouter } from "next/router";
 
 import Head from "next/head";
-import Header from "../components/header";
 import Spinner from "../components/spinner";
 import Transactions from "../components/transactions";
 
@@ -36,6 +34,7 @@ const OrderDetails = () => {
   const border = useState("#e5e5e5 solid 0.1em");
   const [formData, setFormData] = useState({});
   const [showDetails,setShowDetails] = useState(true);
+  const [disableButton,setDisableButton]= useState(false);
 
   const today = new Date();
   const todayDate =
@@ -70,7 +69,13 @@ const OrderDetails = () => {
   ]);
 
   useEffect(() => {
-    // console.log("form",formData)
+    const sum = Object.values(formData).reduce((acc, obj) => acc + obj.isWrong, 0);
+    if(sum>0){
+      setDisableButton(true)
+    }else{
+      setDisableButton(false)
+    }
+    // console.log("form",formData,sum)
   }, [formData]);
   
 
@@ -112,8 +117,10 @@ const OrderDetails = () => {
             }
             prodOrderRes.data.data.output[0].production_order_itemss.map((part) => {
               var greater = true;
-              if(part.available_qty == null || part.available_qty == undefined){
+              var isDisabled=false;
+              if(part.available_qty == null || part.available_qty == undefined || part.available_qty == 0 || part.available_qty < 0){
                 greater=false;
+                isDisabled=true;
               }else{
                 if (part.released_quantity_value>0 && part.released_quantity_unit_symbol != part.available_qty_symbol){
                   unitConversion(token,part.released_quantity_unit_symbol,part.available_qty_symbol).then(res=>{
@@ -132,7 +139,7 @@ const OrderDetails = () => {
                 }
               }
             
-              formData[part.id] = { quantity: null, unit: part.released_quantity_unit_symbol,isGreater:greater };
+              formData[part.id] = { quantity: null, unit: part.released_quantity_unit_symbol,isGreater:greater, borderColor:"#e5e5e5" ,isWrong:0,isDisabled:isDisabled};
             });
             setFormData(formData);
 
@@ -191,16 +198,16 @@ const OrderDetails = () => {
   }
   const size = useWindowSize();
 
+  // This function handles the quantity value for a given every part object
   const handleQuantity = (value, data) => {
     const factorToRequired = 1;
     const factorToAvailable = 1;
 
-    // console.log("handle quantity")
-
-
-    if(data.available_qty==null || data.available_qty ==undefined){
-      quantityGreaterThanAvailable(data.id,formData[data.id].unit)
-    }else if(data.released_quantity_unit_symbol != formData[data.id].unit || data.available_qty_symbol != formData[data.id].unit){
+   if(   
+       // Check if the unit symbols are different
+      data.released_quantity_unit_symbol != formData[data.id].unit || data.available_qty_symbol != formData[data.id].unit){
+         
+      // If they are different, convert the units
       unitConversion(
         token,
         data.released_quantity_unit_symbol,
@@ -223,24 +230,16 @@ const OrderDetails = () => {
     }else{
       compareQuantity(data,factorToRequired,factorToAvailable,value,formData[data.id].unit);
     }
-    // console.log("factor",factorToAvailable,factorToRequired,data.released_quantity_unit_symbol,data.available_qty_symbol,formData[data.id].unit)
-
-    // compare quantity and calculate left quantity
-   
-  
   };
 
   const handleUnit = (unit_symbol, data) => {
     const factorToRequired = 1;
     const factorToAvailable=1;
-    // console.log("handle unit")
   
-    if(data.available_qty==null || data.available_qty ==undefined){
-      quantityGreaterThanAvailable(data.id,unit_symbol)
-    }else if(formData[data.id].quantity == null || formData[data.id].quantity == undefined || formData[data.id].quantity ==''){
+    if(formData[data.id].quantity == null || formData[data.id].quantity == undefined || formData[data.id].quantity ==''){
       setFormData({
         ...formData,
-        [data.id]: { quantity: formData[data.id].quantity , unit: unit_symbol },
+        [data.id]: { quantity: formData[data.id].quantity , unit: unit_symbol, borderColor:"#e5e5e5" ,isWrong:0,isGreater:formData[data.id].isGreater },
       });
     }
     else if(data.released_quantity_unit_symbol != unit_symbol || data.available_qty_symbol != unit_symbol){
@@ -263,48 +262,51 @@ const OrderDetails = () => {
     }else{
       compareQuantity(data,factorToRequired,factorToAvailable,formData[data.id].quantity,unit_symbol);
     }
-    // console.log("factor",factorToAvailable,factorToRequired,data.released_quantity_unit_symbol,data.available_qty_symbol,formData[data.id].unit)
-    // compare quantity and calculate left quantity
+   
   };
 
   const compareQuantity=(data,factorToRequired,factorToAvailable,value,unit)=>{
-    // console.log("comp",value,unit,factorToRequired,factorToAvailable)
-    if (data.released_quantity_value < value * factorToRequired) {
-      quantityGreaterThanRequired(data.id,unit)
+    
+  if (data.released_quantity_value < value * factorToRequired) {
+      quantityGreaterThanRequired(data.id,unit,value)
     } else if (data.available_qty < value * factorToAvailable) {
-         quantityGreaterThanAvailable(data.id,unit)
+         quantityGreaterThanAvailable(data.id,unit,value)
         } else {
           const left_quantity =
             data.released_quantity_value - value * factorToRequired;
-            // console.log("left",left_quantity,factorToRequired)
 
           setFormData({
             ...formData,
-            [data.id]: { quantity: value , unit: unit },
+            [data.id]: { quantity: value , unit: unit , borderColor:"#e5e5e5" ,isWrong:0,isGreater:formData[data.id].isGreater},
           });
-          handleProductionOrder(
-            value ,
-            data.id,
-            data.product_code,
-            unit,
-            data.product_description,
-            data.item_id,
-            data.ItemType,
-            left_quantity,
-            data.released_quantity_unit_symbol
-          );
-        }   
+          if(value == ''){
+            removeProductionOrderItem(data.id);
+          }else{
+            handleProductionOrder(
+              value ,
+              data.id,
+              data.product_code,
+              unit,
+              data.product_description,
+              data.item_id,
+              data.ItemType,
+              left_quantity,
+              data.released_quantity_unit_symbol
+            );        
+            }
+    }
+  
   }
 
-  const quantityGreaterThanAvailable=(id,unit)=>{
+  const quantityGreaterThanAvailable=(id,unit,quantity)=>{
     toast.warning("Entered Quantity exceeds the Available Quantity! ");
-    setFormData({ ...formData, [id]: { quantity: "", unit: unit } });
+    setFormData({...formData,[id]:{borderColor:'red',isWrong:1,unit:unit,quantity:quantity, isGreater:formData[id].isGreater}})
     removeProductionOrderItem(id);
   }
 
-  const quantityGreaterThanRequired=(id,unit)=>{
+  const quantityGreaterThanRequired=(id,unit,quantity)=>{
     toast.warning("Entered Quantity exceeds the Required Quantity! ");
-    setFormData({ ...formData, [id]: { quantity: "", unit: unit } });
+    setFormData({...formData,[id]:{borderColor:'red',isWrong:1,unit:unit,quantity:quantity, isGreater:formData[id].isGreater}})
     removeProductionOrderItem(id);
   }
 
@@ -315,8 +317,8 @@ const OrderDetails = () => {
       quantityGreaterThanAvailable(data.id,'Nos')
     } else {
       const left_quantity = data.released_quantity_value - value;
-      // console.log(left_quantity);
-      setFormData({ ...formData, [data.id]: { quantity: value, unit: "Nos" } });
+
+      setFormData({ ...formData, [data.id]: { quantity: value, unit: "Nos" , borderColor:"#e5e5e5" ,isWrong:0, isGreater:formData[data.id].isGreater} });
       handleProductionOrder(
         value,
         data.id,
@@ -344,7 +346,6 @@ const OrderDetails = () => {
   ) => {
     var productList = productionOrderList.production_order_item;
     const index = productList.findIndex((el) => el.item_id == item_id);
-
     if (index == -1) {
       productList.push({
         production_order_items: id,
@@ -359,7 +360,7 @@ const OrderDetails = () => {
       productList[index].quantity = value + " " + symbol;
       productList[index].left_qty= left_qty + " " + left_qty_symbol;
     }
-    // console.log("product", productList);
+
     setProductionOrderList({
       ...productionOrderList,
       production_order_item: productList,
@@ -382,6 +383,14 @@ const OrderDetails = () => {
       ...productionOrderList,
       production_order_item: list,
     });
+
+    localStorage.setItem(
+      "stock_out_list",
+      JSON.stringify({
+        ...productionOrderList,
+        production_order_item: list,
+      })
+    );
   };
 
   const stockOut = () => {
@@ -430,7 +439,7 @@ const OrderDetails = () => {
           {(status == "Completed" || !showDetails)? null : (
             <div className="order_details_subheader">
               Your Orders
-              <button onClick={stockOut}>Stock Out</button>
+              <button onClick={stockOut} disabled={disableButton}>Stock Out</button>
             </div>
           )}
           {(status == "Completed" || !showDetails)? (<div>{showDetails?null:<div className="no_item">No Items Found</div>}</div>) : (<div className="order_detail_table">
@@ -469,9 +478,10 @@ const OrderDetails = () => {
                           {part.ItemType == "BOM" ? (
                             <input
                               type="number"
-                              style={{ border: border }}
+                              style={{ borderColor: formData[part.id].borderColor }}
                               className="quantity_field"
                               placeholder="Enter Quantity"
+                              disabled={formData[part.id].isDisabled}
                               value={formData[part.id].quantity}
                               onChange={(e) => {
                                 handleBOMQuantity(e.target.value, part);
@@ -482,8 +492,9 @@ const OrderDetails = () => {
                               style={{
                                 display: "flex",
                                 width: size.width > "600" ? "70%" : "90%",
-                                border: "#e5e5e5 solid 0.1em",
+                                border: "solid 0.1em",
                                 borderRadius: "5px",
+                                borderColor:formData[part.id].borderColor
                               }}
                             >
                               <input
@@ -494,6 +505,7 @@ const OrderDetails = () => {
                                 }}
                                 className="quantity"
                                 type="number"
+                                disabled={formData[part.id].isDisabled}
                                 value={formData[part.id].quantity}
                                 onChange={(e) =>
                                   handleQuantity(e.target.value, part)
@@ -514,6 +526,7 @@ const OrderDetails = () => {
                                   name="symbol"
                                   minWidth="9rem"
                                   no_outline={true}
+                                  disabled={formData[part.id].isDisabled}
                                   parentCallback={(data) => {
                                     handleUnit(data.symbol, part);
                                   }}
@@ -533,20 +546,20 @@ const OrderDetails = () => {
                             className="available_quantity"
                             style={{ textAlign: "left",width:'30%',color:formData[part.id].isGreater?"#33B850":"#EB2129" }}
                           >
-                            *{formData[part.id].isGreater?null:<span>Only</span>} {(part.available_qty==null || part.available_qty == undefined)?0:part.available_qty}{" "}
+                            *{formData[part.id].isGreater?null:<span>{formData[part.id].isDisabled?null:<span>Only</span>}</span>} {(part.available_qty==null || part.available_qty == undefined)?0:part.available_qty}{" "}
                             {part.available_qty_symbol} available
                           </span>
                         </div>
                       ) : null}
                     </div>
                     <div style={{ width: "5%" }}>
-                    {part.released_quantity_value > 0 ?<FaTimes
+                    {(part.released_quantity_value > 0 && !formData[part.id].isDisabled) ?<FaTimes
                         title="Clear"
                         className="icon"
                         onClick={() => {
                           setFormData({
                             ...formData,
-                            [part.id]: { quantity: "", unit: "" },
+                            [part.id]: { quantity: "", unit: "" , borderColor:"#e5e5e5" ,isWrong:0,isGreater:formData[part.id].isGreater},
                           });
                           removeProductionOrderItem(part.id);
                         }}
@@ -598,7 +611,6 @@ const OrderDetails = () => {
                   <div className="common" style={{ width: "33%" }}>
                     CREATED BY
                   </div>
-                  {/* <div className='common' style={{width:'10%'}}></div> */}
                 </div>
                 {pastTransactions.map((transaction,index) => (
                   <Transactions

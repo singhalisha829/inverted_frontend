@@ -146,7 +146,7 @@ const Dropdown= (props) =>{
     }
 
 
-    if(isDropdownOpen){
+    if(isDropdownOpen && !props.disabled){
       // console.log(props.name)
         content=(
             <div className="dropdown_options1" style={{width:props.dropdownWidth,height:props.dropdownHeight?props.dropdownHeight:'17rem'}}>
@@ -179,7 +179,7 @@ const Dropdown= (props) =>{
         <div ref={wrapperRef} className="custom_dropdown" style={{width:props.width, height:props.height,minWidth:props.minWidth}} >
            <div className="control" onClick={()=>{setIsDropdownOpen(!isDropdownOpen)}} >
            <input className={props.no_outline?"selected_value_without_outline":"selected_value"} placeholder={props.searchPlaceholder?props.searchPlaceholder:"Search..."} value={value} style={{margin:"0",height:props.height,border:props.border?"#e5e5e5 solid 0.1em":null,
-          backgroundColor:props.backGround}} onInput={(e)=>handleValue(e)} />
+          backgroundColor:props.backGround}} onInput={(e)=>handleValue(e)} disabled={props.disabled}/>
            
            {/* <div style={{position:'relative',right:'10px'}}><FaSistrix /></div> */}
            </div>
