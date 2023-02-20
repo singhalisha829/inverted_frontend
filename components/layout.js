@@ -11,7 +11,6 @@ const Layout = ({ children }) => {
     const router = useRouter();
   const currentUrl = router.asPath;
 
-  console.log("C",currentUrl)
     // calculate screen size
     function useWindowSize() {
         const [windowSize, setWindowSize] = useState({

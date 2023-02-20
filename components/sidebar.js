@@ -84,7 +84,7 @@ const Sidebar = () => {
                 {size.width>'1200'?<div className="navbar_img">
                <Image src={Logo} layout="responsive" alt="" width={50} height={15}/>
              </div>:<div className="navbar_img1">
-              <Image src={Logo_inverted} layout="responsive" alt="" width={20} height={30}/>
+              <Image src={Logo_inverted} layout="responsive" alt=""/>
             </div>}
              <nav className="nav_list">
              <ul>
@@ -96,14 +96,13 @@ const Sidebar = () => {
               </div>
               <div
             title="Logout"
-            className="logout_link"
-            style={{ marginLeft: "2.2%" ,justifyContent:'center'}}
+            className={size.width>'1200'?"logout_link":"logout_icon"}
             onClick={() => {
               localStorage.clear();
               Router.push("/login");
             }}
           >
-            <FaSignOutAlt /> {size.width>'1200'?<div style={{ marginLeft: "1.3rem" }}>Logout</div>:null}
+            <FaSignOutAlt /> {size.width>'1200'?<div style={{marginLeft:'1rem'}}>Logout</div>:null}
           </div>
         </div>
       
