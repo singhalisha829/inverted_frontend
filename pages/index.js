@@ -191,7 +191,7 @@ else{
          className="export_button" /> */}
          </div>
 
-                     <div className='export_symbol'><FaExternalLinkAlt size={15} style={{color:"#3F5575"}} /></div>
+                     {/* <div className='export_symbol'><FaExternalLinkAlt size={15} style={{color:"#3F5575"}} /></div> */}
              </div>
 
              <div className="subsection">
