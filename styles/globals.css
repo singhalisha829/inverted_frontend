@@ -50,3 +50,7 @@ ul{
   grid-template-columns: 1fr 5fr;
   min-height: 100vh !important;
 }
+
+input:disabled{
+  cursor:not-allowed
+}

@@ -76,7 +76,7 @@ const Table = (props) => {
        setData([...data])
        setTableFilter([...data])
      }
-     console.log("filter",props.filter)
+    //  console.log("filter",props.filter)
    },[props.search,props.filter])
 
 
