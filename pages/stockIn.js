@@ -299,6 +299,7 @@ const StockIn = () => {
           type="number"
           placeholder={size.width < "600" ? "Enter Unit Price" : "0.00"}
           onChange={(e) => setPrice(e.target.value)}
+          onWheel={ event => event.currentTarget.blur() }
           value={price}
         />
       </div>
@@ -324,6 +325,7 @@ const StockIn = () => {
             style={{ width: "35%", height: "3rem", border: "none" }}
             className="quantity"
             type="number"
+            onWheel={ event => event.currentTarget.blur() }
             onChange={(e) => setQuantity(e.target.value)}
             placeholder="0.00"
           />

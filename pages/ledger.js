@@ -310,6 +310,7 @@ if(res.status == 200){
                     ? setQuantity("")
                     : setQuantity(e.target.value);
                 }}
+                onWheel={ event => event.currentTarget.blur() }
                 placeholder="0.00"
                 value={quantity}
               />

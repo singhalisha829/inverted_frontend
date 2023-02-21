@@ -483,6 +483,7 @@ const OrderDetails = () => {
                               placeholder="Enter Quantity"
                               disabled={formData[part.id].isDisabled}
                               value={formData[part.id].quantity}
+                              onWheel={ event => event.currentTarget.blur() }
                               onChange={(e) => {
                                 handleBOMQuantity(e.target.value, part);
                               }}
@@ -507,6 +508,7 @@ const OrderDetails = () => {
                                 type="number"
                                 disabled={formData[part.id].isDisabled}
                                 value={formData[part.id].quantity}
+                                onWheel={ event => event.currentTarget.blur() }
                                 onChange={(e) =>
                                   handleQuantity(e.target.value, part)
                                 }
