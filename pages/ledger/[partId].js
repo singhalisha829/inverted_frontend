@@ -1,23 +1,21 @@
 import Router from "next/router";
 import Head from "next/head";
-import { useState, useEffect, useRef } from "react";
+import { useState, useEffect} from "react";
 import { useRouter } from "next/router";
 
-import Sidebar from "../components/sidebar";
-import { FaFileContract, FaTimes } from "react-icons/fa";
-import Table from "../components/table";
-import Dropdown from "../components/dropdown";
-import Header from "../components/header";
+import { FaFileContract} from "react-icons/fa";
+import Table from "../../components/table";
+import Dropdown from "../../components/dropdown";
 import {
   fetchPartByPartId,
   fetchLedgerByPartId,
   fetchVendorList,
   fetchUnitList,
   addNewLedger,
-} from "../services/stockInService";
-import LedgerCard from "../components/ledgerCard";
+} from "../../services/stockInService";
+import LedgerCard from "../../components/ledgerCard";
 
-import Spinner from "../components/spinner";
+import Spinner from "../../components/spinner";
 import DatePicker from "react-datepicker";
 import "react-datepicker/dist/react-datepicker.css";
 
@@ -46,7 +44,7 @@ const Ledger = () => {
   const [unit, setUnit] = useState(null);
   const [price, setPrice] = useState(null);
   const [vendor, setVendor] = useState(null);
-  const [partId, setPartId] = useState(null);
+  const [partId, setPartId] = useState(router.query.partId);
   const [ledgerPart, setLedgerPart] = useState(null);
   const [token, setToken] = useState(null);
   const [loading, setLoading] = useState(false);
@@ -75,18 +73,16 @@ const Ledger = () => {
 
   const notifySuccessPost = () =>
     toast.success("New Ledger Added Successfully");
+    console.log(router.query)
 
   useEffect(() => {
     // fetch data only if token is defined or redirect to login
     if (localStorage.getItem("token") != null) {
       const token = localStorage.getItem("token");
       setToken(token);
-      const partName = router.query.id;
-      if (partName != null || partName != undefined) {
-        setLedgerPart(partName);
-        fetchPartByPartId(partName, token).then((res) => {
-        //   console.log("res", res.data);
-          setPartId(res.data[0].id);
+      if (partId != null || partId != undefined) {
+        setLedgerPart(partId);
+        fetchPartByPartId(partId, token).then((res) => {
           setShortDescription(res.data[0].short_description);
           setlongDescription(res.data[0].long_description);
           setPartQuantity(res.data[0].quantity);
@@ -97,7 +93,7 @@ const Ledger = () => {
           setVendorList(res.data);
         });
         fetchUnitList(token).then((res) => setUnitList(res.data));
-        fetchLedgerByPartId(partName, token).then((res) => {
+        fetchLedgerByPartId(partId, token).then((res) => {
         const sorted = [...res.data.data.output].reverse();
           setLedger(sorted);
           setShowLedger(true);
@@ -107,7 +103,7 @@ const Ledger = () => {
     } else {
       Router.push("/login");
     }
-  }, [router.query.id]);
+  }, [partId]);
 
   // calculate screen size
   function useWindowSize() {

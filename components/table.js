@@ -181,7 +181,9 @@ const Table = (props) => {
         localStorage.setItem('partId',part_id);localStorage.setItem('orderId',order_id);
             localStorage.setItem('poId',id);localStorage.setItem('production_order_id',id);
       if(props.path == '/ledger'){
-        Router.push({pathname:props.path,query:{id:part_id}})}
+        // Router.push({pathname:props.path,query:{id:part_id}})}
+        Router.push('/ledger/'+part_id);
+      }
       else if(props.path =='/orderDetails'){
         Router.push({pathname:props.path,query:{id:id}})
       }else if(props.path =='/vendorList'){
