@@ -54,3 +54,7 @@ ul{
 input:disabled{
   cursor:not-allowed
 }
+
+.react-datepicker__input-container input{
+  width: 100% !important;
+}
