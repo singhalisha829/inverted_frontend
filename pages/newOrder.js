@@ -1,9 +1,7 @@
-import Sidebar from "../components/sidebar";
 import Dropdown from "../components/dropdown";
 import Router from "next/router";
 import { useState, useEffect } from "react";
 import Head from "next/head";
-import Header from "../components/header";
 
 import { fetchPartTypeList } from "../services/dashboardService";
 import {
@@ -254,7 +252,6 @@ const NewOrder = () => {
                 setOrderType(data.value);
               }}
               dropdownWidth={size.width > "600" ? "13vw" : "71vw"}
-              searchWidth={size.width > "600" ? "10vw" : "61vw"}
               border={true}
               value={orderType}
               searchPlaceholder="Search Order Type"
@@ -276,7 +273,6 @@ const NewOrder = () => {
                   setPartType(data.name);
                 }}
                 dropdownWidth={size.width > "600" ? "13vw" : "20vw"}
-                searchWidth={size.width > "600" ? "10vw" : "12vw"}
                 border={true}
                 value={partType}
                 height="3.3rem"
@@ -303,7 +299,6 @@ const NewOrder = () => {
                       setItemName(data.product_code)
                     }}
                     dropdownWidth={size.width > "600" ? "13vw" : "71vw"}
-                    searchWidth={size.width > "600" ? "10vw" : "61vw"}
                     border={true}
                     searchPlaceholder="Search BOM ID/Name"
                     height="3.3rem"
@@ -319,7 +314,6 @@ const NewOrder = () => {
                     }
                     value={part}
                     dropdownWidth={size.width > "600" ? "15vw" : "71vw"}
-                    searchWidth={size.width > "600" ? "12vw" : "61vw"}
                     border={true}
                     height="3.3rem"
                     searchPlaceholder="Search Part ID/Name"
@@ -365,7 +359,6 @@ const NewOrder = () => {
                   parentCallback={(data) => setUnit(data.symbol)}
                   value={unit}
                   dropdownWidth={size.width > "600" ? "11vw" : "40vw"}
-                  searchWidth={size.width > "600" ? "8vw" : "30vw"}
                   height="3rem"
                 />
               </div>

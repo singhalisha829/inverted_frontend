@@ -54,6 +54,10 @@ const Header = (props) =>{
             onClick={()=>{Router.push('/order');setOpenNavbar(false)}}><IoConstruct /> <div style={{marginLeft:'1rem'}}>Production Orders</div>
              </div>
 
+             <div className='navbar_items' 
+            onClick={()=>{Router.push('/ledger');setOpenNavbar(false)}}><IoConstruct /> <div style={{marginLeft:'1rem'}}>Ledger</div>
+             </div>
+
             
 
             <div className='navbar_items' style={{width:'8.5rem',position:'fixed',bottom:'2rem'}}

@@ -47,3 +47,14 @@ export const fetchPartByPartId=(partId,token) =>{
      });
      return res;
 }
+
+export const fetchLedger=async (token,data) =>{
+    const res = await axios.get(URL + MAIN.LEDGER ,{
+         headers: {
+             "Authorization": "Token " + token,
+         },
+         params:{...data}
+
+     });
+     return res;
+}

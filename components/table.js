@@ -19,10 +19,22 @@ const Table = (props) => {
     const [arrow, setArrow] = useState(null);
     const [sortedColumn,setSortedColumn] = useState(null);
     const [token,setToken]= useState(null);
+
+    const transactionTypeList ={
+       "DEBIT":"Debit" ,
+       "CREDIT": "Credit" ,
+       "LINE_LOSS" : "Loss On Line" ,
+       "PROD_RETURN": "Production Return"  ,
+       "ADJ_PLUS": "Positive Adjustment"  ,
+       "ADJ_MINUS": "Negative Adjustment" ,
+       "QUALITY_REJECT": "Quality Reject" ,
+  
+    }
     
    useEffect(()=>{
     const token=localStorage.getItem('token')
     setToken(token)
+    console.log("table",props.filter1)
     props.columns.forEach(el=>{
       if(el.sort!= undefined){
         if(el.sort=='ASC'){
@@ -33,15 +45,13 @@ const Table = (props) => {
         setSortedColumn(el.accessor1)
       }
     })
-    //  search table based on dropdown filter and searchbar value
-     if(props.search != undefined && props.filter !=undefined ){
-      const filterTable=[];
 
-      for(let i=0;i<data.length;i++){
-        if(data[i][props.filterIn]== props.filter){
-          filterTable.push(data[i])
-        }
-      }
+
+    //  search table based on dropdown filter and searchbar value
+     if(props.search != undefined && (props.filter1 !=undefined && props.filter1 !="All") ){
+      const filterTable= data.filter((item) =>
+      item[props.filterIn1].toLowerCase().includes(props.filter1.toLowerCase())
+    );
 
       const searchTable = filterTable.filter(o => Object.keys(o).some(
         k => String(o[k]).toLowerCase().includes(props.search.toLowerCase()))
@@ -62,14 +72,11 @@ const Table = (props) => {
      }
      
     //  search table based on dropdown filter
-     else if(props.filter !=undefined){
-      const filterTable=[];
-      for(let i=0;i<data.length;i++){
-        if(data[i][props.filterIn]== props.filter){
-          filterTable.push(data[i])
-        }
-      }
-      
+     else if(props.filter1 !=undefined && props.filter1 !="All"){
+      const filterTable = data.filter((item) =>
+      item[props.filterIn1].toLowerCase().includes(props.filter1.toLowerCase())
+    );
+  
       setTableFilter([...filterTable])
      }
      else{
@@ -77,7 +84,7 @@ const Table = (props) => {
        setTableFilter([...data])
      }
     //  console.log("filter",props.filter)
-   },[props.search,props.filter])
+   },[props.search,props.filter1])
 
 
      // calculate screen size
@@ -181,7 +188,9 @@ const Table = (props) => {
         localStorage.setItem('partId',part_id);localStorage.setItem('orderId',order_id);
             localStorage.setItem('poId',id);localStorage.setItem('production_order_id',id);
       if(props.path == '/ledger'){
-        Router.push({pathname:props.path,query:{id:part_id}})}
+        // Router.push({pathname:props.path,query:{id:part_id}})}
+        Router.push('/ledger/'+part_id);
+      }
       else if(props.path =='/orderDetails'){
         Router.push({pathname:props.path,query:{id:id}})
       }else if(props.path =='/vendorList'){
@@ -199,7 +208,7 @@ const Table = (props) => {
     let table_content=null;
     
       table_content=(<tbody>
-        {props.search != undefined || props.filter != undefined?tableFilter
+        {props.search != undefined || props.filter1 != undefined || props.filter1 != "All"?tableFilter
         .map((row,index) => {
           return (
             <tr key={index} onClick={()=>{
@@ -224,13 +233,13 @@ const Table = (props) => {
                 </div></td>
                 }
                 
-                else if((row.transaction_type==='CREDIT' || row.transaction_type==='PROD_RETURN')  && column.accessor1==="status"){
+                else if((row.transaction_type==='CREDIT' || row.transaction_type==='PROD_RETURN' || row.transaction_type==='ADJ_PLUS')  && (column.accessor1==="status" || column.accessor1==="transaction_type")){
                   return <td key={columnIndex} width={column.width} style={{textAlign:column.textalign}}
-  ><div className="stock_in_style"><BsBoxArrowInDown /> {row.transaction_type == 'PROD_RETURN'?<div>Production Return</div>:<div>Stock In</div>}</div></td>
+  ><div className="stock_in_style"><BsBoxArrowInDown /> {transactionTypeList[row.transaction_type]}</div></td>
   }
- else if((row.transaction_type==='DEBIT' || row.transaction_type==='LINE_LOSS') && column.accessor1==="status"){
+ else if((row.transaction_type==='DEBIT' || row.transaction_type==='LINE_LOSS' || row.transaction_type==='QUALITY_REJECT' || row.transaction_type==='ADJ_MINUS') && (column.accessor1==="status" || column.accessor1==="transaction_type")){
     return <td key={columnIndex} width={column.width} style={{textAlign:column.textalign}}
-    ><div className="stock_out_style"><BsBoxArrowUp />{row.transaction_type==='LINE_LOSS'?<div>Loss On Line</div>:<div>Stock Out</div>}</div></td>
+    ><div className="stock_out_style"><BsBoxArrowUp />{transactionTypeList[row.transaction_type]}</div></td>
     }
     else if(column.accessor1==='status' && row.status==="Created"){
       return <td key={columnIndex} width={column.width} style={{textAlign:column.textalign}}
@@ -243,6 +252,9 @@ const Table = (props) => {
     else if(column.accessor1==='status' && row.status==='Completed' ){
       return <td key={columnIndex} width={column.width} 
     ><div className="completed_status_style">Completed</div></td>
+    }else if(column.accessor2==='part_short_description'  ){
+      return <td key={columnIndex} width={column.width} style={{textAlign:column.textalign}}
+      ><div style={{display:'flex',flexDirection:'column'}}>{row[column.accessor1]} <span style={{color:"rgb(200, 198, 198)",fontSize:'1.3rem'}}>({row[column.accessor2]}) </span></div></td>
     }
                 else{
                 return <td key={columnIndex} width={column.width} style={{textAlign:column.textalign}}
@@ -285,13 +297,13 @@ const Table = (props) => {
                   </div></td>
                 }
                 
-                else if((row.transaction_type==='CREDIT' || row.transaction_type==='PROD_RETURN')  && column.accessor1==="status"){
+                else if((row.transaction_type==='CREDIT' || row.transaction_type==='PROD_RETURN' || row.transaction_type==='ADJ_PLUS')  && (column.accessor1==="status" || column.accessor1==="transaction_type")){
                   return <td key={columnIndex} width={column.width} style={{textAlign:column.textalign}}
-  ><div className="stock_in_style"><BsBoxArrowInDown /> <div style={{marginLeft:"0.4rem"}}>{row.transaction_type == 'PROD_RETURN'?<span>Production Return</span>:<span>Stock In</span>}</div></div></td>
+  ><div className="stock_in_style"><BsBoxArrowInDown /> <div style={{marginLeft:"0.4rem"}}>{transactionTypeList[row.transaction_type]}</div></div></td>
   }
- else if((row.transaction_type==='DEBIT' || row.transaction_type==='LINE_LOSS') && column.accessor1==="status"){
+ else if((row.transaction_type==='DEBIT' || row.transaction_type==='LINE_LOSS' || row.transaction_type==='QUALITY_REJECT' || row.transaction_type==='ADJ_MINUS') && (column.accessor1==="status" || column.accessor1==="transaction_type")){
     return <td key={columnIndex} width={column.width} style={{textAlign:column.textalign}}
-    ><div className="stock_out_style"><BsBoxArrowUp /> <div style={{marginLeft:"0.4rem"}}>{row.transaction_type==='LINE_LOSS'?<span>Loss On Line</span>:<span>Stock Out</span>}</div></div></td>
+    ><div className="stock_out_style"><BsBoxArrowUp /> <div style={{marginLeft:"0.4rem"}}>{transactionTypeList[row.transaction_type]}</div></div></td>
     }
                   else if(column.accessor1==='status' && row.status==='Created' ){
                     return <td key={columnIndex} width={column.width} 
@@ -309,6 +321,10 @@ const Table = (props) => {
                   else if(column.accessor1==='quantity_value' && props.outOf==true ){
                     return <td key={columnIndex} width={column.width} style={{textAlign:column.textalign}}
                     ><div>{row.released_quantity_value} {row.released_quantity_value==0?null:row.released_quantity_unit_symbol} / {row[column.accessor1]} {row[column.accessor2]}</div></td>
+                  }
+                  else if(column.accessor2==='part_short_description'  ){
+                    return <td key={columnIndex} width={column.width} style={{textAlign:column.textalign}}
+                    ><div style={{display:'flex',flexDirection:'column'}}>{row[column.accessor1]} <span style={{color:"rgb(200, 198, 198)",fontSize:'1.3rem'}}>({row[column.accessor2]}) </span></div></td>
                   }
                 else{
                 return <td key={columnIndex} width={column.width} style={{textAlign:column.textalign}}

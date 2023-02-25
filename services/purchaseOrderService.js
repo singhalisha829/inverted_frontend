@@ -77,7 +77,6 @@ export const fetchUnassignedParts=(token,poId) =>{
 }
 
 export const deleteAssignedParts=(token,list) =>{
-    console.log(list)
     return axios.post(URL+MAIN.DELETE_PART,list,
 {headers:{
         "Authorization":"Token "+ token
