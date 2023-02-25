@@ -4,7 +4,7 @@ import Dropdown from "../components/dropdown";
 import Router from "next/router";
 import Head from "next/head";
 import Header from "../components/header";
-import OrderList from "../components/orderList";
+import List from "../components/list";
 
 import Table from "../components/table";
 import { FaTimes } from "react-icons/fa";
@@ -29,14 +29,14 @@ const Order = () => {
     {
       accessor1: "production_order_no",
       label: "Order Number",
-      width: "20%",
+      width: "25%",
       textalign: "center",
     },
-    { accessor1: "date", label: "Date", width: "20%", textalign: "center" },
+    { accessor1: "date", label: "Date", width: "25%", textalign: "center" },
     {
       accessor1: "created_by",
       label: "Created By",
-      width: "30%",
+      width: "25%",
       textalign: "center",
     },
     {
@@ -44,7 +44,7 @@ const Order = () => {
       prefix: '<div className="status_style" >',
       suffix: "</div>",
       label: "Status",
-      width: "30%",
+      width: "25%",
       textalign: "center",
     },
   ];
@@ -121,11 +121,12 @@ const Order = () => {
     );
   } else {
     content = productionOrderList ? (
-      <OrderList
-        ordersList={productionOrderList}
+      <List
+        rows={productionOrderList}
         path="/orderDetails"
         search={searchText}
         filter={filterOnStatus}
+        columns={columns}
       />
     ) : (
       <Spinner />

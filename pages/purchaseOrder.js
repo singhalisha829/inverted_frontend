@@ -13,7 +13,7 @@ import Spinner from '../components/spinner';
 import { fetchPurchaseOrderList } from "../services/purchaseOrderService";
 import {ToastContainer, toast } from "react-toastify";
 import 'react-toastify/dist/ReactToastify.css';
-import OrderList from "../components/orderList";
+import List from "../components/list";
 
 
 const PurchaseOrder =() =>{
@@ -78,7 +78,7 @@ const PurchaseOrder =() =>{
     }else{
       content=(
         purchaseOrderList?              
-        <OrderList  path="/vendorList" ordersList={purchaseOrderList} search={searchText}/>
+        <List columns={columns}  path="/vendorList" rows={purchaseOrderList} search={searchText}/>
         : <Spinner />
       )
     }
