@@ -204,7 +204,6 @@ const NewPurchaseOrder = () => {
           dropdownWidth={size.width > "600" ? "13vw" : "20vw"}
           border={true}
           value={orderType}
-          height="3.3rem"
           searchPlaceholder="Search Order Type"
         />
       </div>
@@ -224,7 +223,6 @@ const NewPurchaseOrder = () => {
             dropdownWidth={size.width > "600" ? "13vw" : "20vw"}
             border={true}
             value={orderType}
-            height="3.3rem"
             searchPlaceholder="Search Order Type"
           />
         </div>
@@ -249,7 +247,6 @@ const NewPurchaseOrder = () => {
                 dropdownWidth={size.width > "600" ? "13vw" : "20vw"}
                 border={true}
                 searchPlaceholder="Search Order"
-                height="3.3rem"
               />
             ) : (
               <Dropdown
@@ -265,7 +262,6 @@ const NewPurchaseOrder = () => {
                 dropdownWidth={size.width > "600" ? "13vw" : "20vw"}
                 border={true}
                 searchPlaceholder="Search Order"
-                height="3.3rem"
               />
             )}
           </div>
@@ -276,7 +272,6 @@ const NewPurchaseOrder = () => {
             dropdownWidth={size.width > "600" ? "13vw" : "20vw"}
             border={true}
             searchPlaceholder="Search Order"
-            height="3.3rem"
           />
         )}
       </div>
@@ -313,7 +308,6 @@ const NewPurchaseOrder = () => {
                 parentCallback={(data) => setUnit(data.symbol)}
                 value={unit}
                 dropdownWidth={size.width > "600" ? "11vw" : "40vw"}
-                height="3rem"
               />
             ) : null}
           </div>

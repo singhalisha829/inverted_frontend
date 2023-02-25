@@ -152,23 +152,20 @@ const Order = () => {
             searchPlaceholder="Search Status"
             name="name"
             width="15vw"
-            height="3.5rem"
             border={true}
             parentCallback={(data) => {
               setFilterOnStatus(data.id);
               setOrderType(data.name);
             }}
             dropdownWidth={size.width > "600" ? "15vw" : "30vw"}
-            backGround="#F6F7FB"
             value={orderType}
           />
           <span className="input-container" style={{width:'70%',marginLeft:'2rem'}}>
           <input
             placeholder="Search.."
             style={{
-              height: "3.5rem",
+              height: "3rem",
               width: "100%",
-              background: "#F6F7FB",
             }}
             value={searchText}
             onChange={(e) => setSearchText(e.target.value)}

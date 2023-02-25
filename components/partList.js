@@ -322,7 +322,6 @@ const PartsList = (props) => {
                     searchPlaceholder="Search Vendor"
                     name="name"
                     options={vendorList}
-                    height="3rem"
                     value={vendor}
                     width="70%"
                     parentCallback={(data) => {
@@ -393,7 +392,6 @@ const PartsList = (props) => {
                   options={unitList}
                   name="name"
                   dropdownWidth={size.width > "600" ? "11vw" : "27vw"}
-                  height="3rem"
                   parentCallback={(data) => {
                     setUnit(data.symbol);
                     handleUnit(data.symbol);

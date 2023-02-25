@@ -254,7 +254,6 @@ if(res.status == 200){
                 parentCallback={(data) => setSelectedStatus(data.value)}
                 width={size.width > "600" ? "70%" : "100%"}
                 dropdownWidth={size.width > "600" ? "16vw" : "70vw"}
-                height="3rem"
                 border={true}
               />
             </div>
@@ -309,7 +308,6 @@ if(res.status == 200){
                 options={unitList}
                 name="symbol"
                 dropdownWidth={size.width > "600" ? "11vw" : "55vw"}
-                height="3rem"
                 parentCallback={(data) => setUnit(data.symbol)}
                 border={true}
                 value={unit}
@@ -401,7 +399,6 @@ if(res.status == 200){
                 parentCallback={(data) => setSearchStatus(data.value)}
                 width={size.width > "600" ? "40%" : "60%"}
                 dropdownWidth={size.width > "600" ? "16vw" : "70vw"}
-                height="3rem"
                 border={true}
                 defaultValue="All"
               /></div>

@@ -240,14 +240,12 @@ export default function Home() {
                 options={partTypeList}
                 name="name"
                 width="100%"
-                backGround="#F6F7FB"
                 searchPlaceholder="Search Part Type"
                 parentCallback={(data) => {
                   setFilterOnPartType(data.name);
                 }}
                 value={partType}
                 border={true}
-                height={size.width > "600" ? "4rem" : "3rem"}
               />
             ) : null}
           </div>
@@ -327,7 +325,6 @@ export default function Home() {
               value={partType}
               dropdownWidth={size.width > "600" ? "21vw" : "56vw"}
               border={true}
-              height="3.5rem"
             />
           ) : null}
 
@@ -351,7 +348,6 @@ export default function Home() {
                 value={unit}
                 dropdownWidth={size.width > "600" ? "21vw" : "56vw"}
                 border={true}
-                height="3.5rem"
               />
             ) : null}
           </div>

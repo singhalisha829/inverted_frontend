@@ -536,9 +536,7 @@ const OrderDetails = () => {
                                   dropdownWidth={
                                     size.width > "600" ? "11vw" : "40vw"
                                   }
-                                  
-                                  height="3rem"
-                                />
+                                    />
                               ) : null}
                             </div>
                           )}

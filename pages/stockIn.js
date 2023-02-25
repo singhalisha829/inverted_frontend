@@ -277,10 +277,8 @@ const StockIn = () => {
               fetchUnit(data.unit_type);
             }}
             value={partName}
-            height="3rem"
             minWidth="12rem"
             dropdownWidth={size.width > "600" ? "20vw" : "70vw"}
-            searchWidth={size.width > "600" ? "17vw" : "60vw"}
             dropdownHeight="25rem"
           />
         ) : null}
@@ -342,8 +340,6 @@ const StockIn = () => {
               parentCallback={(data) => setUnit(data.symbol)}
               value={unit}
               dropdownWidth={size.width > "600" ? "11vw" : "40vw"}
-              searchWidth={size.width > "600" ? "8vw" : "30vw"}
-              height="3rem"
             />
           ) : null}
         </div>
@@ -446,8 +442,6 @@ const StockIn = () => {
                   border={true}
                   parentCallback={(data) => setVendor(data.id)}
                   dropdownWidth={size.width > "600" ? "15vw" : "70vw"}
-                  searchWidth={size.width > "600" ? "12vw" : "60vw"}
-                  height="3rem"
                 />
               ) : null}
             </div>

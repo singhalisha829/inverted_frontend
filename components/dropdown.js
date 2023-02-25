@@ -237,7 +237,6 @@ const Dropdown = (props) => {
       className="custom_dropdown"
       style={{
         width: props.width,
-        height: props.height,
         minWidth: props.minWidth,
       }}
     >
@@ -259,9 +258,7 @@ const Dropdown = (props) => {
           value={value}
           style={{
             margin: "0",
-            height: props.height,
             border: props.border ? "#e5e5e5 solid 0.1em" : null,
-            backgroundColor: props.backGround,
           }}
           onInput={(e) => handleValue(e)}
           disabled={props.disabled}
@@ -301,7 +298,6 @@ const Dropdown = (props) => {
               width="70%"
               border={true}
               parentCallback={(data) => setPartType(data.id)}
-              height="3.5rem"
               dropdownWidth={size.width > "600" ? "21vw" : "56vw"}
             />
           ) : null}
@@ -326,7 +322,6 @@ const Dropdown = (props) => {
                 value={unit}
                 dropdownWidth={size.width > "600" ? "21vw" : "56vw"}
                 border={true}
-                height="3.5rem"
               />
             ) : null}
           </div>
