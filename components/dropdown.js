@@ -1,6 +1,7 @@
 import { useState, useEffect, useRef } from "react";
 
 import { BsPlusCircle } from "react-icons/bs";
+import { FaAngleDown , FaAngleUp } from "react-icons/fa";
 import Modal from "./modal";
 
 import { addNewPart } from "../services/dashboardService";

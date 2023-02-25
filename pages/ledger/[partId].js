@@ -42,7 +42,6 @@ const Ledger = () => {
   const [invoice, setInvoice] = useState(null);
   const [quantity, setQuantity] = useState(null);
   const [unit, setUnit] = useState(null);
-  const [price, setPrice] = useState(null);
   const [partId, setPartId] = useState(router.query.partId);
   const [ledgerPart, setLedgerPart] = useState(null);
   const [token, setToken] = useState(null);
@@ -58,14 +57,25 @@ const Ledger = () => {
     {
       accessor1: "quantity",
       label: "Quantity",
-      width: "10%",
+      width: "15%",
+      textalign: "center",
+    }, {
+      accessor1: "quantity_left",
+      label: "Left Quantity",
+      width: "15%",
       textalign: "center",
     },
-    { accessor1: "vendor", label: "Vendor", width: "25%", textalign: "center" },
     {
       accessor1: "document_id",
+      accessor2:"vendor",
       label: "Document ID",
-      width: "25%",
+      width: "15%",
+      textalign: "center",
+    },
+    {
+      accessor1: "created_by",
+      label: "Created By",
+      width: "15%",
       textalign: "center",
     },
   ];
@@ -78,6 +88,7 @@ const Ledger = () => {
     // fetch data only if token is defined or redirect to login
     if (localStorage.getItem("token") != null) {
       const token = localStorage.getItem("token");
+      const partId = router.query.partId;
       setToken(token);
       if (partId != null || partId != undefined) {
         setLedgerPart(partId);
@@ -102,7 +113,7 @@ const Ledger = () => {
     } else {
       Router.push("/login");
     }
-  }, [partId]);
+  }, [router.query.partId]);
 
   // calculate screen size
   function useWindowSize() {
@@ -229,12 +240,18 @@ if(res.status == 200){
   const status = [
     { name: "Loss on Line", value: "LINE_LOSS" },
     { name: "Production Return", value: "PROD_RETURN" },
+    { name: "Positive Adjustment", value: "ADJ_PLUS" },
+    { name: "Negative Adjustment", value: "ADJ_MINUS" },
+    { name: "Quality Reject", value: "QUALITY_REJECT" },
   ];
   const searchStatusList = [
     { name: "Loss on Line", value: "LINE_LOSS" },
     { name: "Production Return", value: "PROD_RETURN" },
-    { name: "Stock In", value: "CREDIT" },
-    { name: "Stock Out", value: "DEBIT" },
+    { name: "Credit", value: "CREDIT" },
+    { name: "Debit", value: "DEBIT" },
+    { name: "Positive Adjustment", value: "ADJ_PLUS" },
+    { name: "Negative Adjustment", value: "ADJ_MINUS" },
+    { name: "Quality Reject", value: "QUALITY_REJECT" },
   ];
 //   console.log("status", searchStatus);
   let form = null;
