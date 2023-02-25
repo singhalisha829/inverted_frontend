@@ -1,23 +1,21 @@
 import Router from "next/router";
 import Head from "next/head";
-import { useState, useEffect, useRef } from "react";
+import { useState, useEffect} from "react";
 import { useRouter } from "next/router";
 
-import Sidebar from "../components/sidebar";
-import { FaFileContract, FaTimes } from "react-icons/fa";
-import Table from "../components/table";
-import Dropdown from "../components/dropdown";
-import Header from "../components/header";
+import { FaFileContract} from "react-icons/fa";
+import Table from "../../components/table";
+import Dropdown from "../../components/dropdown";
 import {
   fetchPartByPartId,
   fetchLedgerByPartId,
   fetchVendorList,
   fetchUnitList,
   addNewLedger,
-} from "../services/stockInService";
-import LedgerCard from "../components/ledgerCard";
+} from "../../services/stockInService";
+import LedgerCard from "../../components/ledgerCard";
 
-import Spinner from "../components/spinner";
+import Spinner from "../../components/spinner";
 import DatePicker from "react-datepicker";
 import "react-datepicker/dist/react-datepicker.css";
 
@@ -45,8 +43,7 @@ const Ledger = () => {
   const [quantity, setQuantity] = useState(null);
   const [unit, setUnit] = useState(null);
   const [price, setPrice] = useState(null);
-  const [vendor, setVendor] = useState(null);
-  const [partId, setPartId] = useState(null);
+  const [partId, setPartId] = useState(router.query.partId);
   const [ledgerPart, setLedgerPart] = useState(null);
   const [token, setToken] = useState(null);
   const [loading, setLoading] = useState(false);
@@ -75,18 +72,16 @@ const Ledger = () => {
 
   const notifySuccessPost = () =>
     toast.success("New Ledger Added Successfully");
+    console.log(router.query)
 
   useEffect(() => {
     // fetch data only if token is defined or redirect to login
     if (localStorage.getItem("token") != null) {
       const token = localStorage.getItem("token");
       setToken(token);
-      const partName = router.query.id;
-      if (partName != null || partName != undefined) {
-        setLedgerPart(partName);
-        fetchPartByPartId(partName, token).then((res) => {
-        //   console.log("res", res.data);
-          setPartId(res.data[0].id);
+      if (partId != null || partId != undefined) {
+        setLedgerPart(partId);
+        fetchPartByPartId(partId, token).then((res) => {
           setShortDescription(res.data[0].short_description);
           setlongDescription(res.data[0].long_description);
           setPartQuantity(res.data[0].quantity);
@@ -97,7 +92,7 @@ const Ledger = () => {
           setVendorList(res.data);
         });
         fetchUnitList(token).then((res) => setUnitList(res.data));
-        fetchLedgerByPartId(partName, token).then((res) => {
+        fetchLedgerByPartId(partId, token).then((res) => {
         const sorted = [...res.data.data.output].reverse();
           setLedger(sorted);
           setShowLedger(true);
@@ -107,7 +102,7 @@ const Ledger = () => {
     } else {
       Router.push("/login");
     }
-  }, [router.query.id]);
+  }, [partId]);
 
   // calculate screen size
   function useWindowSize() {
@@ -162,19 +157,13 @@ const Ledger = () => {
       //     return;
     } else {
         setIsButtonDisabled(true);
-      const date =
-        selectedDate.getFullYear() +
-        "-" +
-        (selectedDate.getMonth() + 1) +
-        "-" +
-        selectedDate.getDate();
+      const date =moment(selectedDate).format('YYYY-MM-DD')
 
       const formData = [
         {
           date: date,
           quantity: quantity + " " + unit,
           transaction_type: selectedStatus,
-          vendor: vendor,
           document_id: invoice,
           part: partId,
         },
@@ -265,7 +254,6 @@ if(res.status == 200){
                 parentCallback={(data) => setSelectedStatus(data.value)}
                 width={size.width > "600" ? "70%" : "100%"}
                 dropdownWidth={size.width > "600" ? "16vw" : "70vw"}
-                searchWidth={size.width > "600" ? "13vw" : "60vw"}
                 height="3rem"
                 border={true}
               />
@@ -321,7 +309,6 @@ if(res.status == 200){
                 options={unitList}
                 name="symbol"
                 dropdownWidth={size.width > "600" ? "11vw" : "55vw"}
-                searchWidth={size.width > "600" ? "8vw" : "47vw"}
                 height="3rem"
                 parentCallback={(data) => setUnit(data.symbol)}
                 border={true}
@@ -336,7 +323,7 @@ if(res.status == 200){
           {/* {selectedStatus != 'LOSS'?<div className="field_width">
                {size.width>'600'?<div> Vendor:</div>:null}
                 <Dropdown width={size.width>'600'?'70%':'100%'} placeholder='Select Vendor' name="name" options={vendorList} height="3rem"
-            parentCallback={(data)=>setVendor(data.id)} dropdownWidth={size.width>'600'?'16vw':'70vw'} searchWidth={size.width>'600'?'13vw':'60vw'} border={true}/></div>:null} */}
+            parentCallback={(data)=>setVendor(data.id)} dropdownWidth={size.width>'600'?'16vw':'70vw'} border={true}/></div>:null} */}
         </div>
         <div className="ledger_form_footer">
           <div className="ledger_button">
@@ -408,14 +395,12 @@ if(res.status == 200){
               <div  style={{width:'60%'}}>
               <Dropdown
                 allItems="true"
-                placeholder="Select Status"
                 searchPlaceholder="Search Status"
                 options={searchStatusList}
                 name="name"
                 parentCallback={(data) => setSearchStatus(data.value)}
                 width={size.width > "600" ? "40%" : "60%"}
                 dropdownWidth={size.width > "600" ? "16vw" : "70vw"}
-                searchWidth={size.width > "600" ? "13vw" : "60vw"}
                 height="3rem"
                 border={true}
                 defaultValue="All"

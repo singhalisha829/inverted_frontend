@@ -7,6 +7,8 @@ import Logo from "../public/logo.png";
 import Logo_inverted from "../public/Logo_inverted.png";
 
 import { FaTh, FaSignOutAlt, FaShoppingCart } from "react-icons/fa";
+import { BsJournalText } from "react-icons/bs";
+
 import { IoConstruct } from "react-icons/io5";
 import { useState } from "react";
 
@@ -22,6 +24,11 @@ const pages = [
       link: "/order",
       icon:<IoConstruct/>
   },
+  {
+    name: "Ledger",
+    link: "/ledger",
+    icon:<BsJournalText/>
+},
 
 ];
 

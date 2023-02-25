@@ -26,6 +26,7 @@
 
 
 
+
 .part_id1{
    color: #EB2129;
    background-color: #f8c9cb;
@@ -362,4 +363,11 @@ justify-content: space-between;
 .ledger_input{
 width:100%;
 }
+}
+
+
+/* index page */
+.margin_auto{
+  margin-left: auto;
+  margin-right: auto;
 }

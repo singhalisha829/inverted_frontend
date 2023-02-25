@@ -2,9 +2,9 @@ import { useEffect, useState } from 'react';
 import Router from 'next/router';
 
 
-const OrderList = (props) =>{
+const List = (props) =>{
     const [cardFilter, setCardFilter] = useState([]);
-    const [data,setData]= useState(props.ordersList);
+    const [data,setData]= useState(props.rows);
 
 
      // search feature in cards list
@@ -60,22 +60,20 @@ const OrderList = (props) =>{
         <div className='order_card_list'>
             {props.search != undefined || props.filter != undefined? cardFilter.map((order,index)=>(
         <div key={index} className="order_list" onClick={()=>Router.push({pathname:props.path,query:{id:order.id}})}>
-        <div className="order_list_content">{order.production_order_no?order.production_order_no:order.purchase_order_no}</div>
-        <div className="order_list_content">{order.date}</div>
-        <div className="order_list_content">{order.created_by}</div>
-        {status}
+  {props.columns.map((col,sub_index)=>(
+    <div key={sub_index} className="order_list_content" style={{width:col.width,textAlign:col.textalign}}>{order[col.accessor1]}</div>
+    ))}
         </div>))
         :
         data.map((order,index)=>(
-<div key={index} className="order_list" onClick={()=>Router.push({pathname:props.path,query:{id:order.id}})}>
-        <div className="order_list_content">{order.production_order_no?order.production_order_no:order.purchase_order_no}</div>
-        <div className="order_list_content">{order.date}</div>
-        <div className="order_list_content">{order.created_by}</div>
-        {status}
+    <div key={index} className="order_list" onClick={()=>Router.push({pathname:props.path,query:{id:order.id}})}>
+  {props.columns.map((col,sub_index)=>(
+    <div key={sub_index} className="order_list_content" style={{width:col.width,textAlign:col.textalign}}>{order[col.accessor1]}</div>
+    ))}
         </div>
         ))}
         </div>
     )
 }
 
-export default OrderList;
+export default List;

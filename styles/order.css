@@ -19,12 +19,6 @@
     margin-bottom: 3rem;
 }
 
-.clear_icon{
-    color:#3F5575;
-    position: absolute;
-    top:15.2rem;
-    left: 87vw;
-}
 
 .order_section{
     width: 77vw;
@@ -91,9 +85,6 @@ display: flex;
     margin-right: auto;
 }
 
-.clear_icon:hover{
-    cursor: pointer;
-}
 
 @media(max-width:600px){
 
@@ -118,11 +109,6 @@ display: flex;
         font-weight: 500;
         font-size: 1.5rem;
         line-height: 1rem;
-    }
-
-    .clear_icon{
-        top:17.1rem;
-        left:82.1vw;
     }
 
     
