@@ -1,9 +1,7 @@
-import Sidebar from "../components/sidebar";
 import Dropdown from "../components/dropdown";
 import Router from "next/router";
 import { useState, useEffect } from "react";
 import Head from "next/head";
-import Header from "../components/header";
 
 import { fetchPartTypeList } from "../services/dashboardService";
 import {

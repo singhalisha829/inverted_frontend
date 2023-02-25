@@ -19,6 +19,17 @@ const Table = (props) => {
     const [arrow, setArrow] = useState(null);
     const [sortedColumn,setSortedColumn] = useState(null);
     const [token,setToken]= useState(null);
+
+    const transactionTypeList ={
+       "DEBIT":"Debit" ,
+       "CREDIT": "Credit" ,
+       "LINE_LOSS" : "Loss On Line" ,
+       "PROD_RETURN": "Production Return"  ,
+       "ADJ_PLUS": "Positive Adjustment"  ,
+       "ADJ_MINUS": "Negative Adjustment" ,
+       "QUALITY_REJECT": "Quality Reject" ,
+  
+    }
     
    useEffect(()=>{
     const token=localStorage.getItem('token')
@@ -226,13 +237,13 @@ const Table = (props) => {
                 </div></td>
                 }
                 
-                else if((row.transaction_type==='CREDIT' || row.transaction_type==='PROD_RETURN')  && column.accessor1==="status"){
+                else if((row.transaction_type==='CREDIT' || row.transaction_type==='PROD_RETURN' || row.transaction_type==='ADJ_PLUS')  && (column.accessor1==="status" || column.accessor1==="transaction_type")){
                   return <td key={columnIndex} width={column.width} style={{textAlign:column.textalign}}
-  ><div className="stock_in_style"><BsBoxArrowInDown /> {row.transaction_type == 'PROD_RETURN'?<div>Production Return</div>:<div>Stock In</div>}</div></td>
+  ><div className="stock_in_style"><BsBoxArrowInDown /> {transactionTypeList[row.transaction_type]}</div></td>
   }
- else if((row.transaction_type==='DEBIT' || row.transaction_type==='LINE_LOSS') && column.accessor1==="status"){
+ else if((row.transaction_type==='DEBIT' || row.transaction_type==='LINE_LOSS' || row.transaction_type==='QUALITY_REJECT' || row.transaction_type==='ADJ_MINUS') && (column.accessor1==="status" || column.accessor1==="transaction_type")){
     return <td key={columnIndex} width={column.width} style={{textAlign:column.textalign}}
-    ><div className="stock_out_style"><BsBoxArrowUp />{row.transaction_type==='LINE_LOSS'?<div>Loss On Line</div>:<div>Stock Out</div>}</div></td>
+    ><div className="stock_out_style"><BsBoxArrowUp />{transactionTypeList[row.transaction_type]}</div></td>
     }
     else if(column.accessor1==='status' && row.status==="Created"){
       return <td key={columnIndex} width={column.width} style={{textAlign:column.textalign}}
@@ -287,13 +298,13 @@ const Table = (props) => {
                   </div></td>
                 }
                 
-                else if((row.transaction_type==='CREDIT' || row.transaction_type==='PROD_RETURN')  && column.accessor1==="status"){
+                else if((row.transaction_type==='CREDIT' || row.transaction_type==='PROD_RETURN' || row.transaction_type==='ADJ_PLUS')  && (column.accessor1==="status" || column.accessor1==="transaction_type")){
                   return <td key={columnIndex} width={column.width} style={{textAlign:column.textalign}}
-  ><div className="stock_in_style"><BsBoxArrowInDown /> <div style={{marginLeft:"0.4rem"}}>{row.transaction_type == 'PROD_RETURN'?<span>Production Return</span>:<span>Stock In</span>}</div></div></td>
+  ><div className="stock_in_style"><BsBoxArrowInDown /> <div style={{marginLeft:"0.4rem"}}>{transactionTypeList[row.transaction_type]}</div></div></td>
   }
- else if((row.transaction_type==='DEBIT' || row.transaction_type==='LINE_LOSS') && column.accessor1==="status"){
+ else if((row.transaction_type==='DEBIT' || row.transaction_type==='LINE_LOSS' || row.transaction_type==='QUALITY_REJECT' || row.transaction_type==='ADJ_MINUS') && (column.accessor1==="status" || column.accessor1==="transaction_type")){
     return <td key={columnIndex} width={column.width} style={{textAlign:column.textalign}}
-    ><div className="stock_out_style"><BsBoxArrowUp /> <div style={{marginLeft:"0.4rem"}}>{row.transaction_type==='LINE_LOSS'?<span>Loss On Line</span>:<span>Stock Out</span>}</div></div></td>
+    ><div className="stock_out_style"><BsBoxArrowUp /> <div style={{marginLeft:"0.4rem"}}>{transactionTypeList[row.transaction_type]}</div></div></td>
     }
                   else if(column.accessor1==='status' && row.status==='Created' ){
                     return <td key={columnIndex} width={column.width} 

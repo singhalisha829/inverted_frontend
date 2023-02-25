@@ -43,7 +43,6 @@ const Ledger = () => {
   const [quantity, setQuantity] = useState(null);
   const [unit, setUnit] = useState(null);
   const [price, setPrice] = useState(null);
-  const [vendor, setVendor] = useState(null);
   const [partId, setPartId] = useState(router.query.partId);
   const [ledgerPart, setLedgerPart] = useState(null);
   const [token, setToken] = useState(null);
@@ -158,19 +157,13 @@ const Ledger = () => {
       //     return;
     } else {
         setIsButtonDisabled(true);
-      const date =
-        selectedDate.getFullYear() +
-        "-" +
-        (selectedDate.getMonth() + 1) +
-        "-" +
-        selectedDate.getDate();
+      const date =moment(selectedDate).format('YYYY-MM-DD')
 
       const formData = [
         {
           date: date,
           quantity: quantity + " " + unit,
           transaction_type: selectedStatus,
-          vendor: vendor,
           document_id: invoice,
           part: partId,
         },

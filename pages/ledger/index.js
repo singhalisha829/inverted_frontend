@@ -8,12 +8,19 @@ import Table from "../../components/table";
 import { FaTimes , FaExternalLinkAlt} from "react-icons/fa";
 import { useState, useEffect } from "react";
 
-import { fetchLedger } from "../../services/stockInService";
+import { fetchLedger,  fetchUnitList ,  addNewLedger, fetchPartById} from "../../services/stockInService";
 import { fetchPartTypeList,  fetchPartsList} from "../../services/dashboardService";
 import DatePicker from "react-datepicker";
 import "react-datepicker/dist/react-datepicker.css";
+import {
+  fetchDropdownUnitList,
+  fetchDropdownPartList,
+} from "../../services/productionOrderService";
 
 import ReactHtmlTableToExcel from "react-html-table-to-excel";
+
+import { ToastContainer, toast } from "react-toastify";
+import "react-toastify/dist/ReactToastify.css";
 
 
 const Ledger = () => {
@@ -24,13 +31,7 @@ const Ledger = () => {
   const [token, setToken] = useState(null);
   const [transactionType, setTransactionType] = useState("All");
   const [ledgerList, setLedgerList] = useState([]);
-  const [showForm, setShowForm] = useState(true);
-  const [selectedDate, setSelectedDate] = useState(new Date());
-  const [selectedStatus, setSelectedStatus] = useState(null);
-  const [invoice, setInvoice] = useState(null);
-  const [quantity, setQuantity] = useState(null);
-  const [unit, setUnit] = useState(null);
-  const [partId, setPartId] = useState(null);
+  const [showForm, setShowForm] = useState(false);
   const [partList, setPartList] = useState([]);
   const [unitList, setUnitList] = useState([]);
   const [isButtonDisabled, setIsButtonDisabled] = useState(false);
@@ -39,27 +40,22 @@ const Ledger = () => {
   const [partTypeList,setPartTypeList] = useState([]);
   const [partType,setPartType] = useState("All");
   const [formData,setFormData] = useState({
-    status:null,
-    part:null  
+    part:null,
+    date:today,
+    quantity:null,
+    unit:null,
+    transaction_type:null,
+    document_id:null
   })
 
-
-
-
-  const status = [
-    { name: "Completed", id: "Completed" },
-    { name: "Partially Processed", id: "Partial Processed" },
-    { name: "Created", id: "Created" },
-  ];
-
   const transactionTypeList =[
-    { name: "Debit", id: "DEBIT" },
-    { name: "Credit", id: "CREDIT" },
-    { name: "Loss On Line", id: "LINE_LOSS" },
-    { name: "Production Return", id: "PROD_RETURN" },
-    { name: "Positive Adjustment", id: "ADJ_PLUS" },
-    { name: "Negative Adjustment", id: "ADJ_MINUS" },
-    { name: "Quality Reject", id: "QUALITY_REJECT" },
+    { name: "Debit", value: "DEBIT" },
+    { name: "Credit", value: "CREDIT" },
+    { name: "Loss On Line", value: "LINE_LOSS" },
+    { name: "Production Return", value: "PROD_RETURN" },
+    { name: "Positive Adjustment", value: "ADJ_PLUS" },
+    { name: "Negative Adjustment", value: "ADJ_MINUS" },
+    { name: "Quality Reject", value: "QUALITY_REJECT" },
 
   ]
 
@@ -98,6 +94,9 @@ const Ledger = () => {
     },
   ];
 
+  const notifySuccessPost = () =>
+  toast.success("New Ledger Added Successfully");
+
   useEffect(() => {
     async function fetch() {
       if (localStorage.getItem("token") != undefined) {
@@ -109,6 +108,9 @@ const Ledger = () => {
 
         const partList = await fetchPartsList(token);
           setPartList(partList.data);
+
+        const unitList = await fetchUnitList(token);
+        setUnitList(unitList.data)
 
         setToken(token);
       } else {
@@ -171,67 +173,53 @@ const Ledger = () => {
 
   //   submit new ledger only if all values are entered
   const submitPartHandler = async () => {
-    setLoading(true);
-    if (selectedStatus === null) {
-      toast.warning("Enter Status!");
+    console.log(formData)
+    if (formData.transaction_type === null) {
+      toast.warning("Select Status!");
       return;
-    } else if (invoice === null) {
+    } else if (formData.document_id === null) {
       toast.warning("Enter Invoice!");
       return;
-    } else if (selectedDate === null) {
+    } else if (formData.date === null) {
       toast.warning("Enter Date!");
       return;
-    } else if (unit === null) {
+    } else if (formData.unit === null) {
       toast.warning("Enter Unit!");
       return;
-      // }else if(price === null){
-      //     toast.warning("Enter Price!")
-      //     return;
-    } else if (quantity === null) {
+    } else if (formData.quantity === null) {
       toast.warning("Enter Quantity!");
       return;
-      // }else if(vendor === null){
-      //     toast.warning("Enter Vendor!")
-      //     return;
     } else {
       setIsButtonDisabled(true);
-      const date =
-        selectedDate.getFullYear() +
-        "-" +
-        (selectedDate.getMonth() + 1) +
-        "-" +
-        selectedDate.getDate();
-
-      const formData = [
+      console.log(formData.date)
+      const date= moment(formData.date).format('YYYY-MM-DD')
+      const data = [
         {
           date: date,
-          quantity: quantity + " " + unit,
-          transaction_type: selectedStatus,
-          document_id: invoice,
-          part: partId,
+          quantity: formData.quantity + " " + formData.unit,
+          transaction_type: formData.transaction_type,
+          document_id: formData.document_id,
+          part: formData.part,
         },
       ];
-      const res = await addNewLedger(formData, token);
-      //   console.log("res",res);
+      const res = await addNewLedger(data, token);
 
       // fetch list of ledgers again
       if (res.status == 200) {
-        fetchLedgerByPartId(ledgerPart, token)
-          .then((res) => {
-            const sorted = [...res.data.data.output].reverse();
-            setLedger(sorted);
-          })
-          .catch((err) => toast.error(err.message));
-        fetchPartByPartId(ledgerPart, token).then((res) => {
-          setPartId(res.data[0].id);
-          setShortDescription(res.data[0].short_description);
-          setlongDescription(res.data[0].long_description);
-          setPartQuantity(res.data[0].quantity);
-          setUnit(res.data[0].quantity.split(" ")[1]);
-        });
-        setIsButtonDisabled(false);
-        notifySuccessPost();
-        cancelPartHandler();
+        async function fetch() {
+          const data={
+            start_date:moment(startDate).format('YYYY-MM-DD'),
+            end_date:moment(endDate).format('YYYY-MM-DD')
+          }
+
+          const ledger = await fetchLedger(token,data);
+          setLedgerList([...ledger.data.data.output]);
+          setIsButtonDisabled(false);
+          notifySuccessPost();
+          cancelPartHandler();
+        }
+        fetch();
+    
       } else {
         setIsButtonDisabled(false);
         toast.error(res.data.status.description);
@@ -239,11 +227,35 @@ const Ledger = () => {
     }
   };
 
+  const cancelPartHandler = () => {
+    setShowForm(false);
+    setFormData({
+      part:null,
+      date:today,
+      quantity:null,
+      unit:null,
+      transaction_type:null,
+      document_id:null
+    })
+  };
+
   const handleDateChange = (dates) => {
     const [start, end] = dates;
     setStartDate(start);
     setEndDate(end);
   };
+
+  const handleUnit= (data)=>{
+    // fetchPartById(data.id, token).then((res) => {
+    //   if (res.data.quantity != null || res.data.quantity != undefined) {
+    //     setFormData({...formData,unit:res.data.quantity.split(" ")[1]});
+    //   }
+    // });
+
+    // fetchDropdownUnitList(token, data.unit_type).then((res) => {
+    //   setUnitList(res.data.data.output);
+    // });
+}
 
   let form = null;
 
@@ -256,9 +268,9 @@ const Ledger = () => {
             {size.width > "600" ? <div>Status:</div> : null}
               <Dropdown
                 searchPlaceholder="Search Status"
-                options={status}
+                options={transactionTypeList}
                 name="name"
-                parentCallback={(data) => setSelectedStatus(data.value)}
+                parentCallback={(data) => setFormData({...formData,transaction_type:data.value})}
                 width={size.width > "600" ? "70%" : "100%"}
                 dropdownWidth={size.width > "600" ? "16vw" : "70vw"}
                 height="3rem"
@@ -272,7 +284,7 @@ const Ledger = () => {
                 options={partList}
                 isPartsList="true"
                 name="short_description"
-                parentCallback={(data) => setSelectedStatus(data.value)}
+                parentCallback={(data) => {setFormData({...formData,part:data.id});handleUnit(data)}}
                 width={size.width > "600" ? "70%" : "100%"}
                 dropdownWidth={size.width > "600" ? "16vw" : "70vw"}
                 height="3rem"
@@ -289,7 +301,7 @@ const Ledger = () => {
                 width: size.width > "600" ? "70%" : "100%",
               }}
               placeholder="Enter Document ID"
-              onChange={(e) => setInvoice(e.target.value)}
+              onChange={(e) => setFormData({...formData,document_id:e.target.value})}
               className="ledger_input"
             />
           </div>
@@ -298,8 +310,8 @@ const Ledger = () => {
             <DatePicker
               dateFormat="dd/MM/yyyy"
               placeholderText="Enter Date"
-              selected={selectedDate}
-              onChange={(date) => setSelectedDate(date)}
+              selected={formData.date}
+              onChange={(date) => setFormData({...formData,date:date})}
             />
           </div>
 
@@ -316,11 +328,11 @@ const Ledger = () => {
                 }}
                 onChange={(e) => {
                   e.target.value < 0
-                    ? setQuantity("")
-                    : setQuantity(e.target.value);
+                    ? setFormData({...formData,quantity:''})
+                    : setFormData({...formData,quantity:e.target.value});
                 }}
                 placeholder="0.00"
-                value={quantity}
+                value={formData.quantity}
               />
               <Dropdown
                 width="50%"
@@ -330,9 +342,9 @@ const Ledger = () => {
                 name="symbol"
                 dropdownWidth={size.width > "600" ? "11vw" : "55vw"}
                 height="3rem"
-                parentCallback={(data) => setUnit(data.symbol)}
+                parentCallback={(data) => setFormData({...formData,unit:data.symbol})}
                 border={true}
-                value={unit}
+                value={formData.unit}
               />
             </div>
           </div>
