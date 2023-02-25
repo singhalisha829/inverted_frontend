@@ -231,7 +231,6 @@ const Ledger = () => {
                 parentCallback={(data) => setSelectedStatus(data.value)}
                 width={size.width > "600" ? "70%" : "100%"}
                 dropdownWidth={size.width > "600" ? "16vw" : "70vw"}
-                searchWidth={size.width > "600" ? "13vw" : "60vw"}
                 height="3rem"
                 border={true}
               />
@@ -286,7 +285,6 @@ const Ledger = () => {
                 options={unitList}
                 name="symbol"
                 dropdownWidth={size.width > "600" ? "11vw" : "55vw"}
-                searchWidth={size.width > "600" ? "8vw" : "47vw"}
                 height="3rem"
                 parentCallback={(data) => setUnit(data.symbol)}
                 border={true}
@@ -343,7 +341,7 @@ const Ledger = () => {
           <Dropdown
             options={transactionTypeList}
             allItems="true"
-            placeholder="Select Transaction Type"
+            searchPlaceholder="Search Transaction Type"
             name="name"
             width="15vw"
             height="3.5rem"
@@ -353,14 +351,13 @@ const Ledger = () => {
               setTransactionType(data.name);
             }}
             dropdownWidth={size.width > "600" ? "15vw" : "30vw"}
-            searchWidth={size.width > "600" ? "12vw" : "22vw"}
             backGround="#F6F7FB"
             value={transactionType}
           />
            <Dropdown
             options={partTypeList}
             allItems="true"
-            placeholder="Select Status"
+            searchPlaceholder="Search Status"
             name="name"
             width="15vw"
             height="3.5rem"
@@ -369,7 +366,6 @@ const Ledger = () => {
               setFilterOnStatus(data.id);
             }}
             dropdownWidth={size.width > "600" ? "15vw" : "30vw"}
-            searchWidth={size.width > "600" ? "12vw" : "22vw"}
             backGround="#F6F7FB"
             value={partType}
           />

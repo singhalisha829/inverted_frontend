@@ -261,7 +261,6 @@ if(res.status == 200){
                 parentCallback={(data) => setSelectedStatus(data.value)}
                 width={size.width > "600" ? "70%" : "100%"}
                 dropdownWidth={size.width > "600" ? "16vw" : "70vw"}
-                searchWidth={size.width > "600" ? "13vw" : "60vw"}
                 height="3rem"
                 border={true}
               />
@@ -317,7 +316,6 @@ if(res.status == 200){
                 options={unitList}
                 name="symbol"
                 dropdownWidth={size.width > "600" ? "11vw" : "55vw"}
-                searchWidth={size.width > "600" ? "8vw" : "47vw"}
                 height="3rem"
                 parentCallback={(data) => setUnit(data.symbol)}
                 border={true}
@@ -332,7 +330,7 @@ if(res.status == 200){
           {/* {selectedStatus != 'LOSS'?<div className="field_width">
                {size.width>'600'?<div> Vendor:</div>:null}
                 <Dropdown width={size.width>'600'?'70%':'100%'} placeholder='Select Vendor' name="name" options={vendorList} height="3rem"
-            parentCallback={(data)=>setVendor(data.id)} dropdownWidth={size.width>'600'?'16vw':'70vw'} searchWidth={size.width>'600'?'13vw':'60vw'} border={true}/></div>:null} */}
+            parentCallback={(data)=>setVendor(data.id)} dropdownWidth={size.width>'600'?'16vw':'70vw'} border={true}/></div>:null} */}
         </div>
         <div className="ledger_form_footer">
           <div className="ledger_button">
@@ -404,14 +402,12 @@ if(res.status == 200){
               <div  style={{width:'60%'}}>
               <Dropdown
                 allItems="true"
-                placeholder="Select Status"
                 searchPlaceholder="Search Status"
                 options={searchStatusList}
                 name="name"
                 parentCallback={(data) => setSearchStatus(data.value)}
                 width={size.width > "600" ? "40%" : "60%"}
                 dropdownWidth={size.width > "600" ? "16vw" : "70vw"}
-                searchWidth={size.width > "600" ? "13vw" : "60vw"}
                 height="3rem"
                 border={true}
                 defaultValue="All"
