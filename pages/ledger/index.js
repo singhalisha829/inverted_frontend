@@ -1,39 +1,50 @@
 import Dropdown from "../../components/dropdown";
 import Router from "next/router";
 import Head from "next/head";
-import OrderList from "../../components/orderList";
 import Spinner from "../../components/spinner";
+import moment from "moment";
 
 import Table from "../../components/table";
-import { FaTimes } from "react-icons/fa";
+import { FaTimes , FaExternalLinkAlt} from "react-icons/fa";
 import { useState, useEffect } from "react";
 
 import { fetchLedger } from "../../services/stockInService";
-import { fetchPartTypeList } from "../../services/dashboardService";
+import { fetchPartTypeList,  fetchPartsList} from "../../services/dashboardService";
 import DatePicker from "react-datepicker";
 import "react-datepicker/dist/react-datepicker.css";
 
+import ReactHtmlTableToExcel from "react-html-table-to-excel";
+
+
 const Ledger = () => {
+  const today = new Date();
+  const oneMonthAgo=new Date(today.getFullYear(), today.getMonth() - 1, today.getDate());
   const [searchText, setSearchText] = useState(null);
   const [filterOnStatus, setFilterOnStatus] = useState(null);
   const [token, setToken] = useState(null);
   const [transactionType, setTransactionType] = useState("All");
-  const [ledgerList, setLedgerList] = useState(null);
-  const [showForm, setShowForm] = useState(false);
+  const [ledgerList, setLedgerList] = useState([]);
+  const [showForm, setShowForm] = useState(true);
   const [selectedDate, setSelectedDate] = useState(new Date());
   const [selectedStatus, setSelectedStatus] = useState(null);
   const [invoice, setInvoice] = useState(null);
   const [quantity, setQuantity] = useState(null);
   const [unit, setUnit] = useState(null);
-  const [vendor, setVendor] = useState(null);
   const [partId, setPartId] = useState(null);
-  const [vendorList, setVendorList] = useState([]);
+  const [partList, setPartList] = useState([]);
   const [unitList, setUnitList] = useState([]);
   const [isButtonDisabled, setIsButtonDisabled] = useState(false);
-  const [startDate, setStartDate] = useState(null);
-  const [endDate, setEndDate] = useState(null);
+  const [endDate, setEndDate] = useState(today);
+  const [startDate, setStartDate] = useState(oneMonthAgo);
   const [partTypeList,setPartTypeList] = useState([]);
-  const [partType,setPartType] = useState("All")
+  const [partType,setPartType] = useState("All");
+  const [formData,setFormData] = useState({
+    status:null,
+    part:null  
+  })
+
+
+
 
   const status = [
     { name: "Completed", id: "Completed" },
@@ -92,14 +103,12 @@ const Ledger = () => {
       if (localStorage.getItem("token") != undefined) {
         const token = localStorage.getItem("token");
 
-        // fetch ledger
-        const ledger = await fetchLedger(token);
-        setLedgerList(ledger.data.data.output);
-
         //fetch part type list
         const partTypeList = await fetchPartTypeList(token);
         setPartTypeList(partTypeList.data)
 
+        const partList = await fetchPartsList(token);
+          setPartList(partList.data);
 
         setToken(token);
       } else {
@@ -109,6 +118,29 @@ const Ledger = () => {
 
     fetch();
   }, []);
+
+  useEffect(()=>{
+    const token = localStorage.getItem("token");
+    console.log(startDate,endDate)
+    if(startDate != null && endDate != null){
+      console.log("inside")
+    async function fetch() {
+        const data={
+          start_date:moment(startDate).format('YYYY-MM-DD'),
+          end_date:moment(endDate).format('YYYY-MM-DD')
+        }
+        console.log(data)
+
+        // fetch ledger
+        const ledger = await fetchLedger(token,data);
+        setLedgerList([...ledger.data.data.output]);
+        console.log(ledger.data.data.output)
+    }
+    fetch();
+
+  }
+
+  },[startDate,endDate])
 
   // calculate screen size
   function useWindowSize() {
@@ -175,7 +207,6 @@ const Ledger = () => {
           date: date,
           quantity: quantity + " " + unit,
           transaction_type: selectedStatus,
-          vendor: vendor,
           document_id: invoice,
           part: partId,
         },
@@ -223,7 +254,6 @@ const Ledger = () => {
         <div className="ledger_form_row ledger_form_content">
           <div className="field_width">
             {size.width > "600" ? <div>Status:</div> : null}
-            <div>
               <Dropdown
                 searchPlaceholder="Search Status"
                 options={status}
@@ -234,8 +264,22 @@ const Ledger = () => {
                 height="3rem"
                 border={true}
               />
-            </div>
           </div>
+          <div className="field_width">
+            {size.width > "600" ? <label>Part:</label> : null}
+            <Dropdown
+                searchPlaceholder="Search Part ID/Name"
+                options={partList}
+                isPartsList="true"
+                name="short_description"
+                parentCallback={(data) => setSelectedStatus(data.value)}
+                width={size.width > "600" ? "70%" : "100%"}
+                dropdownWidth={size.width > "600" ? "16vw" : "70vw"}
+                height="3rem"
+                border={true}
+              />
+          </div>
+
           <div className="field_width">
             {size.width > "600" ? <label>Document ID:</label> : null}
             <input
@@ -249,7 +293,7 @@ const Ledger = () => {
               className="ledger_input"
             />
           </div>
-          <div className="field_width">
+          <div className="field_width" style={{paddingRight:'10%'}}>
             {size.width > "600" ? <label>Date:</label> : null}
             <DatePicker
               dateFormat="dd/MM/yyyy"
@@ -330,7 +374,6 @@ const Ledger = () => {
         <div className="order_section">
           <span style={{ width: "20%", marginRight: "2rem" }}>
             <DatePicker
-              selected={startDate}
               selectsRange
               startDate={startDate}
               endDate={endDate}
@@ -338,12 +381,13 @@ const Ledger = () => {
               onChange={handleDateChange}
             />
           </span>
+          <span style={{ width: "15%", marginRight: "2rem" }}>
           <Dropdown
             options={transactionTypeList}
             allItems="true"
             searchPlaceholder="Search Transaction Type"
             name="name"
-            width="15vw"
+            width="100%"
             height="3.5rem"
             border={true}
             parentCallback={(data) => {
@@ -353,13 +397,14 @@ const Ledger = () => {
             dropdownWidth={size.width > "600" ? "15vw" : "30vw"}
             backGround="#F6F7FB"
             value={transactionType}
-          />
+          /></span>
+          <span style={{ width: "15%", marginRight: "2rem" }}>
            <Dropdown
             options={partTypeList}
             allItems="true"
             searchPlaceholder="Search Status"
             name="name"
-            width="15vw"
+            width="100%"
             height="3.5rem"
             border={true}
             parentCallback={(data) => {
@@ -368,24 +413,40 @@ const Ledger = () => {
             dropdownWidth={size.width > "600" ? "15vw" : "30vw"}
             backGround="#F6F7FB"
             value={partType}
-          />
+          /></span>
+          <span className="input-container">
           <input
             placeholder="Search.."
             style={{
               height: "3.5rem",
-              marginLeft: "2rem",
-              width: "70%",
               background: "#F6F7FB",
+              width:'100%'
             }}
             value={searchText}
             onChange={(e) => setSearchText(e.target.value)}
           />
-          <div>
             <FaTimes
-              className="clear_icon"
               title="Clear"
+              color="#3F5575"
               onClick={() => setSearchText("")}
             />
+          </span>
+
+           {/* export parts table */}
+           <div
+            style={{ width: "10rem", marginRight: "1.5rem" }}
+          >
+            <ReactHtmlTableToExcel
+              table="ledgerTable"
+              filename="ledger_report"
+              sheet="ledger_report"
+              buttonText="Export"
+              className="export_button"
+            />
+          </div>
+
+          <div className="export_symbol">
+            <FaExternalLinkAlt size={15} color= "#3F5575" />
           </div>
         </div>
 
@@ -401,8 +462,11 @@ const Ledger = () => {
         </div>
 
         <div className="order_table">
-          {ledgerList ? (
+        {form}
+
+          {ledgerList.length>0 ? (
             <Table
+              id="ledgerTable"
               columns={columns}
               rows={ledgerList}
               search={searchText}
@@ -425,7 +489,6 @@ const Ledger = () => {
           </div>
         ) : null}
 
-        {form}
       </div>
     </div>
   );

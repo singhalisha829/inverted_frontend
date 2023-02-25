@@ -162,24 +162,23 @@ const Order = () => {
             backGround="#F6F7FB"
             value={orderType}
           />
+          <span className="input-container" style={{width:'70%',marginLeft:'2rem'}}>
           <input
             placeholder="Search.."
             style={{
               height: "3.5rem",
-              marginLeft: "2rem",
-              width: "70%",
+              width: "100%",
               background: "#F6F7FB",
             }}
             value={searchText}
             onChange={(e) => setSearchText(e.target.value)}
           />
-          <div>
             <FaTimes
-              className="clear_icon"
               title="Clear"
+              color="#3F5575"
               onClick={() => setSearchText("")}
             />
-          </div>
+          </span>
         </div>
 
         <div

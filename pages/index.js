@@ -251,7 +251,7 @@ export default function Home() {
               />
             ) : null}
           </div>
-
+          <span className="input-container" style={{width:'75%'}}>
           <input
             placeholder="Search.."
             value={searchText}
@@ -260,14 +260,13 @@ export default function Home() {
               setSearchText(e.target.value);
             }}
           />
-          <div className="cancel_symbol">
             <FaTimes
               size={15}
-              style={{ color: "#3F5575" }}
+              color= "#3F5575"
               title="Clear"
               onClick={() => setSearchText("")}
             />
-          </div>
+          </span>
 
           {/* export parts table */}
           <div

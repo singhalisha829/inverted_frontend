@@ -58,3 +58,24 @@ input:disabled{
 .react-datepicker__input-container input{
   width: 100% !important;
 }
+
+svg:hover{
+  cursor: pointer;
+}
+
+/* for search field */
+.input-container {
+  position: relative;
+  width:50%;
+}
+
+.input-container input {
+  padding-left: 2rem;
+}
+
+.input-container svg {
+  position: absolute;
+  top: 50%;
+  right: 0.5rem;
+  transform: translateY(-50%);
+}
