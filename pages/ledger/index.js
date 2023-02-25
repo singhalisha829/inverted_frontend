@@ -30,6 +30,7 @@ const Ledger = () => {
   const [filterOnStatus, setFilterOnStatus] = useState(null);
   const [token, setToken] = useState(null);
   const [transactionType, setTransactionType] = useState("All");
+  const [transaction, setTransaction] = useState("All");
   const [ledgerList, setLedgerList] = useState([]);
   const [showForm, setShowForm] = useState(false);
   const [partList, setPartList] = useState([]);
@@ -67,7 +68,7 @@ const Ledger = () => {
       textalign: "center",
     },
     { accessor1: "date", label: "Date", width: "10%", textalign: "center" },
-    { accessor1: "part", label: "Part ID", width: "10%", textalign: "center" },
+    { accessor1: "part",accessor2:"part_short_description", label: "Part ID", width: "10%", textalign: "center" },
     {
       accessor1: "quantity",
       label: "Quantity",
@@ -214,6 +215,7 @@ const Ledger = () => {
 
           const ledger = await fetchLedger(token,data);
           setLedgerList([...ledger.data.data.output]);
+          console.log("After form",ledger.data.data.output)
           setIsButtonDisabled(false);
           notifySuccessPost();
           cancelPartHandler();
@@ -403,12 +405,13 @@ const Ledger = () => {
             height="3.5rem"
             border={true}
             parentCallback={(data) => {
-              setFilterOnStatus(data.id);
-              setTransactionType(data.name);
+              setTransactionType(data.value);
+              setTransaction(data.name);
+
             }}
             dropdownWidth={size.width > "600" ? "15vw" : "30vw"}
             backGround="#F6F7FB"
-            value={transactionType}
+            value={transaction}
           /></span>
           <span style={{ width: "15%", marginRight: "2rem" }}>
            <Dropdown
@@ -420,7 +423,7 @@ const Ledger = () => {
             height="3.5rem"
             border={true}
             parentCallback={(data) => {
-              setFilterOnStatus(data.id);
+              setPartType(data.id);
             }}
             dropdownWidth={size.width > "600" ? "15vw" : "30vw"}
             backGround="#F6F7FB"
@@ -482,6 +485,10 @@ const Ledger = () => {
               columns={columns}
               rows={ledgerList}
               search={searchText}
+              filter1={transactionType}
+              filterIn1="transaction_type"
+              filter2={partType}
+              filterIn2="part_type"
               cursor="pointer"
               width="77vw"
             />

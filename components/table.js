@@ -34,6 +34,7 @@ const Table = (props) => {
    useEffect(()=>{
     const token=localStorage.getItem('token')
     setToken(token)
+    console.log("table",props.filter1)
     props.columns.forEach(el=>{
       if(el.sort!= undefined){
         if(el.sort=='ASC'){
@@ -44,15 +45,13 @@ const Table = (props) => {
         setSortedColumn(el.accessor1)
       }
     })
-    //  search table based on dropdown filter and searchbar value
-     if(props.search != undefined && props.filter !=undefined ){
-      const filterTable=[];
 
-      for(let i=0;i<data.length;i++){
-        if(data[i][props.filterIn]== props.filter){
-          filterTable.push(data[i])
-        }
-      }
+
+    //  search table based on dropdown filter and searchbar value
+     if(props.search != undefined && (props.filter1 !=undefined && props.filter1 !="All") ){
+      const filterTable= data.filter((item) =>
+      item[props.filterIn1].toLowerCase().includes(props.filter1.toLowerCase())
+    );
 
       const searchTable = filterTable.filter(o => Object.keys(o).some(
         k => String(o[k]).toLowerCase().includes(props.search.toLowerCase()))
@@ -73,14 +72,11 @@ const Table = (props) => {
      }
      
     //  search table based on dropdown filter
-     else if(props.filter !=undefined){
-      const filterTable=[];
-      for(let i=0;i<data.length;i++){
-        if(data[i][props.filterIn]== props.filter){
-          filterTable.push(data[i])
-        }
-      }
-      
+     else if(props.filter1 !=undefined && props.filter1 !="All"){
+      const filterTable = data.filter((item) =>
+      item[props.filterIn1].toLowerCase().includes(props.filter1.toLowerCase())
+    );
+  
       setTableFilter([...filterTable])
      }
      else{
@@ -88,7 +84,7 @@ const Table = (props) => {
        setTableFilter([...data])
      }
     //  console.log("filter",props.filter)
-   },[props.search,props.filter])
+   },[props.search,props.filter1])
 
 
      // calculate screen size
@@ -212,7 +208,7 @@ const Table = (props) => {
     let table_content=null;
     
       table_content=(<tbody>
-        {props.search != undefined || props.filter != undefined?tableFilter
+        {props.search != undefined || props.filter1 != undefined || props.filter1 != "All"?tableFilter
         .map((row,index) => {
           return (
             <tr key={index} onClick={()=>{
@@ -256,6 +252,9 @@ const Table = (props) => {
     else if(column.accessor1==='status' && row.status==='Completed' ){
       return <td key={columnIndex} width={column.width} 
     ><div className="completed_status_style">Completed</div></td>
+    }else if(column.accessor2==='part_short_description'  ){
+      return <td key={columnIndex} width={column.width} style={{textAlign:column.textalign}}
+      ><div style={{display:'flex',flexDirection:'column'}}>{row[column.accessor1]} <span style={{color:"rgb(200, 198, 198)",fontSize:'1.3rem'}}>({row[column.accessor2]}) </span></div></td>
     }
                 else{
                 return <td key={columnIndex} width={column.width} style={{textAlign:column.textalign}}
@@ -322,6 +321,10 @@ const Table = (props) => {
                   else if(column.accessor1==='quantity_value' && props.outOf==true ){
                     return <td key={columnIndex} width={column.width} style={{textAlign:column.textalign}}
                     ><div>{row.released_quantity_value} {row.released_quantity_value==0?null:row.released_quantity_unit_symbol} / {row[column.accessor1]} {row[column.accessor2]}</div></td>
+                  }
+                  else if(column.accessor2==='part_short_description'  ){
+                    return <td key={columnIndex} width={column.width} style={{textAlign:column.textalign}}
+                    ><div style={{display:'flex',flexDirection:'column'}}>{row[column.accessor1]} <span style={{color:"rgb(200, 198, 198)",fontSize:'1.3rem'}}>({row[column.accessor2]}) </span></div></td>
                   }
                 else{
                 return <td key={columnIndex} width={column.width} style={{textAlign:column.textalign}}
