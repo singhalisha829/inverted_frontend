@@ -68,7 +68,7 @@ const Ledger = () => {
       textalign: "center",
     },
     { accessor1: "date", label: "Date", width: "10%", textalign: "center" },
-    { accessor1: "part",accessor2:"part_short_description", label: "Part ID", width: "10%", textalign: "center" },
+    { accessor1: "part",accessor2:"part_short_description", label: "Part ID", width: "20%", textalign: "center" },
     {
       accessor1: "quantity",
       label: "Quantity",
@@ -90,7 +90,7 @@ const Ledger = () => {
     {
       accessor1: "created_by",
       label: "Created By",
-      width: "20%",
+      width: "10%",
       textalign: "center",
     },
   ];
@@ -413,7 +413,7 @@ const Ledger = () => {
             backGround="#F6F7FB"
             value={transaction}
           /></span>
-          <span style={{ width: "15%", marginRight: "2rem" }}>
+          {/* <span style={{ width: "15%", marginRight: "2rem" }}>
            <Dropdown
             options={partTypeList}
             allItems="true"
@@ -428,7 +428,7 @@ const Ledger = () => {
             dropdownWidth={size.width > "600" ? "15vw" : "30vw"}
             backGround="#F6F7FB"
             value={partType}
-          /></span>
+          /></span> */}
           <span className="input-container">
           <input
             placeholder="Search.."
@@ -460,8 +460,8 @@ const Ledger = () => {
             />
           </div>
 
-          <div className="export_symbol">
-            <FaExternalLinkAlt size={15} color= "#3F5575" />
+          <div style={{marginTop:'0.5rem',marginLeft:"-2rem"}}>
+            <FaExternalLinkAlt size={15} color= "#3F5575"  />
           </div>
         </div>
 
