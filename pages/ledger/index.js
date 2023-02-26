@@ -12,7 +12,10 @@ import { fetchLedger,  fetchUnitList ,  addNewLedger, fetchPartById} from "../..
 import { fetchPartTypeList,  fetchPartsList} from "../../services/dashboardService";
 import DatePicker from "react-datepicker";
 import "react-datepicker/dist/react-datepicker.css";
-import List from "../../components/list";
+import {
+  fetchDropdownUnitList,
+  fetchDropdownPartList,
+} from "../../services/productionOrderService";
 
 import ReactHtmlTableToExcel from "react-html-table-to-excel";
 
@@ -26,7 +29,7 @@ const Ledger = () => {
   const [searchText, setSearchText] = useState(null);
   const [filterOnStatus, setFilterOnStatus] = useState(null);
   const [token, setToken] = useState(null);
-  const [transactionType, setTransactionType] = useState("All");
+  const [transactionType, setTransactionType] = useState(null);
   const [transaction, setTransaction] = useState("All");
   const [ledgerList, setLedgerList] = useState([]);
   const [showForm, setShowForm] = useState(false);
@@ -272,6 +275,7 @@ const Ledger = () => {
                 parentCallback={(data) => setFormData({...formData,transaction_type:data.value})}
                 width={size.width > "600" ? "70%" : "100%"}
                 dropdownWidth={size.width > "600" ? "16vw" : "70vw"}
+                height="3rem"
                 border={true}
               />
           </div>
@@ -285,6 +289,7 @@ const Ledger = () => {
                 parentCallback={(data) => {setFormData({...formData,part:data.id});handleUnit(data)}}
                 width={size.width > "600" ? "70%" : "100%"}
                 dropdownWidth={size.width > "600" ? "16vw" : "70vw"}
+                height="3rem"
                 border={true}
               />
           </div>
@@ -338,6 +343,7 @@ const Ledger = () => {
                 options={unitList}
                 name="symbol"
                 dropdownWidth={size.width > "600" ? "11vw" : "55vw"}
+                height="3rem"
                 parentCallback={(data) => setFormData({...formData,unit:data.symbol})}
                 border={true}
                 value={formData.unit}
@@ -370,34 +376,7 @@ const Ledger = () => {
 
   let content = null;
   if (size.width > "600") {
-    content = (
-      <div>
-      {ledgerList.length>0 ? (
-        <Table
-          id="ledgerTable"
-          columns={columns}
-          rows={ledgerList}
-          search={searchText}
-          filter={transactionType}
-          filterIn="transaction_type"
-          cursor="pointer"
-          width="77vw"
-        />
-      ) : (
-        <Spinner />
-      )}</div>
-    )
-  }else{
-    content = ledgerList.length>0 ? (
-      <List
-        rows={ledgerList}
-        search={searchText}
-        filter={filterOnStatus}
-        columns={columns}
-      />
-    ) : (
-      <Spinner />
-    );
+    
   }
 
 
@@ -445,14 +424,16 @@ const Ledger = () => {
             searchPlaceholder="Search Status"
             name="name"
             width="100%"
+            height="3.5rem"
             border={true}
             parentCallback={(data) => {
               setPartType(data.id);
             }}
             dropdownWidth={size.width > "600" ? "15vw" : "30vw"}
+            backGround="#F6F7FB"
             value={partType}
           /></span> */}
-          <span className="input-container">
+          <span className="input-container" style={{width:'50%'}}>
           <input
             placeholder="Search.."
             style={{
@@ -464,7 +445,6 @@ const Ledger = () => {
           />
             <FaTimes
               title="Clear"
-              color="#3F5575"
               onClick={() => setSearchText("")}
             />
           </span>
@@ -501,7 +481,20 @@ const Ledger = () => {
         <div className="order_table">
         {form}
 
-        {content}
+          {ledgerList.length>0 ? (
+            <Table
+              id="ledgerTable"
+              columns={columns}
+              rows={ledgerList}
+              search={searchText}
+              filter={transactionType}
+              filterIn="transaction_type"
+              cursor="pointer"
+              width="77vw"
+            />
+          ) : (
+            <Spinner />
+          )}
         </div>
 
         {size.width < "600" ? (
