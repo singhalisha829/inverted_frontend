@@ -199,6 +199,7 @@ export default function Home() {
         columns={columns}
         search={searchText}
         path="/ledger"
+        pathId="part_id"
         cursor="pointer"
         width="77vw"
         filter={filterOnPartType}
@@ -384,6 +385,7 @@ export default function Home() {
             columns={columns1}
             search={searchText}
             path="/ledger"
+            pathId="part_id"
             cursor="pointer"
             width="77vw"
             filter={filterOnPartType}

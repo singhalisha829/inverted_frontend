@@ -218,8 +218,8 @@ const NewOrder = () => {
     const partType = partTypeList.filter((el) => el.id == data.part_type)[0]
       .name;
       fetchPartById(data.id,token).then((res)=>{
-        if(res.data.quantity != null || res.data.quantity != undefined){
-            setUnit(res.data.quantity.split(' ')[1]);
+        if(res.data[0].quantity != null && res.data[0].quantity != undefined){
+            setUnit(res.data[0].quantity.split(' ')[1]);
         }})
         
 
@@ -255,7 +255,6 @@ const NewOrder = () => {
               border={true}
               value={orderType}
               searchPlaceholder="Search Order Type"
-              height="3.3rem"
             />
           </div>
 
@@ -275,7 +274,6 @@ const NewOrder = () => {
                 dropdownWidth={size.width > "600" ? "13vw" : "20vw"}
                 border={true}
                 value={partType}
-                height="3.3rem"
                 searchPlaceholder="Search Part Type"
               />
             </div>
@@ -301,7 +299,6 @@ const NewOrder = () => {
                     dropdownWidth={size.width > "600" ? "13vw" : "71vw"}
                     border={true}
                     searchPlaceholder="Search BOM ID/Name"
-                    height="3.3rem"
                     value={bom}
                   />
                 ) : (
@@ -315,7 +312,6 @@ const NewOrder = () => {
                     value={part}
                     dropdownWidth={size.width > "600" ? "15vw" : "71vw"}
                     border={true}
-                    height="3.3rem"
                     searchPlaceholder="Search Part ID/Name"
                     dropdownHeight="25rem"
                     isPartsList="true"
@@ -359,7 +355,6 @@ const NewOrder = () => {
                   parentCallback={(data) => setUnit(data.symbol)}
                   value={unit}
                   dropdownWidth={size.width > "600" ? "11vw" : "40vw"}
-                  height="3rem"
                 />
               </div>
             ) : (

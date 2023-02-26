@@ -248,15 +248,15 @@ const Ledger = () => {
   };
 
   const handleUnit= (data)=>{
-    // fetchPartById(data.id, token).then((res) => {
-    //   if (res.data.quantity != null || res.data.quantity != undefined) {
-    //     setFormData({...formData,unit:res.data.quantity.split(" ")[1]});
-    //   }
-    // });
+    fetchPartById(data.id, token).then((res) => {
+      if (res.data[0].quantity != null && res.data[0].quantity != undefined) {
+        setFormData({...formData,unit:res.data[0].quantity.split(" ")[1]});
+      }
+    });
 
-    // fetchDropdownUnitList(token, data.unit_type).then((res) => {
-    //   setUnitList(res.data.data.output);
-    // });
+    fetchDropdownUnitList(token, data.unit_type).then((res) => {
+      setUnitList(res.data.data.output);
+    });
 }
 
   let form = null;
@@ -489,6 +489,8 @@ const Ledger = () => {
               search={searchText}
               filter={transactionType}
               filterIn="transaction_type"
+              path="/ledger"
+              pathId="part"
               cursor="pointer"
               width="77vw"
             />

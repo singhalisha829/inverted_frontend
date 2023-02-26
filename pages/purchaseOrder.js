@@ -74,7 +74,7 @@ const PurchaseOrder =() =>{
     let content=null;
     if(size.width>'600'){
       content=   (purchaseOrderList?<Table key={purchaseOrderList.length} id="purchaseOrderTable" rows={purchaseOrderList} columns={columns} cursor="pointer" search={searchText} 
-      width={size.width>'600'?'77vw':'95vw'} path="/vendorList"/>:<Spinner />) 
+      width={size.width>'600'?'77vw':'95vw'} path="/vendorList" pathId="order_id"/>:<Spinner />) 
     }else{
       content=(
         purchaseOrderList?              

@@ -4,13 +4,13 @@ import { MAIN ,URL} from "../services/constants";
 
 
 export const fetchPartsList=(token) =>{
-            return axios.get(URL+MAIN.PARTS,{headers:{
+            return axios.get(URL+MAIN.PART,{headers:{
                 "Authorization":"Token "+ token
             }})
         }
 
  export const addNewPart=(partType,partName,partDesc,unit,token) =>{
-    return axios.post(URL+MAIN.PARTS,{
+    return axios.post(URL+MAIN.PART,{
         part_type:partType,
             short_description:partName,
             long_description:partDesc,

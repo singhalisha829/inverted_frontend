@@ -231,8 +231,9 @@ const StockIn = () => {
   const fetchPartId = (id) => {
     setId(id);
     fetchPartById(id, token).then((res) => {
-      if (res.data.quantity != null || res.data.quantity != undefined) {
-        setUnit(res.data.quantity.split(" ")[1]);
+      console.log(res.data)
+      if (res.data[0].quantity != null && res.data[0].quantity != undefined) {
+        setUnit(res.data[0].quantity.split(" ")[1]);
       }
       setPartId(res.data.part_id);
       setPartName(res.data.short_description);

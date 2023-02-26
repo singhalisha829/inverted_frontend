@@ -218,18 +218,17 @@ const Table = (props) => {
     }
      
     // navigate to given page on clicking a row
-    const clickHandler=(part_id,id,order_id)=>{
+    const clickHandler=(id)=>{
       if(props.path){
-        localStorage.setItem('partId',part_id);localStorage.setItem('orderId',order_id);
-            localStorage.setItem('poId',id);localStorage.setItem('production_order_id',id);
+        // localStorage.setItem('partId',part_id);localStorage.setItem('orderId',order_id);
+        //     localStorage.setItem('poId',id);localStorage.setItem('production_order_id',id);
       if(props.path == '/ledger'){
-        // Router.push({pathname:props.path,query:{id:part_id}})}
-        Router.push('/ledger/'+part_id);
+        Router.push('/ledger/'+id);
       }
       else if(props.path =='/orderDetails'){
         Router.push({pathname:props.path,query:{id:id}})
       }else if(props.path =='/vendorList'){
-        Router.push({pathname:props.path,query:{id:order_id}})
+        Router.push({pathname:props.path,query:{id:id}})
       }else{
           Router.push(props.path)
       }
@@ -246,7 +245,7 @@ const Table = (props) => {
         .map((row,index) => {
           return (
             <tr key={index} onClick={()=>{
-            clickHandler(row.part_id,row.id,row.order_id)}}>
+            clickHandler(row[props.pathId])}}>
               {props.columns.map((column,columnIndex)=> {
                        
           var prefix=column.prefix?column.prefix:'';
@@ -298,7 +297,7 @@ const Table = (props) => {
         .map((row,index) => {
 
           return (
-            <tr key={index} onClick={()=> { clickHandler(row.part_id,row.id,row.order_id)}}>
+            <tr key={index} onClick={()=> { clickHandler(row[props.pathId])}}>
               {props.columns.map((column,columnIndex) => {
           
           var prefix=column.prefix?column.prefix:'';

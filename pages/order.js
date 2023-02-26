@@ -110,6 +110,7 @@ const Order = () => {
             search={searchText}
             filter={filterOnStatus}
             path="/orderDetails"
+            pathId="id"
             cursor="pointer"
             width="77vw"
             filterIn="status"
