@@ -378,10 +378,8 @@ const Ledger = () => {
           columns={columns}
           rows={ledgerList}
           search={searchText}
-          filter1={transactionType}
-          filterIn1="transaction_type"
-          filter2={partType}
-          filterIn2="part_type"
+          filter={transactionType}
+          filterIn="transaction_type"
           cursor="pointer"
           width="77vw"
         />

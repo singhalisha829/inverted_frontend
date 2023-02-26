@@ -242,7 +242,7 @@ const Dropdown = (props) => {
       }}
     >
       <div
-        className="control"
+        className="control input-container"
         onClick={() => {
           setIsDropdownOpen(!isDropdownOpen);
         }}
@@ -264,6 +264,8 @@ const Dropdown = (props) => {
           onInput={(e) => handleValue(e)}
           disabled={props.disabled}
         />
+
+        {isDropdownOpen?<FaAngleUp color="#3F5575"/>:<FaAngleDown color="#3F5575"/>}
 
         {/* <div style={{position:'relative',right:'10px'}}><FaSistrix /></div> */}
       </div>

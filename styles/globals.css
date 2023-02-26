@@ -66,11 +66,6 @@ svg:hover{
 /* for search field */
 .input-container {
   position: relative;
-  width:50%;
-}
-
-.input-container input {
-  padding-left: 2rem;
 }
 
 .input-container svg {

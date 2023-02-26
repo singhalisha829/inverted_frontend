@@ -16,25 +16,63 @@ const Table = (props) => {
     const [data, setData]= useState(props.rows);
     const [order, setOrder]= useState('ASC');
     const [tableFilter, setTableFilter] = useState([]);
+    const [initialFilteredData,setInitialFilteredData] = useState([]);
     const [arrow, setArrow] = useState(null);
     const [sortedColumn,setSortedColumn] = useState(null);
     const [token,setToken]= useState(null);
-
-    const transactionTypeList ={
-       "DEBIT":"Debit" ,
-       "CREDIT": "Credit" ,
-       "LINE_LOSS" : "Loss On Line" ,
-       "PROD_RETURN": "Production Return"  ,
-       "ADJ_PLUS": "Positive Adjustment"  ,
-       "ADJ_MINUS": "Negative Adjustment" ,
-       "QUALITY_REJECT": "Quality Reject" ,
-  
-    }
     
    useEffect(()=>{
     const token=localStorage.getItem('token')
     setToken(token)
-    console.log("table",props.filter1)
+    
+    //  search table based on dropdown filter and searchbar value
+     if(props.search != undefined && props.filter !=undefined ){
+      const filterTable=[];
+
+      for(let i=0;i<data.length;i++){
+        if(data[i][props.filterIn]== props.filter){
+          filterTable.push(data[i])
+        }
+      }
+
+      const searchTable = filterTable.filter(o => Object.keys(o).some(
+        k => String(o[k]).toLowerCase().includes(props.search.toLowerCase()))
+      );
+      setTableFilter([...searchTable])
+      setInitialFilteredData([...searchTable])
+     }
+
+    //  search table based on searchbar value
+     else if(props.search != undefined ){
+       const searchTable = data.filter(o => Object.keys(o).some(
+         k => String(o[k]).toLowerCase().includes(props.search.toLowerCase()))
+       );
+
+       setTableFilter([...searchTable])
+       setInitialFilteredData([...searchTable])
+
+     }
+     
+    //  search table based on dropdown filter
+     else if(props.filter !=undefined){
+      const filterTable=[];
+      for(let i=0;i<data.length;i++){
+        if(data[i][props.filterIn]== props.filter){
+          filterTable.push(data[i])
+        }
+      }
+      
+      setTableFilter([...filterTable])
+      setInitialFilteredData([...filterTable])
+
+     }
+     else{
+       setData([...data])
+     }
+    //  console.log("filter",props.filter)
+   },[props.search,props.filter])
+
+   useEffect(()=>{
     props.columns.forEach(el=>{
       if(el.sort!= undefined){
         if(el.sort=='ASC'){
@@ -45,46 +83,7 @@ const Table = (props) => {
         setSortedColumn(el.accessor1)
       }
     })
-
-
-    //  search table based on dropdown filter and searchbar value
-     if(props.search != undefined && (props.filter1 !=undefined && props.filter1 !="All") ){
-      const filterTable= data.filter((item) =>
-      item[props.filterIn1].toLowerCase().includes(props.filter1.toLowerCase())
-    );
-
-      const searchTable = filterTable.filter(o => Object.keys(o).some(
-        k => String(o[k]).toLowerCase().includes(props.search.toLowerCase()))
-      );
-
-      
-
-      setTableFilter([...searchTable])
-     }
-
-    //  search table based on searchbar value
-     else if(props.search != undefined ){
-       const searchTable = data.filter(o => Object.keys(o).some(
-         k => String(o[k]).toLowerCase().includes(props.search.toLowerCase()))
-       );
-
-       setTableFilter([...searchTable])
-     }
-     
-    //  search table based on dropdown filter
-     else if(props.filter1 !=undefined && props.filter1 !="All"){
-      const filterTable = data.filter((item) =>
-      item[props.filterIn1].toLowerCase().includes(props.filter1.toLowerCase())
-    );
-  
-      setTableFilter([...filterTable])
-     }
-     else{
-       setData([...data])
-       setTableFilter([...data])
-     }
-    //  console.log("filter",props.filter)
-   },[props.search,props.filter1])
+   },[])
 
 
      // calculate screen size
@@ -115,13 +114,22 @@ const Table = (props) => {
     }
   const size = useWindowSize();
 
+    const sorting = (col)=>{
+      const dataToSort=[];
+      if(tableFilter.length == 0){
+        dataToSort= props.rows;
+      }else{
+        dataToSort = tableFilter;
+      }
+      sortingNext(col,dataToSort)
+    }
 
 
   //  sort table rows based on selected column
-    const sorting= (col) =>{
+    const sortingNext= (col,dataToSort) =>{
+    
       if(col != sortedColumn){
-        console.log("sort",col)
-        const sorted=props.rows.slice().sort(
+        const sorted=dataToSort.slice().sort(
           (a, b) =>{
             if (typeof a[col] === 'string' && typeof b[col] === 'string') {
               return (a[col] || '').localeCompare(b[col] || '', undefined, { numeric: true });
@@ -130,20 +138,28 @@ const Table = (props) => {
             }
           }
           )
-        setData(sorted);
+          if(tableFilter.length == 0){
+            setData(sorted);
+          }else{
+            setTableFilter(sorted)
+          }
         setOrder('DSC');
         setArrow(<BsArrowUp/>)
       }else{
         if(order === 'ASC'){
-            sortAsc(col);
+            sortAsc(col,dataToSort);
         }
 
         if(order === 'DSC'){
-            sortDsc(col);
+            sortDsc(col,dataToSort);
         }
 
         if(order === 'NONE'){
-          setData(props.rows);
+          if(tableFilter.length == 0){
+            setData(props.rows);
+          }else{
+            setTableFilter([...initialFilteredData])
+          }
           setOrder('ASC');
         }
       }
@@ -151,8 +167,8 @@ const Table = (props) => {
         setSortedColumn(col)
     }
 
-    const sortAsc=(col)=>{
-      const sorted=props.rows.slice().sort((a, b) => 
+    const sortAsc=(col,data)=>{
+      const sorted=data.slice().sort((a, b) => 
       {
         if (typeof a[col] === 'string' && typeof b[col] === 'string') {
           return (a[col] || '').localeCompare(b[col] || '', undefined, { numeric: true });
@@ -160,14 +176,17 @@ const Table = (props) => {
           return (a[col] || 0) - (b[col] || 0);
         }
       })
-      setData(sorted);
-      // data=sorted;
+      if(tableFilter.length == 0){
+        setData(sorted);
+      }else{
+        setTableFilter(sorted)
+      }
       setOrder('DSC');
       setArrow(<BsArrowUp/>)
     }
 
-    const sortDsc=(col)=>{
-      const sorted=props.rows.slice().sort((a, b) => 
+    const sortDsc=(col,data)=>{
+      const sorted=data.slice().sort((a, b) => 
       {
         if (typeof a[col] === 'string' && typeof b[col] === 'string') {
           return -(a[col] || '').localeCompare(b[col] || '', undefined, { numeric: true });
@@ -176,7 +195,11 @@ const Table = (props) => {
         }
       }
       )
-            setData(sorted);
+      if(tableFilter.length == 0){
+        setData(sorted);
+      }else{
+        setTableFilter(sorted)
+      }
             // data=sorted;
             setOrder('NONE');
             setArrow(<BsArrowDown/>)
@@ -188,9 +211,7 @@ const Table = (props) => {
         localStorage.setItem('partId',part_id);localStorage.setItem('orderId',order_id);
             localStorage.setItem('poId',id);localStorage.setItem('production_order_id',id);
       if(props.path == '/ledger'){
-        // Router.push({pathname:props.path,query:{id:part_id}})}
-        Router.push('/ledger/'+part_id);
-      }
+        Router.push({pathname:props.path,query:{id:part_id}})}
       else if(props.path =='/orderDetails'){
         Router.push({pathname:props.path,query:{id:id}})
       }else if(props.path =='/vendorList'){
@@ -208,7 +229,7 @@ const Table = (props) => {
     let table_content=null;
     
       table_content=(<tbody>
-        {props.search != undefined || props.filter1 != undefined || props.filter1 != "All"?tableFilter
+        {props.search != undefined || props.filter != undefined?tableFilter
         .map((row,index) => {
           return (
             <tr key={index} onClick={()=>{
@@ -233,13 +254,13 @@ const Table = (props) => {
                 </div></td>
                 }
                 
-                else if((row.transaction_type==='CREDIT' || row.transaction_type==='PROD_RETURN' || row.transaction_type==='ADJ_PLUS')  && (column.accessor1==="status" || column.accessor1==="transaction_type")){
+                else if((row.transaction_type==='CREDIT' || row.transaction_type==='PROD_RETURN')  && column.accessor1==="status"){
                   return <td key={columnIndex} width={column.width} style={{textAlign:column.textalign}}
-  ><div className="stock_in_style"><BsBoxArrowInDown style={{marginRight:'0.2rem'}}/> {transactionTypeList[row.transaction_type]}</div></td>
+  ><div className="stock_in_style"><BsBoxArrowInDown /> {row.transaction_type == 'PROD_RETURN'?<div>Production Return</div>:<div>Stock In</div>}</div></td>
   }
- else if((row.transaction_type==='DEBIT' || row.transaction_type==='LINE_LOSS' || row.transaction_type==='QUALITY_REJECT' || row.transaction_type==='ADJ_MINUS') && (column.accessor1==="status" || column.accessor1==="transaction_type")){
+ else if((row.transaction_type==='DEBIT' || row.transaction_type==='LINE_LOSS') && column.accessor1==="status"){
     return <td key={columnIndex} width={column.width} style={{textAlign:column.textalign}}
-    ><div className="stock_out_style"><BsBoxArrowUp style={{marginRight:'0.2rem'}}/>{transactionTypeList[row.transaction_type]}</div></td>
+    ><div className="stock_out_style"><BsBoxArrowUp />{row.transaction_type==='LINE_LOSS'?<div>Loss On Line</div>:<div>Stock Out</div>}</div></td>
     }
     else if(column.accessor1==='status' && row.status==="Created"){
       return <td key={columnIndex} width={column.width} style={{textAlign:column.textalign}}
@@ -252,9 +273,6 @@ const Table = (props) => {
     else if(column.accessor1==='status' && row.status==='Completed' ){
       return <td key={columnIndex} width={column.width} 
     ><div className="completed_status_style">Completed</div></td>
-    }else if(column.accessor2==='part_short_description'  || column.accessor2 =="vendor"){
-      return <td key={columnIndex} width={column.width} style={{textAlign:column.textalign}}
-      ><div style={{display:'flex',flexDirection:'column'}}>{row[column.accessor1]} <span style={{color:"rgb(200, 198, 198)",fontSize:'1.3rem'}}>{row[column.accessor2] != null?<span>({row[column.accessor2]})</span>:null} </span></div></td>
     }
                 else{
                 return <td key={columnIndex} width={column.width} style={{textAlign:column.textalign}}
@@ -297,13 +315,13 @@ const Table = (props) => {
                   </div></td>
                 }
                 
-                else if((row.transaction_type==='CREDIT' || row.transaction_type==='PROD_RETURN' || row.transaction_type==='ADJ_PLUS')  && (column.accessor1==="status" || column.accessor1==="transaction_type")){
+                else if((row.transaction_type==='CREDIT' || row.transaction_type==='PROD_RETURN')  && column.accessor1==="status"){
                   return <td key={columnIndex} width={column.width} style={{textAlign:column.textalign}}
-  ><div className="stock_in_style"><BsBoxArrowInDown style={{marginRight:'0.2rem'}}/> <div style={{marginLeft:"0.4rem"}}>{transactionTypeList[row.transaction_type]}</div></div></td>
+  ><div className="stock_in_style"><BsBoxArrowInDown /> <div style={{marginLeft:"0.4rem"}}>{row.transaction_type == 'PROD_RETURN'?<span>Production Return</span>:<span>Stock In</span>}</div></div></td>
   }
- else if((row.transaction_type==='DEBIT' || row.transaction_type==='LINE_LOSS' || row.transaction_type==='QUALITY_REJECT' || row.transaction_type==='ADJ_MINUS') && (column.accessor1==="status" || column.accessor1==="transaction_type")){
+ else if((row.transaction_type==='DEBIT' || row.transaction_type==='LINE_LOSS') && column.accessor1==="status"){
     return <td key={columnIndex} width={column.width} style={{textAlign:column.textalign}}
-    ><div className="stock_out_style"><BsBoxArrowUp style={{marginRight:'0.2rem'}}/> <div style={{marginLeft:"0.4rem"}}>{transactionTypeList[row.transaction_type]}</div></div></td>
+    ><div className="stock_out_style"><BsBoxArrowUp /> <div style={{marginLeft:"0.4rem"}}>{row.transaction_type==='LINE_LOSS'?<span>Loss On Line</span>:<span>Stock Out</span>}</div></div></td>
     }
                   else if(column.accessor1==='status' && row.status==='Created' ){
                     return <td key={columnIndex} width={column.width} 
@@ -321,10 +339,6 @@ const Table = (props) => {
                   else if(column.accessor1==='quantity_value' && props.outOf==true ){
                     return <td key={columnIndex} width={column.width} style={{textAlign:column.textalign}}
                     ><div>{row.released_quantity_value} {row.released_quantity_value==0?null:row.released_quantity_unit_symbol} / {row[column.accessor1]} {row[column.accessor2]}</div></td>
-                  }
-                  else if(column.accessor2==='part_short_description'  || column.accessor2 =="vendor"){
-                    return <td key={columnIndex} width={column.width} style={{textAlign:column.textalign}}
-                    ><div style={{display:'flex',flexDirection:'column'}}>{row[column.accessor1]} <span style={{color:"rgb(200, 198, 198)",fontSize:'1.3rem'}}>{row[column.accessor2] != null?<span>({row[column.accessor2]})</span>:null}</span></div></td>
                   }
                 else{
                 return <td key={columnIndex} width={column.width} style={{textAlign:column.textalign}}
