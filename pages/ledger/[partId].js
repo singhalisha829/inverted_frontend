@@ -44,6 +44,7 @@ const Ledger = () => {
   const [quantity, setQuantity] = useState(null);
   const [unit, setUnit] = useState(null);
   const [partId, setPartId] = useState(router.query.partId);
+  const [id,setId] = useState();
   const [ledgerPart, setLedgerPart] = useState(null);
   const [token, setToken] = useState(null);
   const [loading, setLoading] = useState(false);
@@ -111,6 +112,7 @@ const Ledger = () => {
           setlongDescription(res.data[0].long_description);
           setPartQuantity(res.data[0].quantity);
           setUnit(res.data[0].quantity.split(" ")[1]);
+          setId(res.data[0].id)
         });
 
         fetchVendorList(token).then((res) => {
@@ -197,11 +199,12 @@ const Ledger = () => {
           quantity: quantity + " " + unit,
           transaction_type: selectedStatus,
           document_id: invoice,
-          part: partId,
+          part: id,
         },
       ];
+
+      // console.log(formData)
       const res = await addNewLedger(formData, token)
-    //   console.log("res",res);
         
           // fetch list of ledgers again
 if(res.status == 200){
