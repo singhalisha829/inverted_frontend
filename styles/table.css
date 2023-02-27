@@ -175,8 +175,8 @@ td{
     margin-top: 0.1rem;
 }
 
-.header_title:hover .sort_direction{
-    display: none;
+.header_title:hover{
+    color: black;
 }
 
 .available_quantity{

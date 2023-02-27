@@ -149,7 +149,7 @@ const Order = () => {
         <div className="order_section">
           <Dropdown
             options={status}
-            allItems="true"
+            allItems="All"
             searchPlaceholder="Search Status"
             name="name"
             width="15vw"

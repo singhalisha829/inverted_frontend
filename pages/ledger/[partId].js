@@ -47,6 +47,7 @@ const Ledger = () => {
   const [token, setToken] = useState(null);
   const [loading, setLoading] = useState(false);
   const [searchStatus, setSearchStatus] = useState(null);
+  const [transaction, setTransaction] = useState("All Transaction Types");
   const [isButtonDisabled,setIsButtonDisabled] = useState(false);
 
   const [showPage, setShowPage] = useState(false);
@@ -265,13 +266,13 @@ if(res.status == 200){
     { name: "Quality Reject", value: "QUALITY_REJECT" },
   ];
   const searchStatusList = [
-    { name: "Loss on Line", value: "LINE_LOSS" },
-    { name: "Production Return", value: "PROD_RETURN" },
-    { name: "Credit", value: "CREDIT" },
-    { name: "Debit", value: "DEBIT" },
-    { name: "Positive Adjustment", value: "ADJ_PLUS" },
-    { name: "Negative Adjustment", value: "ADJ_MINUS" },
-    { name: "Quality Reject", value: "QUALITY_REJECT" },
+    { name: "Credit", value: "Credit" },
+    { name: "Debit", value: "Debit" },
+    { name: "Loss on Line", value: "Loss on Line" },
+    { name: "Production Return", value: "Production Return" },
+    { name: "Positive Adjustment", value: "Positive Adjustment" },
+    { name: "Negative Adjustment", value: "Negative Adjustment" },
+    { name: "Quality Reject", value: "Quality Reject" },
   ];
 
   
@@ -431,15 +432,15 @@ if(res.status == 200){
                         <FaTimes size={15} className="ledger_clear_icon" title="Clear" onClick={()=>setSearchText('')}/> */}
               <div  style={{width:'60%'}}>
               <Dropdown
-                allItems="true"
-                searchPlaceholder="Search Status"
+                allItems="All Transaction Types"
+                searchPlaceholder="Search Transaction Types"
                 options={searchStatusList}
                 name="name"
-                parentCallback={(data) => setSearchStatus(data.value)}
+                parentCallback={(data) => {setSearchStatus(data.value);setTransaction(data.value)}}
                 width={size.width > "600" ? "40%" : "60%"}
                 dropdownWidth={size.width > "600" ? "16vw" : "70vw"}
                 border={true}
-                defaultValue="All"
+                value={transaction}
               /></div>
               <div style={{width:"20%",display:'flex',justifyContent:'end'}}>
               <button

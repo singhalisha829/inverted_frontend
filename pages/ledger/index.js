@@ -30,7 +30,7 @@ const Ledger = () => {
   const [filterOnStatus, setFilterOnStatus] = useState(null);
   const [token, setToken] = useState(null);
   const [transactionType, setTransactionType] = useState(null);
-  const [transaction, setTransaction] = useState("All");
+  const [transaction, setTransaction] = useState("All Transaction Types");
   const [ledgerList, setLedgerList] = useState([]);
   const [showForm, setShowForm] = useState(false);
   const [partList, setPartList] = useState([]);
@@ -50,12 +50,12 @@ const Ledger = () => {
   })
 
   const transactionTypeList =[
-    { name: "Debit", value: "DEBIT" },
-    { name: "Credit", value: "CREDIT" },
-    { name: "Loss On Line", value: "LINE_LOSS" },
-    { name: "Production Return", value: "PROD_RETURN" },
-    { name: "Positive Adjustment", value: "ADJ_PLUS" },
-    { name: "Negative Adjustment", value: "ADJ_MINUS" },
+    { name: "Debit", value: "Debit" },
+    { name: "Credit", value: "Credit" },
+    { name: "Loss On Line", value: "Loss On Line" },
+    { name: "Production Return", value: "Production Return" },
+    { name: "Positive Adjustment", value: "Positive Adjustment" },
+    { name: "Negative Adjustment", value: "Negative Adjustment" },
     { name: "Quality Reject", value: "QUALITY_REJECT" },
 
   ]
@@ -422,7 +422,7 @@ const Ledger = () => {
           <span style={{ width: "15%", marginRight: "2rem" }}>
           <Dropdown
             options={transactionTypeList}
-            allItems="true"
+            allItems="All Transaction Types"
             searchPlaceholder="Search Transaction Type"
             name="name"
             width="100%"

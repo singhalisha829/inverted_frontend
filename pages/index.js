@@ -237,7 +237,7 @@ export default function Home() {
           <div style={{ marginRight: "2%" }}>
             {partTypeList ? (
               <Dropdown
-                allItems="true"
+                allItems="All"
                 options={partTypeList}
                 name="name"
                 width="100%"

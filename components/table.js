@@ -390,7 +390,7 @@ return <td key={columnIndex} width={column.width} style={{textAlign:column.texta
                 <div className="sort_direction">{order != 'ASC'?order === 'DSC'?<BsArrowUp className="arrow_icon"/>:<BsArrowDown className="arrow_icon"/>:null}</div>
                 
                 </div>
-                <div className="arrow"><BsArrowDownUp className="arrow_icon"/></div>
+                {/* <div className="arrow"><BsArrowDownUp className="arrow_icon"/></div> */}
                 </div></th>
            }else{
                  return <th style={{textAlign:column.textalign}} key={columnIndex}
@@ -401,7 +401,7 @@ return <td key={columnIndex} width={column.width} style={{textAlign:column.texta
                   <div className="title_name">{column.label}</div>
 
                 </div>
-                <div className="arrow"><BsArrowDownUp className="arrow_icon"/></div>
+                {/* <div className="arrow"><BsArrowDownUp className="arrow_icon"/></div> */}
                 </div></th>
            }
               

@@ -163,12 +163,12 @@ const Dropdown = (props) => {
               className="option"
               onClick={() => {
                 setIsDropdownOpen(false);
-                setValue("All");
+                setValue(props.allItems);
                 props.parentCallback({});
                 setDataFilter([...dropdownList]);
               }}
             >
-              <div style={{ display: "flex" }}>All</div>
+              <div style={{ display: "flex" }}>{props.allItems}</div>
             </div>
           ) : null}
           {searchText !== null ? (
