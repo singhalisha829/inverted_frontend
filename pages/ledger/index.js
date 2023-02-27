@@ -79,7 +79,7 @@ const Ledger = () => {
       textalign: "center",
     },
     { accessor1: "date", label: "Date", width: "10%", textalign: "center" },
-    { accessor1: "part",accessor2:"part_short_description", label: "Part ID", width: "20%", textalign: "center" },
+    { accessor1: "part",accessor2:"part_short_description", isClickable:"true",label: "Part ID", width: "20%", textalign: "center" },
     {
       accessor1: "quantity",
       accessor2:"colored_quantity",
@@ -507,6 +507,7 @@ const Ledger = () => {
               search={searchText}
               filter={transactionType}
               filterIn="transaction_type"
+              isSingleColClickable= "true"
               path="/ledger"
               pathId="part"
               cursor="pointer"
