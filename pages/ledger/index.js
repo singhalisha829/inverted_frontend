@@ -60,31 +60,43 @@ const Ledger = () => {
 
   ]
 
+  const transactionTypes ={
+    "DEBIT":"Debit" ,
+    "CREDIT": "Credit" ,
+    "LINE_LOSS" : "Loss On Line" ,
+    "PROD_RETURN": "Production Return"  ,
+    "ADJ_PLUS": "Positive Adjustment"  ,
+    "ADJ_MINUS": "Negative Adjustment" ,
+    "QUALITY_REJECT": "Quality Reject" ,
+
+ }
+
   const columns = [
     {
       accessor1: "transaction_type",
       label: "Transaction Type",
-      width: "20%",
+      width: "18%",
       textalign: "center",
     },
     { accessor1: "date", label: "Date", width: "10%", textalign: "center" },
     { accessor1: "part",accessor2:"part_short_description", label: "Part ID", width: "20%", textalign: "center" },
     {
       accessor1: "quantity",
+      accessor2:"colored_quantity",
       label: "Quantity",
-      width: "10%",
+      width: "15%",
       textalign: "center",
     },
     {
       accessor1: "quantity_left",
       label: "Left Quantity",
-      width: "10%",
+      width: "15%",
       textalign: "center",
     },
     {
       accessor1: "document_id",
       label: "Document ID",
-      width: "20%",
+      width: "12%",
       textalign: "center",
     },
     {
@@ -136,8 +148,14 @@ const Ledger = () => {
 
         // fetch ledger
         const ledger = await fetchLedger(token,data);
-        setLedgerList([...ledger.data.data.output]);
-        console.log(ledger.data.data.output)
+        var ledger_list=[]
+        ledger.data.data.output.map((ledger_item)=>{
+          var item=ledger_item;
+          item.transaction_type = transactionTypes[ledger_item.transaction_type]
+          ledger_list.push(item)
+        })
+        setLedgerList([...ledger_list]);
+        console.log(ledger_list)
     }
     fetch();
 

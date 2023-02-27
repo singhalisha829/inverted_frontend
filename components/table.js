@@ -21,17 +21,6 @@ const Table = (props) => {
     const [sortedColumn,setSortedColumn] = useState(null);
     const [token,setToken]= useState(null);
 
-
-    const transactionTypeList ={
-      "DEBIT":"Debit" ,
-      "CREDIT": "Credit" ,
-      "LINE_LOSS" : "Loss On Line" ,
-      "PROD_RETURN": "Production Return"  ,
-      "ADJ_PLUS": "Positive Adjustment"  ,
-      "ADJ_MINUS": "Negative Adjustment" ,
-      "QUALITY_REJECT": "Quality Reject" ,
- 
-   }
     
    useEffect(()=>{
     const token=localStorage.getItem('token')
@@ -266,14 +255,22 @@ const Table = (props) => {
                 </div></td>
                 }
                 
-                else if((row.transaction_type==='CREDIT' || row.transaction_type==='PROD_RETURN' || row.transaction_type==='ADJ_PLUS')  && (column.accessor1==="status" || column.accessor1==="transaction_type")){
+                else if((row.transaction_type==='Credit' || row.transaction_type==='Production Return' || row.transaction_type==='Positive Adjustment')  && (column.accessor1==="transaction_type")){
                   return <td key={columnIndex} width={column.width} style={{textAlign:column.textalign}}
-  ><div className="stock_in_style"><BsBoxArrowInDown style={{marginRight:'0.2rem'}}/> {transactionTypeList[row.transaction_type]}</div></td>
+  ><div className="stock_in_style"><BsBoxArrowInDown style={{marginRight:'0.2rem'}}/> {row[column.accessor1]}</div></td>
   }
- else if((row.transaction_type==='DEBIT' || row.transaction_type==='LINE_LOSS' || row.transaction_type==='QUALITY_REJECT' || row.transaction_type==='ADJ_MINUS') && (column.accessor1==="status" || column.accessor1==="transaction_type")){
+ else if((row.transaction_type==='Debit' || row.transaction_type==='Loss On Line' || row.transaction_type==='Quality Reject' || row.transaction_type==='Negative Adjustment') && (column.accessor1==="transaction_type")){
     return <td key={columnIndex} width={column.width} style={{textAlign:column.textalign}}
-    ><div className="stock_out_style"><BsBoxArrowUp style={{marginRight:'0.2rem'}}/>{transactionTypeList[row.transaction_type]}</div></td>
+    ><div className="stock_out_style"><BsBoxArrowUp style={{marginRight:'0.2rem'}}/>{row[column.accessor1]}</div></td>
     }
+    else if((row.transaction_type==='Credit' || row.transaction_type==='Production Return' || row.transaction_type==='Positive Adjustment')  && (column.accessor2==="colored_quantity")){
+      return <td key={columnIndex} width={column.width} style={{textAlign:column.textalign,color:"#33B850"}}
+>{row[column.accessor1]}</td>
+}
+else if((row.transaction_type==='Debit' || row.transaction_type==='Loss On Line' || row.transaction_type==='Quality Reject' || row.transaction_type==='Negative Adjustment') && (column.accessor2==="colored_quantity" )){
+return <td key={columnIndex} width={column.width} style={{textAlign:column.textalign,color:"#F16B6B"}}
+>{row[column.accessor1]}</td>
+}
     else if(column.accessor1==='status' && row.status==="Created"){
       return <td key={columnIndex} width={column.width} style={{textAlign:column.textalign}}
     ><div className="pending_status_style">Created</div></td>
@@ -285,6 +282,9 @@ const Table = (props) => {
     else if(column.accessor1==='status' && row.status==='Completed' ){
       return <td key={columnIndex} width={column.width} 
     ><div className="completed_status_style">Completed</div></td>
+    }else if(column.accessor2==='part_short_description'  || column.accessor2 =="vendor"){
+      return <td key={columnIndex} width={column.width} style={{textAlign:column.textalign}}
+      ><div style={{display:'flex',flexDirection:'column'}}>{row[column.accessor1]} <span style={{color:"rgb(200, 198, 198)",fontSize:'1.3rem'}}>{row[column.accessor2] != null?<span>({row[column.accessor2]})</span>:null} </span></div></td>
     }
                 else{
                 return <td key={columnIndex} width={column.width} style={{textAlign:column.textalign}}
@@ -327,14 +327,23 @@ const Table = (props) => {
                   </div></td>
                 }
                 
-                else if((row.transaction_type==='CREDIT' || row.transaction_type==='PROD_RETURN' || row.transaction_type==='ADJ_PLUS')  && (column.accessor1==="status" || column.accessor1==="transaction_type")){
+                else if((row.transaction_type==='Credit' || row.transaction_type==='Production Return' || row.transaction_type==='Positive Adjustment')  && ( column.accessor1==="transaction_type")){
                   return <td key={columnIndex} width={column.width} style={{textAlign:column.textalign}}
-  ><div className="stock_in_style"><BsBoxArrowInDown style={{marginRight:'0.2rem'}}/> {transactionTypeList[row.transaction_type]}</div></td>
+  ><div className="stock_in_style"><BsBoxArrowInDown style={{marginRight:'0.2rem'}}/> {row[column.accessor1]}</div></td>
   }
- else if((row.transaction_type==='DEBIT' || row.transaction_type==='LINE_LOSS' || row.transaction_type==='QUALITY_REJECT' || row.transaction_type==='ADJ_MINUS') && (column.accessor1==="status" || column.accessor1==="transaction_type")){
+ else if((row.transaction_type==='Debit' || row.transaction_type==='Loss On Line' || row.transaction_type==='Quality Reject' || row.transaction_type==='Negative Adjustment') && ( column.accessor1==="transaction_type")){
     return <td key={columnIndex} width={column.width} style={{textAlign:column.textalign}}
-    ><div className="stock_out_style"><BsBoxArrowUp style={{marginRight:'0.2rem'}}/>{transactionTypeList[row.transaction_type]}</div></td>
+    ><div className="stock_out_style"><BsBoxArrowUp style={{marginRight:'0.2rem'}}/>{row[column.accessor1]}</div></td>
     }
+
+    else if((row.transaction_type==='Credit' || row.transaction_type==='Production Return' || row.transaction_type==='Positive Adjustment')  && (column.accessor2==="colored_quantity")){
+      return <td key={columnIndex} width={column.width} style={{textAlign:column.textalign,color:"#33B850"}}
+>{row[column.accessor1]}</td>
+}
+else if((row.transaction_type==='Debit' || row.transaction_type==='Loss On Line' || row.transaction_type==='Quality Reject' || row.transaction_type==='Negative Adjustment') && (column.accessor2==="colored_quantity" )){
+return <td key={columnIndex} width={column.width} style={{textAlign:column.textalign,color:"#F16B6B"}}
+>{row[column.accessor1]}</td>
+}
                   else if(column.accessor1==='status' && row.status==='Created' ){
                     return <td key={columnIndex} width={column.width} 
                   ><div className="pending_status_style">Created</div></td>
@@ -351,6 +360,9 @@ const Table = (props) => {
                   else if(column.accessor1==='quantity_value' && props.outOf==true ){
                     return <td key={columnIndex} width={column.width} style={{textAlign:column.textalign}}
                     ><div>{row.released_quantity_value} {row.released_quantity_value==0?null:row.released_quantity_unit_symbol} / {row[column.accessor1]} {row[column.accessor2]}</div></td>
+                  }else if(column.accessor2==='part_short_description'  || column.accessor2 =="vendor"){
+                    return <td key={columnIndex} width={column.width} style={{textAlign:column.textalign}}
+                    ><div style={{display:'flex',flexDirection:'column'}}>{row[column.accessor1]} <span style={{color:"rgb(200, 198, 198)",fontSize:'1.3rem'}}>{row[column.accessor2] != null?<span>({row[column.accessor2]})</span>:null} </span></div></td>
                   }
                 else{
                 return <td key={columnIndex} width={column.width} style={{textAlign:column.textalign}}

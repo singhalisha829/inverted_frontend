@@ -45,6 +45,14 @@ line-height: 1.5rem;
   font-weight: 600;
   font-size: 18px;
   line-height: 22px;
+  display: flex;
+  align-items: center;
+}
+
+.ledger_title:hover{
+  cursor: pointer;
+  color: #3F5575;
+  text-decoration: underline;
 }
 
 .part_desc{

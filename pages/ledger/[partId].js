@@ -3,7 +3,7 @@ import Head from "next/head";
 import { useState, useEffect} from "react";
 import { useRouter } from "next/router";
 
-import { FaFileContract} from "react-icons/fa";
+import { FaFileContract, FaArrowLeft} from "react-icons/fa";
 import Table from "../../components/table";
 import Dropdown from "../../components/dropdown";
 import {
@@ -52,10 +52,11 @@ const Ledger = () => {
   const [showPage, setShowPage] = useState(false);
 
   const columns = [
-    { accessor1: "status", label: "Status", width: "20%", textalign: "center" },
+    { accessor1: "transaction_type", label: "Transaction Type", width: "20%", textalign: "center" },
     { accessor1: "date", label: "Date", width: "20%", textalign: "center" },
     {
       accessor1: "quantity",
+      accessor2:"colored_quantity",
       label: "Quantity",
       width: "15%",
       textalign: "center",
@@ -79,6 +80,17 @@ const Ledger = () => {
       textalign: "center",
     },
   ];
+
+  const transactionTypes ={
+    "DEBIT":"Debit" ,
+    "CREDIT": "Credit" ,
+    "LINE_LOSS" : "Loss On Line" ,
+    "PROD_RETURN": "Production Return"  ,
+    "ADJ_PLUS": "Positive Adjustment"  ,
+    "ADJ_MINUS": "Negative Adjustment" ,
+    "QUALITY_REJECT": "Quality Reject" ,
+
+ }
 
   const notifySuccessPost = () =>
     toast.success("New Ledger Added Successfully");
@@ -104,7 +116,15 @@ const Ledger = () => {
         });
         fetchUnitList(token).then((res) => setUnitList(res.data));
         fetchLedgerByPartId(partId, token).then((res) => {
-        const sorted = [...res.data.data.output].reverse();
+          var ledger_list=[];
+          res.data.data.output.map((ledger_item)=>{
+            var item=ledger_item;
+          item.transaction_type = transactionTypes[ledger_item.transaction_type]
+          ledger_list.push(item)
+          })
+
+        const sorted = [...ledger_list].reverse();
+        console.log("s",sorted)
           setLedger(sorted);
           setShowLedger(true);
           setShowPage(true);
@@ -253,6 +273,8 @@ if(res.status == 200){
     { name: "Negative Adjustment", value: "ADJ_MINUS" },
     { name: "Quality Reject", value: "QUALITY_REJECT" },
   ];
+
+  
 //   console.log("status", searchStatus);
   let form = null;
 
@@ -402,7 +424,7 @@ if(res.status == 200){
 
           <div className="body">
             <div className="body_header">
-              <div className="ledger_title" style={{width:"20%"}}>Ledger</div>
+              <div className="ledger_title" style={{width:"20%"}} onClick={()=>Router.back()}><FaArrowLeft title="Back" style={{marginRight:'10px'}}/>Ledger</div>
               {/* <input placeholder="Search.." value={searchText} 
                         className="ledger_search" 
                         onChange={(e) => {setSearchText(e.target.value);searchCard(e)}}/>
