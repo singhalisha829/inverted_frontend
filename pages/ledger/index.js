@@ -227,7 +227,14 @@ const Ledger = () => {
           }
 
           const ledger = await fetchLedger(token,data);
-          setLedgerList([...ledger.data.data.output]);
+          var ledger_list=[]
+          ledger.data.data.output.map((ledger_item)=>{
+            var item=ledger_item;
+            item.transaction_type = transactionTypes[ledger_item.transaction_type]
+            ledger_list.push(item)
+          })
+          setLedgerList([...ledger_list]);
+          console.log(ledger_list)
           setIsButtonDisabled(false);
           notifySuccessPost();
           cancelPartHandler();
