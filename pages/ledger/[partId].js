@@ -21,6 +21,7 @@ import "react-datepicker/dist/react-datepicker.css";
 
 import { ToastContainer, toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
+import moment from "moment";
 
 const Ledger = () => {
   const router = useRouter();
@@ -95,7 +96,7 @@ const Ledger = () => {
 
   const notifySuccessPost = () =>
     toast.success("New Ledger Added Successfully");
-    console.log(router.query)
+    // console.log(router.query)
 
   useEffect(() => {
     // fetch data only if token is defined or redirect to login
@@ -125,7 +126,6 @@ const Ledger = () => {
           })
 
         const sorted = [...ledger_list].reverse();
-        console.log("s",sorted)
           setLedger(sorted);
           setShowLedger(true);
           setShowPage(true);

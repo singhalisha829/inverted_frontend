@@ -136,15 +136,13 @@ const Ledger = () => {
 
   useEffect(()=>{
     const token = localStorage.getItem("token");
-    console.log(startDate,endDate)
     if(startDate != null && endDate != null){
-      console.log("inside")
     async function fetch() {
         const data={
           start_date:moment(startDate).format('YYYY-MM-DD'),
           end_date:moment(endDate).format('YYYY-MM-DD')
         }
-        console.log(data)
+        // console.log(data)
 
         // fetch ledger
         const ledger = await fetchLedger(token,data);
@@ -155,7 +153,6 @@ const Ledger = () => {
           ledger_list.push(item)
         })
         setLedgerList([...ledger_list]);
-        console.log(ledger_list)
     }
     fetch();
 
@@ -192,7 +189,6 @@ const Ledger = () => {
 
   //   submit new ledger only if all values are entered
   const submitPartHandler = async () => {
-    console.log(formData)
     if (formData.transaction_type === null) {
       toast.warning("Select Status!");
       return;
@@ -210,7 +206,6 @@ const Ledger = () => {
       return;
     } else {
       setIsButtonDisabled(true);
-      console.log(formData.date)
       const date= moment(formData.date).format('YYYY-MM-DD')
       const data = [
         {
@@ -233,7 +228,6 @@ const Ledger = () => {
 
           const ledger = await fetchLedger(token,data);
           setLedgerList([...ledger.data.data.output]);
-          console.log("After form",ledger.data.data.output)
           setIsButtonDisabled(false);
           notifySuccessPost();
           cancelPartHandler();
@@ -268,14 +262,17 @@ const Ledger = () => {
   const handleUnit= (data)=>{
     fetchPartById(data.id, token).then((res) => {
       if (res.data[0].quantity != null && res.data[0].quantity != undefined) {
-        setFormData({...formData,unit:res.data[0].quantity.split(" ")[1]});
+        setFormData({...formData,part:data.id,unit:res.data[0].quantity.split(" ")[1]});
       }
     });
+
 
     fetchDropdownUnitList(token, data.unit_type).then((res) => {
       setUnitList(res.data.data.output);
     });
 }
+
+
 
   let form = null;
 
@@ -304,7 +301,7 @@ const Ledger = () => {
                 options={partList}
                 isPartsList="true"
                 name="short_description"
-                parentCallback={(data) => {setFormData({...formData,part:data.id});handleUnit(data)}}
+                parentCallback={(data) => {handleUnit(data)}}
                 width={size.width > "600" ? "70%" : "100%"}
                 dropdownWidth={size.width > "600" ? "16vw" : "70vw"}
                 height="3rem"
