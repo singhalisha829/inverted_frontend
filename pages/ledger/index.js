@@ -49,13 +49,24 @@ const Ledger = () => {
     document_id:null
   })
 
-  const transactionTypeList =[
+  const searchTransactionTypeList =[
     { name: "Debit", value: "Debit" },
     { name: "Credit", value: "Credit" },
     { name: "Loss On Line", value: "Loss On Line" },
     { name: "Production Return", value: "Production Return" },
     { name: "Positive Adjustment", value: "Positive Adjustment" },
     { name: "Negative Adjustment", value: "Negative Adjustment" },
+    { name: "Quality Reject", value: "QUALITY_REJECT" },
+
+  ]
+
+  const transactionTypeList =[
+    { name: "Debit", value: "DEBIT" },
+    { name: "Credit", value: "CREDIT" },
+    { name: "Loss On Line", value: "LINE_LOSS" },
+    { name: "Production Return", value: "PROD_RETURN" },
+    { name: "Positive Adjustment", value: "ADJ_PLUS" },
+    { name: "Negative Adjustment", value: "ADJ_MINUS" },
     { name: "Quality Reject", value: "QUALITY_REJECT" },
 
   ]
@@ -425,7 +436,7 @@ const Ledger = () => {
           </span>
           <span style={{ width: "15%", marginRight: "2rem" }}>
           <Dropdown
-            options={transactionTypeList}
+            options={searchTransactionTypeList}
             allItems="All Transaction Types"
             searchPlaceholder="Search Transaction Type"
             name="name"
