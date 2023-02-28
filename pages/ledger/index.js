@@ -503,7 +503,7 @@ const Ledger = () => {
         <div className="order_table">
         {form}
 
-          {ledgerList.length>0 ? (
+          {/* {ledgerList.length>0 ? ( */}
             <Table
               id="ledgerTable"
               columns={columns}
@@ -517,9 +517,9 @@ const Ledger = () => {
               cursor="pointer"
               width="77vw"
             />
-          ) : (
+          {/* ) : (
             <Spinner />
-          )}
+          )} */}
         </div>
 
         {size.width < "600" ? (

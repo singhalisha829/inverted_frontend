@@ -19,12 +19,9 @@ const Table = (props) => {
     const [initialFilteredData,setInitialFilteredData] = useState([]);
     const [arrow, setArrow] = useState(null);
     const [sortedColumn,setSortedColumn] = useState(null);
-    const [token,setToken]= useState(null);
 
     
    useEffect(()=>{
-    const token=localStorage.getItem('token')
-    setToken(token)
     
     //  search table based on dropdown filter and searchbar value
      if(props.search != undefined && props.filter !=undefined ){
@@ -88,33 +85,11 @@ const Table = (props) => {
    },[])
 
 
-     // calculate screen size
-     function useWindowSize() {
-      const [windowSize, setWindowSize] = useState({
-        width: undefined,
-        height: undefined,
-      });
-    
+ 
       useEffect(() => {
-    
-        if (typeof window !== 'undefined') {
-          function handleResize() {
-            setWindowSize({
-              width: window.innerWidth,
-              height: window.innerHeight,
-            });
-          }
-      
-          window.addEventListener("resize", handleResize);
-         
-          handleResize();
-      
-          return () => window.removeEventListener("resize", handleResize);
-        }
-      }, []);
-      return windowSize;
-    }
-  const size = useWindowSize();
+        setData([...props.rows])
+      }, [props.rows]);
+  
 
     const sorting = (col)=>{
       const dataToSort=[];
