@@ -5,9 +5,6 @@ import Router from "next/router";
 import {BsBoxArrowUp, BsBoxArrowInDown, BsArrowDownUp,BsArrowUp,BsArrowDown} from 'react-icons/bs';
 
 import Logo  from '../public/Logo_inverted.png';
-
-import 'react-toastify/dist/ReactToastify.css';
-
 import Parser from 'html-react-parser';
 
 
