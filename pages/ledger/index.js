@@ -234,7 +234,7 @@ const Ledger = () => {
             ledger_list.push(item)
           })
           setLedgerList([...ledger_list]);
-          console.log(ledger_list)
+          // console.log(ledger_list)
           setIsButtonDisabled(false);
           notifySuccessPost();
           cancelPartHandler();

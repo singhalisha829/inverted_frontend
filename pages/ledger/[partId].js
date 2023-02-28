@@ -127,8 +127,7 @@ const Ledger = () => {
           ledger_list.push(item)
           })
 
-        const sorted = [...ledger_list].reverse();
-          setLedger(sorted);
+          setLedger(ledger_list);
           setShowLedger(true);
           setShowPage(true);
         });
@@ -210,8 +209,13 @@ const Ledger = () => {
 if(res.status == 200){
     fetchLedgerByPartId(ledgerPart, token)
     .then((res) => {
-        const sorted = [...res.data.data.output].reverse();
-        setLedger(sorted);
+      var ledger_list=[]
+      res.data.data.output.map((ledger_item)=>{
+        var item=ledger_item;
+        item.transaction_type = transactionTypes[ledger_item.transaction_type]
+        ledger_list.push(item)
+      })
+        setLedger(ledger_list);
     })
     .catch((err) => toast.error(err.message));
     fetchPartByPartId(ledgerPart, token).then((res) => {
