@@ -92,7 +92,7 @@ const Ledger = () => {
     {
       accessor1: "transaction_type",
       label: "Transaction Type",
-      width: "18%",
+      width: "16%",
       textalign: "center",
     },
     { accessor1: "date", label: "Date", width: "10%", textalign: "center" },
@@ -108,13 +108,13 @@ const Ledger = () => {
       accessor1: "quantity",
       accessor2: "colored_quantity",
       label: "Quantity",
-      width: "15%",
+      width: "13%",
       textalign: "center",
     },
     {
       accessor1: "quantity_left",
-      label: "Left Quantity",
-      width: "15%",
+      label: "Balance Quantity",
+      width: "17%",
       textalign: "center",
     },
     {
@@ -126,7 +126,7 @@ const Ledger = () => {
     {
       accessor1: "created_by",
       label: "Created By",
-      width: "10%",
+      width: "12%",
       textalign: "center",
     },
   ];
@@ -212,22 +212,6 @@ const Ledger = () => {
 
   //   submit new ledger only if all values are entered
   const submitPartHandler = async () => {
-    if (formData.transaction_type === null) {
-      toast.warning("Select Status!");
-      return;
-    } else if (formData.document_id === null) {
-      toast.warning("Enter Invoice!");
-      return;
-    } else if (formData.date === null) {
-      toast.warning("Enter Date!");
-      return;
-    } else if (formData.unit === null) {
-      toast.warning("Enter Unit!");
-      return;
-    } else if (formData.quantity === null) {
-      toast.warning("Enter Quantity!");
-      return;
-    } else {
       setIsButtonDisabled(true);
       const date = moment(formData.date).format("YYYY-MM-DD");
       const data = [
@@ -268,7 +252,6 @@ const Ledger = () => {
         setIsButtonDisabled(false);
         toast.error(res.data.status.description);
       }
-    }
   };
 
   const cancelPartHandler = () => {
@@ -416,9 +399,9 @@ const Ledger = () => {
               Cancel
             </button>
             <button
-              disabled={isButtonDisabled}
               className="save_button button2 expand"
               onClick={submitPartHandler}
+              disabled={!formData.quantity || !formData.part || !formData.document_id || !formData.unit || !formData.transaction_type || isButtonDisabled}
             >
               Save
             </button>

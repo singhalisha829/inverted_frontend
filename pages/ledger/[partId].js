@@ -25,6 +25,8 @@ import moment from "moment";
 
 const Ledger = () => {
   const router = useRouter();
+  const today = new Date();
+
 
   const [showForm, setShowForm] = useState(false);
   const [ledger, setLedger] = useState(null);
@@ -39,23 +41,27 @@ const Ledger = () => {
   const [partQuantity, setPartQuantity] = useState(null);
   const [cardFilter, setCardFilter] = useState([]);
 
-  const [selectedStatus, setSelectedStatus] = useState(null);
-  const [invoice, setInvoice] = useState(null);
-  const [quantity, setQuantity] = useState(null);
-  const [unit, setUnit] = useState(null);
+
   const [partId, setPartId] = useState(router.query.partId);
-  const [id,setId] = useState();
   const [ledgerPart, setLedgerPart] = useState(null);
   const [token, setToken] = useState(null);
   const [loading, setLoading] = useState(false);
   const [searchStatus, setSearchStatus] = useState(null);
   const [transaction, setTransaction] = useState("All Transaction Types");
   const [isButtonDisabled,setIsButtonDisabled] = useState(false);
+  const [formData, setFormData] = useState({
+    part: null,
+    date: today,
+    quantity: null,
+    unit: null,
+    transaction_type: null,
+    document_id: null,
+  });
 
   const [showPage, setShowPage] = useState(false);
 
   const columns = [
-    { accessor1: "transaction_type", label: "Transaction Type", width: "20%", textalign: "center" },
+    { accessor1: "transaction_type", label: "Transaction Type", width: "18%", textalign: "center" },
     { accessor1: "date", label: "Date", width: "20%", textalign: "center" },
     {
       accessor1: "quantity",
@@ -65,8 +71,8 @@ const Ledger = () => {
       textalign: "center",
     }, {
       accessor1: "quantity_left",
-      label: "Left Quantity",
-      width: "15%",
+      label: "Balance Quantity",
+      width: "17%",
       textalign: "center",
     },
     {
@@ -111,8 +117,7 @@ const Ledger = () => {
           setShortDescription(res.data[0].short_description);
           setlongDescription(res.data[0].long_description);
           setPartQuantity(res.data[0].quantity);
-          setUnit(res.data[0].quantity.split(" ")[1]);
-          setId(res.data[0].id)
+          setFormData({...formData,part:res.data[0].id,unit:res.data[0].quantity.split(" ")[1]})
         });
 
         fetchVendorList(token).then((res) => {
@@ -167,43 +172,21 @@ const Ledger = () => {
   //   submit new ledger only if all values are entered
   const submitPartHandler = async () => {
     setLoading(true);
-    if (selectedStatus === null) {
-      toast.warning("Enter Status!");
-      return;
-    } else if (invoice === null) {
-      toast.warning("Enter Invoice!");
-      return;
-    } else if (selectedDate === null) {
-      toast.warning("Enter Date!");
-      return;
-    } else if (unit === null) {
-      toast.warning("Enter Unit!");
-      return;
-      // }else if(price === null){
-      //     toast.warning("Enter Price!")
-      //     return;
-    } else if (quantity === null) {
-      toast.warning("Enter Quantity!");
-      return;
-      // }else if(vendor === null){
-      //     toast.warning("Enter Vendor!")
-      //     return;
-    } else {
         setIsButtonDisabled(true);
-      const date =moment(selectedDate).format('YYYY-MM-DD')
+      const date =moment(formData.date).format('YYYY-MM-DD')
 
-      const formData = [
+      const data = [
         {
           date: date,
-          quantity: quantity + " " + unit,
-          transaction_type: selectedStatus,
-          document_id: invoice,
-          part: id,
+          quantity: formData.quantity + " " + formData.unit,
+          transaction_type: formData.transaction_type,
+          document_id: formData.document_id,
+          part: formData.part,
         },
       ];
 
       // console.log(formData)
-      const res = await addNewLedger(formData, token)
+      const res = await addNewLedger(data, token)
         
           // fetch list of ledgers again
 if(res.status == 200){
@@ -223,7 +206,7 @@ if(res.status == 200){
         setShortDescription(res.data[0].short_description);
         setlongDescription(res.data[0].long_description);
         setPartQuantity(res.data[0].quantity);
-        setUnit(res.data[0].quantity.split(" ")[1]);
+        setFormData({...formData,unit:res.data[0].quantity.split(" ")[1]})
       });
       setIsButtonDisabled(false);
   notifySuccessPost();
@@ -235,8 +218,6 @@ if(res.status == 200){
 }
         
 
-        
-    }
   };
 
   // search feature in cards list
@@ -259,10 +240,12 @@ if(res.status == 200){
   // cancel button of ledger form
   const cancelPartHandler = () => {
     setShowForm(false);
-    setSelectedDate(new Date());
-    setUnit(partQuantity.split(" ")[1]);
-    setQuantity('');
-    setInvoice('');
+    setFormData({...formData,
+      date: today,
+      quantity: null,
+      transaction_type: null,
+      document_id: null,
+    });
   };
 
   const status = [
@@ -298,7 +281,9 @@ if(res.status == 200){
                 searchPlaceholder="Search Status"
                 options={status}
                 name="name"
-                parentCallback={(data) => setSelectedStatus(data.value)}
+                parentCallback={(data) => 
+                  setFormData({ ...formData, transaction_type: data.value })
+                }
                 width={size.width > "600" ? "70%" : "100%"}
                 dropdownWidth={size.width > "600" ? "16vw" : "70vw"}
                 border={true}
@@ -314,7 +299,9 @@ if(res.status == 200){
                 width: size.width > "600" ? "70%" : "100%",
               }}
               placeholder="Enter Document ID"
-              onChange={(e) => setInvoice(e.target.value)}
+              onChange={(e) =>
+                setFormData({ ...formData, document_id: e.target.value })
+              }
               className="ledger_input"
             />
           </div>
@@ -323,8 +310,8 @@ if(res.status == 200){
             <DatePicker
               dateFormat="dd/MM/yyyy"
               placeholderText="Enter Date"
-              selected={selectedDate}
-              onChange={(date) => setSelectedDate(date)}
+              selected={formData.date}
+              onChange={(date) =>  setFormData({ ...formData, date: date })}
             />
           </div>
 
@@ -341,12 +328,12 @@ if(res.status == 200){
                 }}
                 onChange={(e) => {
                   e.target.value < 0
-                    ? setQuantity("")
-                    : setQuantity(e.target.value);
+                    ? setFormData({ ...formData, quantity: "" })
+                    : setFormData({ ...formData, quantity: e.target.value });
                 }}
                 onWheel={ event => event.currentTarget.blur() }
                 placeholder="0.00"
-                value={quantity}
+                value={formData.quantity}
               />
               <Dropdown
                 width="50%"
@@ -355,9 +342,9 @@ if(res.status == 200){
                 options={unitList}
                 name="symbol"
                 dropdownWidth={size.width > "600" ? "11vw" : "55vw"}
-                parentCallback={(data) => setUnit(data.symbol)}
+                parentCallback={(data) => setFormData({ ...formData, unit: data.symbol })}
                 border={true}
-                value={unit}
+                value={formData.unit}
               />
             </div>
           </div>
@@ -381,7 +368,7 @@ if(res.status == 200){
               Cancel
             </button>
             <button
-            disabled={isButtonDisabled}
+              disabled={!formData.quantity || !formData.part || !formData.document_id || !formData.unit || !formData.transaction_type || isButtonDisabled}
               className="save_button button2 expand"
               onClick={submitPartHandler}
             >
