@@ -61,8 +61,8 @@ const Ledger = () => {
   });
 
   const searchTransactionTypeList = [
-    { name: "Debit", value: "Debit" },
-    { name: "Credit", value: "Credit" },
+    { name: "Stock In", value: "Stock In" },
+    { name: "Stock Out", value: "Stock Out" },
     { name: "Loss On Line", value: "Loss On Line" },
     { name: "Production Return", value: "Production Return" },
     { name: "Positive Adjustment", value: "Positive Adjustment" },
@@ -79,8 +79,8 @@ const Ledger = () => {
   ];
 
   const transactionTypes = {
-    DEBIT: "Debit",
-    CREDIT: "Credit",
+    DEBIT: "Stock Out",
+    CREDIT: "Stock In",
     LINE_LOSS: "Loss On Line",
     PROD_RETURN: "Production Return",
     ADJ_PLUS: "Positive Adjustment",
@@ -446,7 +446,7 @@ const Ledger = () => {
               width="100%"
               border={true}
               parentCallback={(data) => {
-                setTransactionType(data.value);
+                setTransactionType(data.name);
                 setTransaction(data.name);
               }}
               dropdownWidth={size.width > "600" ? "15vw" : "30vw"}

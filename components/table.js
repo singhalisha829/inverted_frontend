@@ -227,19 +227,19 @@ const Table = (props) => {
                 </div></td>
                 }
                 
-                else if((row.transaction_type==='Credit' || row.transaction_type==='Production Return' || row.transaction_type==='Positive Adjustment')  && (column.accessor1==="transaction_type")){
+                else if((row.transaction_type==='Stock In' || row.transaction_type==='Production Return' || row.transaction_type==='Positive Adjustment')  && (column.accessor1==="transaction_type")){
                   return <td key={columnIndex} width={column.width} style={{textAlign:column.textalign}}
   ><div className="stock_in_style"><BsBoxArrowInDown style={{marginRight:'0.2rem'}}/> {row[column.accessor1]}</div></td>
   }
- else if((row.transaction_type==='Debit' || row.transaction_type==='Loss On Line' || row.transaction_type==='Quality Reject' || row.transaction_type==='Negative Adjustment') && (column.accessor1==="transaction_type")){
+ else if((row.transaction_type==='Stock Out' || row.transaction_type==='Loss On Line' || row.transaction_type==='Quality Reject' || row.transaction_type==='Negative Adjustment') && (column.accessor1==="transaction_type")){
     return <td key={columnIndex} width={column.width} style={{textAlign:column.textalign}}
     ><div className="stock_out_style"><BsBoxArrowUp style={{marginRight:'0.2rem'}}/>{row[column.accessor1]}</div></td>
     }
-    else if((row.transaction_type==='Credit' || row.transaction_type==='Production Return' || row.transaction_type==='Positive Adjustment')  && (column.accessor2==="colored_quantity")){
+    else if((row.transaction_type==='Stock In' || row.transaction_type==='Production Return' || row.transaction_type==='Positive Adjustment')  && (column.accessor2==="colored_quantity")){
       return <td key={columnIndex} width={column.width} style={{textAlign:column.textalign,color:"#33B850"}}
 >{row[column.accessor1]}</td>
 }
-else if((row.transaction_type==='Debit' || row.transaction_type==='Loss On Line' || row.transaction_type==='Quality Reject' || row.transaction_type==='Negative Adjustment') && (column.accessor2==="colored_quantity" )){
+else if((row.transaction_type==='Stock Out' || row.transaction_type==='Loss On Line' || row.transaction_type==='Quality Reject' || row.transaction_type==='Negative Adjustment') && (column.accessor2==="colored_quantity" )){
 return <td key={columnIndex} width={column.width} style={{textAlign:column.textalign,color:"#F16B6B"}}
 >{row[column.accessor1]}</td>
 }
@@ -299,20 +299,20 @@ return <td key={columnIndex} width={column.width} style={{textAlign:column.texta
                   </div></td>
                 }
                 
-                else if((row.transaction_type==='Credit' || row.transaction_type==='Production Return' || row.transaction_type==='Positive Adjustment')  && ( column.accessor1==="transaction_type")){
+                else if((row.transaction_type==='Stock In' || row.transaction_type==='Production Return' || row.transaction_type==='Positive Adjustment')  && ( column.accessor1==="transaction_type")){
                   return <td key={columnIndex} width={column.width} style={{textAlign:column.textalign}}
   ><div className="stock_in_style"><BsBoxArrowInDown style={{marginRight:'0.2rem'}}/> {row[column.accessor1]}</div></td>
   }
- else if((row.transaction_type==='Debit' || row.transaction_type==='Loss On Line' || row.transaction_type==='Quality Reject' || row.transaction_type==='Negative Adjustment') && ( column.accessor1==="transaction_type")){
+ else if((row.transaction_type==='Stock Out' || row.transaction_type==='Loss On Line' || row.transaction_type==='Quality Reject' || row.transaction_type==='Negative Adjustment') && ( column.accessor1==="transaction_type")){
     return <td key={columnIndex} width={column.width} style={{textAlign:column.textalign}}
     ><div className="stock_out_style"><BsBoxArrowUp style={{marginRight:'0.2rem'}}/>{row[column.accessor1]}</div></td>
     }
 
-    else if((row.transaction_type==='Credit' || row.transaction_type==='Production Return' || row.transaction_type==='Positive Adjustment')  && (column.accessor2==="colored_quantity")){
+    else if((row.transaction_type==='Stock In' || row.transaction_type==='Production Return' || row.transaction_type==='Positive Adjustment')  && (column.accessor2==="colored_quantity")){
       return <td key={columnIndex} width={column.width} style={{textAlign:column.textalign,color:"#33B850"}}
 >{row[column.accessor1]}</td>
 }
-else if((row.transaction_type==='Debit' || row.transaction_type==='Loss On Line' || row.transaction_type==='Quality Reject' || row.transaction_type==='Negative Adjustment') && (column.accessor2==="colored_quantity" )){
+else if((row.transaction_type==='Stock Out' || row.transaction_type==='Loss On Line' || row.transaction_type==='Quality Reject' || row.transaction_type==='Negative Adjustment') && (column.accessor2==="colored_quantity" )){
 return <td key={columnIndex} width={column.width} style={{textAlign:column.textalign,color:"#F16B6B"}}
 >{row[column.accessor1]}</td>
 }

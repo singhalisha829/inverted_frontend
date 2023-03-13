@@ -91,8 +91,8 @@ const Ledger = () => {
   ];
 
   const transactionTypes ={
-    "DEBIT":"Debit" ,
-    "CREDIT": "Credit" ,
+    "DEBIT":"Stock Out" ,
+    "CREDIT": "Stock In" ,
     "LINE_LOSS" : "Loss On Line" ,
     "PROD_RETURN": "Production Return"  ,
     "ADJ_PLUS": "Positive Adjustment"  ,
@@ -256,8 +256,8 @@ if(res.status == 200){
     { name: "Quality Reject", value: "QUALITY_REJECT" },
   ];
   const searchStatusList = [
-    { name: "Credit", value: "Credit" },
-    { name: "Debit", value: "Debit" },
+    { name: "Stock In", value: "Stock In" },
+    { name: "Stock Out", value: "Stock Out" },
     { name: "Loss on Line", value: "Loss on Line" },
     { name: "Production Return", value: "Production Return" },
     { name: "Positive Adjustment", value: "Positive Adjustment" },
@@ -266,7 +266,7 @@ if(res.status == 200){
   ];
 
   
-//   console.log("status", searchStatus);
+  console.log("status", transaction,searchStatus);
   let form = null;
 
   // ledger form visible on clicking add button
@@ -430,7 +430,7 @@ if(res.status == 200){
                 searchPlaceholder="Search Transaction Types"
                 options={searchStatusList}
                 name="name"
-                parentCallback={(data) => {setSearchStatus(data.value);setTransaction(data.value)}}
+                parentCallback={(data) => {setSearchStatus(data.value);setTransaction(data.name)}}
                 width={size.width > "600" ? "40%" : "60%"}
                 dropdownWidth={size.width > "600" ? "16vw" : "70vw"}
                 border={true}
