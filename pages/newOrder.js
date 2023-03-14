@@ -1,9 +1,7 @@
-import Sidebar from "../components/sidebar";
 import Dropdown from "../components/dropdown";
 import Router from "next/router";
 import { useState, useEffect } from "react";
 import Head from "next/head";
-import Header from "../components/header";
 
 import { fetchPartTypeList } from "../services/dashboardService";
 import {
@@ -220,8 +218,8 @@ const NewOrder = () => {
     const partType = partTypeList.filter((el) => el.id == data.part_type)[0]
       .name;
       fetchPartById(data.id,token).then((res)=>{
-        if(res.data.quantity != null || res.data.quantity != undefined){
-            setUnit(res.data.quantity.split(' ')[1]);
+        if(res.data[0].quantity != null && res.data[0].quantity != undefined){
+            setUnit(res.data[0].quantity.split(' ')[1]);
         }})
         
 
@@ -254,11 +252,9 @@ const NewOrder = () => {
                 setOrderType(data.value);
               }}
               dropdownWidth={size.width > "600" ? "13vw" : "71vw"}
-              searchWidth={size.width > "600" ? "10vw" : "61vw"}
               border={true}
               value={orderType}
               searchPlaceholder="Search Order Type"
-              height="3.3rem"
             />
           </div>
 
@@ -276,10 +272,8 @@ const NewOrder = () => {
                   setPartType(data.name);
                 }}
                 dropdownWidth={size.width > "600" ? "13vw" : "20vw"}
-                searchWidth={size.width > "600" ? "10vw" : "12vw"}
                 border={true}
                 value={partType}
-                height="3.3rem"
                 searchPlaceholder="Search Part Type"
               />
             </div>
@@ -303,10 +297,8 @@ const NewOrder = () => {
                       setItemName(data.product_code)
                     }}
                     dropdownWidth={size.width > "600" ? "13vw" : "71vw"}
-                    searchWidth={size.width > "600" ? "10vw" : "61vw"}
                     border={true}
                     searchPlaceholder="Search BOM ID/Name"
-                    height="3.3rem"
                     value={bom}
                   />
                 ) : (
@@ -319,9 +311,7 @@ const NewOrder = () => {
                     }
                     value={part}
                     dropdownWidth={size.width > "600" ? "15vw" : "71vw"}
-                    searchWidth={size.width > "600" ? "12vw" : "61vw"}
                     border={true}
-                    height="3.3rem"
                     searchPlaceholder="Search Part ID/Name"
                     dropdownHeight="25rem"
                     isPartsList="true"
@@ -365,8 +355,6 @@ const NewOrder = () => {
                   parentCallback={(data) => setUnit(data.symbol)}
                   value={unit}
                   dropdownWidth={size.width > "600" ? "11vw" : "40vw"}
-                  searchWidth={size.width > "600" ? "8vw" : "30vw"}
-                  height="3rem"
                 />
               </div>
             ) : (

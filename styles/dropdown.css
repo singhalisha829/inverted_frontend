@@ -4,6 +4,7 @@
   top:100px;
   /* border:#e5e5e5 solid 0.1em; */
   display: flex;
+  height: 3rem;
   flex-direction: column;
 
 }
@@ -47,6 +48,7 @@
   font-size: 1.4rem;
   border: none;
   width:100%;
+  height:3rem;
 }
 
 .selected_value_without_outline:focus{
@@ -68,6 +70,7 @@
   font-size: 1.4rem;
   border: none;
   width:100%;
+  height: 3rem;
 }
 
 

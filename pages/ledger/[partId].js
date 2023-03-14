@@ -1,31 +1,32 @@
 import Router from "next/router";
 import Head from "next/head";
-import { useState, useEffect, useRef } from "react";
+import { useState, useEffect} from "react";
 import { useRouter } from "next/router";
 
-import Sidebar from "../components/sidebar";
-import { FaFileContract, FaTimes } from "react-icons/fa";
-import Table from "../components/table";
-import Dropdown from "../components/dropdown";
-import Header from "../components/header";
+import { FaFileContract, FaArrowLeft} from "react-icons/fa";
+import Table from "../../components/table";
+import Dropdown from "../../components/dropdown";
 import {
   fetchPartByPartId,
   fetchLedgerByPartId,
   fetchVendorList,
   fetchUnitList,
   addNewLedger,
-} from "../services/stockInService";
-import LedgerCard from "../components/ledgerCard";
+} from "../../services/stockInService";
+import LedgerCard from "../../components/ledgerCard";
 
-import Spinner from "../components/spinner";
+import Spinner from "../../components/spinner";
 import DatePicker from "react-datepicker";
 import "react-datepicker/dist/react-datepicker.css";
 
 import { ToastContainer, toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
+import moment from "moment";
 
 const Ledger = () => {
   const router = useRouter();
+  const today = new Date();
+
 
   const [showForm, setShowForm] = useState(false);
   const [ledger, setLedger] = useState(null);
@@ -40,66 +41,98 @@ const Ledger = () => {
   const [partQuantity, setPartQuantity] = useState(null);
   const [cardFilter, setCardFilter] = useState([]);
 
-  const [selectedStatus, setSelectedStatus] = useState(null);
-  const [invoice, setInvoice] = useState(null);
-  const [quantity, setQuantity] = useState(null);
-  const [unit, setUnit] = useState(null);
-  const [price, setPrice] = useState(null);
-  const [vendor, setVendor] = useState(null);
-  const [partId, setPartId] = useState(null);
+
+  const [partId, setPartId] = useState(router.query.partId);
   const [ledgerPart, setLedgerPart] = useState(null);
   const [token, setToken] = useState(null);
   const [loading, setLoading] = useState(false);
   const [searchStatus, setSearchStatus] = useState(null);
+  const [transaction, setTransaction] = useState("All Transaction Types");
   const [isButtonDisabled,setIsButtonDisabled] = useState(false);
+  const [formData, setFormData] = useState({
+    part: null,
+    date: today,
+    quantity: null,
+    unit: null,
+    transaction_type: null,
+    document_id: null,
+  });
 
   const [showPage, setShowPage] = useState(false);
 
   const columns = [
-    { accessor1: "status", label: "Status", width: "20%", textalign: "center" },
+    { accessor1: "transaction_type", label: "Transaction Type", width: "18%", textalign: "center" },
     { accessor1: "date", label: "Date", width: "20%", textalign: "center" },
     {
       accessor1: "quantity",
+      accessor2:"colored_quantity",
       label: "Quantity",
-      width: "10%",
+      width: "15%",
+      textalign: "center",
+    }, {
+      accessor1: "quantity_left",
+      label: "Balance Quantity",
+      width: "17%",
       textalign: "center",
     },
-    { accessor1: "vendor", label: "Vendor", width: "25%", textalign: "center" },
     {
       accessor1: "document_id",
+      accessor2:"vendor",
       label: "Document ID",
-      width: "25%",
+      width: "15%",
+      textalign: "center",
+    },
+    {
+      accessor1: "created_by",
+      label: "Created By",
+      width: "15%",
       textalign: "center",
     },
   ];
 
+  const transactionTypes ={
+    "DEBIT":"Stock Out" ,
+    "CREDIT": "Stock In" ,
+    "LINE_LOSS" : "Loss On Line" ,
+    "PROD_RETURN": "Production Return"  ,
+    "ADJ_PLUS": "Positive Adjustment"  ,
+    "ADJ_MINUS": "Negative Adjustment" ,
+    "QUALITY_REJECT": "Quality Reject" ,
+
+ }
+
   const notifySuccessPost = () =>
     toast.success("New Ledger Added Successfully");
+    // console.log(router.query)
 
   useEffect(() => {
     // fetch data only if token is defined or redirect to login
     if (localStorage.getItem("token") != null) {
       const token = localStorage.getItem("token");
+      const partId = router.query.partId;
       setToken(token);
-      const partName = router.query.id;
-      if (partName != null || partName != undefined) {
-        setLedgerPart(partName);
-        fetchPartByPartId(partName, token).then((res) => {
-        //   console.log("res", res.data);
-          setPartId(res.data[0].id);
+      if (partId != null || partId != undefined) {
+        setLedgerPart(partId);
+        fetchPartByPartId(partId, token).then((res) => {
           setShortDescription(res.data[0].short_description);
           setlongDescription(res.data[0].long_description);
           setPartQuantity(res.data[0].quantity);
-          setUnit(res.data[0].quantity.split(" ")[1]);
+          setFormData({...formData,part:res.data[0].id,unit:res.data[0].quantity.split(" ")[1]})
         });
 
         fetchVendorList(token).then((res) => {
           setVendorList(res.data);
         });
         fetchUnitList(token).then((res) => setUnitList(res.data));
-        fetchLedgerByPartId(partName, token).then((res) => {
-        const sorted = [...res.data.data.output].reverse();
-          setLedger(sorted);
+        fetchLedgerByPartId(partId, token).then((res) => {
+          var ledger_list=[];
+          res.data.data.output.map((ledger_item)=>{
+            var item=ledger_item;
+          item.transaction_type = transactionTypes[ledger_item.transaction_type]
+          ledger_list.push(item)
+          })
+
+          setLedger(ledger_list);
           setShowLedger(true);
           setShowPage(true);
         });
@@ -107,7 +140,7 @@ const Ledger = () => {
     } else {
       Router.push("/login");
     }
-  }, [router.query.id]);
+  }, [router.query.partId]);
 
   // calculate screen size
   function useWindowSize() {
@@ -139,55 +172,33 @@ const Ledger = () => {
   //   submit new ledger only if all values are entered
   const submitPartHandler = async () => {
     setLoading(true);
-    if (selectedStatus === null) {
-      toast.warning("Enter Status!");
-      return;
-    } else if (invoice === null) {
-      toast.warning("Enter Invoice!");
-      return;
-    } else if (selectedDate === null) {
-      toast.warning("Enter Date!");
-      return;
-    } else if (unit === null) {
-      toast.warning("Enter Unit!");
-      return;
-      // }else if(price === null){
-      //     toast.warning("Enter Price!")
-      //     return;
-    } else if (quantity === null) {
-      toast.warning("Enter Quantity!");
-      return;
-      // }else if(vendor === null){
-      //     toast.warning("Enter Vendor!")
-      //     return;
-    } else {
         setIsButtonDisabled(true);
-      const date =
-        selectedDate.getFullYear() +
-        "-" +
-        (selectedDate.getMonth() + 1) +
-        "-" +
-        selectedDate.getDate();
+      const date =moment(formData.date).format('YYYY-MM-DD')
 
-      const formData = [
+      const data = [
         {
           date: date,
-          quantity: quantity + " " + unit,
-          transaction_type: selectedStatus,
-          vendor: vendor,
-          document_id: invoice,
-          part: partId,
+          quantity: formData.quantity + " " + formData.unit,
+          transaction_type: formData.transaction_type,
+          document_id: formData.document_id,
+          part: formData.part,
         },
       ];
-      const res = await addNewLedger(formData, token)
-    //   console.log("res",res);
+
+      // console.log(formData)
+      const res = await addNewLedger(data, token)
         
           // fetch list of ledgers again
 if(res.status == 200){
     fetchLedgerByPartId(ledgerPart, token)
     .then((res) => {
-        const sorted = [...res.data.data.output].reverse();
-        setLedger(sorted);
+      var ledger_list=[]
+      res.data.data.output.map((ledger_item)=>{
+        var item=ledger_item;
+        item.transaction_type = transactionTypes[ledger_item.transaction_type]
+        ledger_list.push(item)
+      })
+        setLedger(ledger_list);
     })
     .catch((err) => toast.error(err.message));
     fetchPartByPartId(ledgerPart, token).then((res) => {
@@ -195,7 +206,7 @@ if(res.status == 200){
         setShortDescription(res.data[0].short_description);
         setlongDescription(res.data[0].long_description);
         setPartQuantity(res.data[0].quantity);
-        setUnit(res.data[0].quantity.split(" ")[1]);
+        setFormData({...formData,unit:res.data[0].quantity.split(" ")[1]})
       });
       setIsButtonDisabled(false);
   notifySuccessPost();
@@ -207,8 +218,6 @@ if(res.status == 200){
 }
         
 
-        
-    }
   };
 
   // search feature in cards list
@@ -231,23 +240,33 @@ if(res.status == 200){
   // cancel button of ledger form
   const cancelPartHandler = () => {
     setShowForm(false);
-    setSelectedDate(new Date());
-    setUnit(partQuantity.split(" ")[1]);
-    setQuantity('');
-    setInvoice('');
+    setFormData({...formData,
+      date: today,
+      quantity: null,
+      transaction_type: null,
+      document_id: null,
+    });
   };
 
   const status = [
     { name: "Loss on Line", value: "LINE_LOSS" },
     { name: "Production Return", value: "PROD_RETURN" },
+    { name: "Positive Adjustment", value: "ADJ_PLUS" },
+    { name: "Negative Adjustment", value: "ADJ_MINUS" },
+    { name: "Quality Reject", value: "QUALITY_REJECT" },
   ];
   const searchStatusList = [
-    { name: "Loss on Line", value: "LINE_LOSS" },
-    { name: "Production Return", value: "PROD_RETURN" },
-    { name: "Stock In", value: "CREDIT" },
-    { name: "Stock Out", value: "DEBIT" },
+    { name: "Stock In", value: "Stock In" },
+    { name: "Stock Out", value: "Stock Out" },
+    { name: "Loss on Line", value: "Loss on Line" },
+    { name: "Production Return", value: "Production Return" },
+    { name: "Positive Adjustment", value: "Positive Adjustment" },
+    { name: "Negative Adjustment", value: "Negative Adjustment" },
+    { name: "Quality Reject", value: "Quality Reject" },
   ];
-//   console.log("status", searchStatus);
+
+  
+  console.log("status", transaction,searchStatus);
   let form = null;
 
   // ledger form visible on clicking add button
@@ -262,11 +281,11 @@ if(res.status == 200){
                 searchPlaceholder="Search Status"
                 options={status}
                 name="name"
-                parentCallback={(data) => setSelectedStatus(data.value)}
+                parentCallback={(data) => 
+                  setFormData({ ...formData, transaction_type: data.value })
+                }
                 width={size.width > "600" ? "70%" : "100%"}
                 dropdownWidth={size.width > "600" ? "16vw" : "70vw"}
-                searchWidth={size.width > "600" ? "13vw" : "60vw"}
-                height="3rem"
                 border={true}
               />
             </div>
@@ -280,7 +299,9 @@ if(res.status == 200){
                 width: size.width > "600" ? "70%" : "100%",
               }}
               placeholder="Enter Document ID"
-              onChange={(e) => setInvoice(e.target.value)}
+              onChange={(e) =>
+                setFormData({ ...formData, document_id: e.target.value })
+              }
               className="ledger_input"
             />
           </div>
@@ -289,8 +310,8 @@ if(res.status == 200){
             <DatePicker
               dateFormat="dd/MM/yyyy"
               placeholderText="Enter Date"
-              selected={selectedDate}
-              onChange={(date) => setSelectedDate(date)}
+              selected={formData.date}
+              onChange={(date) =>  setFormData({ ...formData, date: date })}
             />
           </div>
 
@@ -307,12 +328,12 @@ if(res.status == 200){
                 }}
                 onChange={(e) => {
                   e.target.value < 0
-                    ? setQuantity("")
-                    : setQuantity(e.target.value);
+                    ? setFormData({ ...formData, quantity: "" })
+                    : setFormData({ ...formData, quantity: e.target.value });
                 }}
                 onWheel={ event => event.currentTarget.blur() }
                 placeholder="0.00"
-                value={quantity}
+                value={formData.quantity}
               />
               <Dropdown
                 width="50%"
@@ -321,11 +342,9 @@ if(res.status == 200){
                 options={unitList}
                 name="symbol"
                 dropdownWidth={size.width > "600" ? "11vw" : "55vw"}
-                searchWidth={size.width > "600" ? "8vw" : "47vw"}
-                height="3rem"
-                parentCallback={(data) => setUnit(data.symbol)}
+                parentCallback={(data) => setFormData({ ...formData, unit: data.symbol })}
                 border={true}
-                value={unit}
+                value={formData.unit}
               />
             </div>
           </div>
@@ -336,7 +355,7 @@ if(res.status == 200){
           {/* {selectedStatus != 'LOSS'?<div className="field_width">
                {size.width>'600'?<div> Vendor:</div>:null}
                 <Dropdown width={size.width>'600'?'70%':'100%'} placeholder='Select Vendor' name="name" options={vendorList} height="3rem"
-            parentCallback={(data)=>setVendor(data.id)} dropdownWidth={size.width>'600'?'16vw':'70vw'} searchWidth={size.width>'600'?'13vw':'60vw'} border={true}/></div>:null} */}
+            parentCallback={(data)=>setVendor(data.id)} dropdownWidth={size.width>'600'?'16vw':'70vw'} border={true}/></div>:null} */}
         </div>
         <div className="ledger_form_footer">
           <div className="ledger_button">
@@ -349,7 +368,7 @@ if(res.status == 200){
               Cancel
             </button>
             <button
-            disabled={isButtonDisabled}
+              disabled={!formData.quantity || !formData.part || !formData.document_id || !formData.unit || !formData.transaction_type || isButtonDisabled}
               className="save_button button2 expand"
               onClick={submitPartHandler}
             >
@@ -400,25 +419,22 @@ if(res.status == 200){
 
           <div className="body">
             <div className="body_header">
-              <div className="ledger_title" style={{width:"20%"}}>Ledger</div>
+              <div className="ledger_title" style={{width:"20%"}} onClick={()=>Router.back()}><FaArrowLeft title="Back" style={{marginRight:'10px'}}/>Ledger</div>
               {/* <input placeholder="Search.." value={searchText} 
                         className="ledger_search" 
                         onChange={(e) => {setSearchText(e.target.value);searchCard(e)}}/>
                         <FaTimes size={15} className="ledger_clear_icon" title="Clear" onClick={()=>setSearchText('')}/> */}
               <div  style={{width:'60%'}}>
               <Dropdown
-                allItems="true"
-                placeholder="Select Status"
-                searchPlaceholder="Search Status"
+                allItems="All Transaction Types"
+                searchPlaceholder="Search Transaction Types"
                 options={searchStatusList}
                 name="name"
-                parentCallback={(data) => setSearchStatus(data.value)}
+                parentCallback={(data) => {setSearchStatus(data.value);setTransaction(data.name)}}
                 width={size.width > "600" ? "40%" : "60%"}
                 dropdownWidth={size.width > "600" ? "16vw" : "70vw"}
-                searchWidth={size.width > "600" ? "13vw" : "60vw"}
-                height="3rem"
                 border={true}
-                defaultValue="All"
+                value={transaction}
               /></div>
               <div style={{width:"20%",display:'flex',justifyContent:'end'}}>
               <button

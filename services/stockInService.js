@@ -4,9 +4,11 @@ import {URL, MAIN } from "./constants";
 
 
 export const fetchPartById=(partId,token) =>{
-    return axios.get(URL+MAIN.PART_BY_ID+partId,{headers:{
+    return axios.get(URL+MAIN.PART,{headers:{
         "Authorization":"Token "+ token
-    }})
+    },
+    params:{id:partId}
+})
         }
 
 export const fetchVendorList=(token,id) =>{
@@ -44,6 +46,17 @@ export const fetchPartByPartId=(partId,token) =>{
          headers: {
              "Authorization": "Token " + token
          }
+     });
+     return res;
+}
+
+export const fetchLedger=async (token,data) =>{
+    const res = await axios.get(URL + MAIN.LEDGER ,{
+         headers: {
+             "Authorization": "Token " + token,
+         },
+         params:{...data}
+
      });
      return res;
 }

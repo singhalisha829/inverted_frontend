@@ -26,6 +26,7 @@
 
 
 
+
 .part_id1{
    color: #EB2129;
    background-color: #f8c9cb;
@@ -44,6 +45,14 @@ line-height: 1.5rem;
   font-weight: 600;
   font-size: 18px;
   line-height: 22px;
+  display: flex;
+  align-items: center;
+}
+
+.ledger_title:hover{
+  cursor: pointer;
+  color: #3F5575;
+  text-decoration: underline;
 }
 
 .part_desc{
@@ -362,4 +371,11 @@ justify-content: space-between;
 .ledger_input{
 width:100%;
 }
+}
+
+
+/* index page */
+.margin_auto{
+  margin-left: auto;
+  margin-right: auto;
 }

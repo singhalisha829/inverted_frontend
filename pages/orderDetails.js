@@ -523,7 +523,7 @@ const OrderDetails = () => {
                                 <Dropdown
                                   options={part.unit_name_list}
                                   isUnitList="true"
-                                  placeholder="Unit"
+                                  searchPlaceholder="Unit"
                                   width="30%"
                                   name="symbol"
                                   minWidth="9rem"
@@ -536,11 +536,7 @@ const OrderDetails = () => {
                                   dropdownWidth={
                                     size.width > "600" ? "11vw" : "40vw"
                                   }
-                                  searchWidth={
-                                    size.width > "600" ? "8vw" : "30vw"
-                                  }
-                                  height="3rem"
-                                />
+                                    />
                               ) : null}
                             </div>
                           )}

@@ -5,9 +5,6 @@ import Router from "next/router";
 import {BsBoxArrowUp, BsBoxArrowInDown, BsArrowDownUp,BsArrowUp,BsArrowDown} from 'react-icons/bs';
 
 import Logo  from '../public/Logo_inverted.png';
-
-import 'react-toastify/dist/ReactToastify.css';
-
 import Parser from 'html-react-parser';
 
 
@@ -16,23 +13,13 @@ const Table = (props) => {
     const [data, setData]= useState(props.rows);
     const [order, setOrder]= useState('ASC');
     const [tableFilter, setTableFilter] = useState([]);
+    const [initialFilteredData,setInitialFilteredData] = useState([]);
     const [arrow, setArrow] = useState(null);
     const [sortedColumn,setSortedColumn] = useState(null);
-    const [token,setToken]= useState(null);
+
     
    useEffect(()=>{
-    const token=localStorage.getItem('token')
-    setToken(token)
-    props.columns.forEach(el=>{
-      if(el.sort!= undefined){
-        if(el.sort=='ASC'){
-          sortAsc(el.accessor1);
-        }else if(el.sort=='DSC'){
-          sortDsc(el.accessor1);
-        }
-        setSortedColumn(el.accessor1)
-      }
-    })
+    
     //  search table based on dropdown filter and searchbar value
      if(props.search != undefined && props.filter !=undefined ){
       const filterTable=[];
@@ -46,10 +33,8 @@ const Table = (props) => {
       const searchTable = filterTable.filter(o => Object.keys(o).some(
         k => String(o[k]).toLowerCase().includes(props.search.toLowerCase()))
       );
-
-      
-
       setTableFilter([...searchTable])
+      setInitialFilteredData([...searchTable])
      }
 
     //  search table based on searchbar value
@@ -59,6 +44,8 @@ const Table = (props) => {
        );
 
        setTableFilter([...searchTable])
+       setInitialFilteredData([...searchTable])
+
      }
      
     //  search table based on dropdown filter
@@ -71,50 +58,52 @@ const Table = (props) => {
       }
       
       setTableFilter([...filterTable])
+      setInitialFilteredData([...filterTable])
+
      }
      else{
        setData([...data])
-       setTableFilter([...data])
      }
-    //  console.log("filter",props.filter)
    },[props.search,props.filter])
 
 
-     // calculate screen size
-     function useWindowSize() {
-      const [windowSize, setWindowSize] = useState({
-        width: undefined,
-        height: undefined,
-      });
-    
-      useEffect(() => {
-    
-        if (typeof window !== 'undefined') {
-          function handleResize() {
-            setWindowSize({
-              width: window.innerWidth,
-              height: window.innerHeight,
-            });
-          }
-      
-          window.addEventListener("resize", handleResize);
-         
-          handleResize();
-      
-          return () => window.removeEventListener("resize", handleResize);
+   //check if any column has default sorting on page load
+   useEffect(()=>{
+    props.columns.forEach(el=>{
+      if(el.sort!= undefined){
+        if(el.sort=='ASC'){
+          sortAsc(el.accessor1);
+        }else if(el.sort=='DSC'){
+          sortDsc(el.accessor1);
         }
-      }, []);
-      return windowSize;
-    }
-  const size = useWindowSize();
+        setSortedColumn(el.accessor1)
+      }
+    })
+   },[])
 
+
+ 
+      useEffect(() => {
+        setData([...props.rows])
+      }, [props.rows]);
+  
+
+    const sorting = (col)=>{
+      const dataToSort=[];
+      if(tableFilter.length == 0){
+        dataToSort= props.rows;
+      }else{
+        dataToSort = tableFilter;
+      }
+      sortingNext(col,dataToSort)
+    }
 
 
   //  sort table rows based on selected column
-    const sorting= (col) =>{
+    const sortingNext= (col,dataToSort) =>{
+    
       if(col != sortedColumn){
-        console.log("sort",col)
-        const sorted=props.rows.slice().sort(
+        const sorted=dataToSort.slice().sort(
           (a, b) =>{
             if (typeof a[col] === 'string' && typeof b[col] === 'string') {
               return (a[col] || '').localeCompare(b[col] || '', undefined, { numeric: true });
@@ -123,20 +112,28 @@ const Table = (props) => {
             }
           }
           )
-        setData(sorted);
+          if(tableFilter.length == 0){
+            setData(sorted);
+          }else{
+            setTableFilter(sorted)
+          }
         setOrder('DSC');
         setArrow(<BsArrowUp/>)
       }else{
         if(order === 'ASC'){
-            sortAsc(col);
+            sortAsc(col,dataToSort);
         }
 
         if(order === 'DSC'){
-            sortDsc(col);
+            sortDsc(col,dataToSort);
         }
 
         if(order === 'NONE'){
-          setData(props.rows);
+          if(tableFilter.length == 0){
+            setData(props.rows);
+          }else{
+            setTableFilter([...initialFilteredData])
+          }
           setOrder('ASC');
         }
       }
@@ -144,8 +141,8 @@ const Table = (props) => {
         setSortedColumn(col)
     }
 
-    const sortAsc=(col)=>{
-      const sorted=props.rows.slice().sort((a, b) => 
+    const sortAsc=(col,data)=>{
+      const sorted=data.slice().sort((a, b) => 
       {
         if (typeof a[col] === 'string' && typeof b[col] === 'string') {
           return (a[col] || '').localeCompare(b[col] || '', undefined, { numeric: true });
@@ -153,14 +150,17 @@ const Table = (props) => {
           return (a[col] || 0) - (b[col] || 0);
         }
       })
-      setData(sorted);
-      // data=sorted;
+      if(tableFilter.length == 0){
+        setData(sorted);
+      }else{
+        setTableFilter(sorted)
+      }
       setOrder('DSC');
       setArrow(<BsArrowUp/>)
     }
 
-    const sortDsc=(col)=>{
-      const sorted=props.rows.slice().sort((a, b) => 
+    const sortDsc=(col,data)=>{
+      const sorted=data.slice().sort((a, b) => 
       {
         if (typeof a[col] === 'string' && typeof b[col] === 'string') {
           return -(a[col] || '').localeCompare(b[col] || '', undefined, { numeric: true });
@@ -169,28 +169,31 @@ const Table = (props) => {
         }
       }
       )
-            setData(sorted);
-            // data=sorted;
+      if(tableFilter.length == 0){
+        setData(sorted);
+      }else{
+        setTableFilter(sorted)
+      }
             setOrder('NONE');
             setArrow(<BsArrowDown/>)
     }
      
     // navigate to given page on clicking a row
-    const clickHandler=(part_id,id,order_id)=>{
+    const clickHandler=(id)=>{
       if(props.path){
-        localStorage.setItem('partId',part_id);localStorage.setItem('orderId',order_id);
-            localStorage.setItem('poId',id);localStorage.setItem('production_order_id',id);
+        // localStorage.setItem('partId',part_id);localStorage.setItem('orderId',order_id);
+        //     localStorage.setItem('poId',id);localStorage.setItem('production_order_id',id);
       if(props.path == '/ledger'){
-        Router.push({pathname:props.path,query:{id:part_id}})}
+        Router.push('/ledger/'+id);
+      }
       else if(props.path =='/orderDetails'){
         Router.push({pathname:props.path,query:{id:id}})
       }else if(props.path =='/vendorList'){
-        Router.push({pathname:props.path,query:{id:order_id}})
+        Router.push({pathname:props.path,query:{id:id}})
       }else{
           Router.push(props.path)
       }
     }
-      
       
       }
     
@@ -203,7 +206,7 @@ const Table = (props) => {
         .map((row,index) => {
           return (
             <tr key={index} onClick={()=>{
-            clickHandler(row.part_id,row.id,row.order_id)}}>
+            clickHandler(row[props.pathId])}}>
               {props.columns.map((column,columnIndex)=> {
                        
           var prefix=column.prefix?column.prefix:'';
@@ -224,14 +227,22 @@ const Table = (props) => {
                 </div></td>
                 }
                 
-                else if((row.transaction_type==='CREDIT' || row.transaction_type==='PROD_RETURN')  && column.accessor1==="status"){
+                else if((row.transaction_type==='Stock In' || row.transaction_type==='Production Return' || row.transaction_type==='Positive Adjustment')  && (column.accessor1==="transaction_type")){
                   return <td key={columnIndex} width={column.width} style={{textAlign:column.textalign}}
-  ><div className="stock_in_style"><BsBoxArrowInDown /> {row.transaction_type == 'PROD_RETURN'?<div>Production Return</div>:<div>Stock In</div>}</div></td>
+  ><div className="stock_in_style"><BsBoxArrowInDown style={{marginRight:'0.2rem'}}/> {row[column.accessor1]}</div></td>
   }
- else if((row.transaction_type==='DEBIT' || row.transaction_type==='LINE_LOSS') && column.accessor1==="status"){
+ else if((row.transaction_type==='Stock Out' || row.transaction_type==='Loss On Line' || row.transaction_type==='Quality Reject' || row.transaction_type==='Negative Adjustment') && (column.accessor1==="transaction_type")){
     return <td key={columnIndex} width={column.width} style={{textAlign:column.textalign}}
-    ><div className="stock_out_style"><BsBoxArrowUp />{row.transaction_type==='LINE_LOSS'?<div>Loss On Line</div>:<div>Stock Out</div>}</div></td>
+    ><div className="stock_out_style"><BsBoxArrowUp style={{marginRight:'0.2rem'}}/>{row[column.accessor1]}</div></td>
     }
+    else if((row.transaction_type==='Stock In' || row.transaction_type==='Production Return' || row.transaction_type==='Positive Adjustment')  && (column.accessor2==="colored_quantity")){
+      return <td key={columnIndex} width={column.width} style={{textAlign:column.textalign,color:"#33B850"}}
+>{row[column.accessor1]}</td>
+}
+else if((row.transaction_type==='Stock Out' || row.transaction_type==='Loss On Line' || row.transaction_type==='Quality Reject' || row.transaction_type==='Negative Adjustment') && (column.accessor2==="colored_quantity" )){
+return <td key={columnIndex} width={column.width} style={{textAlign:column.textalign,color:"#F16B6B"}}
+>{row[column.accessor1]}</td>
+}
     else if(column.accessor1==='status' && row.status==="Created"){
       return <td key={columnIndex} width={column.width} style={{textAlign:column.textalign}}
     ><div className="pending_status_style">Created</div></td>
@@ -243,6 +254,9 @@ const Table = (props) => {
     else if(column.accessor1==='status' && row.status==='Completed' ){
       return <td key={columnIndex} width={column.width} 
     ><div className="completed_status_style">Completed</div></td>
+    }else if(column.accessor2==='part_short_description'  || column.accessor2 =="vendor"){
+      return <td key={columnIndex} width={column.width} style={{textAlign:column.textalign}}
+      ><div style={{display:'flex',flexDirection:'column'}}>{row[column.accessor1]} <span style={{color:"rgb(200, 198, 198)",fontSize:'1.3rem'}}>{row[column.accessor2] != null?<span>({row[column.accessor2]})</span>:null} </span></div></td>
     }
                 else{
                 return <td key={columnIndex} width={column.width} style={{textAlign:column.textalign}}
@@ -255,7 +269,7 @@ const Table = (props) => {
         .map((row,index) => {
 
           return (
-            <tr key={index} onClick={()=> { clickHandler(row.part_id,row.id,row.order_id)}}>
+            <tr key={index} onClick={()=> { clickHandler(row[props.pathId])}}>
               {props.columns.map((column,columnIndex) => {
           
           var prefix=column.prefix?column.prefix:'';
@@ -285,14 +299,23 @@ const Table = (props) => {
                   </div></td>
                 }
                 
-                else if((row.transaction_type==='CREDIT' || row.transaction_type==='PROD_RETURN')  && column.accessor1==="status"){
+                else if((row.transaction_type==='Stock In' || row.transaction_type==='Production Return' || row.transaction_type==='Positive Adjustment')  && ( column.accessor1==="transaction_type")){
                   return <td key={columnIndex} width={column.width} style={{textAlign:column.textalign}}
-  ><div className="stock_in_style"><BsBoxArrowInDown /> <div style={{marginLeft:"0.4rem"}}>{row.transaction_type == 'PROD_RETURN'?<span>Production Return</span>:<span>Stock In</span>}</div></div></td>
+  ><div className="stock_in_style"><BsBoxArrowInDown style={{marginRight:'0.2rem'}}/> {row[column.accessor1]}</div></td>
   }
- else if((row.transaction_type==='DEBIT' || row.transaction_type==='LINE_LOSS') && column.accessor1==="status"){
+ else if((row.transaction_type==='Stock Out' || row.transaction_type==='Loss On Line' || row.transaction_type==='Quality Reject' || row.transaction_type==='Negative Adjustment') && ( column.accessor1==="transaction_type")){
     return <td key={columnIndex} width={column.width} style={{textAlign:column.textalign}}
-    ><div className="stock_out_style"><BsBoxArrowUp /> <div style={{marginLeft:"0.4rem"}}>{row.transaction_type==='LINE_LOSS'?<span>Loss On Line</span>:<span>Stock Out</span>}</div></div></td>
+    ><div className="stock_out_style"><BsBoxArrowUp style={{marginRight:'0.2rem'}}/>{row[column.accessor1]}</div></td>
     }
+
+    else if((row.transaction_type==='Stock In' || row.transaction_type==='Production Return' || row.transaction_type==='Positive Adjustment')  && (column.accessor2==="colored_quantity")){
+      return <td key={columnIndex} width={column.width} style={{textAlign:column.textalign,color:"#33B850"}}
+>{row[column.accessor1]}</td>
+}
+else if((row.transaction_type==='Stock Out' || row.transaction_type==='Loss On Line' || row.transaction_type==='Quality Reject' || row.transaction_type==='Negative Adjustment') && (column.accessor2==="colored_quantity" )){
+return <td key={columnIndex} width={column.width} style={{textAlign:column.textalign,color:"#F16B6B"}}
+>{row[column.accessor1]}</td>
+}
                   else if(column.accessor1==='status' && row.status==='Created' ){
                     return <td key={columnIndex} width={column.width} 
                   ><div className="pending_status_style">Created</div></td>
@@ -309,6 +332,9 @@ const Table = (props) => {
                   else if(column.accessor1==='quantity_value' && props.outOf==true ){
                     return <td key={columnIndex} width={column.width} style={{textAlign:column.textalign}}
                     ><div>{row.released_quantity_value} {row.released_quantity_value==0?null:row.released_quantity_unit_symbol} / {row[column.accessor1]} {row[column.accessor2]}</div></td>
+                  }else if(column.accessor2==='part_short_description'  || column.accessor2 =="vendor"){
+                    return <td key={columnIndex} width={column.width} style={{textAlign:column.textalign}}
+                    ><div style={{display:'flex',flexDirection:'column'}}>{row[column.accessor1]} <span style={{color:"rgb(200, 198, 198)",fontSize:'1.3rem'}}>{row[column.accessor2] != null?<span>({row[column.accessor2]})</span>:null} </span></div></td>
                   }
                 else{
                 return <td key={columnIndex} width={column.width} style={{textAlign:column.textalign}}
@@ -336,7 +362,7 @@ const Table = (props) => {
                 <div className="sort_direction">{order != 'ASC'?order === 'DSC'?<BsArrowUp className="arrow_icon"/>:<BsArrowDown className="arrow_icon"/>:null}</div>
                 
                 </div>
-                <div className="arrow"><BsArrowDownUp className="arrow_icon"/></div>
+                {/* <div className="arrow"><BsArrowDownUp className="arrow_icon"/></div> */}
                 </div></th>
            }else{
                  return <th style={{textAlign:column.textalign}} key={columnIndex}
@@ -347,7 +373,7 @@ const Table = (props) => {
                   <div className="title_name">{column.label}</div>
 
                 </div>
-                <div className="arrow"><BsArrowDownUp className="arrow_icon"/></div>
+                {/* <div className="arrow"><BsArrowDownUp className="arrow_icon"/></div> */}
                 </div></th>
            }
               

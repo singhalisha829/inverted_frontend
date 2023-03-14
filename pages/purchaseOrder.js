@@ -13,7 +13,7 @@ import Spinner from '../components/spinner';
 import { fetchPurchaseOrderList } from "../services/purchaseOrderService";
 import {ToastContainer, toast } from "react-toastify";
 import 'react-toastify/dist/ReactToastify.css';
-import OrderList from "../components/orderList";
+import List from "../components/list";
 
 
 const PurchaseOrder =() =>{
@@ -74,11 +74,11 @@ const PurchaseOrder =() =>{
     let content=null;
     if(size.width>'600'){
       content=   (purchaseOrderList?<Table key={purchaseOrderList.length} id="purchaseOrderTable" rows={purchaseOrderList} columns={columns} cursor="pointer" search={searchText} 
-      width={size.width>'600'?'77vw':'95vw'} path="/vendorList"/>:<Spinner />) 
+      width={size.width>'600'?'77vw':'95vw'} path="/vendorList" pathId="order_id"/>:<Spinner />) 
     }else{
       content=(
         purchaseOrderList?              
-        <OrderList  path="/vendorList" ordersList={purchaseOrderList} search={searchText}/>
+        <List columns={columns}  path="/vendorList" rows={purchaseOrderList} search={searchText}/>
         : <Spinner />
       )
     }
